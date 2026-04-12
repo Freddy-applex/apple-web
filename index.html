@@ -648,6 +648,185 @@ footer{
   .hero-title{font-size:42px;}
   .footer-inner{grid-template-columns:1fr;}
 }
+
+/* ══════════════════ PÁGINA DE VENTAS CURSOS ══════════════════ */
+.cursos-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:28px;margin-top:56px;
+}
+.curso-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);border-radius:20px;
+  overflow:hidden;transition:all 0.4s;
+  display:flex;flex-direction:column;
+}
+.curso-card:hover{transform:translateY(-6px);box-shadow:0 24px 64px rgba(0,0,0,0.4);border-color:rgba(141,198,63,0.25);}
+.curso-card.featured{border-color:rgba(141,198,63,0.3);background:rgba(141,198,63,0.04);}
+
+.curso-header{
+  padding:28px 28px 20px;
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+.curso-badge-top{
+  position:absolute;top:20px;right:20px;
+  background:linear-gradient(135deg,var(--accent),#6db520);
+  color:#0A1628;font-size:11px;font-weight:800;
+  padding:4px 12px;border-radius:20px;letter-spacing:1px;
+}
+.curso-icon{font-size:36px;margin-bottom:14px;display:block;}
+.curso-num{
+  font-size:11px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--accent);margin-bottom:8px;
+}
+.curso-title{font-size:20px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:10px;}
+.curso-desc{font-size:13px;color:var(--fg2);line-height:1.65;}
+
+.curso-meta{
+  display:flex;gap:16px;margin-top:16px;flex-wrap:wrap;
+}
+.curso-meta-item{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;color:var(--fg2);font-weight:500;
+}
+.curso-meta-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);}
+
+.curso-body{padding:24px 28px;flex:1;display:flex;flex-direction:column;gap:16px;}
+
+.curso-temario{display:flex;flex-direction:column;gap:8px;}
+.curso-temario-title{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+.temario-item{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13px;color:var(--fg2);line-height:1.5;
+}
+.temario-check{color:var(--accent);font-size:12px;margin-top:2px;flex-shrink:0;}
+
+.curso-footer{
+  padding:20px 28px;
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;
+}
+.curso-precio{
+  display:flex;flex-direction:column;
+}
+.precio-label{font-size:11px;color:var(--fg2);letter-spacing:1px;text-transform:uppercase;}
+.precio-bs{font-size:32px;font-weight:900;color:var(--accent);line-height:1;}
+.precio-usd{font-size:12px;color:var(--fg2);margin-top:2px;}
+
+.btn-inscribir{
+  background:linear-gradient(135deg,var(--accent),#6db520);
+  color:#0A1628;padding:14px 28px;border-radius:10px;
+  font-weight:800;font-size:14px;letter-spacing:0.5px;
+  border:none;cursor:pointer;transition:all 0.3s;
+  white-space:nowrap;
+}
+.btn-inscribir:hover{box-shadow:0 0 30px rgba(141,198,63,0.4);transform:translateY(-2px);}
+.btn-inscribir-outline{
+  background:transparent;
+  border:2px solid rgba(141,198,63,0.3);
+  color:var(--accent);padding:14px 28px;border-radius:10px;
+  font-weight:700;font-size:14px;
+  cursor:pointer;transition:all 0.3s;white-space:nowrap;
+}
+.btn-inscribir-outline:hover{border-color:var(--accent);background:rgba(141,198,63,0.06);}
+
+/* ── MODAL DE PAGO ── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.85);
+  z-index:1000;display:flex;align-items:center;justify-content:center;
+  padding:20px;opacity:0;pointer-events:none;transition:opacity 0.3s;
+  backdrop-filter:blur(8px);
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{
+  background:#0E1D35;border:1px solid var(--border);
+  border-radius:24px;padding:0;max-width:520px;width:100%;
+  max-height:90vh;overflow-y:auto;
+  transform:translateY(20px);transition:transform 0.3s;
+}
+.modal-overlay.open .modal{transform:translateY(0);}
+
+.modal-header{
+  background:linear-gradient(135deg,rgba(141,198,63,0.1),rgba(107,107,187,0.1));
+  padding:28px;border-bottom:1px solid var(--border);
+  position:relative;border-radius:24px 24px 0 0;
+}
+.modal-close{
+  position:absolute;top:20px;right:20px;
+  background:rgba(255,255,255,0.08);border:none;
+  color:#fff;width:32px;height:32px;border-radius:50%;
+  cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;
+  transition:background 0.2s;
+}
+.modal-close:hover{background:rgba(255,255,255,0.15);}
+.modal-curso-name{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.modal-title{font-size:20px;font-weight:800;color:#fff;line-height:1.3;}
+.modal-price-row{display:flex;align-items:center;gap:16px;margin-top:14px;}
+.modal-price-bs{font-size:36px;font-weight:900;color:var(--accent);}
+.modal-price-usd{font-size:14px;color:var(--fg2);}
+
+.modal-body{padding:24px 28px;display:flex;flex-direction:column;gap:16px;}
+.modal-section-title{font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--fg2);margin-bottom:4px;}
+
+/* Métodos de pago */
+.metodos-grid{display:flex;flex-direction:column;gap:10px;}
+.metodo-btn{
+  display:flex;align-items:center;gap:14px;
+  background:rgba(255,255,255,0.03);
+  border:2px solid var(--border);border-radius:12px;
+  padding:14px 16px;cursor:pointer;transition:all 0.2s;
+  width:100%;text-align:left;
+}
+.metodo-btn:hover{border-color:var(--accent);background:rgba(141,198,63,0.06);}
+.metodo-btn.selected{border-color:var(--accent);background:rgba(141,198,63,0.08);}
+.metodo-icon{font-size:28px;flex-shrink:0;}
+.metodo-info{flex:1;}
+.metodo-name{font-size:15px;font-weight:800;color:#fff;}
+.metodo-desc{font-size:12px;color:var(--fg2);margin-top:2px;}
+.metodo-radio{
+  width:20px;height:20px;border-radius:50%;
+  border:2px solid var(--border);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;
+}
+.metodo-btn.selected .metodo-radio{border-color:var(--accent);background:var(--accent);}
+.metodo-radio-inner{width:8px;height:8px;border-radius:50%;background:#0A1628;display:none;}
+.metodo-btn.selected .metodo-radio-inner{display:block;}
+
+/* Formulario inscripción */
+.form-field{display:flex;flex-direction:column;gap:6px;}
+.form-label{font-size:12px;font-weight:600;color:var(--fg2);letter-spacing:0.5px;}
+.form-input{
+  background:rgba(255,255,255,0.05);
+  border:1px solid var(--border);border-radius:10px;
+  padding:12px 14px;font-size:14px;color:#fff;
+  outline:none;transition:border 0.2s;width:100%;
+}
+.form-input:focus{border-color:var(--accent);}
+.form-input::placeholder{color:var(--fg2);}
+
+.modal-footer{padding:20px 28px;border-top:1px solid var(--border);}
+.btn-pagar{
+  width:100%;background:linear-gradient(135deg,var(--accent),#6db520);
+  color:#0A1628;padding:18px;border-radius:12px;
+  font-weight:800;font-size:16px;border:none;cursor:pointer;
+  transition:all 0.3s;letter-spacing:0.5px;
+}
+.btn-pagar:hover{box-shadow:0 0 40px rgba(141,198,63,0.4);}
+.btn-pagar:disabled{opacity:0.5;cursor:not-allowed;}
+.modal-security{text-align:center;font-size:11px;color:var(--fg2);margin-top:10px;}
+.modal-wa{
+  display:block;text-align:center;margin-top:10px;
+  font-size:12px;color:rgba(141,198,63,0.7);
+  text-decoration:underline;cursor:pointer;
+}
+
+@media(max-width:900px){
+  .cursos-grid{grid-template-columns:1fr;}
+  .curso-footer{flex-direction:column;align-items:stretch;}
+  .btn-inscribir,.btn-inscribir-outline{width:100%;text-align:center;}
+}
 </style>
 </head>
 <body>
@@ -962,47 +1141,255 @@ footer{
   <div class="section-header fade-in">
     <span class="section-tag">Formación profesional</span>
     <h2 class="section-title">Academia <span class="gradient-text">APPLENDE</span></h2>
-    <p class="section-sub">Cursos virtuales dictados por el Arq. Freddy Velásquez para profesionales de la construcción y las finanzas en Bolivia.</p>
+    <p class="section-sub">Cursos virtuales dictados por el Arq. Freddy Velásquez. Clases en vivo + grabaciones. Certificado al finalizar.</p>
   </div>
 
-  <div class="academia-grid">
-    <div class="acad-card featured glow-border fade-in">
-      <div class="acad-num">01</div>
-      <div class="acad-content">
-        <h3>Cómputo y Presupuestos con APPLEX Pro</h3>
-        <p>Aprende a elaborar presupuestos de obra completos usando APPLEX Pro — desde el cómputo métrico hasta el presupuesto final con APUs y cronograma. Metodología real del Arq. Freddy aplicada en obra.</p>
-        <span class="acad-badge">⭐ Curso estrella · Bs 149</span>
+  <div class="cursos-grid">
+
+    <!-- CURSO 1 -->
+    <div class="curso-card featured glow-border fade-in">
+      <div class="curso-header">
+        <div class="curso-badge-top">⭐ MÁS POPULAR</div>
+        <span class="curso-icon">📐</span>
+        <div class="curso-num">Curso 01</div>
+        <h3 class="curso-title">Cómputo y Presupuestos con APPLEX Pro</h3>
+        <p class="curso-desc">Domina la elaboración de presupuestos de obra completos. Desde el cómputo métrico hasta el presupuesto final con APUs, cronograma y control de obra.</p>
+        <div class="curso-meta">
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>16 horas</div>
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Nivel básico</div>
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>En vivo + grabado</div>
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Certificado</div>
+        </div>
+      </div>
+      <div class="curso-body">
+        <div class="curso-temario">
+          <div class="curso-temario-title">Contenido del curso</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Introducción al cómputo métrico y mediciones</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Análisis de Precios Unitarios (APU) con APPLEX Pro</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Presupuesto general por módulos de obra</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Cronograma Gantt y programación de obra</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Exportación a Excel y formularios SICOES</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Caso real: Vivienda unifamiliar completa</div>
+        </div>
+      </div>
+      <div class="curso-footer">
+        <div class="curso-precio">
+          <span class="precio-label">Precio del curso</span>
+          <span class="precio-bs">Bs 149</span>
+          <span class="precio-usd">≈ $21 USD</span>
+        </div>
+        <button class="btn-inscribir" onclick="abrirModal('Cómputo y Presupuestos con APPLEX Pro', 149, 21)">
+          Inscribirme ahora →
+        </button>
       </div>
     </div>
 
-    <div class="acad-card glow-border fade-in">
-      <div class="acad-num">02</div>
-      <div class="acad-content">
-        <h3>Control de Obra con SECON</h3>
-        <p>Seguimiento económico de proyectos. Kardex de materiales, avance físico, planillas y flujo de fondos.</p>
-        <span class="acad-badge">Construcción · Bs 129</span>
+    <!-- CURSO 2 -->
+    <div class="curso-card glow-border fade-in">
+      <div class="curso-header">
+        <span class="curso-icon">🏗️</span>
+        <div class="curso-num">Curso 02</div>
+        <h3 class="curso-title">Control de Obra con SECON</h3>
+        <p class="curso-desc">Aprende el seguimiento económico de proyectos en ejecución. Kardex de materiales, avance físico, planillas de pago y flujo de fondos con metodología boliviana.</p>
+        <div class="curso-meta">
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>12 horas</div>
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Nivel intermedio</div>
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>En vivo + grabado</div>
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Certificado</div>
+        </div>
+      </div>
+      <div class="curso-body">
+        <div class="curso-temario">
+          <div class="curso-temario-title">Contenido del curso</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Introducción al control económico de obras</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Kardex de materiales y movimiento de almacén</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Planillas de avance físico y valorización</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Flujo de fondos y balance de obra</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Órdenes de cambio y adicionales</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Reportes para supervisión y fiscalización</div>
+        </div>
+      </div>
+      <div class="curso-footer">
+        <div class="curso-precio">
+          <span class="precio-label">Precio del curso</span>
+          <span class="precio-bs">Bs 129</span>
+          <span class="precio-usd">≈ $18 USD</span>
+        </div>
+        <button class="btn-inscribir" onclick="abrirModal('Control de Obra con SECON', 129, 18)">
+          Inscribirme ahora →
+        </button>
       </div>
     </div>
 
-    <div class="acad-card glow-border fade-in">
-      <div class="acad-num">03</div>
-      <div class="acad-content">
-        <h3>Finanzas para No Financieros con IA</h3>
-        <p>Estados financieros, modelación, Power BI y análisis con ChatGPT/Claude para ingenieros.</p>
-        <span class="acad-badge">IA + Finanzas · Bs 179</span>
+    <!-- CURSO 3 -->
+    <div class="curso-card glow-border fade-in">
+      <div class="curso-header">
+        <span class="curso-icon">🤖</span>
+        <div class="curso-num">Curso 03</div>
+        <h3 class="curso-title">Finanzas para No Financieros con IA</h3>
+        <p class="curso-desc">Estados financieros, modelación y análisis con ChatGPT/Claude. Power BI desde cero. Para ingenieros y constructores que quieren dominar los números de su empresa.</p>
+        <div class="curso-meta">
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>16 horas</div>
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Nivel básico</div>
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>En vivo + grabado</div>
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Certificado</div>
+        </div>
+      </div>
+      <div class="curso-body">
+        <div class="curso-temario">
+          <div class="curso-temario-title">Contenido del curso</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Fundamentos financieros para ingenieros</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Análisis de estados financieros con IA</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Modelación financiera práctica con Excel</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Power BI desde cero — dashboards financieros</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Prompts para análisis con ChatGPT/Claude</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Caso real sector energético boliviano</div>
+        </div>
+      </div>
+      <div class="curso-footer">
+        <div class="curso-precio">
+          <span class="precio-label">Precio del curso</span>
+          <span class="precio-bs">Bs 179</span>
+          <span class="precio-usd">≈ $25 USD</span>
+        </div>
+        <button class="btn-inscribir" onclick="abrirModal('Finanzas para No Financieros con IA', 179, 25)">
+          Inscribirme ahora →
+        </button>
       </div>
     </div>
 
-    <div class="acad-card glow-border fade-in">
-      <div class="acad-num">04</div>
-      <div class="acad-content">
-        <h3>Licitaciones y Propuestas SICOES</h3>
-        <p>Propuestas técnicas y económicas ganadoras para licitaciones públicas del Estado Boliviano.</p>
-        <span class="acad-badge">Bolivia · Bs 199</span>
+    <!-- CURSO 4 -->
+    <div class="curso-card glow-border fade-in">
+      <div class="curso-header">
+        <span class="curso-icon">📋</span>
+        <div class="curso-num">Curso 04</div>
+        <h3 class="curso-title">Licitaciones y Propuestas SICOES</h3>
+        <p class="curso-desc">Prepara propuestas técnicas y económicas ganadoras para licitaciones públicas del Estado Boliviano. SICOES, SABS y normas NB-SABS actualizadas 2025.</p>
+        <div class="curso-meta">
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>10 horas</div>
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Nivel avanzado</div>
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>En vivo + grabado</div>
+          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Certificado</div>
+        </div>
+      </div>
+      <div class="curso-body">
+        <div class="curso-temario">
+          <div class="curso-temario-title">Contenido del curso</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Marco legal — SABS, NB-SABS y SICOES</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Tipos de contratación y modalidades</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Propuesta técnica — estructura y contenido</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Propuesta económica — precios y estrategia</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Errores comunes que descalifican propuestas</div>
+          <div class="temario-item"><span class="temario-check">✓</span>Caso real: licitación ganadora analizada</div>
+        </div>
+      </div>
+      <div class="curso-footer">
+        <div class="curso-precio">
+          <span class="precio-label">Precio del curso</span>
+          <span class="precio-bs">Bs 199</span>
+          <span class="precio-usd">≈ $28 USD</span>
+        </div>
+        <button class="btn-inscribir" onclick="abrirModal('Licitaciones y Propuestas SICOES', 199, 28)">
+          Inscribirme ahora →
+        </button>
       </div>
     </div>
+
   </div>
+
+  <!-- Garantía -->
+  <div class="fade-in" style="margin-top:40px;text-align:center;padding:28px;background:rgba(141,198,63,0.05);border:1px solid rgba(141,198,63,0.15);border-radius:16px;">
+    <div style="font-size:32px;margin-bottom:10px;">🛡️</div>
+    <h3 style="font-size:18px;font-weight:800;color:#fff;margin-bottom:8px;">Garantía de satisfacción</h3>
+    <p style="font-size:14px;color:var(--fg2);max-width:500px;margin:0 auto;">Si en las primeras 24 horas no estás satisfecho con el curso, te devolvemos el 100% de tu dinero. Sin preguntas.</p>
+  </div>
+
 </section>
+
+<!-- ══ MODAL DE PAGO ══ -->
+<div class="modal-overlay" id="modalOverlay" onclick="cerrarModalOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="cerrarModal()">✕</button>
+      <div class="modal-curso-name" id="modalCursoNombre">Curso</div>
+      <div class="modal-title" id="modalCursoTitulo">Título del curso</div>
+      <div class="modal-price-row">
+        <span class="modal-price-bs" id="modalPrecioBS">Bs 0</span>
+        <span class="modal-price-usd" id="modalPrecioUSD">≈ $0 USD</span>
+      </div>
+    </div>
+
+    <div class="modal-body">
+
+      <!-- Datos del alumno -->
+      <div>
+        <div class="modal-section-title">Tus datos</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+          <div class="form-field">
+            <label class="form-label">Nombre completo *</label>
+            <input class="form-input" id="alumnoNombre" type="text" placeholder="Tu nombre completo">
+          </div>
+          <div class="form-field">
+            <label class="form-label">Correo electrónico *</label>
+            <input class="form-input" id="alumnoEmail" type="email" placeholder="tu@correo.com">
+          </div>
+          <div class="form-field">
+            <label class="form-label">WhatsApp *</label>
+            <input class="form-input" id="alumnoWA" type="tel" placeholder="+591 7XXXXXXX">
+          </div>
+        </div>
+      </div>
+
+      <!-- Método de pago -->
+      <div>
+        <div class="modal-section-title">Elige cómo pagar</div>
+        <div class="metodos-grid" style="margin-top:8px;">
+          <button class="metodo-btn" onclick="seleccionarMetodo(this, 'red_enlace')" id="metodo-red_enlace">
+            <span class="metodo-icon">💳</span>
+            <div class="metodo-info">
+              <div class="metodo-name">Red Enlace / CyberSource</div>
+              <div class="metodo-desc">Tarjeta de débito o crédito VISA / Mastercard</div>
+            </div>
+            <div class="metodo-radio"><div class="metodo-radio-inner"></div></div>
+          </button>
+          <button class="metodo-btn" onclick="seleccionarMetodo(this, 'tigo')" id="metodo-tigo">
+            <span class="metodo-icon">📱</span>
+            <div class="metodo-info">
+              <div class="metodo-name">Tigo Money</div>
+              <div class="metodo-desc">Pago directo desde tu celular Tigo</div>
+            </div>
+            <div class="metodo-radio"><div class="metodo-radio-inner"></div></div>
+          </button>
+          <button class="metodo-btn" onclick="seleccionarMetodo(this, 'transferencia')" id="metodo-transferencia">
+            <span class="metodo-icon">🏦</span>
+            <div class="metodo-info">
+              <div class="metodo-name">Transferencia bancaria</div>
+              <div class="metodo-desc">A cuenta del Arq. Freddy Velásquez</div>
+            </div>
+            <div class="metodo-radio"><div class="metodo-radio-inner"></div></div>
+          </button>
+          <button class="metodo-btn" onclick="seleccionarMetodo(this, 'pago_facil')" id="metodo-pago_facil">
+            <span class="metodo-icon">🏪</span>
+            <div class="metodo-info">
+              <div class="metodo-name">Pago Fácil</div>
+              <div class="metodo-desc">Red de agentes a nivel nacional</div>
+            </div>
+            <div class="metodo-radio"><div class="metodo-radio-inner"></div></div>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-pagar" id="btnPagar" onclick="procesarPago()" disabled>
+        Selecciona un método de pago
+      </button>
+      <div class="modal-security">🔒 Pago seguro · Tu acceso se activa al confirmar el pago</div>
+      <span class="modal-wa" onclick="consultarWA()">¿Tienes dudas? Escríbenos por WhatsApp</span>
+    </div>
+  </div>
+</div>
 
 <!-- ══ CTA ══ -->
 <section id="cta">
@@ -1159,6 +1546,96 @@ const counterObs = new IntersectionObserver((entries) => {
   })
 }, { threshold: 0.5 })
 document.querySelectorAll('[data-count]').forEach(el => counterObs.observe(el))
+
+// ── Variables globales del modal ──
+let cursoActual = { nombre: '', precio_bs: 0, precio_usd: 0 }
+let metodoActual = null
+
+function abrirModal(nombre, precioBs, precioUsd) {
+  cursoActual = { nombre, precio_bs: precioBs, precio_usd: precioUsd }
+  document.getElementById('modalCursoNombre').textContent = 'Inscripción al curso'
+  document.getElementById('modalCursoTitulo').textContent = nombre
+  document.getElementById('modalPrecioBS').textContent = 'Bs ' + precioBs
+  document.getElementById('modalPrecioUSD').textContent = '≈ $' + precioUsd + ' USD'
+  document.getElementById('modalOverlay').classList.add('open')
+  document.body.style.overflow = 'hidden'
+  // Reset
+  metodoActual = null
+  document.querySelectorAll('.metodo-btn').forEach(b => b.classList.remove('selected'))
+  document.getElementById('btnPagar').disabled = true
+  document.getElementById('btnPagar').textContent = 'Selecciona un método de pago'
+  document.getElementById('alumnoNombre').value = ''
+  document.getElementById('alumnoEmail').value = ''
+  document.getElementById('alumnoWA').value = ''
+}
+
+function cerrarModal() {
+  document.getElementById('modalOverlay').classList.remove('open')
+  document.body.style.overflow = ''
+}
+
+function cerrarModalOverlay(e) {
+  if (e.target === document.getElementById('modalOverlay')) cerrarModal()
+}
+
+function seleccionarMetodo(btn, metodo) {
+  document.querySelectorAll('.metodo-btn').forEach(b => b.classList.remove('selected'))
+  btn.classList.add('selected')
+  metodoActual = metodo
+  document.getElementById('btnPagar').disabled = false
+  const nombres = {
+    red_enlace: 'Pagar con Red Enlace — Bs ' + cursoActual.precio_bs,
+    tigo: 'Pagar con Tigo Money — Bs ' + cursoActual.precio_bs,
+    transferencia: 'Ver datos de transferencia',
+    pago_facil: 'Ver instrucciones Pago Fácil'
+  }
+  document.getElementById('btnPagar').textContent = nombres[metodo]
+}
+
+function procesarPago() {
+  const nombre = document.getElementById('alumnoNombre').value.trim()
+  const email  = document.getElementById('alumnoEmail').value.trim()
+  const wa     = document.getElementById('alumnoWA').value.trim()
+
+  if (!nombre || !email || !wa) {
+    alert('Por favor completa todos tus datos antes de continuar.')
+    return
+  }
+
+  const msg = encodeURIComponent(
+    'Hola, quiero inscribirme al curso: ' + cursoActual.nombre + '\n' +
+    'Nombre: ' + nombre + '\n' +
+    'Email: ' + email + '\n' +
+    'WhatsApp: ' + wa + '\n' +
+    'Precio: Bs ' + cursoActual.precio_bs + '\n' +
+    'Método de pago: ' + metodoActual
+  )
+
+  if (metodoActual === 'red_enlace') {
+    // Cuando Red Enlace esté activo, aquí va el redirect a CyberSource
+    // Por ahora redirige a WhatsApp con los datos
+    alert('🚧 Pago con tarjeta estará disponible en 48 horas.\nTe redirigiremos a WhatsApp para coordinar tu inscripción.')
+    window.open('https://wa.me/59173979066?text=' + msg, '_blank')
+    cerrarModal()
+  } else if (metodoActual === 'tigo') {
+    alert('Envía Bs ' + cursoActual.precio_bs + ' a:\n\nTigo Money: 72172740\n(Freddy Gabriel Velásquez Reinaga)\n\nCon el concepto: APPLENDE-' + cursoActual.nombre.substring(0,10) + '\n\nLuego envía el comprobante por WhatsApp.')
+    window.open('https://wa.me/59173979066?text=' + msg, '_blank')
+    cerrarModal()
+  } else if (metodoActual === 'transferencia') {
+    alert('Datos de transferencia:\n\nBanco: [Banco del Arq. Freddy]\nTitular: Freddy Gabriel Velásquez Reinaga\nMonto: Bs ' + cursoActual.precio_bs + '\n\nEnvía el comprobante por WhatsApp para activar tu acceso.')
+    window.open('https://wa.me/59173979066?text=' + msg, '_blank')
+    cerrarModal()
+  } else if (metodoActual === 'pago_facil') {
+    alert('Instrucciones Pago Fácil:\n\nAcércate a cualquier agente Pago Fácil y di:\nEmpresa: APPLE Construcciones\nMonto: Bs ' + cursoActual.precio_bs + '\n\nLuego envía el comprobante por WhatsApp.')
+    window.open('https://wa.me/59173979066?text=' + msg, '_blank')
+    cerrarModal()
+  }
+}
+
+function consultarWA() {
+  window.open('https://wa.me/59173979066?text=Hola,%20tengo%20dudas%20sobre%20los%20cursos%20de%20APPLENDE', '_blank')
+}
+
 </script>
 </body>
 </html>
