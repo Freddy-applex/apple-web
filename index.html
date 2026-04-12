@@ -827,6 +827,193 @@ footer{
   .curso-footer{flex-direction:column;align-items:stretch;}
   .btn-inscribir,.btn-inscribir-outline{width:100%;text-align:center;}
 }
+
+/* ══════════════════ NOSOTROS ══════════════════ */
+#nosotros{ background:var(--bg2); }
+.nosotros-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:center;
+}
+.avatar-wrapper{
+  position:relative;display:flex;justify-content:center;
+}
+.avatar-ring{
+  position:relative;width:280px;height:280px;
+}
+.avatar-ring::before{
+  content:'';position:absolute;inset:-8px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent));
+  animation:ring-rotate 6s linear infinite;
+}
+@keyframes ring-rotate{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+.avatar-img{
+  position:relative;z-index:1;
+  width:280px;height:280px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(107,107,187,0.3),rgba(141,198,63,0.2));
+  border:4px solid var(--bg2);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.avatar-placeholder{
+  font-size:96px;line-height:1;
+  filter:grayscale(0.2);
+}
+.avatar-badge{
+  position:absolute;bottom:10px;right:20px;z-index:2;
+  background:linear-gradient(135deg,var(--accent),#6db520);
+  color:#0A1628;padding:8px 18px;border-radius:20px;
+  font-size:12px;font-weight:800;letter-spacing:1px;
+  box-shadow:0 8px 24px rgba(141,198,63,0.35);
+}
+
+/* Cards flotantes */
+.float-cards{
+  position:absolute;
+  display:flex;flex-direction:column;gap:12px;
+}
+.float-cards.left{ left:-20px;top:50%;transform:translateY(-50%); }
+.float-cards.right{ right:-20px;top:30%; }
+.float-stat-card{
+  background:rgba(10,22,40,0.9);
+  border:1px solid var(--border);border-radius:12px;
+  padding:12px 16px;backdrop-filter:blur(10px);
+  white-space:nowrap;
+}
+.float-stat-num{font-size:22px;font-weight:900;color:var(--accent);display:block;line-height:1;}
+.float-stat-label{font-size:11px;color:var(--fg2);margin-top:2px;}
+
+/* Contenido derecho */
+.nosotros-content{ display:flex;flex-direction:column;gap:24px; }
+.nosotros-titulo{
+  font-size:clamp(28px,3.5vw,44px);
+  font-weight:900;line-height:1.1;
+}
+.nosotros-cargo{
+  font-size:14px;font-weight:700;
+  color:var(--accent);letter-spacing:2px;
+  text-transform:uppercase;margin-bottom:8px;display:block;
+}
+.nosotros-desc{
+  font-size:15px;color:var(--fg2);line-height:1.8;
+}
+.nosotros-logros{
+  display:flex;flex-direction:column;gap:12px;
+}
+.logro-item{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px 16px;border-radius:12px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  transition:all 0.3s;
+}
+.logro-item:hover{background:rgba(141,198,63,0.06);border-color:rgba(141,198,63,0.2);}
+.logro-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:rgba(141,198,63,0.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.logro-text h4{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px;}
+.logro-text p{font-size:12px;color:var(--fg2);line-height:1.5;}
+
+@media(max-width:900px){
+  .nosotros-inner{grid-template-columns:1fr;}
+  .avatar-wrapper{margin-bottom:20px;}
+  .float-cards{display:none;}
+}
+
+/* ══════════════════ GALERÍA DE OBRAS ══════════════════ */
+#galeria{ background:var(--bg); }
+.galeria-filtros{
+  display:flex;gap:10px;flex-wrap:wrap;
+  margin-bottom:40px;
+}
+.filtro-btn{
+  padding:8px 20px;border-radius:20px;
+  border:1px solid var(--border);
+  background:transparent;color:var(--fg2);
+  font-size:13px;font-weight:600;cursor:pointer;
+  transition:all 0.2s;
+}
+.filtro-btn:hover,.filtro-btn.active{
+  background:var(--accent);color:#0A1628;
+  border-color:var(--accent);
+}
+.galeria-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+.galeria-item{
+  border-radius:12px;overflow:hidden;
+  aspect-ratio:4/3;position:relative;
+  cursor:pointer;
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+}
+.galeria-item img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform 0.4s;
+  display:block;
+}
+.galeria-item:hover img{transform:scale(1.08);}
+.galeria-item::after{
+  content:'🔍';
+  position:absolute;inset:0;
+  background:rgba(10,22,40,0.6);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;opacity:0;transition:opacity 0.3s;
+}
+.galeria-item:hover::after{opacity:1;}
+
+/* Lightbox */
+.lightbox{
+  position:fixed;inset:0;background:rgba(0,0,0,0.95);
+  z-index:2000;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0.3s;
+  backdrop-filter:blur(10px);
+}
+.lightbox.open{opacity:1;pointer-events:all;}
+.lightbox-img{
+  max-width:90vw;max-height:90vh;
+  border-radius:12px;object-fit:contain;
+  box-shadow:0 40px 100px rgba(0,0,0,0.8);
+}
+.lightbox-close{
+  position:fixed;top:20px;right:20px;
+  background:rgba(255,255,255,0.1);border:none;
+  color:#fff;width:44px;height:44px;border-radius:50%;
+  font-size:20px;cursor:pointer;transition:background 0.2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.lightbox-close:hover{background:rgba(255,255,255,0.2);}
+.lightbox-nav{
+  position:fixed;top:50%;transform:translateY(-50%);
+  background:rgba(255,255,255,0.1);border:none;
+  color:#fff;width:52px;height:52px;border-radius:50%;
+  font-size:22px;cursor:pointer;transition:background 0.2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.lightbox-nav:hover{background:rgba(141,198,63,0.3);}
+.lightbox-prev{left:20px;}
+.lightbox-next{right:20px;}
+.lightbox-counter{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:rgba(255,255,255,0.1);color:#fff;
+  padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;
+}
+
+.galeria-ver-mas{
+  text-align:center;margin-top:32px;
+}
+
+@media(max-width:900px){
+  .galeria-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:600px){
+  .galeria-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+}
 </style>
 </head>
 <body>
@@ -864,7 +1051,9 @@ footer{
   </a>
 
   <ul class="nav-links">
+    <li><a href="#nosotros">Nosotros</a></li>
     <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#galeria">Obras</a></li>
     <li><a href="#applex">APPLEX Pro</a></li>
     <li><a href="#academia">Academia</a></li>
     <li><a href="#contacto">Contacto</a></li>
@@ -877,7 +1066,9 @@ footer{
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
+  <a href="#nosotros" onclick="toggleMenu()">Nosotros</a>
   <a href="#servicios" onclick="toggleMenu()">Servicios</a>
+  <a href="#galeria" onclick="toggleMenu()">Obras</a>
   <a href="#applex" onclick="toggleMenu()">APPLEX Pro</a>
   <a href="#academia" onclick="toggleMenu()">Academia APPLENDE</a>
   <a href="#contacto" onclick="toggleMenu()">Contacto</a>
@@ -959,6 +1150,96 @@ footer{
     <div class="marquee-item">🌿 FIS / FPS<div class="marquee-dot"></div></div>
   </div>
 </div>
+
+<!-- ══ NOSOTROS ══ -->
+<section id="nosotros">
+  <div class="nosotros-inner">
+
+    <!-- Avatar -->
+    <div class="avatar-wrapper fade-in">
+      <div class="float-cards left">
+        <div class="float-stat-card">
+          <span class="float-stat-num">20+</span>
+          <div class="float-stat-label">Años de experiencia</div>
+        </div>
+        <div class="float-stat-card">
+          <span class="float-stat-num">50+</span>
+          <div class="float-stat-label">Obras ejecutadas</div>
+        </div>
+      </div>
+
+      <div class="avatar-ring">
+        <div class="avatar-img">
+          <span class="avatar-placeholder">👷</span>
+        </div>
+      </div>
+      <div class="avatar-badge">Arq. & MSc.</div>
+
+      <div class="float-cards right">
+        <div class="float-stat-card">
+          <span class="float-stat-num">100+</span>
+          <div class="float-stat-label">Proyectos realizados</div>
+        </div>
+        <div class="float-stat-card">
+          <span class="float-stat-num">SCZ</span>
+          <div class="float-stat-label">Bolivia</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="nosotros-content fade-in">
+      <div>
+        <span class="nosotros-cargo">Fundador & Director General</span>
+        <h2 class="nosotros-titulo">
+          Arq. Freddy<br>
+          <span class="gradient-text">Velásquez</span><br>
+          Reinaga
+        </h2>
+      </div>
+
+      <p class="nosotros-desc">
+        Arquitecto con más de <strong style="color:#fff">20 años de experiencia</strong> en construcción civil boliviana. 
+        Magíster en Gerencia de la Construcción Civil, docente universitario y fundador de 
+        <strong style="color:var(--accent)">APPLE Construcciones & Servicios</strong>. 
+        Ha ejecutado más de 50 obras y 100 proyectos en Bolivia combinando metodología técnica rigurosa 
+        con innovación en software de presupuestos.
+      </p>
+
+      <div class="nosotros-logros">
+        <div class="logro-item">
+          <div class="logro-icon">🎓</div>
+          <div class="logro-text">
+            <h4>Maestría en Gerencia de la Construcción Civil</h4>
+            <p>Especialización en gestión, presupuestos y administración de proyectos de obra civil</p>
+          </div>
+        </div>
+        <div class="logro-item">
+          <div class="logro-icon">🏛️</div>
+          <div class="logro-text">
+            <h4>Docente Universitario</h4>
+            <p>Cátedra de Cómputo, Presupuestos y Administración de Obras en Bolivia</p>
+          </div>
+        </div>
+        <div class="logro-item">
+          <div class="logro-icon">🏗️</div>
+          <div class="logro-text">
+            <h4>+50 Obras · +100 Proyectos en Bolivia</h4>
+            <p>Viviendas, edificios, infraestructura y consultorías en Santa Cruz y el interior del país</p>
+          </div>
+        </div>
+        <div class="logro-item">
+          <div class="logro-icon">💻</div>
+          <div class="logro-text">
+            <h4>Creador de la Metodología APPLEX</h4>
+            <p>Desarrolló el sistema de presupuestos más completo para constructores bolivianos</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
 
 <!-- ══ SERVICIOS ══ -->
 <section id="servicios">
@@ -1066,6 +1347,253 @@ footer{
     </div>
   </div>
 </section>
+
+<!-- ══ GALERÍA DE OBRAS ══ -->
+<section id="galeria">
+  <div class="section-header fade-in">
+    <span class="section-tag">Portafolio</span>
+    <h2 class="section-title">Nuestras <span class="gradient-text">obras</span></h2>
+    <p class="section-sub">Más de 50 obras ejecutadas en Bolivia. Viviendas, edificios, infraestructura y proyectos institucionales.</p>
+  </div>
+
+  <div class="galeria-grid fade-in">
+    <div class="galeria-item"  onclick="abrirLightbox(0)">
+  <img src="https://drive.google.com/thumbnail?id=1-64G7z3S4eGZ5mQ23hofqT7p4AKxtayD&sz=w800" alt="Obra 1 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item"  onclick="abrirLightbox(1)">
+  <img src="https://drive.google.com/thumbnail?id=1-zX72Fbw3uRRak_LnfYvuo3Npc1DJ7pA&sz=w800" alt="Obra 2 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item"  onclick="abrirLightbox(2)">
+  <img src="https://drive.google.com/thumbnail?id=12HRzDG4c7DgxHoZBaUWOy2sSSG4TEu98&sz=w800" alt="Obra 3 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item"  onclick="abrirLightbox(3)">
+  <img src="https://drive.google.com/thumbnail?id=130ATl69rx2BWVcIPT1yZQwarSCKDqbsj&sz=w800" alt="Obra 4 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item"  onclick="abrirLightbox(4)">
+  <img src="https://drive.google.com/thumbnail?id=133Pb-kSN5UW50Xtl9Jk7fJJE1Y8xBcP_&sz=w800" alt="Obra 5 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item"  onclick="abrirLightbox(5)">
+  <img src="https://drive.google.com/thumbnail?id=13CWS42aMVQEHJKvTKxkN_nTL8E5FJ0y0&sz=w800" alt="Obra 6 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item"  onclick="abrirLightbox(6)">
+  <img src="https://drive.google.com/thumbnail?id=14O1zaVv-1GeUHgDS8WYT03MR35cJgm7h&sz=w800" alt="Obra 7 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item"  onclick="abrirLightbox(7)">
+  <img src="https://drive.google.com/thumbnail?id=14u2tmAOK6-glKmme-Qi3ZRoR2mjF8P8H&sz=w800" alt="Obra 8 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item"  onclick="abrirLightbox(8)">
+  <img src="https://drive.google.com/thumbnail?id=150bB4mIoI-1Aeu2JXuy2J33dxmMuFcP6&sz=w800" alt="Obra 9 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item"  onclick="abrirLightbox(9)">
+  <img src="https://drive.google.com/thumbnail?id=15OLK5y6A_Ya5cTQimmSlztq0e4EoZ8TC&sz=w800" alt="Obra 10 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item"  onclick="abrirLightbox(10)">
+  <img src="https://drive.google.com/thumbnail?id=15OZVvABRPIT0R461z_4WlgUijydMSlTn&sz=w800" alt="Obra 11 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item"  onclick="abrirLightbox(11)">
+  <img src="https://drive.google.com/thumbnail?id=16nQnpviU056hKF69AVSs6PyAn8DYPIYz&sz=w800" alt="Obra 12 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(12)">
+  <img src="https://drive.google.com/thumbnail?id=16wrHOHwryr_C22SNQkhMSpA7TwJw82Hi&sz=w800" alt="Obra 13 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(13)">
+  <img src="https://drive.google.com/thumbnail?id=17RV4IX15J8ojakcgmZigHtdjaR-iSlt9&sz=w800" alt="Obra 14 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(14)">
+  <img src="https://drive.google.com/thumbnail?id=1G5xofNZQzzXkhbi_GG_pO4Dr5KBE9UhH&sz=w800" alt="Obra 15 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(15)">
+  <img src="https://drive.google.com/thumbnail?id=1GSkvDbLEMuu5B0c0cjOT2CtGJLYhkxwd&sz=w800" alt="Obra 16 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(16)">
+  <img src="https://drive.google.com/thumbnail?id=1GYwTw32yhgQ6BMEfxINNksz_9Thk70y0&sz=w800" alt="Obra 17 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(17)">
+  <img src="https://drive.google.com/thumbnail?id=1Ghk9nrWtyA762NLYDbq8RE0zBlPyZlbp&sz=w800" alt="Obra 18 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(18)">
+  <img src="https://drive.google.com/thumbnail?id=1JIvl08kCho11xbbbaKbOhhNFPNuSpac-&sz=w800" alt="Obra 19 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(19)">
+  <img src="https://drive.google.com/thumbnail?id=1KcwxyjZHDmTusqf7-e-baR7CU2EiPEiT&sz=w800" alt="Obra 20 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(20)">
+  <img src="https://drive.google.com/thumbnail?id=1Kh9_zni9T36peCFBB6_67ef9RgrZv_pg&sz=w800" alt="Obra 21 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(21)">
+  <img src="https://drive.google.com/thumbnail?id=1NjPWEwa9BMJF5kaNzjwqxTugXeUPcDD0&sz=w800" alt="Obra 22 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(22)">
+  <img src="https://drive.google.com/thumbnail?id=1O3pzuQ8iEaElC3XDTmjIuQvj9mckhOQh&sz=w800" alt="Obra 23 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(23)">
+  <img src="https://drive.google.com/thumbnail?id=1OxAy5xX2QVF09MSxY7xVrqqtDKdqhyx2&sz=w800" alt="Obra 24 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(24)">
+  <img src="https://drive.google.com/thumbnail?id=1PbaOpkyZpixmhpK5nue7bqPveY-juYVs&sz=w800" alt="Obra 25 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(25)">
+  <img src="https://drive.google.com/thumbnail?id=1SluVmo-MTpuAuwcT9BLVsPGwEWfOba8V&sz=w800" alt="Obra 26 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(26)">
+  <img src="https://drive.google.com/thumbnail?id=1VSeyDaAWv-HhNkgiq1enVNdu3usbESbK&sz=w800" alt="Obra 27 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(27)">
+  <img src="https://drive.google.com/thumbnail?id=1VaLYvDKXAHGjTzVNhLejb60qPjXKi388&sz=w800" alt="Obra 28 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(28)">
+  <img src="https://drive.google.com/thumbnail?id=1W-OljCjp6Zfz2eSH9Vsh_g06W9R_2Fcw&sz=w800" alt="Obra 29 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(29)">
+  <img src="https://drive.google.com/thumbnail?id=1WV7WuuPErRLCMQlIkGurF_7wn_ivVziy&sz=w800" alt="Obra 30 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(30)">
+  <img src="https://drive.google.com/thumbnail?id=1X-emfSwqRUQCZxM5Lpp5iLJ6ut2Z6FbH&sz=w800" alt="Obra 31 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(31)">
+  <img src="https://drive.google.com/thumbnail?id=1YkXa-03QoJOjGkOxNhijDBEzslQdSDsx&sz=w800" alt="Obra 32 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(32)">
+  <img src="https://drive.google.com/thumbnail?id=1ZeYRBWiQwhz4o3gZNjg_bSKlDSTcBZAf&sz=w800" alt="Obra 33 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(33)">
+  <img src="https://drive.google.com/thumbnail?id=1amwLZtanqzZ-ER4dUeicDuXZ8MD7DYrz&sz=w800" alt="Obra 34 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(34)">
+  <img src="https://drive.google.com/thumbnail?id=1cE3oemVjyXTS3EMYfFAVwPMGCoAALcuB&sz=w800" alt="Obra 35 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(35)">
+  <img src="https://drive.google.com/thumbnail?id=1d-YX3nYmVBwVTXr6rISe5dFXoytgcJMd&sz=w800" alt="Obra 36 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(36)">
+  <img src="https://drive.google.com/thumbnail?id=1dYHi5eqJbImwN5uiOnaEz60jVPiA0n8O&sz=w800" alt="Obra 37 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(37)">
+  <img src="https://drive.google.com/thumbnail?id=1ddF8VRYdSGXfGNyoSCVW_CxwRkmxvsBa&sz=w800" alt="Obra 38 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(38)">
+  <img src="https://drive.google.com/thumbnail?id=1ejuo-5Tv7dOXoTN-fxrckKPuso9bjBg9&sz=w800" alt="Obra 39 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(39)">
+  <img src="https://drive.google.com/thumbnail?id=1f1d1yOGjh8Vo9hyAgCNGK11sdxz7dBsB&sz=w800" alt="Obra 40 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(40)">
+  <img src="https://drive.google.com/thumbnail?id=1fDIIcPEgHUl3hnEeqlZueXF27O7sjAqn&sz=w800" alt="Obra 41 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(41)">
+  <img src="https://drive.google.com/thumbnail?id=1fylmTgLWTMmvAcT_UxdHAz6B7HrpAMZV&sz=w800" alt="Obra 42 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(42)">
+  <img src="https://drive.google.com/thumbnail?id=1g6xE3jlzVkehymzjcAGECfWrdnHBv2ol&sz=w800" alt="Obra 43 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(43)">
+  <img src="https://drive.google.com/thumbnail?id=1gyDecCABKCcSwp6dG_8kEHZ8gix8o5ek&sz=w800" alt="Obra 44 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(44)">
+  <img src="https://drive.google.com/thumbnail?id=1hcdP-8dDImYEE583Sf_K2-U5zjsLk5TI&sz=w800" alt="Obra 45 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(45)">
+  <img src="https://drive.google.com/thumbnail?id=1lZzV2EApq5oA66O-csHvmwWjnfR1DCI0&sz=w800" alt="Obra 46 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(46)">
+  <img src="https://drive.google.com/thumbnail?id=1leKPY2iSA8oZ-NkqKIoJ_rSHr_1UH9yC&sz=w800" alt="Obra 47 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(47)">
+  <img src="https://drive.google.com/thumbnail?id=1mLnUE6Rxu-Ga_CevBzNMf52tmbsGE4xt&sz=w800" alt="Obra 48 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(48)">
+  <img src="https://drive.google.com/thumbnail?id=1mNRI5CLIlh_XalGcRo6vfTc37XOLIjbo&sz=w800" alt="Obra 49 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(49)">
+  <img src="https://drive.google.com/thumbnail?id=1mNsuOexvOuFja6gGe-FCNGVppRH0n2Pe&sz=w800" alt="Obra 50 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(50)">
+  <img src="https://drive.google.com/thumbnail?id=1mtdqk2wM4-rsfTU0Z3e0xcbt3rBnTSZN&sz=w800" alt="Obra 51 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(51)">
+  <img src="https://drive.google.com/thumbnail?id=1mv84g3krRTpPNAi2Ry0mmVC8u2eWD6xQ&sz=w800" alt="Obra 52 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(52)">
+  <img src="https://drive.google.com/thumbnail?id=1n0ulkt0-6Xqx_-RBcd61W6wLOH38RhUk&sz=w800" alt="Obra 53 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(53)">
+  <img src="https://drive.google.com/thumbnail?id=1nQtmIv2sO5e3g7WpPfc1nD3KJfucG7TJ&sz=w800" alt="Obra 54 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(54)">
+  <img src="https://drive.google.com/thumbnail?id=1nsZn-VMEk6RYZSa_JwrsOyOWba84nPhw&sz=w800" alt="Obra 55 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(55)">
+  <img src="https://drive.google.com/thumbnail?id=1oIRHN4gojv2D2n3ll0pddm1kPp0Ho3oU&sz=w800" alt="Obra 56 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(56)">
+  <img src="https://drive.google.com/thumbnail?id=1obxeCycnURTkoDWYUj7Wd0bL7iO2NWK4&sz=w800" alt="Obra 57 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(57)">
+  <img src="https://drive.google.com/thumbnail?id=1pG5sU97VOyFUgul4gE07QBY0dyN3FapG&sz=w800" alt="Obra 58 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(58)">
+  <img src="https://drive.google.com/thumbnail?id=1pY0MJmLGxGJV-AlWhdUxeFwd8KjQu71H&sz=w800" alt="Obra 59 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(59)">
+  <img src="https://drive.google.com/thumbnail?id=1qXdIqf_PZfpvOtTGq-wVep4TtwdCpXne&sz=w800" alt="Obra 60 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(60)">
+  <img src="https://drive.google.com/thumbnail?id=1rB6r9IYI3JL94sc7hwfBvwlMFGxL2aVN&sz=w800" alt="Obra 61 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(61)">
+  <img src="https://drive.google.com/thumbnail?id=1u4z_s6P5JCL2FKQ2c6ErWBoybq1uxNrN&sz=w800" alt="Obra 62 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(62)">
+  <img src="https://drive.google.com/thumbnail?id=1uhEiZ3me113-BjOylycRQ08ws9jqM523&sz=w800" alt="Obra 63 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(63)">
+  <img src="https://drive.google.com/thumbnail?id=1vHR3fBwMMirr-2S0VAy9mAeNqARs1v_O&sz=w800" alt="Obra 64 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(64)">
+  <img src="https://drive.google.com/thumbnail?id=1vJ0LS4dNjwnWGPwX6Azbbntcdoa_azr-&sz=w800" alt="Obra 65 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(65)">
+  <img src="https://drive.google.com/thumbnail?id=1x2Xud4It8HkUdYkz8Pzy1ApuP2Zs8S6g&sz=w800" alt="Obra 66 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(66)">
+  <img src="https://drive.google.com/thumbnail?id=1x8-GLlLq7VdPymft8Yk-MhDj1VOKOP1F&sz=w800" alt="Obra 67 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(67)">
+  <img src="https://drive.google.com/thumbnail?id=1x_keCFiqiItLYv-4_miou2IsLCK1iuMc&sz=w800" alt="Obra 68 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(68)">
+  <img src="https://drive.google.com/thumbnail?id=1xjKgOTJMPmeK5CyUrU-YvaOVAZK4h6A0&sz=w800" alt="Obra 69 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(69)">
+  <img src="https://drive.google.com/thumbnail?id=1yGo4uaX7tTqN6uSu0Xc9gSPsSjyOhQpg&sz=w800" alt="Obra 70 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(70)">
+  <img src="https://drive.google.com/thumbnail?id=1zJlwTu2lWsAikG6FbHob62JdNKgaN5pf&sz=w800" alt="Obra 71 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(71)">
+  <img src="https://drive.google.com/thumbnail?id=1zRWjTTVMiNlHQF-t3bmf-IlWECdgtUXn&sz=w800" alt="Obra 72 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="galeria-item" style="display:none" onclick="abrirLightbox(72)">
+  <img src="https://drive.google.com/thumbnail?id=1zvO0noL3CUTKV-wG5dOqqj88kmtOFgMY&sz=w800" alt="Obra 73 - APPLE Construcciones" loading="lazy" onerror="this.parentElement.style.display='none'">
+</div>
+
+  </div>
+
+  <div class="galeria-ver-mas fade-in">
+    <button class="btn-primary" onclick="verTodasLasObras()" id="btnVerMas" style="border:none;cursor:pointer;">
+      Ver todas las obras (73) →
+    </button>
+  </div>
+</section>
+
+<!-- ══ LIGHTBOX ══ -->
+<div class="lightbox" id="lightbox" onclick="cerrarLightbox(event)">
+  <button class="lightbox-close" onclick="cerrarLightbox()">✕</button>
+  <button class="lightbox-nav lightbox-prev" onclick="navLightbox(-1)">‹</button>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="Obra APPLE Construcciones">
+  <button class="lightbox-nav lightbox-next" onclick="navLightbox(1)">›</button>
+  <div class="lightbox-counter" id="lightboxCounter">1 / 73</div>
+</div>
 
 <!-- ══ APPLEX ══ -->
 <section id="applex">
@@ -1634,6 +2162,48 @@ function procesarPago() {
 
 function consultarWA() {
   window.open('https://wa.me/59173979066?text=Hola,%20tengo%20dudas%20sobre%20los%20cursos%20de%20APPLENDE', '_blank')
+}
+
+
+// ── Galería de obras ──
+const galeriaUrls = ["https://drive.google.com/thumbnail?id=1-64G7z3S4eGZ5mQ23hofqT7p4AKxtayD&sz=w800","https://drive.google.com/thumbnail?id=1-zX72Fbw3uRRak_LnfYvuo3Npc1DJ7pA&sz=w800","https://drive.google.com/thumbnail?id=12HRzDG4c7DgxHoZBaUWOy2sSSG4TEu98&sz=w800","https://drive.google.com/thumbnail?id=130ATl69rx2BWVcIPT1yZQwarSCKDqbsj&sz=w800","https://drive.google.com/thumbnail?id=133Pb-kSN5UW50Xtl9Jk7fJJE1Y8xBcP_&sz=w800","https://drive.google.com/thumbnail?id=13CWS42aMVQEHJKvTKxkN_nTL8E5FJ0y0&sz=w800","https://drive.google.com/thumbnail?id=14O1zaVv-1GeUHgDS8WYT03MR35cJgm7h&sz=w800","https://drive.google.com/thumbnail?id=14u2tmAOK6-glKmme-Qi3ZRoR2mjF8P8H&sz=w800","https://drive.google.com/thumbnail?id=150bB4mIoI-1Aeu2JXuy2J33dxmMuFcP6&sz=w800","https://drive.google.com/thumbnail?id=15OLK5y6A_Ya5cTQimmSlztq0e4EoZ8TC&sz=w800","https://drive.google.com/thumbnail?id=15OZVvABRPIT0R461z_4WlgUijydMSlTn&sz=w800","https://drive.google.com/thumbnail?id=16nQnpviU056hKF69AVSs6PyAn8DYPIYz&sz=w800","https://drive.google.com/thumbnail?id=16wrHOHwryr_C22SNQkhMSpA7TwJw82Hi&sz=w800","https://drive.google.com/thumbnail?id=17RV4IX15J8ojakcgmZigHtdjaR-iSlt9&sz=w800","https://drive.google.com/thumbnail?id=1G5xofNZQzzXkhbi_GG_pO4Dr5KBE9UhH&sz=w800","https://drive.google.com/thumbnail?id=1GSkvDbLEMuu5B0c0cjOT2CtGJLYhkxwd&sz=w800","https://drive.google.com/thumbnail?id=1GYwTw32yhgQ6BMEfxINNksz_9Thk70y0&sz=w800","https://drive.google.com/thumbnail?id=1Ghk9nrWtyA762NLYDbq8RE0zBlPyZlbp&sz=w800","https://drive.google.com/thumbnail?id=1JIvl08kCho11xbbbaKbOhhNFPNuSpac-&sz=w800","https://drive.google.com/thumbnail?id=1KcwxyjZHDmTusqf7-e-baR7CU2EiPEiT&sz=w800","https://drive.google.com/thumbnail?id=1Kh9_zni9T36peCFBB6_67ef9RgrZv_pg&sz=w800","https://drive.google.com/thumbnail?id=1NjPWEwa9BMJF5kaNzjwqxTugXeUPcDD0&sz=w800","https://drive.google.com/thumbnail?id=1O3pzuQ8iEaElC3XDTmjIuQvj9mckhOQh&sz=w800","https://drive.google.com/thumbnail?id=1OxAy5xX2QVF09MSxY7xVrqqtDKdqhyx2&sz=w800","https://drive.google.com/thumbnail?id=1PbaOpkyZpixmhpK5nue7bqPveY-juYVs&sz=w800","https://drive.google.com/thumbnail?id=1SluVmo-MTpuAuwcT9BLVsPGwEWfOba8V&sz=w800","https://drive.google.com/thumbnail?id=1VSeyDaAWv-HhNkgiq1enVNdu3usbESbK&sz=w800","https://drive.google.com/thumbnail?id=1VaLYvDKXAHGjTzVNhLejb60qPjXKi388&sz=w800","https://drive.google.com/thumbnail?id=1W-OljCjp6Zfz2eSH9Vsh_g06W9R_2Fcw&sz=w800","https://drive.google.com/thumbnail?id=1WV7WuuPErRLCMQlIkGurF_7wn_ivVziy&sz=w800","https://drive.google.com/thumbnail?id=1X-emfSwqRUQCZxM5Lpp5iLJ6ut2Z6FbH&sz=w800","https://drive.google.com/thumbnail?id=1YkXa-03QoJOjGkOxNhijDBEzslQdSDsx&sz=w800","https://drive.google.com/thumbnail?id=1ZeYRBWiQwhz4o3gZNjg_bSKlDSTcBZAf&sz=w800","https://drive.google.com/thumbnail?id=1amwLZtanqzZ-ER4dUeicDuXZ8MD7DYrz&sz=w800","https://drive.google.com/thumbnail?id=1cE3oemVjyXTS3EMYfFAVwPMGCoAALcuB&sz=w800","https://drive.google.com/thumbnail?id=1d-YX3nYmVBwVTXr6rISe5dFXoytgcJMd&sz=w800","https://drive.google.com/thumbnail?id=1dYHi5eqJbImwN5uiOnaEz60jVPiA0n8O&sz=w800","https://drive.google.com/thumbnail?id=1ddF8VRYdSGXfGNyoSCVW_CxwRkmxvsBa&sz=w800","https://drive.google.com/thumbnail?id=1ejuo-5Tv7dOXoTN-fxrckKPuso9bjBg9&sz=w800","https://drive.google.com/thumbnail?id=1f1d1yOGjh8Vo9hyAgCNGK11sdxz7dBsB&sz=w800","https://drive.google.com/thumbnail?id=1fDIIcPEgHUl3hnEeqlZueXF27O7sjAqn&sz=w800","https://drive.google.com/thumbnail?id=1fylmTgLWTMmvAcT_UxdHAz6B7HrpAMZV&sz=w800","https://drive.google.com/thumbnail?id=1g6xE3jlzVkehymzjcAGECfWrdnHBv2ol&sz=w800","https://drive.google.com/thumbnail?id=1gyDecCABKCcSwp6dG_8kEHZ8gix8o5ek&sz=w800","https://drive.google.com/thumbnail?id=1hcdP-8dDImYEE583Sf_K2-U5zjsLk5TI&sz=w800","https://drive.google.com/thumbnail?id=1lZzV2EApq5oA66O-csHvmwWjnfR1DCI0&sz=w800","https://drive.google.com/thumbnail?id=1leKPY2iSA8oZ-NkqKIoJ_rSHr_1UH9yC&sz=w800","https://drive.google.com/thumbnail?id=1mLnUE6Rxu-Ga_CevBzNMf52tmbsGE4xt&sz=w800","https://drive.google.com/thumbnail?id=1mNRI5CLIlh_XalGcRo6vfTc37XOLIjbo&sz=w800","https://drive.google.com/thumbnail?id=1mNsuOexvOuFja6gGe-FCNGVppRH0n2Pe&sz=w800","https://drive.google.com/thumbnail?id=1mtdqk2wM4-rsfTU0Z3e0xcbt3rBnTSZN&sz=w800","https://drive.google.com/thumbnail?id=1mv84g3krRTpPNAi2Ry0mmVC8u2eWD6xQ&sz=w800","https://drive.google.com/thumbnail?id=1n0ulkt0-6Xqx_-RBcd61W6wLOH38RhUk&sz=w800","https://drive.google.com/thumbnail?id=1nQtmIv2sO5e3g7WpPfc1nD3KJfucG7TJ&sz=w800","https://drive.google.com/thumbnail?id=1nsZn-VMEk6RYZSa_JwrsOyOWba84nPhw&sz=w800","https://drive.google.com/thumbnail?id=1oIRHN4gojv2D2n3ll0pddm1kPp0Ho3oU&sz=w800","https://drive.google.com/thumbnail?id=1obxeCycnURTkoDWYUj7Wd0bL7iO2NWK4&sz=w800","https://drive.google.com/thumbnail?id=1pG5sU97VOyFUgul4gE07QBY0dyN3FapG&sz=w800","https://drive.google.com/thumbnail?id=1pY0MJmLGxGJV-AlWhdUxeFwd8KjQu71H&sz=w800","https://drive.google.com/thumbnail?id=1qXdIqf_PZfpvOtTGq-wVep4TtwdCpXne&sz=w800","https://drive.google.com/thumbnail?id=1rB6r9IYI3JL94sc7hwfBvwlMFGxL2aVN&sz=w800","https://drive.google.com/thumbnail?id=1u4z_s6P5JCL2FKQ2c6ErWBoybq1uxNrN&sz=w800","https://drive.google.com/thumbnail?id=1uhEiZ3me113-BjOylycRQ08ws9jqM523&sz=w800","https://drive.google.com/thumbnail?id=1vHR3fBwMMirr-2S0VAy9mAeNqARs1v_O&sz=w800","https://drive.google.com/thumbnail?id=1vJ0LS4dNjwnWGPwX6Azbbntcdoa_azr-&sz=w800","https://drive.google.com/thumbnail?id=1x2Xud4It8HkUdYkz8Pzy1ApuP2Zs8S6g&sz=w800","https://drive.google.com/thumbnail?id=1x8-GLlLq7VdPymft8Yk-MhDj1VOKOP1F&sz=w800","https://drive.google.com/thumbnail?id=1x_keCFiqiItLYv-4_miou2IsLCK1iuMc&sz=w800","https://drive.google.com/thumbnail?id=1xjKgOTJMPmeK5CyUrU-YvaOVAZK4h6A0&sz=w800","https://drive.google.com/thumbnail?id=1yGo4uaX7tTqN6uSu0Xc9gSPsSjyOhQpg&sz=w800","https://drive.google.com/thumbnail?id=1zJlwTu2lWsAikG6FbHob62JdNKgaN5pf&sz=w800","https://drive.google.com/thumbnail?id=1zRWjTTVMiNlHQF-t3bmf-IlWECdgtUXn&sz=w800","https://drive.google.com/thumbnail?id=1zvO0noL3CUTKV-wG5dOqqj88kmtOFgMY&sz=w800"]
+let lightboxActual = 0
+let mostrandoTodas = false
+
+function abrirLightbox(idx) {
+  lightboxActual = idx
+  document.getElementById('lightboxImg').src = galeriaUrls[idx]
+  document.getElementById('lightboxCounter').textContent = (idx+1) + ' / ' + galeriaUrls.length
+  document.getElementById('lightbox').classList.add('open')
+  document.body.style.overflow = 'hidden'
+}
+
+function cerrarLightbox(e) {
+  if (!e || e.target === document.getElementById('lightbox') || e.target.classList.contains('lightbox-close')) {
+    document.getElementById('lightbox').classList.remove('open')
+    document.body.style.overflow = ''
+  }
+}
+
+function navLightbox(dir) {
+  lightboxActual = (lightboxActual + dir + galeriaUrls.length) % galeriaUrls.length
+  document.getElementById('lightboxImg').src = galeriaUrls[lightboxActual]
+  document.getElementById('lightboxCounter').textContent = (lightboxActual+1) + ' / ' + galeriaUrls.length
+}
+
+// Teclado para lightbox
+document.addEventListener('keydown', (e) => {
+  if (document.getElementById('lightbox').classList.contains('open')) {
+    if (e.key === 'ArrowRight') navLightbox(1)
+    if (e.key === 'ArrowLeft')  navLightbox(-1)
+    if (e.key === 'Escape')     cerrarLightbox()
+  }
+})
+
+function verTodasLasObras() {
+  const items = document.querySelectorAll('.galeria-item')
+  items.forEach(item => item.style.display = 'block')
+  document.getElementById('btnVerMas').style.display = 'none'
 }
 
 </script>
