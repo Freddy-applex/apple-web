@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APPLE Construcciones & Servicios — Santa Cruz, Bolivia</title>
+<style>
+/* ── VARIABLES DE MARCA ── */
+:root {
+  --bg:       #0A1628;
+  --bg2:      #0E1D35;
+  --accent:   #8DC63F;
+  --accent2:  #6B6BBB;
+  --glow1:    rgba(141,198,63,0.15);
+  --glow2:    rgba(107,107,187,0.12);
+  --fg:       #F0F7E6;
+  --fg2:      rgba(240,247,230,0.65);
+  --border:   rgba(141,198,63,0.12);
+  --border2:  rgba(107,107,187,0.15);
+  --glass:    rgba(10,22,40,0.7);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--bg);
+  color:var(--fg);
+  font-family:'Segoe UI',system-ui,sans-serif;
+  overflow-x:hidden;
+}
+
+/* ── GRID PATTERN ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(141,198,63,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(141,198,63,0.03) 1px,transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;z-index:0;
+}
+
+/* ── NOISE ── */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  opacity:0.018;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:1;
+}
+
+/* ── GLow ORBS ── */
+.orb{
+  position:fixed;border-radius:50%;
+  filter:blur(120px);pointer-events:none;z-index:0;
+  animation:float-orb 20s ease-in-out infinite;
+}
+.orb1{width:600px;height:600px;background:var(--glow1);top:-200px;left:-100px;animation-delay:0s;}
+.orb2{width:500px;height:500px;background:var(--glow2);bottom:-100px;right:-100px;animation-delay:-8s;}
+.orb3{width:400px;height:400px;background:var(--glow1);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:-14s;opacity:0.5;}
+
+@keyframes float-orb{
+  0%,100%{transform:translate(0,0);}
+  33%{transform:translate(30px,-20px);}
+  66%{transform:translate(-20px,30px);}
+}
+
+/* ── GLASS ── */
+.glass{
+  background:var(--glass);
+  backdrop-filter:blur(20px);
+  border:1px solid var(--border);
+}
+
+/* ── GLOW BORDER ── */
+.glow-border{position:relative;overflow:hidden;}
+.glow-border::before{
+  content:'';position:absolute;inset:0;
+  border-radius:inherit;padding:1px;
+  background:linear-gradient(135deg,rgba(141,198,63,0.3),transparent 50%,rgba(107,107,187,0.3));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  pointer-events:none;opacity:0;transition:opacity 0.4s;
+}
+.glow-border:hover::before{opacity:1;}
+
+/* ── GRADIENT TEXT ── */
+.gradient-text{
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 50%,var(--accent) 100%);
+  background-size:200% 200%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:grad-shift 4s ease infinite;
+}
+@keyframes grad-shift{
+  0%,100%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:rgba(141,198,63,0.2);border-radius:3px;}
+
+/* ══════════════════ NAVBAR ══════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 5%;height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:all 0.3s;
+}
+nav.scrolled{
+  background:rgba(10,22,40,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;padding:4px 0;}
+.logo-sq{position:relative;width:38px;height:38px;}
+.sq{position:absolute;border-radius:5px;}
+.sq1{width:22px;height:22px;background:var(--accent);top:0;left:0;}
+.sq2{width:22px;height:22px;background:#BFBFBF;top:6px;left:6px;}
+.sq3{width:22px;height:22px;background:var(--accent2);top:12px;left:12px;display:flex;align-items:center;justify-content:center;}
+.sq3 span{color:#fff;font-weight:900;font-size:12px;}
+.nav-brand-name{font-size:18px;font-weight:800;letter-spacing:2px;color:#fff;}
+.nav-brand-name em{color:var(--accent);font-style:normal;}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{
+  color:rgba(255,255,255,0.65);text-decoration:none;
+  font-size:13px;font-weight:500;letter-spacing:0.5px;
+  position:relative;transition:color 0.2s;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;
+  background:var(--accent);transition:width 0.3s;
+}
+.nav-links a:hover{color:#fff;}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{
+  background:linear-gradient(135deg,var(--accent),#6db520);
+  color:#0A1628 !important;padding:9px 22px;border-radius:6px;
+  font-weight:700 !important;font-size:13px !important;letter-spacing:1px !important;
+  box-shadow:0 0 20px rgba(141,198,63,0.25);
+  transition:all 0.3s !important;
+}
+.nav-cta:hover{box-shadow:0 0 32px rgba(141,198,63,0.45) !important;transform:translateY(-1px);}
+.nav-cta::after{display:none !important;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.3s;}
+.mobile-menu{
+  display:none;position:fixed;top:68px;left:0;right:0;
+  background:rgba(10,22,40,0.97);backdrop-filter:blur(20px);
+  padding:24px 5%;flex-direction:column;gap:16px;
+  border-bottom:1px solid var(--border);z-index:99;
+}
+.mobile-menu a{color:rgba(255,255,255,0.8);text-decoration:none;font-size:16px;font-weight:500;padding:8px 0;border-bottom:1px solid var(--border);}
+.mobile-menu.open{display:flex;}
+
+/* ══════════════════ HERO ══════════════════ */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:120px 5% 80px;position:relative;z-index:2;
+}
+.hero-inner{max-width:760px;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(141,198,63,0.1);border:1px solid rgba(141,198,63,0.25);
+  padding:6px 16px;border-radius:20px;
+  font-size:12px;font-weight:600;letter-spacing:2px;
+  color:var(--accent);text-transform:uppercase;margin-bottom:32px;
+  animation:fade-up 0.6s ease forwards;opacity:0;
+}
+.hero-badge-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--accent);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
+
+.hero-title{
+  font-size:clamp(48px,7vw,84px);
+  font-weight:900;line-height:0.95;
+  letter-spacing:-1px;margin-bottom:28px;
+}
+.hero-title .line{
+  display:block;overflow:hidden;
+}
+.hero-title .line span{
+  display:block;
+  animation:slide-up 0.8s cubic-bezier(0.22,1,0.36,1) forwards;
+  transform:translateY(100%);opacity:0;
+}
+.hero-title .line:nth-child(1) span{animation-delay:0.2s;}
+.hero-title .line:nth-child(2) span{animation-delay:0.35s;}
+.hero-title .line:nth-child(3) span{animation-delay:0.5s;}
+
+@keyframes slide-up{to{transform:translateY(0);opacity:1;}}
+@keyframes fade-up{to{opacity:1;transform:translateY(0);}from{opacity:0;transform:translateY(20px);}}
+
+.hero-desc{
+  font-size:17px;line-height:1.75;color:var(--fg2);
+  max-width:540px;margin-bottom:44px;
+  animation:fade-up 0.8s 0.6s ease forwards;opacity:0;
+}
+.hero-desc strong{color:var(--accent);font-weight:600;}
+
+.hero-btns{
+  display:flex;gap:16px;flex-wrap:wrap;
+  animation:fade-up 0.8s 0.75s ease forwards;opacity:0;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),#6db520);
+  color:#0A1628;padding:16px 36px;border-radius:8px;
+  font-weight:800;font-size:15px;letter-spacing:0.5px;
+  text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+  box-shadow:0 0 30px rgba(141,198,63,0.3);
+  transition:all 0.3s;position:relative;overflow:hidden;
+}
+.btn-primary::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent,rgba(255,255,255,0.1),transparent);
+  transform:translateX(-100%);transition:transform 0.5s;
+}
+.btn-primary:hover::after{transform:translateX(100%);}
+.btn-primary:hover{box-shadow:0 0 50px rgba(141,198,63,0.5);transform:translateY(-2px);}
+
+.btn-outline{
+  border:1px solid rgba(255,255,255,0.2);color:#fff;
+  padding:16px 36px;border-radius:8px;
+  font-weight:600;font-size:15px;letter-spacing:0.5px;
+  text-decoration:none;transition:all 0.3s;
+}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+
+.hero-stats{
+  position:absolute;right:5%;bottom:60px;
+  display:flex;gap:48px;
+  animation:fade-up 0.8s 0.9s ease forwards;opacity:0;
+}
+.hero-stat-num{
+  font-size:40px;font-weight:900;color:var(--accent);
+  display:block;line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.hero-stat-label{font-size:11px;color:var(--fg2);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;}
+
+/* Floating icons */
+.hero-float{
+  position:absolute;right:8%;top:50%;transform:translateY(-50%);
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  opacity:0;animation:fade-up 1s 0.8s ease forwards;
+}
+.float-card{
+  width:80px;height:80px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);
+  backdrop-filter:blur(10px);
+}
+.float-card:nth-child(1){animation:float1 4s ease-in-out infinite;}
+.float-card:nth-child(2){animation:float1 4s ease-in-out infinite 1s;}
+.float-card:nth-child(3){animation:float1 4s ease-in-out infinite 0.5s;}
+.float-card:nth-child(4){animation:float1 4s ease-in-out infinite 1.5s;}
+@keyframes float1{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+
+/* Scroll indicator */
+.scroll-ind{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  animation:fade-up 1s 1.1s ease forwards;opacity:0;
+}
+.scroll-ind-text{font-size:11px;color:var(--fg2);letter-spacing:2px;text-transform:uppercase;}
+.scroll-ind-bar{
+  width:1px;height:40px;background:linear-gradient(var(--accent),transparent);
+  animation:scroll-bar 2s ease-in-out infinite;
+}
+@keyframes scroll-bar{0%,100%{transform:scaleY(1);opacity:1;}50%{transform:scaleY(0.5);opacity:0.4;}}
+
+/* ══════════════════ MARQUEE ══════════════════ */
+.marquee-section{
+  position:relative;z-index:2;
+  padding:0;overflow:hidden;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.marquee-track{
+  display:flex;width:max-content;
+  animation:marquee 25s linear infinite;
+}
+.marquee-item{
+  display:flex;align-items:center;gap:16px;
+  padding:18px 40px;white-space:nowrap;
+  font-size:14px;font-weight:600;letter-spacing:1px;
+  color:var(--fg2);text-transform:uppercase;
+  transition:color 0.2s;
+}
+.marquee-item:hover{color:var(--accent);}
+.marquee-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:0.5;}
+.marquee-section::before,.marquee-section::after{
+  content:'';position:absolute;top:0;bottom:0;width:120px;z-index:3;
+}
+.marquee-section::before{left:0;background:linear-gradient(90deg,var(--bg),transparent);}
+.marquee-section::after{right:0;background:linear-gradient(-90deg,var(--bg),transparent);}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%)}}
+
+/* ══════════════════ SECTIONS COMUNES ══════════════════ */
+section{position:relative;z-index:2;padding:100px 5%;}
+.section-tag{
+  font-size:11px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:14px;display:block;
+}
+.section-title{
+  font-size:clamp(32px,4.5vw,52px);
+  font-weight:900;line-height:1;
+  letter-spacing:-0.5px;margin-bottom:18px;
+}
+.section-sub{
+  font-size:16px;color:var(--fg2);
+  max-width:520px;line-height:1.7;font-weight:300;
+}
+.section-header{margin-bottom:64px;}
+
+/* Fade in on scroll */
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+
+/* ══════════════════ BENTO SERVICIOS ══════════════════ */
+#servicios{background:var(--bg2);}
+.bento{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:auto;
+  gap:16px;
+}
+.bento-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:16px;padding:28px;
+  transition:all 0.4s;cursor:default;
+  position:relative;overflow:hidden;
+}
+.bento-card::before{
+  content:'';position:absolute;inset:0;border-radius:16px;padding:1px;
+  background:linear-gradient(135deg,rgba(141,198,63,0.25),transparent 50%,rgba(107,107,187,0.25));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  pointer-events:none;opacity:0;transition:opacity 0.4s;
+}
+.bento-card:hover::before{opacity:1;}
+.bento-card:hover{background:rgba(141,198,63,0.05);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+.bento-card.wide{grid-column:span 2;}
+.bento-card.tall{grid-row:span 2;}
+.bento-icon{
+  width:52px;height:52px;border-radius:12px;
+  background:rgba(141,198,63,0.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin-bottom:18px;
+  transition:transform 0.3s;
+}
+.bento-card:hover .bento-icon{transform:rotate(8deg) scale(1.1);}
+.bento-card h3{
+  font-size:18px;font-weight:800;color:#fff;
+  margin-bottom:10px;letter-spacing:0.3px;
+}
+.bento-card p{font-size:13px;color:var(--fg2);line-height:1.65;}
+.bento-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;}
+.bento-tag{
+  font-size:11px;font-weight:600;letter-spacing:0.5px;
+  background:rgba(141,198,63,0.08);color:var(--accent);
+  padding:4px 10px;border-radius:20px;
+  border:1px solid rgba(141,198,63,0.15);
+}
+
+/* ══════════════════ STATS ══════════════════ */
+#stats{
+  background:var(--bg);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.stats-title-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:64px;flex-wrap:wrap;gap:24px;
+}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+.stat-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);border-radius:16px;
+  padding:32px 24px;text-align:center;
+  position:relative;overflow:hidden;
+  transition:all 0.3s;
+}
+.stat-card:hover{transform:translateY(-8px);border-color:rgba(141,198,63,0.3);}
+.stat-glow{
+  position:absolute;top:-20px;left:50%;transform:translateX(-50%);
+  width:8px;height:8px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 20px var(--accent);
+  animation:glow-pulse 2s ease-in-out infinite;
+}
+@keyframes glow-pulse{0%,100%{box-shadow:0 0 10px var(--accent);}50%{box-shadow:0 0 30px var(--accent);}}
+.stat-num{
+  font-size:52px;font-weight:900;
+  display:block;line-height:1;margin-bottom:8px;
+}
+.stat-label{font-size:13px;color:var(--fg2);letter-spacing:1px;}
+
+/* ══════════════════ APPLEX ══════════════════ */
+#applex{background:var(--bg2);}
+.applex-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:center;
+}
+.applex-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(107,107,187,0.1);border:1px solid rgba(107,107,187,0.25);
+  padding:6px 16px;border-radius:20px;
+  font-size:11px;font-weight:700;letter-spacing:2px;
+  color:var(--accent2);text-transform:uppercase;margin-bottom:20px;
+}
+.applex-features{margin-top:32px;display:flex;flex-direction:column;gap:12px;}
+.applex-feat{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;border-radius:10px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border2);
+  transition:all 0.3s;
+}
+.applex-feat:hover{background:rgba(107,107,187,0.08);border-color:rgba(107,107,187,0.3);}
+.feat-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+.applex-feat span{font-size:14px;color:rgba(255,255,255,0.8);}
+
+/* Mock de pantalla */
+.mock-screen{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border2);border-radius:20px;
+  padding:24px;position:relative;
+}
+.mock-topbar{display:flex;gap:6px;margin-bottom:20px;}
+.mock-dot{width:10px;height:10px;border-radius:50%;}
+.mock-dot.r{background:#FF5F57;}
+.mock-dot.y{background:#FEBC2E;}
+.mock-dot.g{background:#28C840;}
+.mock-row{display:flex;gap:8px;margin-bottom:10px;}
+.mock-block{height:26px;border-radius:6px;flex:1;}
+.mb-g{background:rgba(141,198,63,0.2);}
+.mb-b{background:rgba(107,107,187,0.3);}
+.mb-d{background:rgba(255,255,255,0.05);}
+.mb-s{flex:0.4;}
+.mock-table{margin-top:16px;display:flex;flex-direction:column;gap:6px;}
+.mock-tr{display:flex;gap:6px;}
+.mock-td{height:16px;border-radius:4px;flex:1;}
+.price-badge{
+  position:absolute;top:-16px;right:20px;
+  background:linear-gradient(135deg,var(--accent),#6db520);
+  color:#0A1628;padding:8px 20px;border-radius:20px;
+  font-weight:800;font-size:13px;letter-spacing:1px;
+}
+.plans-row{display:flex;gap:10px;margin-top:20px;}
+.plan{
+  flex:1;text-align:center;padding:12px 8px;border-radius:10px;
+  border:1px solid var(--border);transition:all 0.3s;
+}
+.plan:hover,.plan.pop{border-color:var(--accent);background:rgba(141,198,63,0.07);}
+.plan-name{font-size:10px;font-weight:700;color:var(--fg2);letter-spacing:1px;text-transform:uppercase;display:block;}
+.plan-price{font-size:22px;font-weight:900;color:var(--accent);display:block;line-height:1.3;}
+.plan-unit{font-size:10px;color:var(--fg2);}
+.pop-label{font-size:9px;font-weight:700;color:var(--accent);letter-spacing:1px;text-transform:uppercase;}
+
+/* ══════════════════ APPLENDE ══════════════════ */
+#academia{background:var(--bg);}
+.academia-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:16px;margin-top:56px;
+}
+.acad-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);border-radius:16px;
+  padding:28px;display:flex;gap:20px;
+  transition:all 0.3s;
+}
+.acad-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+.acad-card.featured{
+  grid-column:span 2;
+  background:linear-gradient(135deg,rgba(141,198,63,0.08),rgba(107,107,187,0.08));
+  border-color:rgba(141,198,63,0.2);
+}
+.acad-num{
+  font-size:52px;font-weight:900;line-height:1;
+  color:rgba(141,198,63,0.25);flex-shrink:0;width:52px;
+}
+.acad-card.featured .acad-num{font-size:68px;color:rgba(141,198,63,0.2);}
+.acad-content h3{
+  font-size:17px;font-weight:800;color:#fff;
+  margin-bottom:8px;letter-spacing:0.3px;
+}
+.acad-card.featured .acad-content h3{font-size:22px;}
+.acad-content p{font-size:13px;color:var(--fg2);line-height:1.6;}
+.acad-badge{
+  display:inline-block;margin-top:12px;
+  background:rgba(141,198,63,0.1);border:1px solid rgba(141,198,63,0.2);
+  color:var(--accent);font-size:11px;font-weight:700;
+  padding:4px 12px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;
+}
+
+/* ══════════════════ CTA ══════════════════ */
+#cta{
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+}
+.cta-card{
+  background:linear-gradient(135deg,rgba(141,198,63,0.08) 0%,rgba(107,107,187,0.08) 100%);
+  border:1px solid rgba(141,198,63,0.2);
+  border-radius:24px;padding:72px;
+  text-align:center;position:relative;overflow:hidden;
+}
+.cta-card::before{
+  content:'';position:absolute;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(141,198,63,0.08),transparent);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  animation:cta-pulse 4s ease-in-out infinite;
+}
+@keyframes cta-pulse{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.1);}}
+.sparkle{
+  position:absolute;font-size:20px;
+  animation:sparkle-float 3s ease-in-out infinite;
+}
+.sparkle:nth-child(1){top:20%;left:10%;animation-delay:0s;}
+.sparkle:nth-child(2){top:15%;right:12%;animation-delay:1s;}
+.sparkle:nth-child(3){bottom:25%;left:8%;animation-delay:0.5s;}
+.sparkle:nth-child(4){bottom:20%;right:10%;animation-delay:1.5s;}
+@keyframes sparkle-float{
+  0%,100%{transform:translateY(0) rotate(0deg);opacity:0.6;}
+  50%{transform:translateY(-15px) rotate(20deg);opacity:1;}
+}
+.cta-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(141,198,63,0.1);border:1px solid rgba(141,198,63,0.2);
+  padding:6px 16px;border-radius:20px;
+  font-size:12px;font-weight:700;letter-spacing:2px;
+  color:var(--accent);text-transform:uppercase;margin-bottom:24px;
+}
+.cta-card h2{
+  font-size:clamp(32px,4vw,52px);font-weight:900;
+  line-height:1.1;margin-bottom:20px;
+}
+.cta-card p{font-size:17px;color:var(--fg2);margin-bottom:40px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.6;}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+
+/* ══════════════════ CONTACTO ══════════════════ */
+#contacto{background:var(--bg);}
+.contact-grid{
+  display:flex;gap:20px;justify-content:center;
+  flex-wrap:wrap;margin-top:56px;
+}
+.contact-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);border-radius:16px;
+  padding:32px 40px;text-align:center;
+  text-decoration:none;transition:all 0.3s;
+  min-width:180px;
+}
+.contact-card:hover{
+  background:rgba(141,198,63,0.06);
+  border-color:rgba(141,198,63,0.3);
+  transform:translateY(-6px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.3);
+}
+.contact-icon{font-size:36px;display:block;margin-bottom:14px;}
+.contact-label{
+  font-size:11px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--accent);
+  display:block;margin-bottom:8px;
+}
+.contact-value{font-size:14px;color:#fff;font-weight:500;}
+.wa-btn{
+  display:inline-flex;align-items:center;gap:12px;
+  background:#25D366;color:#fff;
+  padding:18px 48px;border-radius:12px;
+  font-size:16px;font-weight:800;text-decoration:none;
+  margin-top:56px;transition:all 0.3s;letter-spacing:0.5px;
+  box-shadow:0 0 30px rgba(37,211,102,0.25);
+}
+.wa-btn:hover{background:#1ebe5a;transform:translateY(-3px);box-shadow:0 0 50px rgba(37,211,102,0.45);}
+
+/* ══════════════════ FOOTER ══════════════════ */
+footer{
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  padding:48px 5%;
+  position:relative;z-index:2;
+}
+.footer-inner{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:48px;margin-bottom:48px;
+}
+.footer-brand{margin-bottom:16px;}
+.footer-brand-name{font-size:20px;font-weight:800;letter-spacing:2px;color:#fff;margin-top:12px;}
+.footer-brand-name em{color:var(--accent);font-style:normal;}
+.footer-desc{font-size:13px;color:var(--fg2);line-height:1.7;margin-top:8px;}
+.footer-col h4{
+  font-size:12px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:18px;
+}
+.footer-col a{
+  display:flex;align-items:center;gap:6px;
+  color:var(--fg2);text-decoration:none;font-size:13px;
+  margin-bottom:10px;transition:color 0.2s;
+}
+.footer-col a:hover{color:#fff;}
+.footer-col a::before{content:'→';font-size:11px;opacity:0;transform:translateX(-4px);transition:all 0.2s;}
+.footer-col a:hover::before{opacity:1;transform:translateX(0);}
+.footer-bottom{
+  border-top:1px solid var(--border);padding-top:24px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+}
+.footer-copy{font-size:12px;color:rgba(255,255,255,0.3);}
+.footer-socials{display:flex;gap:10px;}
+.social-pill{
+  padding:6px 16px;border-radius:20px;
+  border:1px solid var(--border);
+  color:var(--fg2);font-size:12px;font-weight:600;
+  text-decoration:none;transition:all 0.2s;
+}
+.social-pill:hover{border-color:var(--accent);color:var(--accent);}
+.footer-heart{animation:heartbeat 1.5s ease-in-out infinite;}
+@keyframes heartbeat{0%,100%{transform:scale(1);}50%{transform:scale(1.2);}}
+
+/* ══════════════════ RESPONSIVE ══════════════════ */
+@media(max-width:900px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .hero-float{display:none;}
+  .hero-stats{display:none;}
+  .bento{grid-template-columns:1fr;}
+  .bento-card.wide{grid-column:span 1;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .applex-inner{grid-template-columns:1fr;}
+  .academia-grid{grid-template-columns:1fr;}
+  .acad-card.featured{grid-column:span 1;}
+  .footer-inner{grid-template-columns:1fr 1fr;}
+  .cta-card{padding:40px 24px;}
+}
+@media(max-width:600px){
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .hero-title{font-size:42px;}
+  .footer-inner{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── ORBs ── -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- ══ NAVBAR ══ -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <svg height="48" viewBox="0 0 680 230" xmlns="http://www.w3.org/2000/svg" style="width:auto;">
+      <defs>
+        <clipPath id="sqclipnav">
+          <rect x="52" y="52" width="100" height="100" rx="12"/>
+        </clipPath>
+        <style>@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&amp;display=swap');</style>
+      </defs>
+      <rect x="20" y="20" width="100" height="100" rx="12" fill="#8DC63F"/>
+      <rect x="36" y="36" width="100" height="100" rx="12" fill="#BFBFBF"/>
+      <rect x="52" y="52" width="100" height="100" rx="12" fill="#6B6BBB"/>
+      <line x1="102" y1="52" x2="102" y2="152" stroke="white" stroke-width="2.5" opacity="0.4"/>
+      <line x1="52"  y1="102" x2="152" y2="102" stroke="white" stroke-width="2.5" opacity="0.4"/>
+      <g clip-path="url(#sqclipnav)">
+        <path d="M102 56 C74 56 57 74 57 100 L57 156 L77 156 L77 102 C77 82 88 74 102 74 C116 74 127 82 127 102 L127 156 L147 156 L147 100 C147 74 130 56 102 56Z" fill="white"/>
+        <path d="M102 76 C90 76 83 84 83 100 L83 156 L121 156 L121 100 C121 84 114 76 102 76Z" fill="#6B6BBB"/>
+        <rect x="77" y="116" width="50" height="12" fill="white"/>
+      </g>
+      <text font-family="'Josefin Sans','Century Gothic',sans-serif" font-weight="700" font-size="118" letter-spacing="-4">
+        <tspan x="162" y="150" fill="#BFBFBF">PP</tspan><tspan fill="#6B6BBB">LE</tspan>
+      </text>
+      <text x="52" y="200" font-family="'Josefin Sans','Century Gothic',sans-serif" font-weight="700" font-size="20" fill="#6B6BBB" letter-spacing="6">CONSTRUCCIONES &amp; SERVICIOS</text>
+    </svg>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#applex">APPLEX Pro</a></li>
+    <li><a href="#academia">Academia</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+    <li><a href="https://wa.me/59173979066" target="_blank" class="nav-cta">Consultar →</a></li>
+  </ul>
+
+  <div class="hamburger" onclick="toggleMenu()" id="ham">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#servicios" onclick="toggleMenu()">Servicios</a>
+  <a href="#applex" onclick="toggleMenu()">APPLEX Pro</a>
+  <a href="#academia" onclick="toggleMenu()">Academia APPLENDE</a>
+  <a href="#contacto" onclick="toggleMenu()">Contacto</a>
+  <a href="https://wa.me/59173979066" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="inicio">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Santa Cruz de la Sierra · Bolivia
+    </div>
+
+    <h1 class="hero-title">
+      <span class="line"><span>CONSTRUIMOS</span></span>
+      <span class="line"><span class="gradient-text">EL FUTURO</span></span>
+      <span class="line"><span style="color:rgba(255,255,255,0.4)">DE LA OBRA</span></span>
+    </h1>
+
+    <p class="hero-desc">
+      Empresa boliviana especializada en <strong>construcción civil</strong>,
+      software de presupuestos <strong>APPLEX Pro</strong> y capacitación
+      profesional en la <strong>Academia APPLENDE</strong>.
+    </p>
+
+    <div class="hero-btns">
+      <a href="#servicios" class="btn-primary">Ver servicios ↓</a>
+      <a href="#contacto" class="btn-outline">Contactar</a>
+    </div>
+  </div>
+
+  <div class="hero-float">
+    <div class="float-card">🏗️</div>
+    <div class="float-card">📐</div>
+    <div class="float-card">💻</div>
+    <div class="float-card">🎓</div>
+  </div>
+
+  <div class="hero-stats">
+    <div>
+      <span class="hero-stat-num" data-target="15">0</span>+
+      <div class="hero-stat-label">Años de experiencia</div>
+    </div>
+    <div>
+      <span class="hero-stat-num" data-target="200">0</span>+
+      <div class="hero-stat-label">Proyectos ejecutados</div>
+    </div>
+    <div>
+      <span class="hero-stat-num" data-target="4418">0</span>+
+      <div class="hero-stat-label">Materiales en BD</div>
+    </div>
+  </div>
+
+  <div class="scroll-ind">
+    <span class="scroll-ind-text">Scroll</span>
+    <div class="scroll-ind-bar"></div>
+  </div>
+</section>
+
+<!-- ══ MARQUEE ══ -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marquee">
+    <div class="marquee-item">🏗️ Obras Civiles<div class="marquee-dot"></div></div>
+    <div class="marquee-item">📐 Cómputo Métrico<div class="marquee-dot"></div></div>
+    <div class="marquee-item">💻 APPLEX Pro<div class="marquee-dot"></div></div>
+    <div class="marquee-item">🎓 Academia APPLENDE<div class="marquee-dot"></div></div>
+    <div class="marquee-item">📊 APU & Presupuestos<div class="marquee-dot"></div></div>
+    <div class="marquee-item">🏛️ Licitaciones SICOES<div class="marquee-dot"></div></div>
+    <div class="marquee-item">⚡ SECON Bolivia<div class="marquee-dot"></div></div>
+    <div class="marquee-item">🌿 FIS / FPS<div class="marquee-dot"></div></div>
+    <div class="marquee-item">🏗️ Obras Civiles<div class="marquee-dot"></div></div>
+    <div class="marquee-item">📐 Cómputo Métrico<div class="marquee-dot"></div></div>
+    <div class="marquee-item">💻 APPLEX Pro<div class="marquee-dot"></div></div>
+    <div class="marquee-item">🎓 Academia APPLENDE<div class="marquee-dot"></div></div>
+    <div class="marquee-item">📊 APU & Presupuestos<div class="marquee-dot"></div></div>
+    <div class="marquee-item">🏛️ Licitaciones SICOES<div class="marquee-dot"></div></div>
+    <div class="marquee-item">⚡ SECON Bolivia<div class="marquee-dot"></div></div>
+    <div class="marquee-item">🌿 FIS / FPS<div class="marquee-dot"></div></div>
+  </div>
+</div>
+
+<!-- ══ SERVICIOS ══ -->
+<section id="servicios">
+  <div class="section-header fade-in">
+    <span class="section-tag">Lo que hacemos</span>
+    <h2 class="section-title">Nuestros <span class="gradient-text">servicios</span></h2>
+    <p class="section-sub">Tres líneas de trabajo integradas para llevar tu proyecto del plano a la realidad.</p>
+  </div>
+
+  <div class="bento">
+    <div class="bento-card wide glow-border fade-in">
+      <div class="bento-icon">🏠</div>
+      <h3>Construcción de Vivienda y Edificios</h3>
+      <p>Diseño, cómputo y ejecución de viviendas unifamiliares, multifamiliares y edificios comerciales con materiales de calidad y control de obra permanente bajo metodología del Arq. Freddy Velásquez.</p>
+      <div class="bento-tags">
+        <span class="bento-tag">Obra Gruesa</span>
+        <span class="bento-tag">Obra Fina</span>
+        <span class="bento-tag">Instalaciones</span>
+        <span class="bento-tag">Santa Cruz</span>
+      </div>
+    </div>
+
+    <div class="bento-card glow-border fade-in">
+      <div class="bento-icon">📐</div>
+      <h3>Presupuestos y Cómputos</h3>
+      <p>Elaboración de presupuestos detallados con APU, cómputo métrico y cronograma de obra con metodología PRESCOM.</p>
+      <div class="bento-tags">
+        <span class="bento-tag">APU</span>
+        <span class="bento-tag">SECON</span>
+      </div>
+    </div>
+
+    <div class="bento-card glow-border fade-in">
+      <div class="bento-icon">🔍</div>
+      <h3>Supervisión de Obra</h3>
+      <p>Control técnico y económico de proyectos en ejecución. Seguimiento de avance físico y reportes de gestión.</p>
+      <div class="bento-tags">
+        <span class="bento-tag">Control</span>
+        <span class="bento-tag">Reportes</span>
+      </div>
+    </div>
+
+    <div class="bento-card glow-border fade-in">
+      <div class="bento-icon">📋</div>
+      <h3>Licitaciones SICOES</h3>
+      <p>Propuestas técnicas y económicas para licitaciones públicas bajo normas SABS y SICOES Bolivia.</p>
+      <div class="bento-tags">
+        <span class="bento-tag">SICOES</span>
+        <span class="bento-tag">SABS</span>
+      </div>
+    </div>
+
+    <div class="bento-card glow-border fade-in">
+      <div class="bento-icon">🌿</div>
+      <h3>Infraestructura FIS/FPS</h3>
+      <p>Sistemas de agua potable, alcantarillado y vías para comunidades bajo metodología FIS/FPS.</p>
+      <div class="bento-tags">
+        <span class="bento-tag">Agua Potable</span>
+        <span class="bento-tag">Vías</span>
+      </div>
+    </div>
+
+    <div class="bento-card glow-border fade-in">
+      <div class="bento-icon">🏢</div>
+      <h3>Proyectos Comerciales</h3>
+      <p>Construcción y remodelación de locales, oficinas y edificios de uso mixto en Santa Cruz de la Sierra.</p>
+      <div class="bento-tags">
+        <span class="bento-tag">Remodelación</span>
+        <span class="bento-tag">Acabados</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STATS ══ -->
+<section id="stats">
+  <div class="stats-title-row fade-in">
+    <div>
+      <span class="section-tag">Números que hablan</span>
+      <h2 class="section-title">APPLE en <span class="gradient-text">cifras</span></h2>
+    </div>
+    <p class="section-sub" style="max-width:360px;">Años de trabajo en construcción civil boliviana respaldando cada número.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card glow-border fade-in">
+      <div class="stat-glow"></div>
+      <span class="stat-num gradient-text" data-count="15">0</span>+
+      <div class="stat-label">Años de experiencia</div>
+    </div>
+    <div class="stat-card glow-border fade-in">
+      <div class="stat-glow"></div>
+      <span class="stat-num gradient-text" data-count="200">0</span>+
+      <div class="stat-label">Proyectos ejecutados</div>
+    </div>
+    <div class="stat-card glow-border fade-in">
+      <div class="stat-glow"></div>
+      <span class="stat-num gradient-text" data-count="4418">0</span>
+      <div class="stat-label">Materiales en base de datos</div>
+    </div>
+    <div class="stat-card glow-border fade-in">
+      <div class="stat-glow"></div>
+      <span class="stat-num gradient-text" data-count="4">0</span>
+      <div class="stat-label">Cursos especializados</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ APPLEX ══ -->
+<section id="applex">
+  <div class="applex-inner">
+    <div class="fade-in">
+      <span class="applex-badge">✦ Software 100% Boliviano</span>
+      <h2 class="section-title">APPLEX <span class="gradient-text">Pro</span></h2>
+      <p class="section-sub">Sistema de presupuestos y gestión de obra con base de datos PRESCOM de más de 4,400 materiales y precios reales de Santa Cruz.</p>
+
+      <div class="applex-features">
+        <div class="applex-feat"><div class="feat-dot"></div><span>Cómputo métrico con positivos y descuentos en tiempo real</span></div>
+        <div class="applex-feat"><div class="feat-dot"></div><span>APU con BD PRESCOM — 12 bases integradas</span></div>
+        <div class="applex-feat"><div class="feat-dot"></div><span>Presupuesto con tipo de cambio Bs / $US automático</span></div>
+        <div class="applex-feat"><div class="feat-dot"></div><span>Cronograma Gantt y control de obra</span></div>
+        <div class="applex-feat"><div class="feat-dot"></div><span>Exportación a Excel y formularios SAPS/SICOES</span></div>
+        <div class="applex-feat"><div class="feat-dot"></div><span>Acceso desde cualquier dispositivo · Nube</span></div>
+      </div>
+
+      <div style="margin-top:32px;">
+        <a href="https://wa.me/59173979066?text=Quiero%20acceso%20a%20APPLEX%20Pro" target="_blank" class="btn-primary">Solicitar acceso →</a>
+      </div>
+    </div>
+
+    <div class="fade-in">
+      <div class="mock-screen">
+        <div class="price-badge">Desde Bs 20/mes</div>
+        <div class="mock-topbar">
+          <div class="mock-dot r"></div>
+          <div class="mock-dot y"></div>
+          <div class="mock-dot g"></div>
+        </div>
+        <div class="mock-row">
+          <div class="mock-block mb-g"></div>
+          <div class="mock-block mb-b mb-s"></div>
+        </div>
+        <div class="mock-row">
+          <div class="mock-block mb-d"></div>
+          <div class="mock-block mb-d"></div>
+          <div class="mock-block mb-b mb-s"></div>
+        </div>
+        <div class="mock-table">
+          <div class="mock-tr"><div class="mock-td mb-g"></div><div class="mock-td mb-b"></div><div class="mock-td mb-d"></div><div class="mock-td mb-g"></div></div>
+          <div class="mock-tr"><div class="mock-td mb-d"></div><div class="mock-td mb-g"></div><div class="mock-td mb-b"></div><div class="mock-td mb-d"></div></div>
+          <div class="mock-tr"><div class="mock-td mb-b"></div><div class="mock-td mb-d"></div><div class="mock-td mb-g"></div><div class="mock-td mb-b"></div></div>
+          <div class="mock-tr"><div class="mock-td mb-g"></div><div class="mock-td mb-b"></div><div class="mock-td mb-d"></div><div class="mock-td mb-g"></div></div>
+          <div class="mock-tr"><div class="mock-td mb-d"></div><div class="mock-td mb-d"></div><div class="mock-td mb-b"></div><div class="mock-td mb-d"></div></div>
+        </div>
+        <div class="plans-row">
+          <div class="plan">
+            <span class="plan-name">Estudiante</span>
+            <span class="plan-price">20</span>
+            <span class="plan-unit">Bs/mes</span>
+          </div>
+          <div class="plan pop">
+            <span class="plan-name">Profesional</span>
+            <span class="plan-price">50</span>
+            <span class="plan-unit">Bs/mes</span>
+            <span class="pop-label">★ Popular</span>
+          </div>
+          <div class="plan">
+            <span class="plan-name">Empresa</span>
+            <span class="plan-price">220</span>
+            <span class="plan-unit">Bs/mes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ACADEMIA ══ -->
+<section id="academia">
+  <div class="section-header fade-in">
+    <span class="section-tag">Formación profesional</span>
+    <h2 class="section-title">Academia <span class="gradient-text">APPLENDE</span></h2>
+    <p class="section-sub">Cursos virtuales dictados por el Arq. Freddy Velásquez para profesionales de la construcción y las finanzas en Bolivia.</p>
+  </div>
+
+  <div class="academia-grid">
+    <div class="acad-card featured glow-border fade-in">
+      <div class="acad-num">01</div>
+      <div class="acad-content">
+        <h3>Cómputo y Presupuestos con APPLEX Pro</h3>
+        <p>Aprende a elaborar presupuestos de obra completos usando APPLEX Pro — desde el cómputo métrico hasta el presupuesto final con APUs y cronograma. Metodología real del Arq. Freddy aplicada en obra.</p>
+        <span class="acad-badge">⭐ Curso estrella · Bs 149</span>
+      </div>
+    </div>
+
+    <div class="acad-card glow-border fade-in">
+      <div class="acad-num">02</div>
+      <div class="acad-content">
+        <h3>Control de Obra con SECON</h3>
+        <p>Seguimiento económico de proyectos. Kardex de materiales, avance físico, planillas y flujo de fondos.</p>
+        <span class="acad-badge">Construcción · Bs 129</span>
+      </div>
+    </div>
+
+    <div class="acad-card glow-border fade-in">
+      <div class="acad-num">03</div>
+      <div class="acad-content">
+        <h3>Finanzas para No Financieros con IA</h3>
+        <p>Estados financieros, modelación, Power BI y análisis con ChatGPT/Claude para ingenieros.</p>
+        <span class="acad-badge">IA + Finanzas · Bs 179</span>
+      </div>
+    </div>
+
+    <div class="acad-card glow-border fade-in">
+      <div class="acad-num">04</div>
+      <div class="acad-content">
+        <h3>Licitaciones y Propuestas SICOES</h3>
+        <p>Propuestas técnicas y económicas ganadoras para licitaciones públicas del Estado Boliviano.</p>
+        <span class="acad-badge">Bolivia · Bs 199</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section id="cta">
+  <div class="cta-card fade-in">
+    <div class="sparkle">✦</div>
+    <div class="sparkle">✦</div>
+    <div class="sparkle">✦</div>
+    <div class="sparkle">✦</div>
+
+    <div class="cta-badge">🚀 Empieza hoy</div>
+    <h2>¿Listo para llevar tu obra<br><span class="gradient-text">al siguiente nivel?</span></h2>
+    <p>Únete a los profesionales de la construcción boliviana que ya usan APPLEX Pro y Academia APPLENDE para presupuestar mejor y aprender más.</p>
+    <div class="cta-btns">
+      <a href="https://wa.me/59173979066?text=Quiero%20información%20sobre%20APPLE%20Construcciones" target="_blank" class="btn-primary">💬 Hablar con nosotros</a>
+      <a href="#academia" class="btn-outline">Ver cursos</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACTO ══ -->
+<section id="contacto" style="text-align:center;">
+  <div class="section-header fade-in">
+    <span class="section-tag">Hablemos</span>
+    <h2 class="section-title" style="margin:0 auto;">Contáctanos</h2>
+    <p class="section-sub" style="margin:16px auto 0;">Estamos en Santa Cruz de la Sierra, Bolivia. Respondemos de inmediato.</p>
+  </div>
+
+  <div class="contact-grid fade-in">
+    <a class="contact-card" href="tel:+59173979066">
+      <span class="contact-icon">📞</span>
+      <span class="contact-label">Teléfono</span>
+      <span class="contact-value">+591 73979066</span>
+    </a>
+    <a class="contact-card" href="mailto:apple.construcciones.bo@gmail.com">
+      <span class="contact-icon">✉️</span>
+      <span class="contact-label">Email</span>
+      <span class="contact-value">apple.construcciones.bo<br>@gmail.com</span>
+    </a>
+    <div class="contact-card">
+      <span class="contact-icon">📍</span>
+      <span class="contact-label">Ubicación</span>
+      <span class="contact-value">Santa Cruz de la Sierra<br>Bolivia</span>
+    </div>
+  </div>
+
+  <a href="https://wa.me/59173979066?text=Hola,%20me%20interesa%20conocer%20más%20sobre%20APPLE%20Construcciones%20%26%20Servicios" target="_blank" class="wa-btn fade-in">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Escribir por WhatsApp
+  </a>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">
+        <svg height="60" viewBox="0 0 680 230" xmlns="http://www.w3.org/2000/svg" style="width:auto;margin-bottom:12px;">
+          <defs>
+            <clipPath id="sqclipfooter">
+              <rect x="52" y="52" width="100" height="100" rx="12"/>
+            </clipPath>
+          </defs>
+          <rect x="20" y="20" width="100" height="100" rx="12" fill="#8DC63F"/>
+          <rect x="36" y="36" width="100" height="100" rx="12" fill="#BFBFBF"/>
+          <rect x="52" y="52" width="100" height="100" rx="12" fill="#6B6BBB"/>
+          <line x1="102" y1="52" x2="102" y2="152" stroke="white" stroke-width="2.5" opacity="0.4"/>
+          <line x1="52"  y1="102" x2="152" y2="102" stroke="white" stroke-width="2.5" opacity="0.4"/>
+          <g clip-path="url(#sqclipfooter)">
+            <path d="M102 56 C74 56 57 74 57 100 L57 156 L77 156 L77 102 C77 82 88 74 102 74 C116 74 127 82 127 102 L127 156 L147 156 L147 100 C147 74 130 56 102 56Z" fill="white"/>
+            <path d="M102 76 C90 76 83 84 83 100 L83 156 L121 156 L121 100 C121 84 114 76 102 76Z" fill="#6B6BBB"/>
+            <rect x="77" y="116" width="50" height="12" fill="white"/>
+          </g>
+          <text font-family="'Josefin Sans','Century Gothic',sans-serif" font-weight="700" font-size="118" letter-spacing="-4">
+            <tspan x="162" y="150" fill="#BFBFBF">PP</tspan><tspan fill="#6B6BBB">LE</tspan>
+          </text>
+          <text x="52" y="200" font-family="'Josefin Sans','Century Gothic',sans-serif" font-weight="700" font-size="20" fill="#6B6BBB" letter-spacing="6">CONSTRUCCIONES &amp; SERVICIOS</text>
+        </svg>
+      </div>
+      <p class="footer-desc">Empresa boliviana de construcción civil, software <strong style="color:var(--accent)">APPLEX Pro</strong> y Academia APPLENDE. Santa Cruz de la Sierra, Bolivia.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <a href="#servicios">Servicios</a>
+      <a href="#stats">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Productos</h4>
+      <a href="#applex">APPLEX Pro</a>
+      <a href="#academia">Academia APPLENDE</a>
+      <a href="https://wa.me/59173979066" target="_blank">Solicitar demo</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Cursos</h4>
+      <a href="#academia">Cómputo y Presupuestos</a>
+      <a href="#academia">Control de Obra SECON</a>
+      <a href="#academia">Finanzas con IA</a>
+      <a href="#academia">Licitaciones SICOES</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 APPLE Construcciones & Servicios · Santa Cruz, Bolivia · Hecho con <span class="footer-heart">❤️</span> en Bolivia</span>
+    <div class="footer-socials">
+      <a href="https://wa.me/59173979066" target="_blank" class="social-pill">WhatsApp</a>
+      <a href="#" class="social-pill">Facebook</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Navbar scroll ──
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30)
+})
+
+// ── Mobile menu ──
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open')
+}
+
+// ── Fade in on scroll ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80)
+      observer.unobserve(e.target)
+    }
+  })
+}, { threshold: 0.1 })
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el))
+
+// ── Animated counters ──
+function animateCounter(el, target, duration = 2000) {
+  let start = 0
+  const step = target / (duration / 16)
+  const timer = setInterval(() => {
+    start += step
+    if (start >= target) { el.textContent = target.toLocaleString(); clearInterval(timer); return }
+    el.textContent = Math.floor(start).toLocaleString()
+  }, 16)
+}
+
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const target = parseInt(e.target.dataset.count)
+      animateCounter(e.target, target)
+      counterObs.unobserve(e.target)
+    }
+  })
+}, { threshold: 0.5 })
+document.querySelectorAll('[data-count]').forEach(el => counterObs.observe(el))
+</script>
+</body>
+</html>
