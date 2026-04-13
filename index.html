@@ -1014,6 +1014,151 @@ footer{
 @media(max-width:600px){
   .galeria-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
 }
+
+/* ══════════════════ EQUIPO ══════════════════ */
+.equipo-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:24px;margin-top:48px;
+}
+.equipo-director{
+  grid-column:span 2;
+  background:linear-gradient(135deg,rgba(141,198,63,0.08),rgba(107,107,187,0.08));
+  border:1px solid rgba(141,198,63,0.2);
+  border-radius:20px;padding:36px;
+  display:flex;gap:32px;align-items:center;
+}
+.equipo-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:20px;padding:28px;
+  display:flex;flex-direction:column;gap:16px;
+  transition:all 0.3s;
+}
+.equipo-card:hover{border-color:rgba(107,107,187,0.3);transform:translateY(-4px);}
+.equipo-avatar{
+  width:80px;height:80px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:36px;flex-shrink:0;
+}
+.equipo-avatar.director{
+  width:100px;height:100px;font-size:48px;
+  background:linear-gradient(135deg,rgba(141,198,63,0.2),rgba(107,107,187,0.2));
+  border:2px solid rgba(141,198,63,0.3);
+}
+.equipo-avatar.coord{
+  background:rgba(107,107,187,0.15);
+  border:2px solid rgba(107,107,187,0.2);
+}
+.equipo-nivel{
+  font-size:10px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--accent);margin-bottom:4px;
+}
+.equipo-nombre{font-size:20px;font-weight:800;color:#fff;margin-bottom:4px;}
+.equipo-cargo{
+  font-size:13px;font-weight:600;color:var(--accent2);
+  margin-bottom:10px;
+}
+.equipo-desc{font-size:13px;color:var(--fg2);line-height:1.7;}
+.equipo-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(141,198,63,0.1);border:1px solid rgba(141,198,63,0.2);
+  color:var(--accent);font-size:11px;font-weight:700;
+  padding:4px 12px;border-radius:20px;letter-spacing:0.5px;
+  margin-top:8px;width:fit-content;
+}
+
+@media(max-width:900px){
+  .equipo-grid{grid-template-columns:1fr;}
+  .equipo-director{grid-column:span 1;flex-direction:column;text-align:center;}
+}
+
+/* ══════════════════ EQUIPO ══════════════════ */
+.equipo-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:24px;margin-top:56px;
+}
+.equipo-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:20px;padding:32px 28px;
+  display:flex;flex-direction:column;
+  align-items:center;text-align:center;
+  transition:all 0.4s;position:relative;
+  overflow:hidden;
+}
+.equipo-card::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0.4s;
+}
+.equipo-card:hover::before{transform:scaleX(1);}
+.equipo-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 24px 64px rgba(0,0,0,0.3);
+  border-color:rgba(141,198,63,0.2);
+}
+.equipo-card.director{
+  grid-column:span 3;
+  flex-direction:row;text-align:left;gap:40px;
+  background:linear-gradient(135deg,rgba(141,198,63,0.06),rgba(107,107,187,0.06));
+  border-color:rgba(141,198,63,0.2);
+}
+.equipo-avatar{
+  width:100px;height:100px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(107,107,187,0.3),rgba(141,198,63,0.2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:42px;flex-shrink:0;
+  border:3px solid rgba(141,198,63,0.2);
+  position:relative;
+}
+.equipo-card.director .equipo-avatar{
+  width:120px;height:120px;font-size:52px;
+}
+.equipo-nivel{
+  position:absolute;bottom:-4px;right:-4px;
+  background:linear-gradient(135deg,var(--accent),#6db520);
+  color:#0A1628;font-size:10px;font-weight:800;
+  padding:3px 8px;border-radius:10px;letter-spacing:0.5px;
+  white-space:nowrap;
+}
+.equipo-info{flex:1;}
+.equipo-nombre{
+  font-size:20px;font-weight:800;color:#fff;
+  margin-bottom:6px;line-height:1.2;
+}
+.equipo-card.director .equipo-nombre{font-size:24px;}
+.equipo-cargo{
+  font-size:12px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:14px;display:block;
+}
+.equipo-desc{
+  font-size:13px;color:var(--fg2);
+  line-height:1.7;
+}
+.equipo-card:not(.director) .equipo-info{
+  margin-top:16px;
+}
+
+/* Organigrama visual */
+.org-divider{
+  display:flex;align-items:center;gap:16px;
+  margin:32px 0 0;
+}
+.org-line{flex:1;height:1px;background:var(--border);}
+.org-label{
+  font-size:11px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--fg2);
+  white-space:nowrap;
+}
+
+@media(max-width:900px){
+  .equipo-grid{grid-template-columns:1fr;}
+  .equipo-card.director{grid-column:span 1;flex-direction:column;text-align:center;}
+}
 </style>
 </head>
 <body>
@@ -1051,12 +1196,12 @@ footer{
   </a>
 
   <ul class="nav-links">
-    <li><a href="#nosotros">Sobre Nosotros</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
     <li><a href="#servicios">Servicios</a></li>
-    <li><a href="#galeria">Obras</a></li>
+    <li><a href="#academia">Academia APPLENDE</a></li>
     <li><a href="#applex">APPLEX Pro</a></li>
-    <li><a href="#academia">Academia</a></li>
-    <li><a href="https://wa.me/59173979066" target="_blank" class="nav-cta">Contactar →</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+    <li><a href="https://wa.me/59173979066" target="_blank" class="nav-cta">Consultar →</a></li>
   </ul>
 
   <div class="hamburger" onclick="toggleMenu()" id="ham">
@@ -1065,11 +1210,10 @@ footer{
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#nosotros" onclick="toggleMenu()">Sobre Nosotros</a>
+  <a href="#nosotros" onclick="toggleMenu()">Nosotros</a>
   <a href="#servicios" onclick="toggleMenu()">Servicios</a>
-  <a href="#galeria" onclick="toggleMenu()">Obras</a>
-  <a href="#applex" onclick="toggleMenu()">APPLEX Pro</a>
   <a href="#academia" onclick="toggleMenu()">Academia APPLENDE</a>
+  <a href="#applex" onclick="toggleMenu()">APPLEX Pro</a>
   <a href="#contacto" onclick="toggleMenu()">Contacto</a>
   <a href="https://wa.me/59173979066" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
 </div>
@@ -1152,92 +1296,91 @@ footer{
 
 <!-- ══ NOSOTROS ══ -->
 <section id="nosotros">
-  <div class="nosotros-inner">
+  <div class="section-header fade-in">
+    <span class="section-tag">Quiénes somos</span>
+    <h2 class="section-title">Nuestro <span class="gradient-text">equipo</span></h2>
+    <p class="section-sub">Un equipo de profesionales bolivianos comprometidos con la excelencia en construcción, educación y tecnología.</p>
+  </div>
 
-    <!-- Avatar -->
-    <div class="avatar-wrapper fade-in">
-      <div class="float-cards left">
-        <div class="float-stat-card">
-          <span class="float-stat-num">20+</span>
-          <div class="float-stat-label">Años de experiencia</div>
-        </div>
-        <div class="float-stat-card">
-          <span class="float-stat-num">50+</span>
-          <div class="float-stat-label">Obras ejecutadas</div>
-        </div>
+  <!-- Nivel 1: Director General -->
+  <div class="fade-in">
+    <div class="org-divider">
+      <div class="org-line"></div>
+      <div class="org-label">Dirección General</div>
+      <div class="org-line"></div>
+    </div>
+  </div>
+
+  <div class="equipo-grid fade-in" style="margin-top:20px;">
+    <div class="equipo-card director glow-border">
+      <div class="equipo-avatar">
+        👷
+        <div class="equipo-nivel">Fundador</div>
       </div>
-
-      <div class="avatar-ring">
-        <div class="avatar-img">
-          <span class="avatar-placeholder">👷</span>
-        </div>
+      <div class="equipo-info">
+        <h3 class="equipo-nombre">Arq. Freddy Gabriel Velásquez Reinaga</h3>
+        <span class="equipo-cargo">Director General & Fundador</span>
+        <p class="equipo-desc">Arquitecto con Maestría en Gerencia de la Construcción Civil y más de 20 años de experiencia en obra civil boliviana. Docente universitario y creador de la metodología APPLEX aplicada en más de 50 obras y 100 proyectos en Bolivia.</p>
       </div>
-      <div class="avatar-badge">Arq. & MSc.</div>
+    </div>
+  </div>
 
-      <div class="float-cards right">
-        <div class="float-stat-card">
-          <span class="float-stat-num">100+</span>
-          <div class="float-stat-label">Proyectos realizados</div>
-        </div>
-        <div class="float-stat-card">
-          <span class="float-stat-num">SCZ</span>
-          <div class="float-stat-label">Bolivia</div>
-        </div>
+  <!-- Nivel 2: Coordinación -->
+  <div class="fade-in">
+    <div class="org-divider" style="margin-top:24px;">
+      <div class="org-line"></div>
+      <div class="org-label">Coordinación</div>
+      <div class="org-line"></div>
+    </div>
+  </div>
+
+  <div class="equipo-grid fade-in" style="margin-top:20px;grid-template-columns:1fr 1fr;">
+
+    <div class="equipo-card glow-border">
+      <div class="equipo-avatar">
+        💼
+        <div class="equipo-nivel">Admin & Tech</div>
+      </div>
+      <div class="equipo-info">
+        <h3 class="equipo-nombre">Ing. Gustavo Velásquez</h3>
+        <span class="equipo-cargo">Coordinador Administrativo, Financiero & Tecnológico</span>
+        <p class="equipo-desc">Responsable de la administración y finanzas de APPLE Construcciones & Servicios, así como de los servicios tecnológicos que brinda la empresa, incluyendo la plataforma web, el software APPLEX Pro y el ecosistema digital.</p>
       </div>
     </div>
 
-    <!-- Contenido -->
-    <div class="nosotros-content fade-in">
-      <div>
-        <span class="nosotros-cargo">Fundador & Director General</span>
-        <h2 class="nosotros-titulo">
-          Arq. Freddy<br>
-          <span class="gradient-text">Velásquez</span><br>
-          Reinaga
-        </h2>
+    <div class="equipo-card glow-border">
+      <div class="equipo-avatar">
+        🎓
+        <div class="equipo-nivel">Academia</div>
       </div>
-
-      <p class="nosotros-desc">
-        Arquitecto con más de <strong style="color:#fff">20 años de experiencia</strong> en construcción civil boliviana. 
-        Magíster en Gerencia de la Construcción Civil, docente universitario y fundador de 
-        <strong style="color:var(--accent)">APPLE Construcciones & Servicios</strong>. 
-        Ha ejecutado más de 50 obras y 100 proyectos en Bolivia combinando metodología técnica rigurosa 
-        con innovación en software de presupuestos.
-      </p>
-
-      <div class="nosotros-logros">
-        <div class="logro-item">
-          <div class="logro-icon">🎓</div>
-          <div class="logro-text">
-            <h4>Maestría en Gerencia de la Construcción Civil</h4>
-            <p>Especialización en gestión, presupuestos y administración de proyectos de obra civil</p>
-          </div>
-        </div>
-        <div class="logro-item">
-          <div class="logro-icon">🏛️</div>
-          <div class="logro-text">
-            <h4>Docente Universitario</h4>
-            <p>Cátedra de Cómputo, Presupuestos y Administración de Obras en Bolivia</p>
-          </div>
-        </div>
-        <div class="logro-item">
-          <div class="logro-icon">🏗️</div>
-          <div class="logro-text">
-            <h4>+50 Obras · +100 Proyectos en Bolivia</h4>
-            <p>Viviendas, edificios, infraestructura y consultorías en Santa Cruz y el interior del país</p>
-          </div>
-        </div>
-        <div class="logro-item">
-          <div class="logro-icon">💻</div>
-          <div class="logro-text">
-            <h4>Creador de la Metodología APPLEX</h4>
-            <p>Desarrolló el sistema de presupuestos más completo para constructores bolivianos</p>
-          </div>
-        </div>
+      <div class="equipo-info">
+        <h3 class="equipo-nombre">Karina Campos</h3>
+        <span class="equipo-cargo">Co-fundadora · Coordinadora Académica & Comercial</span>
+        <p class="equipo-desc">Responsable de la gestión integral de la Academia APPLENDE, garantizando la calidad académica de los cursos, la experiencia de los estudiantes y su comercialización.</p>
       </div>
     </div>
 
   </div>
+
+  <!-- Valores -->
+  <div class="fade-in" style="margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+    <div style="text-align:center;padding:24px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:16px;">
+      <div style="font-size:32px;margin-bottom:12px;">🏆</div>
+      <h4 style="font-size:15px;font-weight:800;color:#fff;margin-bottom:6px;">Excelencia</h4>
+      <p style="font-size:13px;color:var(--fg2);">Estándares de calidad en cada obra, curso y línea de código que desarrollamos.</p>
+    </div>
+    <div style="text-align:center;padding:24px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:16px;">
+      <div style="font-size:32px;margin-bottom:12px;">🇧🇴</div>
+      <h4 style="font-size:15px;font-weight:800;color:#fff;margin-bottom:6px;">100% Boliviano</h4>
+      <p style="font-size:13px;color:var(--fg2);">Empresa boliviana creada para profesionales bolivianos, con metodología adaptada a nuestra realidad.</p>
+    </div>
+    <div style="text-align:center;padding:24px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:16px;">
+      <div style="font-size:32px;margin-bottom:12px;">🚀</div>
+      <h4 style="font-size:15px;font-weight:800;color:#fff;margin-bottom:6px;">Innovación</h4>
+      <p style="font-size:13px;color:var(--fg2);">Combinamos experiencia en construcción con tecnología de vanguardia para transformar el sector.</p>
+    </div>
+  </div>
+
 </section>
 
 <!-- ══ SERVICIOS ══ -->
