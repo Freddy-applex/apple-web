@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursos — Academia APPLENDE · APPLE Construcciones & Servicios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A1628;--bg2:#0E1D35;
+  --green:#8DC63F;--purple:#6B6BBB;
+  --white:#fff;--gray:#BFBFBF;
+  --fg2:rgba(255,255,255,0.65);
+  --border:rgba(141,198,63,0.12);
+  --muted:#6B7A90;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--white);
+  font-family:'Barlow',sans-serif;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(141,198,63,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(141,198,63,0.03) 1px,transparent 1px);
+  background-size:60px 60px;pointer-events:none;z-index:0;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(10,22,40,0.95);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 5%;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo-link{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo-svg{height:38px;width:auto;}
+.nav-back{
+  display:flex;align-items:center;gap:8px;
+  color:var(--fg2);text-decoration:none;
+  font-size:13px;font-weight:600;
+  border:1px solid var(--border);
+  padding:8px 16px;border-radius:8px;
+  transition:all .2s;
+}
+.nav-back:hover{color:var(--white);border-color:var(--green);}
+.nav-cta-btn{
+  background:linear-gradient(135deg,var(--green),#6db520);
+  color:#0A1628;padding:9px 22px;border-radius:6px;
+  font-weight:700;font-size:13px;text-decoration:none;
+  display:none;
+}
+@media(min-width:600px){.nav-cta-btn{display:block;}}
+
+/* ── HERO ── */
+.hero{
+  min-height:40vh;
+  display:flex;align-items:center;
+  padding:100px 5% 60px;
+  position:relative;z-index:2;
+  text-align:center;flex-direction:column;justify-content:center;
+}
+.hero-logo{
+  height:80px;width:auto;margin-bottom:24px;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(141,198,63,0.1);border:1px solid rgba(141,198,63,0.25);
+  padding:6px 16px;border-radius:20px;
+  font-size:12px;font-weight:700;letter-spacing:2px;
+  color:var(--green);text-transform:uppercase;margin-bottom:20px;
+}
+.hero h1{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:clamp(32px,5vw,56px);font-weight:700;
+  line-height:1.1;margin-bottom:16px;
+}
+.hero h1 span{color:var(--green);}
+.hero p{
+  font-size:16px;color:var(--fg2);
+  max-width:560px;line-height:1.7;margin-bottom:32px;
+}
+
+/* Badges info */
+.info-badges{
+  display:flex;gap:12px;flex-wrap:wrap;justify-content:center;
+}
+.info-badge{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 18px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);border-radius:20px;
+  font-size:13px;color:var(--fg2);
+}
+.info-badge strong{color:var(--white);}
+
+/* ── FILTROS ── */
+.filtros-section{
+  position:relative;z-index:2;
+  padding:0 5% 32px;
+  display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+}
+.filtro{
+  padding:8px 20px;border-radius:20px;
+  border:1px solid var(--border);
+  background:transparent;color:var(--fg2);
+  font-size:13px;font-weight:600;cursor:pointer;
+  transition:all .2s;font-family:'Barlow',sans-serif;
+}
+.filtro:hover,.filtro.active{
+  background:var(--green);color:#0A1628;border-color:var(--green);
+}
+
+/* ── GRID CURSOS ── */
+.cursos-section{
+  position:relative;z-index:2;
+  padding:0 5% 80px;
+}
+.cursos-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+
+/* ── CARD ── */
+.curso-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:20px;overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:all .3s;position:relative;
+}
+.curso-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.4);
+  border-color:rgba(141,198,63,0.2);
+}
+.curso-card.featured{
+  border-color:rgba(141,198,63,0.3);
+  background:rgba(141,198,63,0.04);
+}
+.new-badge{
+  position:absolute;top:16px;right:16px;
+  background:linear-gradient(135deg,var(--green),#6db520);
+  color:#0A1628;font-size:11px;font-weight:800;
+  padding:4px 12px;border-radius:20px;letter-spacing:1px;
+  z-index:1;
+}
+.card-header{padding:24px 24px 16px;}
+.card-top{display:flex;justify-content:space-between;margin-bottom:12px;}
+.cat-tag{
+  font-size:11px;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;color:var(--green);
+  background:rgba(141,198,63,0.1);
+  padding:4px 10px;border-radius:20px;
+}
+.nivel-tag{
+  font-size:11px;font-weight:600;color:var(--muted);
+}
+.card-icon{font-size:36px;margin-bottom:8px;display:block;}
+.curso-num{
+  font-size:11px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--purple);margin-bottom:6px;
+}
+.curso-titulo{
+  font-size:17px;font-weight:700;color:var(--white);
+  line-height:1.3;margin-bottom:10px;
+}
+.instructor-row{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:12px;
+}
+.instructor-icon{font-size:16px;}
+.instructor-name{
+  font-size:12px;font-weight:600;color:var(--purple);
+}
+.curso-desc{
+  font-size:13px;color:var(--fg2);line-height:1.65;
+  margin-bottom:14px;
+}
+.meta-row{display:flex;gap:12px;flex-wrap:wrap;}
+.meta-item{font-size:12px;color:var(--muted);font-weight:500;}
+
+/* Temario */
+.card-body{
+  padding:0 24px 16px;flex:1;
+}
+.temario-title{
+  font-size:11px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--green);
+  margin-bottom:10px;
+}
+.temario-list{
+  list-style:none;display:flex;flex-direction:column;gap:6px;
+}
+.temario-list li{
+  font-size:12px;color:var(--fg2);line-height:1.5;
+  padding-left:16px;position:relative;
+}
+.temario-list li::before{
+  content:'✓';position:absolute;left:0;
+  color:var(--green);font-size:11px;font-weight:700;
+}
+
+/* Footer card */
+.card-footer{
+  padding:16px 24px 24px;
+  border-top:1px solid var(--border);
+}
+.precios-row{
+  display:flex;gap:12px;margin-bottom:12px;
+}
+.precio-box{
+  flex:1;border-radius:12px;padding:12px;
+  display:flex;flex-direction:column;align-items:center;
+  gap:4px;
+}
+.precio-box.grabado{
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);
+}
+.precio-box.vivo{
+  background:rgba(141,198,63,0.06);
+  border:1px solid rgba(141,198,63,0.2);
+}
+.precio-tipo{font-size:11px;font-weight:700;color:var(--fg2);}
+.precio-bs{font-size:22px;font-weight:900;color:var(--green);line-height:1;}
+.precio-usd{font-size:11px;color:var(--muted);}
+.btn-comprar{
+  margin-top:6px;width:100%;
+  background:rgba(141,198,63,0.15);
+  border:1px solid rgba(141,198,63,0.3);
+  color:var(--green);font-size:12px;font-weight:700;
+  padding:8px;border-radius:8px;cursor:pointer;
+  transition:all .2s;font-family:'Barlow',sans-serif;
+}
+.btn-comprar:hover{background:var(--green);color:#0A1628;}
+.btn-comprar.vivo-btn{
+  background:linear-gradient(135deg,var(--green),#6db520);
+  color:#0A1628;border:none;
+}
+.btn-comprar.vivo-btn:hover{box-shadow:0 4px 20px rgba(141,198,63,0.4);}
+
+/* Próximamente */
+.card-footer.proximo{text-align:center;}
+.proximo-badge{
+  background:rgba(107,107,187,0.15);
+  border:1px solid rgba(107,107,187,0.3);
+  color:var(--purple);font-size:12px;font-weight:700;
+  padding:8px 20px;border-radius:20px;
+  display:inline-block;margin-bottom:10px;
+}
+.card-footer.proximo p{font-size:12px;color:var(--fg2);margin-bottom:12px;}
+.btn-notify{
+  background:transparent;border:1px solid var(--purple);
+  color:var(--purple);font-size:13px;font-weight:700;
+  padding:10px 24px;border-radius:8px;cursor:pointer;
+  transition:all .2s;font-family:'Barlow',sans-serif;
+  width:100%;
+}
+.btn-notify:hover{background:var(--purple);color:var(--white);}
+
+/* ── INSTRUCTORES ── */
+.instructores-section{
+  position:relative;z-index:2;
+  padding:60px 5%;
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+}
+.inst-title{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:clamp(24px,3vw,36px);font-weight:700;
+  text-align:center;margin-bottom:8px;
+}
+.inst-sub{
+  text-align:center;color:var(--fg2);font-size:14px;margin-bottom:40px;
+}
+.inst-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+.inst-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);border-radius:16px;
+  padding:24px;text-align:center;
+}
+.inst-avatar{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(107,107,187,0.3),rgba(141,198,63,0.2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:30px;margin:0 auto 14px;
+  border:2px solid rgba(141,198,63,0.2);
+}
+.inst-nombre{font-size:16px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.inst-cargo{font-size:12px;color:var(--green);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.inst-cursos{font-size:12px;color:var(--fg2);}
+
+/* ── GARANTIA ── */
+.garantia-section{
+  position:relative;z-index:2;
+  padding:48px 5%;text-align:center;
+}
+.garantia-card{
+  background:rgba(141,198,63,0.05);
+  border:1px solid rgba(141,198,63,0.15);
+  border-radius:20px;padding:40px;
+  max-width:600px;margin:0 auto;
+}
+.garantia-card h3{font-size:22px;font-weight:700;margin:12px 0 8px;}
+.garantia-card p{font-size:14px;color:var(--fg2);line-height:1.7;}
+
+/* ── MODAL ── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.88);
+  z-index:1000;display:flex;align-items:center;justify-content:center;
+  padding:20px;opacity:0;pointer-events:none;
+  transition:opacity 0.3s;backdrop-filter:blur(8px);
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{
+  background:#0E1D35;border:1px solid var(--border);
+  border-radius:20px;max-width:480px;width:100%;
+  max-height:90vh;overflow-y:auto;
+}
+.modal-header{
+  background:linear-gradient(135deg,rgba(141,198,63,0.1),rgba(107,107,187,0.1));
+  padding:24px;border-bottom:1px solid var(--border);
+  position:relative;border-radius:20px 20px 0 0;
+}
+.modal-close{
+  position:absolute;top:16px;right:16px;
+  background:rgba(255,255,255,0.08);border:none;
+  color:var(--white);width:32px;height:32px;border-radius:50%;
+  cursor:pointer;font-size:16px;display:flex;
+  align-items:center;justify-content:center;
+}
+.modal-tipo{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.modal-titulo{font-size:17px;font-weight:700;color:var(--white);line-height:1.3;}
+.modal-precio-row{display:flex;align-items:baseline;gap:10px;margin-top:12px;}
+.modal-precio-bs{font-size:32px;font-weight:900;color:var(--green);}
+.modal-precio-usd{font-size:14px;color:var(--fg2);}
+.modal-body{padding:20px 24px;display:flex;flex-direction:column;gap:14px;}
+.modal-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--fg2);margin-bottom:4px;}
+.form-input{
+  width:100%;background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);border-radius:8px;
+  padding:11px 14px;font-size:14px;color:var(--white);
+  outline:none;transition:border .2s;font-family:'Barlow',sans-serif;
+}
+.form-input:focus{border-color:var(--green);}
+.form-input::placeholder{color:var(--muted);}
+.metodos{display:flex;flex-direction:column;gap:8px;}
+.metodo{
+  display:flex;align-items:center;gap:12px;
+  background:rgba(255,255,255,0.03);
+  border:2px solid rgba(255,255,255,0.08);
+  border-radius:10px;padding:12px 14px;
+  cursor:pointer;transition:all .2s;width:100%;text-align:left;
+}
+.metodo:hover{border-color:var(--green);background:rgba(141,198,63,0.06);}
+.metodo.sel{border-color:var(--green);background:rgba(141,198,63,0.08);}
+.metodo-icon{font-size:24px;flex-shrink:0;}
+.metodo-info{flex:1;}
+.metodo-name{font-size:14px;font-weight:700;color:var(--white);}
+.metodo-desc{font-size:11px;color:var(--fg2);margin-top:2px;}
+.radio{
+  width:18px;height:18px;border-radius:50%;
+  border:2px solid rgba(255,255,255,0.2);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.metodo.sel .radio{border-color:var(--green);background:var(--green);}
+.radio-inner{width:8px;height:8px;border-radius:50%;background:#0A1628;display:none;}
+.metodo.sel .radio-inner{display:block;}
+.modal-footer{padding:16px 24px 24px;}
+.btn-pagar{
+  width:100%;background:linear-gradient(135deg,var(--green),#6db520);
+  color:#0A1628;padding:16px;border-radius:10px;
+  font-weight:800;font-size:15px;border:none;cursor:pointer;
+  transition:all .3s;letter-spacing:0.5px;font-family:'Barlow',sans-serif;
+}
+.btn-pagar:hover{box-shadow:0 0 30px rgba(141,198,63,0.4);}
+.btn-pagar:disabled{opacity:0.5;cursor:not-allowed;}
+.modal-security{text-align:center;font-size:11px;color:var(--fg2);margin-top:8px;}
+.modal-wa{display:block;text-align:center;margin-top:8px;font-size:12px;color:rgba(141,198,63,0.7);text-decoration:underline;cursor:pointer;}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:32px 5%;text-align:center;position:relative;z-index:2;
+}
+footer p{font-size:12px;color:rgba(255,255,255,0.35);}
+footer a{color:var(--green);text-decoration:none;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .cursos-grid{grid-template-columns:repeat(2,1fr);}
+  .inst-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .cursos-grid{grid-template-columns:1fr;}
+  .precios-row{flex-direction:column;}
+  .hero h1{font-size:28px;}
+  .hero-logo{height:60px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo-link">
+    <svg class="nav-logo-svg"   viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <style>@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');</style>
+  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" style="stop-color:#8DC63F"/>
+    <stop offset="100%" style="stop-color:#6B6BBB"/>
+  </linearGradient>
+</defs>
+
+<!-- ── ÍCONO: Libro abierto con birrete ── -->
+<rect x="20" y="55" width="90" height="110" rx="10" fill="#6B6BBB"/>
+<rect x="25" y="62" width="38" height="96" rx="4" fill="#7B7BC8"/>
+<rect x="67" y="62" width="38" height="96" rx="4" fill="#8DC63F" opacity="0.9"/>
+<rect x="63" y="55" width="4" height="110" rx="2" fill="white" opacity="0.9"/>
+<!-- Líneas texto izquierda -->
+<rect x="30" y="78" width="28" height="3" rx="1.5" fill="white" opacity="0.5"/>
+<rect x="30" y="86" width="22" height="3" rx="1.5" fill="white" opacity="0.5"/>
+<rect x="30" y="94" width="26" height="3" rx="1.5" fill="white" opacity="0.5"/>
+<rect x="30" y="102" width="20" height="3" rx="1.5" fill="white" opacity="0.5"/>
+<rect x="30" y="110" width="28" height="3" rx="1.5" fill="white" opacity="0.5"/>
+<!-- Líneas texto derecha -->
+<rect x="72" y="78" width="28" height="3" rx="1.5" fill="white" opacity="0.6"/>
+<rect x="72" y="86" width="22" height="3" rx="1.5" fill="white" opacity="0.6"/>
+<rect x="72" y="94" width="26" height="3" rx="1.5" fill="white" opacity="0.6"/>
+<rect x="72" y="102" width="20" height="3" rx="1.5" fill="white" opacity="0.6"/>
+<rect x="72" y="110" width="28" height="3" rx="1.5" fill="white" opacity="0.6"/>
+<!-- Birrete -->
+<rect x="22" y="32" width="86" height="14" rx="4" fill="url(#grad1)"/>
+<path d="M42 46 L88 46 L88 58 Q88 65 65 65 Q42 65 42 58 Z" fill="#6B6BBB"/>
+<circle cx="88" cy="46" r="4" fill="#8DC63F"/>
+<line x1="88" y1="46" x2="100" y2="60" stroke="#8DC63F" stroke-width="2.5" stroke-linecap="round"/>
+<circle cx="100" cy="62" r="5" fill="#8DC63F"/>
+
+<!-- ── TEXTO APPLENDE ── -->
+<text font-family="'Josefin Sans','Century Gothic',sans-serif" font-weight="700" font-size="86" letter-spacing="-2">
+  <tspan x="128" y="140" fill="#6B6BBB">APP</tspan><tspan fill="#8DC63F">LENDE</tspan>
+</text>
+
+<!-- Subtítulo -->
+<text x="134" y="168"
+      font-family="'Josefin Sans','Century Gothic',sans-serif"
+      font-weight="400" font-size="17"
+      fill="#BFBFBF" letter-spacing="10">ACADEMIA</text>
+
+<!-- Línea decorativa -->
+<rect x="134" y="176" width="130" height="2.5" rx="1.5" fill="url(#grad1)"/>
+
+</svg>
+
+  </a>
+  <a href="index.html" class="nav-back">← Volver a inicio</a>
+  <a href="https://wa.me/59173979066?text=Hola,%20quiero%20inscribirme%20a%20un%20curso%20de%20APPLENDE" target="_blank" class="nav-cta-btn">Consultar →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">
+    <span>🎓</span> Academia APPLENDE · APPLE Construcciones & Servicios
+  </div>
+  <h1>Cursos de <span>Construcción</span><br>e Ingeniería Civil</h1>
+  <p>Aprende con los mejores arquitectos bolivianos. Cursos grabados y en vivo con certificado. Disponible desde cualquier país.</p>
+  <div class="info-badges">
+    <div class="info-badge"><span>🎬</span><div><strong>Grabado</strong> — Estudia a tu ritmo</div></div>
+    <div class="info-badge"><span>🔴</span><div><strong>En Vivo</strong> — 2 cursos/mes</div></div>
+    <div class="info-badge"><span>🏆</span><div><strong>Certificado</strong> al completar</div></div>
+    <div class="info-badge"><span>🌎</span><div><strong>Internacional</strong> — Pagos con tarjeta</div></div>
+  </div>
+</section>
+
+<!-- FILTROS -->
+<div class="filtros-section">
+  <button class="filtro active" onclick="filtrar('todos',this)">Todos (9)</button>
+  <button class="filtro" onclick="filtrar('Construcción',this)">Construcción</button>
+  <button class="filtro" onclick="filtrar('Presupuestos',this)">Presupuestos</button>
+  <button class="filtro" onclick="filtrar('Software',this)">Software</button>
+  <button class="filtro" onclick="filtrar('Avalúos',this)">Avalúos</button>
+  <button class="filtro" onclick="filtrar('Licitaciones',this)">Licitaciones</button>
+</div>
+
+<!-- CURSOS -->
+<section class="cursos-section">
+  <div class="cursos-grid" id="cursosGrid">
+    <div class="curso-card featured">
+      <div class="new-badge">⭐ NUEVO</div>
+      <div class="card-header">
+        <div class="card-top">
+          <span class="cat-tag">Presupuestos</span>
+          <span class="nivel-tag">Básico</span>
+        </div>
+        <div class="card-icon">📐</div>
+        <div class="curso-num">Curso 01</div>
+        <h3 class="curso-titulo">Cómputo y Presupuesto con PRESCOM y APPLEX Pro</h3>
+        <div class="instructor-row">
+          <span class="instructor-icon">👷</span>
+          <span class="instructor-name">Arq. Freddy Velásquez</span>
+        </div>
+        <p class="curso-desc">Aprende a elaborar presupuestos de obra completos usando PRESCOM y APPLEX Pro. Desde el cómputo métrico hasta el presupuesto final con APUs, cronograma y control de obra con metodología boliviana real.</p>
+        <div class="meta-row">
+          <span class="meta-item">⏱ 16h</span>
+          <span class="meta-item">📜 Certificado</span>
+          <span class="meta-item">🌎 Internacional</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="temario-title">Contenido del curso</div>
+        <ul class="temario-list"><li>Introducción al cómputo métrico y mediciones</li><li>Análisis de Precios Unitarios (APU) con APPLEX Pro</li><li>Base de datos PRESCOM — materiales y precios SCZ</li><li>Presupuesto general por módulos de obra</li><li>Cronograma Gantt y programación de obra</li><li>Caso real: Vivienda unifamiliar completa</li></ul>
+      </div>
+      <div class="card-footer">
+          <div class="precios-row">
+            <div class="precio-box grabado">
+              <span class="precio-tipo">🎬 Grabado</span>
+              <span class="precio-bs">Bs 150</span>
+              <span class="precio-usd">≈ $22 USD</span>
+              <button class="btn-comprar" onclick="abrirModal('Cómputo y Presupuesto con PRESCOM y APPLEX Pro',150,22,'grabado','Arq. Freddy Velásquez')">Comprar</button>
+            </div>
+            <div class="precio-box vivo">
+              <span class="precio-tipo">🔴 En Vivo</span>
+              <span class="precio-bs">Bs 200</span>
+              <span class="precio-usd">≈ $29 USD</span>
+              <button class="btn-comprar vivo-btn" onclick="abrirModal('Cómputo y Presupuesto con PRESCOM y APPLEX Pro',200,29,'vivo','Arq. Freddy Velásquez')">Inscribirme</button>
+            </div>
+          </div>
+        </div>
+    </div>
+<div class="curso-card ">
+      
+      <div class="card-header">
+        <div class="card-top">
+          <span class="cat-tag">Construcción</span>
+          <span class="nivel-tag">Intermedio</span>
+        </div>
+        <div class="card-icon">🏠</div>
+        <div class="curso-num">Curso 02</div>
+        <h3 class="curso-titulo">Construcción de Casa de 2 Plantas</h3>
+        <div class="instructor-row">
+          <span class="instructor-icon">👷</span>
+          <span class="instructor-name">Arq. Freddy Velásquez</span>
+        </div>
+        <p class="curso-desc">Curso completo sobre construcción de viviendas unifamiliares de 2 plantas. Desde los cimientos hasta los acabados finales, con control de obra y materiales reales bolivianos.</p>
+        <div class="meta-row">
+          <span class="meta-item">⏱ 20h</span>
+          <span class="meta-item">📜 Certificado</span>
+          <span class="meta-item">🌎 Internacional</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="temario-title">Contenido del curso</div>
+        <ul class="temario-list"><li>Replanteo y excavación de fundaciones</li><li>Construcción de vigas de fundación y columnas</li><li>Losa de entrepiso — encofrado y vaciado</li><li>Mampostería, revoques y contrapisos</li><li>Instalaciones hidrosanitarias y eléctricas</li><li>Acabados: cerámicos, pintura y puertas</li></ul>
+      </div>
+      <div class="card-footer">
+          <div class="precios-row">
+            <div class="precio-box grabado">
+              <span class="precio-tipo">🎬 Grabado</span>
+              <span class="precio-bs">Bs 200</span>
+              <span class="precio-usd">≈ $29 USD</span>
+              <button class="btn-comprar" onclick="abrirModal('Construcción de Casa de 2 Plantas',200,29,'grabado','Arq. Freddy Velásquez')">Comprar</button>
+            </div>
+            <div class="precio-box vivo">
+              <span class="precio-tipo">🔴 En Vivo</span>
+              <span class="precio-bs">Bs 250</span>
+              <span class="precio-usd">≈ $36 USD</span>
+              <button class="btn-comprar vivo-btn" onclick="abrirModal('Construcción de Casa de 2 Plantas',250,36,'vivo','Arq. Freddy Velásquez')">Inscribirme</button>
+            </div>
+          </div>
+        </div>
+    </div>
+<div class="curso-card ">
+      
+      <div class="card-header">
+        <div class="card-top">
+          <span class="cat-tag">Construcción</span>
+          <span class="nivel-tag">Avanzado</span>
+        </div>
+        <div class="card-icon">🏢</div>
+        <div class="curso-num">Curso 03</div>
+        <h3 class="curso-titulo">Construcción de Edificios de 5 Niveles</h3>
+        <div class="instructor-row">
+          <span class="instructor-icon">👷</span>
+          <span class="instructor-name">Arq. Freddy Velásquez</span>
+        </div>
+        <p class="curso-desc">Proceso constructivo completo de edificios multifamiliares de 5 niveles. Estructura, instalaciones, acabados y gestión de obra para proyectos de mediana altura en Bolivia.</p>
+        <div class="meta-row">
+          <span class="meta-item">⏱ 24h</span>
+          <span class="meta-item">📜 Certificado</span>
+          <span class="meta-item">🌎 Internacional</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="temario-title">Contenido del curso</div>
+        <ul class="temario-list"><li>Diseño estructural y planilla de acero</li><li>Construcción de pilotes y zapatas</li><li>Encofrado y vaciado de columnas y vigas</li><li>Losas macizas y alivianadas por nivel</li><li>Instalaciones verticales — agua, desagüe, electricidad</li><li>Gestión y control de obra por frentes</li></ul>
+      </div>
+      <div class="card-footer">
+          <div class="precios-row">
+            <div class="precio-box grabado">
+              <span class="precio-tipo">🎬 Grabado</span>
+              <span class="precio-bs">Bs 200</span>
+              <span class="precio-usd">≈ $29 USD</span>
+              <button class="btn-comprar" onclick="abrirModal('Construcción de Edificios de 5 Niveles',200,29,'grabado','Arq. Freddy Velásquez')">Comprar</button>
+            </div>
+            <div class="precio-box vivo">
+              <span class="precio-tipo">🔴 En Vivo</span>
+              <span class="precio-bs">Bs 250</span>
+              <span class="precio-usd">≈ $36 USD</span>
+              <button class="btn-comprar vivo-btn" onclick="abrirModal('Construcción de Edificios de 5 Niveles',250,36,'vivo','Arq. Freddy Velásquez')">Inscribirme</button>
+            </div>
+          </div>
+        </div>
+    </div>
+<div class="curso-card ">
+      
+      <div class="card-header">
+        <div class="card-top">
+          <span class="cat-tag">Construcción</span>
+          <span class="nivel-tag">Básico</span>
+        </div>
+        <div class="card-icon">🏗️</div>
+        <div class="curso-num">Curso 04</div>
+        <h3 class="curso-titulo">Construcciones Civiles</h3>
+        <div class="instructor-row">
+          <span class="instructor-icon">👷</span>
+          <span class="instructor-name">Arq. Freddy Velásquez</span>
+        </div>
+        <p class="curso-desc">Fundamentos y práctica de la construcción civil boliviana. Materiales, procesos constructivos, normas técnicas y control de calidad aplicados a obras reales.</p>
+        <div class="meta-row">
+          <span class="meta-item">⏱ 18h</span>
+          <span class="meta-item">📜 Certificado</span>
+          <span class="meta-item">🌎 Internacional</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="temario-title">Contenido del curso</div>
+        <ul class="temario-list"><li>Materiales de construcción — propiedades y usos</li><li>Procesos constructivos básicos en Bolivia</li><li>Normas técnicas bolivianas de construcción</li><li>Control de calidad en obra</li><li>Seguridad industrial en construcción</li><li>Gestión de residuos y medio ambiente</li></ul>
+      </div>
+      <div class="card-footer">
+          <div class="precios-row">
+            <div class="precio-box grabado">
+              <span class="precio-tipo">🎬 Grabado</span>
+              <span class="precio-bs">Bs 200</span>
+              <span class="precio-usd">≈ $29 USD</span>
+              <button class="btn-comprar" onclick="abrirModal('Construcciones Civiles',200,29,'grabado','Arq. Freddy Velásquez')">Comprar</button>
+            </div>
+            <div class="precio-box vivo">
+              <span class="precio-tipo">🔴 En Vivo</span>
+              <span class="precio-bs">Bs 250</span>
+              <span class="precio-usd">≈ $36 USD</span>
+              <button class="btn-comprar vivo-btn" onclick="abrirModal('Construcciones Civiles',250,36,'vivo','Arq. Freddy Velásquez')">Inscribirme</button>
+            </div>
+          </div>
+        </div>
+    </div>
+<div class="curso-card ">
+      
+      <div class="card-header">
+        <div class="card-top">
+          <span class="cat-tag">Avalúos</span>
+          <span class="nivel-tag">Intermedio</span>
+        </div>
+        <div class="card-icon">🏡</div>
+        <div class="curso-num">Curso 05</div>
+        <h3 class="curso-titulo">Avalúos Inmobiliarios</h3>
+        <div class="instructor-row">
+          <span class="instructor-icon">🏛️</span>
+          <span class="instructor-name">Arq. Fernando Terrazas</span>
+        </div>
+        <p class="curso-desc">Metodología de valuación técnica de inmuebles y terrenos. Informes de avalúo para fines comerciales, bancarios y legales bajo normativa boliviana vigente.</p>
+        <div class="meta-row">
+          <span class="meta-item">⏱ 12h</span>
+          <span class="meta-item">📜 Certificado</span>
+          <span class="meta-item">🌎 Internacional</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="temario-title">Contenido del curso</div>
+        <ul class="temario-list"><li>Fundamentos del avalúo inmobiliario</li><li>Métodos de valuación — comparativo, costo, renta</li><li>Análisis de mercado inmobiliario en Bolivia</li><li>Elaboración del informe técnico de avalúo</li><li>Avalúos para fines bancarios y legales</li><li>Casos prácticos en Santa Cruz</li></ul>
+      </div>
+      <div class="card-footer">
+          <div class="precios-row">
+            <div class="precio-box grabado">
+              <span class="precio-tipo">🎬 Grabado</span>
+              <span class="precio-bs">Bs 150</span>
+              <span class="precio-usd">≈ $22 USD</span>
+              <button class="btn-comprar" onclick="abrirModal('Avalúos Inmobiliarios',150,22,'grabado','Arq. Fernando Terrazas')">Comprar</button>
+            </div>
+            <div class="precio-box vivo">
+              <span class="precio-tipo">🔴 En Vivo</span>
+              <span class="precio-bs">Bs 200</span>
+              <span class="precio-usd">≈ $29 USD</span>
+              <button class="btn-comprar vivo-btn" onclick="abrirModal('Avalúos Inmobiliarios',200,29,'vivo','Arq. Fernando Terrazas')">Inscribirme</button>
+            </div>
+          </div>
+        </div>
+    </div>
+<div class="curso-card ">
+      
+      <div class="card-header">
+        <div class="card-top">
+          <span class="cat-tag">Licitaciones</span>
+          <span class="nivel-tag">Avanzado</span>
+        </div>
+        <div class="card-icon">📋</div>
+        <div class="curso-num">Curso 06</div>
+        <h3 class="curso-titulo">Licitación de Obras Públicas</h3>
+        <div class="instructor-row">
+          <span class="instructor-icon">👷</span>
+          <span class="instructor-name">Arq. Freddy Velásquez</span>
+        </div>
+        <p class="curso-desc">Prepara propuestas técnicas y económicas ganadoras para licitaciones públicas bajo las normas SABS, NB-SABS y SICOES del Estado Boliviano actualizadas 2025.</p>
+        <div class="meta-row">
+          <span class="meta-item">⏱ 10h</span>
+          <span class="meta-item">📜 Certificado</span>
+          <span class="meta-item">🌎 Internacional</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="temario-title">Contenido del curso</div>
+        <ul class="temario-list"><li>Marco legal — SABS, NB-SABS y SICOES Bolivia</li><li>Tipos de contratación y modalidades</li><li>Propuesta técnica — estructura y contenido</li><li>Propuesta económica — precios y estrategia</li><li>Errores comunes que descalifican propuestas</li><li>Caso real: licitación ganadora analizada</li></ul>
+      </div>
+      <div class="card-footer">
+          <div class="precios-row">
+            <div class="precio-box grabado">
+              <span class="precio-tipo">🎬 Grabado</span>
+              <span class="precio-bs">Bs 80</span>
+              <span class="precio-usd">≈ $11 USD</span>
+              <button class="btn-comprar" onclick="abrirModal('Licitación de Obras Públicas',80,11,'grabado','Arq. Freddy Velásquez')">Comprar</button>
+            </div>
+            <div class="precio-box vivo">
+              <span class="precio-tipo">🔴 En Vivo</span>
+              <span class="precio-bs">Bs 100</span>
+              <span class="precio-usd">≈ $14 USD</span>
+              <button class="btn-comprar vivo-btn" onclick="abrirModal('Licitación de Obras Públicas',100,14,'vivo','Arq. Freddy Velásquez')">Inscribirme</button>
+            </div>
+          </div>
+        </div>
+    </div>
+<div class="curso-card ">
+      
+      <div class="card-header">
+        <div class="card-top">
+          <span class="cat-tag">Software</span>
+          <span class="nivel-tag">Básico</span>
+        </div>
+        <div class="card-icon">🎨</div>
+        <div class="curso-num">Curso 07</div>
+        <h3 class="curso-titulo">SketchUp + ENSCAPE</h3>
+        <div class="instructor-row">
+          <span class="instructor-icon">🖥️</span>
+          <span class="instructor-name">Arq. Pablo Aramayo</span>
+        </div>
+        <p class="curso-desc">Modelado 3D arquitectónico con SketchUp y renderizado fotorrealista con ENSCAPE. Visualizaciones profesionales para proyectos de arquitectura e interiores.</p>
+        <div class="meta-row">
+          <span class="meta-item">⏱ 14h</span>
+          <span class="meta-item">📜 Certificado</span>
+          <span class="meta-item">🌎 Internacional</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="temario-title">Contenido del curso</div>
+        <ul class="temario-list"><li>Interfaz y herramientas básicas de SketchUp</li><li>Modelado de viviendas y espacios interiores</li><li>Materiales, texturas y vegetación</li><li>Configuración de ENSCAPE para render</li><li>Iluminación natural y artificial</li><li>Exportación de imágenes y videos</li></ul>
+      </div>
+      <div class="card-footer proximo">
+          <div class="proximo-badge">🔵 Próximamente</div>
+          <p>Déjanos tu correo para notificarte cuando esté disponible</p>
+          <button class="btn-notify" onclick="notificarme(this)">Notificarme →</button>
+        </div>
+    </div>
+<div class="curso-card ">
+      
+      <div class="card-header">
+        <div class="card-top">
+          <span class="cat-tag">Software</span>
+          <span class="nivel-tag">Intermedio</span>
+        </div>
+        <div class="card-icon">🖥️</div>
+        <div class="curso-num">Curso 08</div>
+        <h3 class="curso-titulo">Revit</h3>
+        <div class="instructor-row">
+          <span class="instructor-icon">🖥️</span>
+          <span class="instructor-name">Arq. Pablo Aramayo</span>
+        </div>
+        <p class="curso-desc">Modelado BIM con Autodesk Revit para arquitectura y estructuras. Documentación, planos y coordinación de proyectos con metodología BIM aplicada a proyectos bolivianos.</p>
+        <div class="meta-row">
+          <span class="meta-item">⏱ 16h</span>
+          <span class="meta-item">📜 Certificado</span>
+          <span class="meta-item">🌎 Internacional</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="temario-title">Contenido del curso</div>
+        <ul class="temario-list"><li>Introducción al BIM y Autodesk Revit</li><li>Modelado arquitectónico — muros, pisos, techos</li><li>Puertas, ventanas y escaleras</li><li>Documentación — planos y cortes automáticos</li><li>Familias y componentes paramétricos</li><li>Coordinación BIM y detección de interferencias</li></ul>
+      </div>
+      <div class="card-footer proximo">
+          <div class="proximo-badge">🔵 Próximamente</div>
+          <p>Déjanos tu correo para notificarte cuando esté disponible</p>
+          <button class="btn-notify" onclick="notificarme(this)">Notificarme →</button>
+        </div>
+    </div>
+<div class="curso-card ">
+      
+      <div class="card-header">
+        <div class="card-top">
+          <span class="cat-tag">Software</span>
+          <span class="nivel-tag">Básico</span>
+        </div>
+        <div class="card-icon">✏️</div>
+        <div class="curso-num">Curso 09</div>
+        <h3 class="curso-titulo">Vectorworks + Plugins</h3>
+        <div class="instructor-row">
+          <span class="instructor-icon">🖥️</span>
+          <span class="instructor-name">Arq. Pablo Aramayo</span>
+        </div>
+        <p class="curso-desc">Diseño arquitectónico profesional con Vectorworks y sus plugins especializados. Planos, modelado 3D y documentación técnica para arquitectos bolivianos.</p>
+        <div class="meta-row">
+          <span class="meta-item">⏱ 14h</span>
+          <span class="meta-item">📜 Certificado</span>
+          <span class="meta-item">🌎 Internacional</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="temario-title">Contenido del curso</div>
+        <ul class="temario-list"><li>Interfaz y flujo de trabajo en Vectorworks</li><li>Dibujo 2D — planos arquitectónicos</li><li>Modelado 3D básico y avanzado</li><li>Plugins especializados para arquitectura</li><li>Renderizado y presentaciones</li><li>Exportación a AutoCAD y PDF</li></ul>
+      </div>
+      <div class="card-footer proximo">
+          <div class="proximo-badge">🔵 Próximamente</div>
+          <p>Déjanos tu correo para notificarte cuando esté disponible</p>
+          <button class="btn-notify" onclick="notificarme(this)">Notificarme →</button>
+        </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTRUCTORES -->
+<section class="instructores-section">
+  <h2 class="inst-title">Nuestros <span style="color:var(--green)">instructores</span></h2>
+  <p class="inst-sub">Profesionales bolivianos con experiencia real en obra y docencia universitaria</p>
+  <div class="inst-grid">
+    <div class="inst-card">
+      <div class="inst-avatar">👷</div>
+      <div class="inst-nombre">Arq. Freddy Velásquez</div>
+      <div class="inst-cargo">Director & Instructor Principal</div>
+      <div class="inst-cursos">Maestría en Gerencia de la Construcción Civil · Docente universitario · +20 años de experiencia · 5 cursos</div>
+    </div>
+    <div class="inst-card">
+      <div class="inst-avatar">🏛️</div>
+      <div class="inst-nombre">Arq. Fernando Terrazas</div>
+      <div class="inst-cargo">Especialista en Avalúos</div>
+      <div class="inst-cursos">Especialista en valuación inmobiliaria · Avalúos comerciales, bancarios y legales en Bolivia · 1 curso</div>
+    </div>
+    <div class="inst-card">
+      <div class="inst-avatar">🖥️</div>
+      <div class="inst-nombre">Arq. Pablo Aramayo</div>
+      <div class="inst-cargo">Especialista en Software Arquitectónico</div>
+      <div class="inst-cursos">Experto en SketchUp, ENSCAPE, Revit y Vectorworks · Visualización 3D y BIM · 3 cursos</div>
+    </div>
+  </div>
+</section>
+
+<!-- GARANTÍA -->
+<section class="garantia-section">
+  <div class="garantia-card">
+    <div style="font-size:40px;">🛡️</div>
+    <h3>Garantía de satisfacción</h3>
+    <p>Si en las primeras 24 horas no estás satisfecho con el curso, te devolvemos el 100% de tu dinero. Sin preguntas. Queremos que aprendas, no solo que pagues.</p>
+  </div>
+</section>
+
+<!-- MODAL DE PAGO -->
+<div class="modal-overlay" id="modalOverlay" onclick="cerrarOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="cerrarModal()">✕</button>
+      <div class="modal-tipo" id="mTipo">🎬 Curso Grabado</div>
+      <div class="modal-titulo" id="mTitulo">Título</div>
+      <div class="modal-precio-row">
+        <span class="modal-precio-bs" id="mPrecioBS">Bs 0</span>
+        <span class="modal-precio-usd" id="mPrecioUSD">≈ $0 USD</span>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="modal-label">Tus datos</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
+          <input class="form-input" id="mNombre" type="text" placeholder="Nombre completo *">
+          <input class="form-input" id="mEmail" type="email" placeholder="Correo electrónico *">
+          <input class="form-input" id="mWA" type="tel" placeholder="WhatsApp * (ej. +591 7XXXXXXX)">
+        </div>
+      </div>
+      <div>
+        <div class="modal-label">Método de pago</div>
+        <div class="metodos" style="margin-top:6px;">
+          <button class="metodo" onclick="selMetodo(this,'red_enlace')">
+            <span class="metodo-icon">💳</span>
+            <div class="metodo-info"><div class="metodo-name">Red Enlace / CyberSource</div><div class="metodo-desc">Tarjeta VISA / Mastercard · Nacional e internacional</div></div>
+            <div class="radio"><div class="radio-inner"></div></div>
+          </button>
+          <button class="metodo" onclick="selMetodo(this,'tigo')">
+            <span class="metodo-icon">📱</span>
+            <div class="metodo-info"><div class="metodo-name">Tigo Money</div><div class="metodo-desc">Pago directo desde tu celular Tigo</div></div>
+            <div class="radio"><div class="radio-inner"></div></div>
+          </button>
+          <button class="metodo" onclick="selMetodo(this,'transferencia')">
+            <span class="metodo-icon">🏦</span>
+            <div class="metodo-info"><div class="metodo-name">Transferencia bancaria</div><div class="metodo-desc">A cuenta del Arq. Freddy Velásquez</div></div>
+            <div class="radio"><div class="radio-inner"></div></div>
+          </button>
+          <button class="metodo" onclick="selMetodo(this,'pago_facil')">
+            <span class="metodo-icon">🏪</span>
+            <div class="metodo-info"><div class="metodo-name">Pago Fácil</div><div class="metodo-desc">Red de agentes a nivel nacional</div></div>
+            <div class="radio"><div class="radio-inner"></div></div>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-pagar" id="btnPagar" onclick="procesarPago()" disabled>Selecciona un método de pago</button>
+      <div class="modal-security">🔒 Pago seguro · Tu acceso se activa al confirmar</div>
+      <span class="modal-wa" onclick="consultarWA()">¿Tienes dudas? Escríbenos por WhatsApp</span>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 <a href="index.html">APPLE Construcciones & Servicios</a> · Academia APPLENDE · Santa Cruz, Bolivia</p>
+  <p style="margin-top:6px;"><a href="https://wa.me/59173979066" target="_blank">💬 WhatsApp: +591 73979066</a></p>
+</footer>
+
+<script>
+let cursoActual = {}
+let metodoActual = null
+
+function abrirModal(titulo, precioBs, precioUsd, modalidad, instructor) {
+  cursoActual = {titulo, precioBs, precioUsd, modalidad, instructor}
+  document.getElementById('mTipo').textContent = modalidad === 'grabado' ? '🎬 Curso Grabado' : '🔴 Curso En Vivo'
+  document.getElementById('mTitulo').textContent = titulo
+  document.getElementById('mPrecioBS').textContent = 'Bs ' + precioBs
+  document.getElementById('mPrecioUSD').textContent = '≈ $' + precioUsd + ' USD'
+  document.getElementById('modalOverlay').classList.add('open')
+  document.body.style.overflow = 'hidden'
+  metodoActual = null
+  document.querySelectorAll('.metodo').forEach(b => b.classList.remove('sel'))
+  document.getElementById('btnPagar').disabled = true
+  document.getElementById('btnPagar').textContent = 'Selecciona un método de pago'
+  document.getElementById('mNombre').value = ''
+  document.getElementById('mEmail').value = ''
+  document.getElementById('mWA').value = ''
+}
+
+function cerrarModal() {
+  document.getElementById('modalOverlay').classList.remove('open')
+  document.body.style.overflow = ''
+}
+
+function cerrarOverlay(e) {
+  if (e.target === document.getElementById('modalOverlay')) cerrarModal()
+}
+
+function selMetodo(btn, metodo) {
+  document.querySelectorAll('.metodo').forEach(b => b.classList.remove('sel'))
+  btn.classList.add('sel')
+  metodoActual = metodo
+  document.getElementById('btnPagar').disabled = false
+  const nombres = {
+    red_enlace: 'Pagar con tarjeta — Bs ' + cursoActual.precioBs,
+    tigo: 'Pagar con Tigo Money — Bs ' + cursoActual.precioBs,
+    transferencia: 'Ver datos de transferencia',
+    pago_facil: 'Ver instrucciones Pago Fácil'
+  }
+  document.getElementById('btnPagar').textContent = nombres[metodo]
+}
+
+function procesarPago() {
+  const nombre = document.getElementById('mNombre').value.trim()
+  const email = document.getElementById('mEmail').value.trim()
+  const wa = document.getElementById('mWA').value.trim()
+  if (!nombre || !email || !wa) { alert('Por favor completa todos tus datos.'); return }
+  
+  const msg = encodeURIComponent(
+    'Hola, quiero inscribirme al curso:\n' +
+    'Curso: ' + cursoActual.titulo + '\n' +
+    'Modalidad: ' + (cursoActual.modalidad === 'grabado' ? 'Grabado' : 'En Vivo') + '\n' +
+    'Precio: Bs ' + cursoActual.precioBs + '\n' +
+    'Nombre: ' + nombre + '\n' +
+    'Email: ' + email + '\n' +
+    'WhatsApp: ' + wa + '\n' +
+    'Método: ' + metodoActual
+  )
+  
+  if (metodoActual === 'red_enlace') {
+    alert('🚧 Pago con tarjeta disponible en 48 horas.\nTe redirigiremos a WhatsApp para coordinar tu inscripción.')
+  } else if (metodoActual === 'tigo') {
+    alert('Envía Bs ' + cursoActual.precioBs + ' a:\nTigo Money: 72172740\n(Freddy Gabriel Velásquez)\n\nCon concepto: APPLENDE\n\nLuego envía tu comprobante por WhatsApp.')
+  } else if (metodoActual === 'transferencia') {
+    alert('Transferencia bancaria:\nTitular: Freddy Gabriel Velásquez Reinaga\nMonto: Bs ' + cursoActual.precioBs + '\n\nEnvía el comprobante por WhatsApp.')
+  } else if (metodoActual === 'pago_facil') {
+    alert('Pago Fácil:\nEmpresa: APPLE Construcciones\nMonto: Bs ' + cursoActual.precioBs + '\n\nEnvía el comprobante por WhatsApp.')
+  }
+  window.open('https://wa.me/59173979066?text=' + msg, '_blank')
+  cerrarModal()
+}
+
+function consultarWA() {
+  window.open('https://wa.me/59173979066?text=Hola,%20tengo%20dudas%20sobre%20los%20cursos%20de%20APPLENDE', '_blank')
+}
+
+function notificarme(btn) {
+  const email = prompt('Ingresa tu correo para notificarte cuando el curso esté disponible:')
+  if (email) {
+    const msg = encodeURIComponent('Hola, quiero ser notificado cuando esté disponible el curso. Mi correo es: ' + email)
+    window.open('https://wa.me/59173979066?text=' + msg, '_blank')
+    btn.textContent = '✅ Te notificaremos'
+    btn.disabled = true
+  }
+}
+
+function filtrar(cat, btn) {
+  document.querySelectorAll('.filtro').forEach(b => b.classList.remove('active'))
+  btn.classList.add('active')
+  document.querySelectorAll('.curso-card').forEach(card => {
+    const cardCat = card.querySelector('.cat-tag')?.textContent
+    if (cat === 'todos' || cardCat === cat) {
+      card.style.display = 'flex'
+    } else {
+      card.style.display = 'none'
+    }
+  })
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') cerrarModal()
+})
+</script>
+</body>
+</html>

@@ -1159,6 +1159,60 @@ footer{
   .equipo-grid{grid-template-columns:1fr;}
   .equipo-card.director{grid-column:span 1;flex-direction:column;text-align:center;}
 }
+
+/* ══════════════════ DROPDOWN SERVICIOS ══════════════════ */
+.nav-item{ position:relative; }
+.nav-item:hover .dropdown{ opacity:1; pointer-events:all; transform:translateY(0); }
+
+.dropdown{
+  position:absolute; top:calc(100% + 12px); left:50%;
+  transform:translateX(-50%) translateY(8px);
+  background:rgba(10,22,40,0.97);
+  backdrop-filter:blur(20px);
+  border:1px solid var(--border);
+  border-radius:14px; padding:12px;
+  min-width:240px; z-index:200;
+  opacity:0; pointer-events:none;
+  transition:all 0.25s ease;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+
+.dropdown::before{
+  content:''; position:absolute;
+  top:-6px; left:50%; transform:translateX(-50%);
+  width:12px; height:12px;
+  background:rgba(10,22,40,0.97);
+  border-left:1px solid var(--border);
+  border-top:1px solid var(--border);
+  transform:translateX(-50%) rotate(45deg);
+}
+
+.dropdown a{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; border-radius:8px;
+  color:rgba(255,255,255,0.75) !important;
+  font-size:13px !important; font-weight:500 !important;
+  text-decoration:none; transition:all 0.2s;
+  letter-spacing:0 !important;
+}
+.dropdown a::after{ display:none !important; }
+.dropdown a:hover{
+  background:rgba(141,198,63,0.1);
+  color:#fff !important;
+}
+.dropdown a .dd-icon{
+  width:28px; height:28px; border-radius:6px;
+  background:rgba(141,198,63,0.1);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; flex-shrink:0;
+}
+.dropdown a:hover .dd-icon{ background:rgba(141,198,63,0.2); }
+
+.nav-arrow{
+  font-size:9px; margin-left:4px;
+  display:inline-block; transition:transform 0.2s;
+}
+.nav-item:hover .nav-arrow{ transform:rotate(180deg); }
 </style>
 </head>
 <body>
@@ -1197,7 +1251,19 @@ footer{
 
   <ul class="nav-links">
     <li><a href="#nosotros">Nosotros</a></li>
-    <li><a href="#servicios">Servicios</a></li>
+    <li class="nav-item">
+      <a href="#servicios">Servicios <span class="nav-arrow">▼</span></a>
+      <div class="dropdown">
+        <a href="#servicios"><span class="dd-icon">🏗️</span>Obras de Construcción</a>
+        <a href="#servicios"><span class="dd-icon">📋</span>Proyectos</a>
+        <a href="#servicios"><span class="dd-icon">✏️</span>Diseños Arquitectónicos</a>
+        <a href="#servicios"><span class="dd-icon">⚙️</span>Cálculo Estructural</a>
+        <a href="#servicios"><span class="dd-icon">📐</span>Presupuestos</a>
+        <a href="#servicios"><span class="dd-icon">🏠</span>Avalúos</a>
+        <a href="#servicios"><span class="dd-icon">💡</span>Consultorías</a>
+        <a href="#servicios"><span class="dd-icon">➕</span>Otros Servicios</a>
+      </div>
+    </li>
     <li><a href="#academia">Academia APPLENDE</a></li>
     <li><a href="#applex">APPLEX Pro</a></li>
     <li><a href="#contacto">Contacto</a></li>
@@ -1388,106 +1454,107 @@ footer{
   <div class="section-header fade-in">
     <span class="section-tag">Lo que hacemos</span>
     <h2 class="section-title">Nuestros <span class="gradient-text">servicios</span></h2>
-    <p class="section-sub">Tres líneas de trabajo integradas para llevar tu proyecto del plano a la realidad.</p>
+    <p class="section-sub">Soluciones integrales en construcción civil, diseño y consultoría para personas, empresas e instituciones en Bolivia.</p>
   </div>
 
   <div class="bento">
+
     <div class="bento-card wide glow-border fade-in">
-      <div class="bento-icon">🏠</div>
-      <h3>Construcción de Vivienda y Edificios</h3>
-      <p>Diseño, cómputo y ejecución de viviendas unifamiliares, multifamiliares y edificios comerciales con materiales de calidad y control de obra permanente bajo metodología del Arq. Freddy Velásquez.</p>
+      <div class="bento-icon">🏗️</div>
+      <h3>Obras de Construcción</h3>
+      <p>Ejecución de obras civiles de vivienda, edificios comerciales e infraestructura institucional. Cumplimos con los más altos estándares de calidad, seguridad y plazos, bajo la dirección técnica del Arq. Freddy Velásquez con más de 20 años de experiencia en Bolivia.</p>
       <div class="bento-tags">
-        <span class="bento-tag">Obra Gruesa</span>
-        <span class="bento-tag">Obra Fina</span>
-        <span class="bento-tag">Instalaciones</span>
+        <span class="bento-tag">Viviendas</span>
+        <span class="bento-tag">Edificios</span>
+        <span class="bento-tag">Infraestructura</span>
         <span class="bento-tag">Santa Cruz</span>
       </div>
     </div>
 
     <div class="bento-card glow-border fade-in">
+      <div class="bento-icon">📋</div>
+      <h3>Proyectos</h3>
+      <p>Desarrollo integral de proyectos de construcción desde la concepción hasta la entrega. Incluye planificación, programación de obra, presupuesto y gestión técnica para garantizar el éxito del proyecto.</p>
+      <div class="bento-tags">
+        <span class="bento-tag">Planificación</span>
+        <span class="bento-tag">Gestión</span>
+      </div>
+    </div>
+
+    <div class="bento-card glow-border fade-in">
+      <div class="bento-icon">✏️</div>
+      <h3>Diseños Arquitectónicos</h3>
+      <p>Diseño de planos arquitectónicos, renders 3D y memorias descriptivas para viviendas, locales comerciales y edificios. Soluciones estéticas y funcionales adaptadas a las necesidades del cliente.</p>
+      <div class="bento-tags">
+        <span class="bento-tag">Planos</span>
+        <span class="bento-tag">Renders 3D</span>
+      </div>
+    </div>
+
+    <div class="bento-card glow-border fade-in">
+      <div class="bento-icon">⚙️</div>
+      <h3>Cálculo Estructural</h3>
+      <p>Elaboración de memorias de cálculo estructural para viviendas y edificios. Diseño de elementos estructurales — columnas, vigas, losas y fundaciones — bajo normativa boliviana vigente.</p>
+      <div class="bento-tags">
+        <span class="bento-tag">Memorias</span>
+        <span class="bento-tag">Normativa Bolivia</span>
+      </div>
+    </div>
+
+    <div class="bento-card glow-border fade-in">
       <div class="bento-icon">📐</div>
-      <h3>Presupuestos y Cómputos</h3>
-      <p>Elaboración de presupuestos detallados con APU, cómputo métrico y cronograma de obra con metodología PRESCOM.</p>
+      <h3>Presupuestos</h3>
+      <p>Elaboración de presupuestos detallados con Análisis de Precios Unitarios (APU), cómputo métrico y cronograma de obra. Metodología PRESCOM y SECON con base de datos de precios actualizada de Santa Cruz.</p>
       <div class="bento-tags">
         <span class="bento-tag">APU</span>
         <span class="bento-tag">SECON</span>
+        <span class="bento-tag">PRESCOM</span>
       </div>
     </div>
 
     <div class="bento-card glow-border fade-in">
-      <div class="bento-icon">🔍</div>
-      <h3>Supervisión de Obra</h3>
-      <p>Control técnico y económico de proyectos en ejecución. Seguimiento de avance físico y reportes de gestión.</p>
+      <div class="bento-icon">🏠</div>
+      <h3>Avalúos</h3>
+      <p>Valuación técnica de inmuebles, terrenos y propiedades para fines comerciales, bancarios, judiciales o de herencia. Informes de avalúo con respaldo técnico y legal para Santa Cruz y Bolivia.</p>
       <div class="bento-tags">
-        <span class="bento-tag">Control</span>
-        <span class="bento-tag">Reportes</span>
+        <span class="bento-tag">Inmuebles</span>
+        <span class="bento-tag">Terrenos</span>
+        <span class="bento-tag">Legal</span>
       </div>
     </div>
 
     <div class="bento-card glow-border fade-in">
-      <div class="bento-icon">📋</div>
-      <h3>Licitaciones SICOES</h3>
-      <p>Propuestas técnicas y económicas para licitaciones públicas bajo normas SABS y SICOES Bolivia.</p>
+      <div class="bento-icon">💡</div>
+      <h3>Consultorías</h3>
+      <p>Asesoría técnica especializada en construcción civil, gestión de proyectos, licitaciones públicas y supervisión de obras. Acompañamiento profesional en todas las etapas de tu proyecto.</p>
       <div class="bento-tags">
-        <span class="bento-tag">SICOES</span>
-        <span class="bento-tag">SABS</span>
+        <span class="bento-tag">Asesoría técnica</span>
+        <span class="bento-tag">Supervisión</span>
+        <span class="bento-tag">Licitaciones</span>
       </div>
     </div>
 
     <div class="bento-card glow-border fade-in">
-      <div class="bento-icon">🌿</div>
-      <h3>Infraestructura FIS/FPS</h3>
-      <p>Sistemas de agua potable, alcantarillado y vías para comunidades bajo metodología FIS/FPS.</p>
+      <div class="bento-icon">➕</div>
+      <h3>Otros Servicios</h3>
+      <p>Instalaciones hidrosanitarias, eléctricas, relevamientos topográficos, trámites municipales y otros servicios complementarios relacionados con la construcción civil en Bolivia.</p>
       <div class="bento-tags">
-        <span class="bento-tag">Agua Potable</span>
-        <span class="bento-tag">Vías</span>
+        <span class="bento-tag">Instalaciones</span>
+        <span class="bento-tag">Topografía</span>
+        <span class="bento-tag">Trámites</span>
       </div>
     </div>
 
-    <div class="bento-card glow-border fade-in">
-      <div class="bento-icon">🏢</div>
-      <h3>Proyectos Comerciales</h3>
-      <p>Construcción y remodelación de locales, oficinas y edificios de uso mixto en Santa Cruz de la Sierra.</p>
-      <div class="bento-tags">
-        <span class="bento-tag">Remodelación</span>
-        <span class="bento-tag">Acabados</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ STATS ══ -->
-<section id="stats">
-  <div class="stats-title-row fade-in">
-    <div>
-      <span class="section-tag">Números que hablan</span>
-      <h2 class="section-title">APPLE en <span class="gradient-text">cifras</span></h2>
-    </div>
-    <p class="section-sub" style="max-width:360px;">Años de trabajo en construcción civil boliviana respaldando cada número.</p>
   </div>
 
-  <div class="stats-grid">
-    <div class="stat-card glow-border fade-in">
-      <div class="stat-glow"></div>
-      <span class="stat-num gradient-text" data-count="15">0</span>+
-      <div class="stat-label">Años de experiencia</div>
-    </div>
-    <div class="stat-card glow-border fade-in">
-      <div class="stat-glow"></div>
-      <span class="stat-num gradient-text" data-count="200">0</span>+
-      <div class="stat-label">Proyectos ejecutados</div>
-    </div>
-    <div class="stat-card glow-border fade-in">
-      <div class="stat-glow"></div>
-      <span class="stat-num gradient-text" data-count="4418">0</span>
-      <div class="stat-label">Materiales en base de datos</div>
-    </div>
-    <div class="stat-card glow-border fade-in">
-      <div class="stat-glow"></div>
-      <span class="stat-num gradient-text" data-count="4">0</span>
-      <div class="stat-label">Cursos especializados</div>
-    </div>
+  <!-- CTA servicios -->
+  <div class="fade-in" style="margin-top:40px;text-align:center;">
+    <p style="font-size:15px;color:var(--fg2);margin-bottom:20px;">¿Necesitas alguno de estos servicios? Contáctanos y te asesoramos sin costo.</p>
+    <a href="https://wa.me/59173979066?text=Hola,%20necesito%20información%20sobre%20sus%20servicios" target="_blank" class="btn-primary">
+      💬 Consultar por WhatsApp
+    </a>
   </div>
+
 </section>
 
 <!-- ══ GALERÍA DE OBRAS ══ -->
@@ -1811,255 +1878,74 @@ footer{
   <div class="section-header fade-in">
     <span class="section-tag">Formación profesional</span>
     <h2 class="section-title">Academia <span class="gradient-text">APPLENDE</span></h2>
-    <p class="section-sub">Cursos virtuales dictados por el Arq. Freddy Velásquez. Clases en vivo + grabaciones. Certificado al finalizar.</p>
+    <p class="section-sub">Cursos virtuales dictados por arquitectos bolivianos especializados. Modalidad grabada y en vivo. Certificado al finalizar.</p>
   </div>
 
-  <div class="cursos-grid">
+  <!-- Cards resumen instructores -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:48px;" class="fade-in">
 
-    <!-- CURSO 1 -->
-    <div class="curso-card featured glow-border fade-in">
-      <div class="curso-header">
-        <div class="curso-badge-top">⭐ MÁS POPULAR</div>
-        <span class="curso-icon">📐</span>
-        <div class="curso-num">Curso 01</div>
-        <h3 class="curso-title">Cómputo y Presupuestos con APPLEX Pro</h3>
-        <p class="curso-desc">Domina la elaboración de presupuestos de obra completos. Desde el cómputo métrico hasta el presupuesto final con APUs, cronograma y control de obra.</p>
-        <div class="curso-meta">
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>16 horas</div>
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Nivel básico</div>
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>En vivo + grabado</div>
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Certificado</div>
-        </div>
-      </div>
-      <div class="curso-body">
-        <div class="curso-temario">
-          <div class="curso-temario-title">Contenido del curso</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Introducción al cómputo métrico y mediciones</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Análisis de Precios Unitarios (APU) con APPLEX Pro</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Presupuesto general por módulos de obra</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Cronograma Gantt y programación de obra</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Exportación a Excel y formularios SICOES</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Caso real: Vivienda unifamiliar completa</div>
-        </div>
-      </div>
-      <div class="curso-footer">
-        <div class="curso-precio">
-          <span class="precio-label">Precio del curso</span>
-          <span class="precio-bs">Bs 149</span>
-          <span class="precio-usd">≈ $21 USD</span>
-        </div>
-        <button class="btn-inscribir" onclick="abrirModal('Cómputo y Presupuestos con APPLEX Pro', 149, 21)">
-          Inscribirme ahora →
-        </button>
-      </div>
+    <div class="bento-card glow-border">
+      <div class="bento-icon">👷</div>
+      <h3>Arq. Freddy Velásquez</h3>
+      <p>Maestría en Gerencia de la Construcción Civil. Docente universitario con más de 20 años de experiencia. Imparte 5 cursos de construcción y presupuestos.</p>
     </div>
 
-    <!-- CURSO 2 -->
-    <div class="curso-card glow-border fade-in">
-      <div class="curso-header">
-        <span class="curso-icon">🏗️</span>
-        <div class="curso-num">Curso 02</div>
-        <h3 class="curso-title">Control de Obra con SECON</h3>
-        <p class="curso-desc">Aprende el seguimiento económico de proyectos en ejecución. Kardex de materiales, avance físico, planillas de pago y flujo de fondos con metodología boliviana.</p>
-        <div class="curso-meta">
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>12 horas</div>
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Nivel intermedio</div>
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>En vivo + grabado</div>
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Certificado</div>
-        </div>
-      </div>
-      <div class="curso-body">
-        <div class="curso-temario">
-          <div class="curso-temario-title">Contenido del curso</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Introducción al control económico de obras</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Kardex de materiales y movimiento de almacén</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Planillas de avance físico y valorización</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Flujo de fondos y balance de obra</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Órdenes de cambio y adicionales</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Reportes para supervisión y fiscalización</div>
-        </div>
-      </div>
-      <div class="curso-footer">
-        <div class="curso-precio">
-          <span class="precio-label">Precio del curso</span>
-          <span class="precio-bs">Bs 129</span>
-          <span class="precio-usd">≈ $18 USD</span>
-        </div>
-        <button class="btn-inscribir" onclick="abrirModal('Control de Obra con SECON', 129, 18)">
-          Inscribirme ahora →
-        </button>
-      </div>
+    <div class="bento-card glow-border">
+      <div class="bento-icon">🏛️</div>
+      <h3>Arq. Fernando Terrazas</h3>
+      <p>Especialista en valuación inmobiliaria. Imparte el curso de Avalúos Inmobiliarios con enfoque en la normativa boliviana vigente.</p>
     </div>
 
-    <!-- CURSO 3 -->
-    <div class="curso-card glow-border fade-in">
-      <div class="curso-header">
-        <span class="curso-icon">🤖</span>
-        <div class="curso-num">Curso 03</div>
-        <h3 class="curso-title">Finanzas para No Financieros con IA</h3>
-        <p class="curso-desc">Estados financieros, modelación y análisis con ChatGPT/Claude. Power BI desde cero. Para ingenieros y constructores que quieren dominar los números de su empresa.</p>
-        <div class="curso-meta">
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>16 horas</div>
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Nivel básico</div>
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>En vivo + grabado</div>
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Certificado</div>
-        </div>
-      </div>
-      <div class="curso-body">
-        <div class="curso-temario">
-          <div class="curso-temario-title">Contenido del curso</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Fundamentos financieros para ingenieros</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Análisis de estados financieros con IA</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Modelación financiera práctica con Excel</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Power BI desde cero — dashboards financieros</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Prompts para análisis con ChatGPT/Claude</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Caso real sector energético boliviano</div>
-        </div>
-      </div>
-      <div class="curso-footer">
-        <div class="curso-precio">
-          <span class="precio-label">Precio del curso</span>
-          <span class="precio-bs">Bs 179</span>
-          <span class="precio-usd">≈ $25 USD</span>
-        </div>
-        <button class="btn-inscribir" onclick="abrirModal('Finanzas para No Financieros con IA', 179, 25)">
-          Inscribirme ahora →
-        </button>
-      </div>
-    </div>
-
-    <!-- CURSO 4 -->
-    <div class="curso-card glow-border fade-in">
-      <div class="curso-header">
-        <span class="curso-icon">📋</span>
-        <div class="curso-num">Curso 04</div>
-        <h3 class="curso-title">Licitaciones y Propuestas SICOES</h3>
-        <p class="curso-desc">Prepara propuestas técnicas y económicas ganadoras para licitaciones públicas del Estado Boliviano. SICOES, SABS y normas NB-SABS actualizadas 2025.</p>
-        <div class="curso-meta">
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>10 horas</div>
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Nivel avanzado</div>
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>En vivo + grabado</div>
-          <div class="curso-meta-item"><div class="curso-meta-dot"></div>Certificado</div>
-        </div>
-      </div>
-      <div class="curso-body">
-        <div class="curso-temario">
-          <div class="curso-temario-title">Contenido del curso</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Marco legal — SABS, NB-SABS y SICOES</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Tipos de contratación y modalidades</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Propuesta técnica — estructura y contenido</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Propuesta económica — precios y estrategia</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Errores comunes que descalifican propuestas</div>
-          <div class="temario-item"><span class="temario-check">✓</span>Caso real: licitación ganadora analizada</div>
-        </div>
-      </div>
-      <div class="curso-footer">
-        <div class="curso-precio">
-          <span class="precio-label">Precio del curso</span>
-          <span class="precio-bs">Bs 199</span>
-          <span class="precio-usd">≈ $28 USD</span>
-        </div>
-        <button class="btn-inscribir" onclick="abrirModal('Licitaciones y Propuestas SICOES', 199, 28)">
-          Inscribirme ahora →
-        </button>
-      </div>
+    <div class="bento-card glow-border">
+      <div class="bento-icon">🖥️</div>
+      <h3>Arq. Pablo Aramayo</h3>
+      <p>Experto en software arquitectónico. Imparte cursos de SketchUp+ENSCAPE, Revit y Vectorworks para arquitectos e ingenieros.</p>
     </div>
 
   </div>
 
-  <!-- Garantía -->
-  <div class="fade-in" style="margin-top:40px;text-align:center;padding:28px;background:rgba(141,198,63,0.05);border:1px solid rgba(141,198,63,0.15);border-radius:16px;">
-    <div style="font-size:32px;margin-bottom:10px;">🛡️</div>
-    <h3 style="font-size:18px;font-weight:800;color:#fff;margin-bottom:8px;">Garantía de satisfacción</h3>
-    <p style="font-size:14px;color:var(--fg2);max-width:500px;margin:0 auto;">Si en las primeras 24 horas no estás satisfecho con el curso, te devolvemos el 100% de tu dinero. Sin preguntas.</p>
+  <!-- Modalidades -->
+  <div class="fade-in" style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:48px;justify-content:center;">
+    <div style="display:flex;align-items:center;gap:10px;padding:14px 24px;background:rgba(141,198,63,0.06);border:1px solid rgba(141,198,63,0.2);border-radius:12px;">
+      <span style="font-size:24px;">🎬</span>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:#fff;">Cursos Grabados</div>
+        <div style="font-size:12px;color:var(--fg2);">Estudia a tu ritmo · Acceso permanente</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:14px 24px;background:rgba(107,107,187,0.06);border:1px solid rgba(107,107,187,0.2);border-radius:12px;">
+      <span style="font-size:24px;">🔴</span>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:#fff;">Cursos En Vivo</div>
+        <div style="font-size:12px;color:var(--fg2);">2 cursos por mes · Interacción directa</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:14px 24px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;">
+      <span style="font-size:24px;">🏆</span>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:#fff;">Certificado</div>
+        <div style="font-size:12px;color:var(--fg2);">Al completar el curso</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:14px 24px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;">
+      <span style="font-size:24px;">🌎</span>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:#fff;">Internacional</div>
+        <div style="font-size:12px;color:var(--fg2);">Pagos desde cualquier país</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="fade-in" style="text-align:center;">
+    <p style="font-size:16px;color:var(--fg2);margin-bottom:24px;">Tenemos <strong style="color:#fff;">9 cursos disponibles</strong> — 6 activos y 3 próximamente</p>
+    <a href="cursos.html" class="btn-primary" style="font-size:16px;padding:18px 48px;">
+      🎓 Ver todos los cursos →
+    </a>
+    <p style="font-size:12px;color:var(--fg2);margin-top:14px;">También disponible como App móvil · Próximamente en App Store y Google Play</p>
   </div>
 
 </section>
-
-<!-- ══ MODAL DE PAGO ══ -->
-<div class="modal-overlay" id="modalOverlay" onclick="cerrarModalOverlay(event)">
-  <div class="modal">
-    <div class="modal-header">
-      <button class="modal-close" onclick="cerrarModal()">✕</button>
-      <div class="modal-curso-name" id="modalCursoNombre">Curso</div>
-      <div class="modal-title" id="modalCursoTitulo">Título del curso</div>
-      <div class="modal-price-row">
-        <span class="modal-price-bs" id="modalPrecioBS">Bs 0</span>
-        <span class="modal-price-usd" id="modalPrecioUSD">≈ $0 USD</span>
-      </div>
-    </div>
-
-    <div class="modal-body">
-
-      <!-- Datos del alumno -->
-      <div>
-        <div class="modal-section-title">Tus datos</div>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
-          <div class="form-field">
-            <label class="form-label">Nombre completo *</label>
-            <input class="form-input" id="alumnoNombre" type="text" placeholder="Tu nombre completo">
-          </div>
-          <div class="form-field">
-            <label class="form-label">Correo electrónico *</label>
-            <input class="form-input" id="alumnoEmail" type="email" placeholder="tu@correo.com">
-          </div>
-          <div class="form-field">
-            <label class="form-label">WhatsApp *</label>
-            <input class="form-input" id="alumnoWA" type="tel" placeholder="+591 7XXXXXXX">
-          </div>
-        </div>
-      </div>
-
-      <!-- Método de pago -->
-      <div>
-        <div class="modal-section-title">Elige cómo pagar</div>
-        <div class="metodos-grid" style="margin-top:8px;">
-          <button class="metodo-btn" onclick="seleccionarMetodo(this, 'red_enlace')" id="metodo-red_enlace">
-            <span class="metodo-icon">💳</span>
-            <div class="metodo-info">
-              <div class="metodo-name">Red Enlace / CyberSource</div>
-              <div class="metodo-desc">Tarjeta de débito o crédito VISA / Mastercard</div>
-            </div>
-            <div class="metodo-radio"><div class="metodo-radio-inner"></div></div>
-          </button>
-          <button class="metodo-btn" onclick="seleccionarMetodo(this, 'tigo')" id="metodo-tigo">
-            <span class="metodo-icon">📱</span>
-            <div class="metodo-info">
-              <div class="metodo-name">Tigo Money</div>
-              <div class="metodo-desc">Pago directo desde tu celular Tigo</div>
-            </div>
-            <div class="metodo-radio"><div class="metodo-radio-inner"></div></div>
-          </button>
-          <button class="metodo-btn" onclick="seleccionarMetodo(this, 'transferencia')" id="metodo-transferencia">
-            <span class="metodo-icon">🏦</span>
-            <div class="metodo-info">
-              <div class="metodo-name">Transferencia bancaria</div>
-              <div class="metodo-desc">A cuenta del Arq. Freddy Velásquez</div>
-            </div>
-            <div class="metodo-radio"><div class="metodo-radio-inner"></div></div>
-          </button>
-          <button class="metodo-btn" onclick="seleccionarMetodo(this, 'pago_facil')" id="metodo-pago_facil">
-            <span class="metodo-icon">🏪</span>
-            <div class="metodo-info">
-              <div class="metodo-name">Pago Fácil</div>
-              <div class="metodo-desc">Red de agentes a nivel nacional</div>
-            </div>
-            <div class="metodo-radio"><div class="metodo-radio-inner"></div></div>
-          </button>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="modal-footer">
-      <button class="btn-pagar" id="btnPagar" onclick="procesarPago()" disabled>
-        Selecciona un método de pago
-      </button>
-      <div class="modal-security">🔒 Pago seguro · Tu acceso se activa al confirmar el pago</div>
-      <span class="modal-wa" onclick="consultarWA()">¿Tienes dudas? Escríbenos por WhatsApp</span>
-    </div>
-  </div>
-</div>
 
 <!-- ══ CTA ══ -->
 <section id="cta">
@@ -2221,9 +2107,9 @@ document.querySelectorAll('[data-count]').forEach(el => counterObs.observe(el))
 let cursoActual = { nombre: '', precio_bs: 0, precio_usd: 0 }
 let metodoActual = null
 
-function abrirModal(nombre, precioBs, precioUsd) {
+function abrirModal(nombre, precioBs, precioUsd, modalidad) {
   cursoActual = { nombre, precio_bs: precioBs, precio_usd: precioUsd }
-  document.getElementById('modalCursoNombre').textContent = 'Inscripción al curso'
+  document.getElementById('modalCursoNombre').textContent = modalidad === 'grabado' ? '🎬 Curso Grabado' : '🔴 Curso En Vivo'
   document.getElementById('modalCursoTitulo').textContent = nombre
   document.getElementById('modalPrecioBS').textContent = 'Bs ' + precioBs
   document.getElementById('modalPrecioUSD').textContent = '≈ $' + precioUsd + ' USD'
