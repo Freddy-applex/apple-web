@@ -397,12 +397,21 @@ footer a{color:var(--green);}
   <div class="pb-left">
     <span class="pb-label">INVERSIÓN PARA EL CURSO</span>
     <span class="pb-precio" id="pb-precio">Bs 100</span>
-    <span class="pb-precio-sub" id="pb-sub">Detectando tu ubicación...</span>
+    <span class="pb-precio-sub" id="pb-sub">Bolivia · ≈ $14 USD</span>
   </div>
   <div class="pb-right">
     <span class="pb-pais" id="pb-pais">🌎 Precio internacional disponible</span>
     <button class="pb-btn" onclick="abrirModal()">🎓 Inscribirme ahora →</button>
   </div>
+</div>
+
+
+<!-- Selector manual de país (aparece si la detección falla) -->
+<div id="selector-manual" style="display:none;background:rgba(107,107,187,0.1);border:1px solid rgba(107,107,187,0.3);padding:12px 5%;display:none;align-items:center;gap:12px;flex-wrap:wrap;">
+  <span style="font-size:13px;color:var(--navy);font-weight:600;">¿Desde qué país te conectas?</span>
+  <button onclick="cambiarPais('BO')" style="background:var(--navy);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-weight:700;cursor:pointer;font-family:'Barlow',sans-serif;">🇧🇴 Bolivia — Bs 100</button>
+  <button onclick="cambiarPais('PE')" style="background:var(--purple);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-weight:700;cursor:pointer;font-family:'Barlow',sans-serif;">🇵🇪 Perú — S/ 55</button>
+  <button onclick="cambiarPais('DEFAULT')" style="background:var(--muted);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-weight:700;cursor:pointer;font-family:'Barlow',sans-serif;">🌎 Otro país — $15</button>
 </div>
 
 <!-- COUNTDOWN -->
@@ -495,8 +504,8 @@ footer a{color:var(--green);}
       <div style="margin-bottom:4px;">
         <span class="ic-precio-num" id="ic-precio">Bs 100</span>
       </div>
-      <div class="ic-usd" id="ic-precio-sub">Detectando tu ubicación...</div>
-      <div class="ic-pais-detected" id="ic-pais-detected">🌎 Precio internacional disponible</div>
+      <div class="ic-usd" id="ic-precio-sub">Bolivia · ≈ $14 USD</div>
+      <div class="ic-pais-detected" id="ic-pais-detected">🇧🇴 Bolivia — Bs 100</div>
       <div class="ic-alerta">⚡ Solo 70 cupos disponibles</div>
 
       <button class="ic-btn-main" onclick="abrirModal()">🎓 Quiero inscribirme →</button>
@@ -545,7 +554,7 @@ footer a{color:var(--green);}
       <div class="modal-subtit">🔴 Curso En Vivo · 18 Mayo 2026 · Zoom</div>
       <div class="modal-tit">Vectorworks + Plugins</div>
       <span class="modal-precio-display" id="modal-precio-display">Bs 100</span>
-      <div class="modal-pais-info" id="modal-pais-info">Bolivia</div>
+      <div class="modal-pais-info" id="modal-pais-info">🇧🇴 Bolivia — Bs 100</div>
     </div>
     <div class="modal-bd">
       <div>
@@ -602,7 +611,7 @@ const precios = {
   DEFAULT: { label:'$15 USD', sub:'Internacional', pais:'🌎 Internacional — $15 USD', showQR:false }
 };
 
-let paisActual = 'DEFAULT';
+let paisActual = 'BO'; // Por defecto Bolivia
 let opcionActual = null;
 
 async function detectarPais() {
