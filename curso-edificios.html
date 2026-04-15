@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Curso Construcción de Edificios de 5 Niveles — Arq. Freddy Velásquez · Academia APPLENDE · Bolivia · Bs 200">
+<meta property="og:title" content="Construcción de Edificios de 5 Niveles · APPLENDE">
+<meta property="og:image" content="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1200&h=630&fit=crop">
+<title>Construcción de Edificios de 5 Niveles · Academia APPLENDE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1A2744;
+  --navy-dark:#0E1A30;
+  --blue:#2E4A8E;
+  --green:#8DC63F;
+  --green-dark:#6aaa2a;
+  --purple:#6B6BBB;
+  --gray:#BFBFBF;
+  --white:#fff;
+  --offwhite:#F5F7FA;
+  --text:#2C3A52;
+  --muted:#6B7A90;
+  --border:#E2E8F0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;color:var(--text);background:var(--white);overflow-x:hidden;}
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:200;
+  background:var(--navy);
+  height:60px;padding:0 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);
+}
+.nav-logo-svg{height:32px;width:auto;}
+.nav-links{display:flex;align-items:center;gap:10px;}
+.nav-link{color:rgba(255,255,255,0.7);font-size:13px;font-weight:600;padding:7px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);transition:all .2s;}
+.nav-link:hover{color:#fff;border-color:var(--green);}
+.nav-btn{background:var(--green);color:var(--navy);padding:9px 20px;border-radius:20px;font-weight:800;font-size:13px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;}
+.nav-btn:hover{background:#9ed648;}
+
+/* HERO FOTO */
+.hero-foto{
+  width:100%;
+  height:420px;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+.hero-foto-wrap{
+  position:relative;overflow:hidden;
+}
+.hero-foto-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom, rgba(26,39,68,0.3) 0%, rgba(26,39,68,0.85) 100%);
+  display:flex;align-items:flex-end;padding:32px 5%;
+}
+.hero-foto-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(220,38,38,0.9);
+  color:#fff;font-size:11px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:12px;
+}
+.hero-dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.hero-foto-text h1{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:clamp(24px,4vw,42px);font-weight:700;
+  color:#fff;line-height:1.15;margin-bottom:10px;
+}
+.hero-foto-text h1 span{color:var(--green);}
+.hero-foto-text p{font-size:15px;color:rgba(255,255,255,0.8);}
+
+/* INFO BAR */
+.info-bar{
+  background:var(--navy);
+  padding:20px 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+}
+.info-badges{display:flex;gap:10px;flex-wrap:wrap;}
+.ibadge{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
+  border-radius:20px;padding:6px 12px;font-size:12px;color:rgba(255,255,255,0.85);font-weight:500;
+}
+.rating-bar{display:flex;align-items:center;gap:8px;}
+.stars{color:#f59e0b;font-size:16px;}
+.rnum{font-size:16px;font-weight:800;color:var(--green);}
+.rinfo{font-size:12px;color:rgba(255,255,255,0.5);}
+
+/* COUNTDOWN BAR */
+.countdown-bar{
+  background:linear-gradient(135deg,var(--navy-dark),var(--blue));
+  padding:16px 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+  border-bottom:2px solid var(--green);
+}
+.cd-label{font-size:14px;font-weight:700;color:#fff;}
+.cd-sub{font-size:12px;color:rgba(255,255,255,0.55);margin-top:2px;}
+.cd-timer{display:flex;gap:10px;align-items:center;}
+.cd-unit{text-align:center;}
+.cd-num{
+  font-family:'Josefin Sans',sans-serif;font-size:32px;font-weight:700;
+  color:var(--green);display:block;line-height:1;
+  background:rgba(141,198,63,0.1);border:1px solid rgba(141,198,63,0.2);
+  border-radius:8px;padding:8px 12px;min-width:58px;
+}
+.cd-sub-label{font-size:9px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-top:4px;display:block;}
+.cd-sep{font-size:24px;font-weight:700;color:rgba(141,198,63,0.4);margin-top:-6px;}
+
+/* MAIN LAYOUT */
+.main-layout{
+  max-width:1100px;margin:0 auto;
+  padding:40px 5%;
+  display:grid;grid-template-columns:1fr 340px;
+  gap:40px;align-items:start;
+}
+
+/* CARD INSCRIPCION */
+.inscripcion-card{
+  background:var(--white);
+  border:2px solid var(--border);
+  border-radius:14px;padding:24px;
+  position:sticky;top:80px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.1);
+}
+.ic-precio-num{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:42px;font-weight:700;color:var(--navy);line-height:1;
+}
+.ic-precio-orig{font-size:16px;color:var(--muted);text-decoration:line-through;margin-left:8px;}
+.ic-descuento{
+  display:inline-block;background:rgba(141,198,63,0.15);
+  color:var(--green-dark);font-size:12px;font-weight:800;
+  padding:3px 8px;border-radius:4px;margin-left:6px;
+}
+.ic-usd{font-size:13px;color:var(--muted);margin:6px 0;}
+.ic-alerta{font-size:12px;color:#dc2626;font-weight:600;margin-bottom:16px;}
+.ic-btn-main{
+  width:100%;background:linear-gradient(135deg,var(--green),var(--green-dark));
+  color:var(--navy);padding:15px;border-radius:10px;
+  font-weight:800;font-size:15px;border:none;cursor:pointer;
+  font-family:'Barlow',sans-serif;transition:all .3s;margin-bottom:10px;
+  box-shadow:0 4px 16px rgba(141,198,63,0.3);
+}
+.ic-btn-main:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(141,198,63,0.4);}
+.ic-btn-wa{
+  width:100%;background:#25D366;color:#fff;
+  padding:13px;border-radius:10px;font-weight:700;font-size:14px;
+  border:none;cursor:pointer;font-family:'Barlow',sans-serif;
+  transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-bottom:20px;text-decoration:none;
+}
+.ic-btn-wa:hover{background:#1ebe5a;}
+.ic-features{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--border);padding-top:16px;}
+.ic-feat{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text);}
+.ic-feat::before{content:'✓';color:var(--green);font-weight:800;font-size:14px;flex-shrink:0;}
+.ic-garantia{text-align:center;font-size:11px;color:var(--muted);margin-top:12px;}
+
+/* CONTENIDO */
+.section-tag{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--green);display:block;margin-bottom:10px;}
+.contenido h2{font-family:'Josefin Sans',sans-serif;font-size:clamp(20px,2.5vw,30px);font-weight:700;color:var(--navy);margin-bottom:12px;}
+.contenido p{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:20px;}
+.separador{height:1px;background:var(--border);margin:36px 0;}
+
+/* VIDEO */
+.video-wrap{position:relative;padding-bottom:56.25%;border-radius:12px;overflow:hidden;background:var(--navy);border:1px solid var(--border);margin-top:20px;}
+.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+.video-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:linear-gradient(135deg,var(--navy),var(--blue));}
+.video-placeholder .play-icon{font-size:56px;opacity:0.7;}
+.video-placeholder p{color:rgba(255,255,255,0.5);font-size:13px;}
+
+/* TEMARIO */
+.temario-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;}
+.t-item{display:flex;align-items:flex-start;gap:12px;background:var(--offwhite);border:1px solid var(--border);border-radius:8px;padding:14px;transition:all .2s;}
+.t-item:hover{border-color:var(--green);background:var(--white);box-shadow:0 4px 12px rgba(141,198,63,0.1);}
+.t-num{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.t-num.purple{background:var(--purple);}
+.t-texto{font-size:13px;color:var(--text);line-height:1.4;}
+.t-texto strong{color:var(--navy);display:block;margin-bottom:2px;font-size:13px;}
+
+/* INSTRUCTOR */
+.inst-card{display:flex;gap:24px;align-items:flex-start;background:var(--offwhite);border:1px solid var(--border);border-radius:14px;padding:24px;margin-top:20px;}
+.inst-av{width:80px;height:80px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-size:32px;border:3px solid rgba(141,198,63,0.25);}
+.inst-nombre{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.inst-cargo{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:10px;display:block;}
+.inst-bio{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:12px;}
+.inst-tags{display:flex;gap:8px;flex-wrap:wrap;}
+.inst-tag{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px;}
+.inst-tag::before{content:'✓';color:var(--green);font-weight:800;}
+
+/* CTA FINAL */
+.cta-section{background:var(--navy);padding:56px 5%;text-align:center;}
+.cta-section h2{font-family:'Josefin Sans',sans-serif;font-size:clamp(20px,3vw,34px);font-weight:700;color:#fff;margin-bottom:12px;}
+.cta-section p{font-size:15px;color:rgba(255,255,255,0.65);max-width:460px;margin:0 auto 28px;}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.btn-cta{background:var(--green);color:var(--navy);padding:15px 36px;border-radius:10px;font-weight:800;font-size:15px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;}
+.btn-cta:hover{background:#9ed648;transform:translateY(-2px);}
+.btn-cta-wa{background:#25D366;color:#fff;padding:15px 36px;border-radius:10px;font-weight:800;font-size:15px;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-cta-wa:hover{background:#1ebe5a;transform:translateY(-2px);}
+
+/* FOOTER */
+footer{background:var(--navy-dark);border-top:1px solid rgba(141,198,63,0.12);padding:24px 5%;text-align:center;}
+footer p{font-size:12px;color:rgba(255,255,255,0.35);}
+footer a{color:var(--green);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(6px);}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-box{background:var(--white);border-radius:16px;max-width:460px;width:100%;max-height:92vh;overflow-y:auto;}
+.modal-hd{background:var(--navy);padding:22px 24px;border-radius:16px 16px 0 0;position:relative;}
+.modal-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.1);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{background:rgba(255,255,255,0.2);}
+.modal-subtit{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:6px;}
+.modal-tit{font-size:16px;font-weight:700;color:#fff;line-height:1.3;padding-right:36px;}
+.modal-precio-display{font-family:'Josefin Sans',sans-serif;font-size:36px;font-weight:700;color:var(--green);margin-top:10px;display:block;}
+.modal-bd{padding:20px 24px;display:flex;flex-direction:column;gap:14px;}
+.m-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block;}
+.m-input{width:100%;background:var(--offwhite);border:1.5px solid var(--border);border-radius:8px;padding:11px 14px;font-size:14px;color:var(--text);outline:none;transition:border .2s;font-family:'Barlow',sans-serif;}
+.m-input:focus{border-color:var(--green);}
+.opciones{display:flex;flex-direction:column;gap:10px;}
+.opcion{display:flex;align-items:center;gap:14px;background:var(--offwhite);border:2px solid var(--border);border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;width:100%;text-align:left;font-family:'Barlow',sans-serif;}
+.opcion:hover{border-color:var(--green);background:#f0fff0;}
+.opcion.sel{border-color:var(--green);background:#f0fff0;}
+.opcion.opcion-purple:hover{border-color:var(--purple);background:rgba(107,107,187,0.06);}
+.opcion.opcion-purple.sel{border-color:var(--purple);background:rgba(107,107,187,0.06);}
+.opcion.opcion-wa:hover{border-color:#25D366;background:rgba(37,211,102,0.06);}
+.opcion.opcion-wa.sel{border-color:#25D366;background:rgba(37,211,102,0.06);}
+.opcion-icon{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.icon-green{background:rgba(141,198,63,0.12);}
+.icon-purple{background:rgba(107,107,187,0.12);}
+.icon-wa{background:rgba(37,211,102,0.12);}
+.opcion-nombre{font-size:14px;font-weight:700;color:var(--navy);display:block;margin-bottom:2px;}
+.opcion-desc{font-size:11px;color:var(--muted);}
+.opcion-arrow{font-size:18px;color:var(--muted);flex-shrink:0;margin-left:auto;}
+.modal-ft{padding:0 24px 24px;}
+.btn-confirmar{width:100%;background:var(--green);color:var(--navy);padding:14px;border-radius:10px;font-weight:800;font-size:14px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;margin-bottom:10px;}
+.btn-confirmar:hover{background:#9ed648;}
+.btn-confirmar:disabled{opacity:0.45;cursor:not-allowed;}
+.modal-nota{text-align:center;font-size:11px;color:var(--muted);background:var(--offwhite);padding:10px;border-radius:8px;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .main-layout{grid-template-columns:1fr;}
+  .inscripcion-card{position:static;}
+  .temario-grid{grid-template-columns:1fr;}
+  .inst-card{flex-direction:column;}
+}
+@media(max-width:600px){
+  .hero-foto{height:260px;}
+  .nav-links .nav-link{display:none;}
+  .cd-num{font-size:24px;padding:6px 10px;min-width:46px;}
+  .cta-btns{flex-direction:column;align-items:center;}
+  .btn-cta,.btn-cta-wa{width:100%;justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html">
+    <svg class="nav-logo-svg"   viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <style>@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');</style>
+  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" style="stop-color:#8DC63F"/>
+    <stop offset="100%" style="stop-color:#6B6BBB"/>
+  </linearGradient>
+</defs>
+
+<!-- ── ÍCONO: Libro abierto con birrete ── -->
+<rect x="20" y="55" width="90" height="110" rx="10" fill="#6B6BBB"/>
+<rect x="25" y="62" width="38" height="96" rx="4" fill="#7B7BC8"/>
+<rect x="67" y="62" width="38" height="96" rx="4" fill="#8DC63F" opacity="0.9"/>
+<rect x="63" y="55" width="4" height="110" rx="2" fill="white" opacity="0.9"/>
+<!-- Líneas texto izquierda -->
+<rect x="30" y="78" width="28" height="3" rx="1.5" fill="white" opacity="0.5"/>
+<rect x="30" y="86" width="22" height="3" rx="1.5" fill="white" opacity="0.5"/>
+<rect x="30" y="94" width="26" height="3" rx="1.5" fill="white" opacity="0.5"/>
+<rect x="30" y="102" width="20" height="3" rx="1.5" fill="white" opacity="0.5"/>
+<rect x="30" y="110" width="28" height="3" rx="1.5" fill="white" opacity="0.5"/>
+<!-- Líneas texto derecha -->
+<rect x="72" y="78" width="28" height="3" rx="1.5" fill="white" opacity="0.6"/>
+<rect x="72" y="86" width="22" height="3" rx="1.5" fill="white" opacity="0.6"/>
+<rect x="72" y="94" width="26" height="3" rx="1.5" fill="white" opacity="0.6"/>
+<rect x="72" y="102" width="20" height="3" rx="1.5" fill="white" opacity="0.6"/>
+<rect x="72" y="110" width="28" height="3" rx="1.5" fill="white" opacity="0.6"/>
+<!-- Birrete -->
+<rect x="22" y="32" width="86" height="14" rx="4" fill="url(#grad1)"/>
+<path d="M42 46 L88 46 L88 58 Q88 65 65 65 Q42 65 42 58 Z" fill="#6B6BBB"/>
+<circle cx="88" cy="46" r="4" fill="#8DC63F"/>
+<line x1="88" y1="46" x2="100" y2="60" stroke="#8DC63F" stroke-width="2.5" stroke-linecap="round"/>
+<circle cx="100" cy="62" r="5" fill="#8DC63F"/>
+
+<!-- ── TEXTO APPLENDE ── -->
+<text font-family="'Josefin Sans','Century Gothic',sans-serif" font-weight="700" font-size="86" letter-spacing="-2">
+  <tspan x="128" y="140" fill="#6B6BBB">APP</tspan><tspan fill="#8DC63F">LENDE</tspan>
+</text>
+
+<!-- Subtítulo -->
+<text x="134" y="168"
+      font-family="'Josefin Sans','Century Gothic',sans-serif"
+      font-weight="400" font-size="17"
+      fill="#BFBFBF" letter-spacing="10">ACADEMIA</text>
+
+<!-- Línea decorativa -->
+<rect x="134" y="176" width="130" height="2.5" rx="1.5" fill="url(#grad1)"/>
+
+</svg>
+
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">← Inicio</a>
+    <a href="cursos.html" class="nav-link">Todos los cursos</a>
+    <button onclick="abrirModal()" class="nav-btn">Inscribirme — Bs 200</button>
+  </div>
+</nav>
+
+<!-- HERO FOTO -->
+<div class="hero-foto-wrap">
+  <img src="https://freddy-applex.github.io/apple-web/edificios-scz.jpg" class="hero-foto" alt="Construcción de Edificios">
+  <div class="hero-foto-overlay">
+    <div class="hero-foto-text">
+      <div class="hero-foto-badge"><div class="hero-dot"></div> En Vivo · 11 de Mayo, 2026 · Zoom</div>
+      <h1>Construcción de <span>Edificios de 5 Niveles</span></h1>
+      <p>Proceso constructivo completo · Arq. Freddy Velásquez · 24 horas · Bolivia</p>
+    </div>
+  </div>
+</div>
+
+<!-- INFO BAR -->
+<div class="info-bar">
+  <div class="info-badges">
+    <div class="ibadge">👤 Arq. Freddy Velásquez</div>
+    <div class="ibadge">⏱ 7 clases · 10.5 hrs académicas</div>
+    <div class="ibadge">💻 Zoom · Lun, Mié y Vie</div>
+    <div class="ibadge">🇧🇴 Bolivia</div>
+    <div class="ibadge">👥 Máx. 70 alumnos</div>
+    <div class="ibadge">📜 Certificado</div>
+  </div>
+  <div class="rating-bar">
+    <span class="stars">★★★★★</span>
+    <span class="rnum">4.9</span>
+    <span class="rinfo">(67 reseñas · 198 estudiantes)</span>
+  </div>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="countdown-bar">
+  <div>
+    <div class="cd-label">⏳ El curso inicia en:</div>
+    <div class="cd-sub">Construcción de Edificios de 5 Niveles · 11 Mayo 2026 · Lun, Mié y Vie · 20:00 — 21:30h Bolivia</div>
+  </div>
+  <div class="cd-timer">
+    <div class="cd-unit"><span class="cd-num" id="e-d">00</span><span class="cd-sub-label">Días</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-unit"><span class="cd-num" id="e-h">00</span><span class="cd-sub-label">Horas</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-unit"><span class="cd-num" id="e-m">00</span><span class="cd-sub-label">Min</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-unit"><span class="cd-num" id="e-s">00</span><span class="cd-sub-label">Seg</span></div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+
+  <!-- CONTENIDO IZQUIERDO -->
+  <div class="contenido">
+
+    <!-- Descripción -->
+    <span class="section-tag">Sobre el curso</span>
+    <h2>¿Qué aprenderás?</h2>
+    <p>Aprende el proceso constructivo completo de edificios multifamiliares de 5 niveles — desde el diseño estructural y los cimientos hasta los acabados finales. Metodología real aplicada en obras ejecutadas en Bolivia por el Arq. Freddy Velásquez.</p>
+    <p>Las clases son en vivo por Zoom con interacción directa con el instructor. Además recibes acceso permanente a la grabación y materiales de apoyo.</p>
+
+    <div class="separador"></div>
+
+    <!-- Video -->
+    <span class="section-tag">Presentación del curso</span>
+    <h2>Video de presentación</h2>
+    <div class="video-wrap">
+      <div class="video-placeholder">
+        <div class="play-icon">▶️</div>
+        <p>Video disponible próximamente</p>
+      </div>
+      <!-- Descomenta con tu ID de Vimeo:
+      <iframe src="https://player.vimeo.com/video/VIDEO_ID_EDIFICIOS?badge=0&autopause=0" allow="autoplay; fullscreen; picture-in-picture" title="Edificios 5 Niveles"></iframe>
+      -->
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- Temario -->
+    <span class="section-tag">Contenido del curso</span>
+    <h2>Temario completo — 16 módulos · 7 clases · 10.5 horas académicas</h2>
+    <p>7 clases de 1.5 horas cada una · 10.5 horas académicas en total · Planos reales y archivos descargables.</p>
+    <div class="temario-grid">
+      <div class="t-item"><div class="t-num">1</div><div class="t-texto"><strong>Introducción y planificación</strong>Organización, equipos y cronograma general de obra.</div></div>
+      <div class="t-item"><div class="t-num">2</div><div class="t-texto"><strong>Lectura de planos</strong>Interpretación de planos estructurales e instalaciones.</div></div>
+      <div class="t-item"><div class="t-num purple">3</div><div class="t-texto"><strong>Planilla de acero</strong>Cuantificación por elemento: columnas, vigas y losas.</div></div>
+      <div class="t-item"><div class="t-num">4</div><div class="t-texto"><strong>Replanteo topográfico</strong>Ubicación del edificio en el terreno con precisión.</div></div>
+      <div class="t-item"><div class="t-num">5</div><div class="t-texto"><strong>Excavación y pilotes</strong>Tipos de fundaciones para edificios multifamiliares.</div></div>
+      <div class="t-item"><div class="t-num purple">6</div><div class="t-texto"><strong>Vigas de fundación</strong>Encofrado, armado y vaciado de vigas de cimentación.</div></div>
+      <div class="t-item"><div class="t-num">7</div><div class="t-texto"><strong>Columnas — Nivel 1</strong>Armado, encofrado y vaciado. Control de verticalidad.</div></div>
+      <div class="t-item"><div class="t-num">8</div><div class="t-texto"><strong>Losa entrepiso — Nivel 1</strong>Encofrado de losa maciza o alivianada. Vaciado.</div></div>
+      <div class="t-item"><div class="t-num purple">9</div><div class="t-texto"><strong>Niveles 2 al 5</strong>Proceso constructivo por piso. Control de calidad.</div></div>
+      <div class="t-item"><div class="t-num">10</div><div class="t-texto"><strong>Mampostería y tabiques</strong>Muros de ladrillo, separaciones y revoques.</div></div>
+      <div class="t-item"><div class="t-num">11</div><div class="t-texto"><strong>Instalaciones hidrosanitarias</strong>Red de agua potable y desagüe por nivel.</div></div>
+      <div class="t-item"><div class="t-num purple">12</div><div class="t-texto"><strong>Instalaciones eléctricas</strong>Tableros, montantes y cableado. Normas Bolivia.</div></div>
+      <div class="t-item"><div class="t-num">13</div><div class="t-texto"><strong>Contrapisos y pisos</strong>Preparación y colocación de pisos cerámicos.</div></div>
+      <div class="t-item"><div class="t-num">14</div><div class="t-texto"><strong>Acabados</strong>Pintura, zócalos, puertas y carpintería metálica.</div></div>
+      <div class="t-item"><div class="t-num purple">15</div><div class="t-texto"><strong>Áreas comunes y fachada</strong>Hall, escaleras, ascensores y fachada exterior.</div></div>
+      <div class="t-item"><div class="t-num">16</div><div class="t-texto"><strong>Gestión y control de obra</strong>Avance físico, materiales y reportes de gestión.</div></div>
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- Instructor -->
+    <span class="section-tag">Tu instructor</span>
+    <h2>Arq. Freddy Velásquez</h2>
+    <div class="inst-card">
+      <div class="inst-av">👷</div>
+      <div>
+        <div class="inst-nombre">Arq. Freddy Gabriel Velásquez Reinaga</div>
+        <span class="inst-cargo">Director General · APPLE Construcciones & Servicios</span>
+        <p class="inst-bio">Arquitecto con Maestría en Gerencia de la Construcción Civil y más de 20 años de experiencia en obras civiles bolivianas. Docente universitario y creador de la metodología APPLEX. Ha ejecutado más de 50 obras y 100 proyectos en Santa Cruz y el interior del país.</p>
+        <div class="inst-tags">
+          <span class="inst-tag">MSc. Gerencia de la Construcción</span>
+          <span class="inst-tag">Docente universitario</span>
+          <span class="inst-tag">+50 obras ejecutadas</span>
+          <span class="inst-tag">+100 proyectos Bolivia</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CARD INSCRIPCION -->
+  <div>
+    <div class="inscripcion-card">
+      <div style="margin-bottom:6px;">
+        <span class="ic-precio-num">Bs 200</span>
+        <span class="ic-precio-orig">Bs 300</span>
+        <span class="ic-descuento">-33%</span>
+      </div>
+      <div class="ic-usd">≈ $29 USD · Tipo de cambio Bs 6.96</div>
+      <div class="ic-alerta">⚡ Solo 70 cupos disponibles</div>
+
+      <button class="ic-btn-main" onclick="abrirModal()">🎓 Quiero inscribirme →</button>
+
+      <a href="https://wa.me/59173979066?text=Hola%20Arq.%20Freddy,%20quiero%20información%20sobre%20el%20curso%20Construcción%20de%20Edificios%20de%205%20Niveles%20(11%20Mayo%202026)" target="_blank" class="ic-btn-wa">
+        💬 Consultar por WhatsApp
+      </a>
+
+      <ul class="ic-features">
+        <li class="ic-feat">Lunes, Miércoles y Viernes · 20:00 — 21:30h Bolivia</li>
+        <li class="ic-feat">Acceso permanente a la grabación</li>
+        <li class="ic-feat">Materiales y archivos de apoyo</li>
+        <li class="ic-feat">Certificado de participación</li>
+        <li class="ic-feat">Grupo WhatsApp exclusivo</li>
+        <li class="ic-feat">Resolución de dudas post-curso</li>
+      </ul>
+
+      <div class="ic-garantia">🛡️ Garantía de satisfacción 24 horas</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <h2>¿Listo para construir tu primer edificio?</h2>
+  <p>Solo 70 cupos para el curso en vivo del 11 de Mayo. Inscríbete ahora.</p>
+  <div class="cta-btns">
+    <button onclick="abrirModal()" class="btn-cta">🎓 Inscribirme — Bs 200 →</button>
+    <a href="https://wa.me/59173979066?text=Hola%20Arq.%20Freddy,%20quiero%20inscribirme%20al%20curso%20Edificios%20de%205%20Niveles" target="_blank" class="btn-cta-wa">💬 Hablar con el Arq. Freddy</a>
+  </div>
+  <p style="color:rgba(255,255,255,0.4);font-size:12px;margin-top:20px;">🛡️ Garantía de satisfacción 24 horas · Acceso permanente a la grabación</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <a href="index.html">APPLE Construcciones & Servicios</a> · Academia APPLENDE · Santa Cruz, Bolivia</p>
+  <p style="margin-top:6px;"><a href="https://wa.me/59173979066" target="_blank">💬 +591 73979066</a></p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="cerrarOverlay(event)">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <button class="modal-close" onclick="cerrarModal()">✕</button>
+      <div class="modal-subtit">🔴 Curso En Vivo · 11 Mayo 2026 · Zoom · 20:00 — 21:30h</div>
+      <div class="modal-tit">Construcción de Edificios de 5 Niveles</div>
+      <span class="modal-precio-display">Bs 200</span>
+    </div>
+    <div class="modal-bd">
+      <div>
+        <span class="m-label">Tus datos de contacto</span>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <input class="m-input" id="m-nombre" type="text" placeholder="Nombre completo *">
+          <input class="m-input" id="m-email" type="email" placeholder="Correo electrónico *">
+          <input class="m-input" id="m-tel" type="tel" placeholder="WhatsApp * (+591 7XXXXXXX)">
+        </div>
+      </div>
+      <div>
+        <span class="m-label">Elige cómo pagar</span>
+        <div class="opciones">
+          <button class="opcion" onclick="elegirOpcion(this,'tarjeta')">
+            <div class="opcion-icon icon-green">💳</div>
+            <div style="flex:1;">
+              <span class="opcion-nombre">Pagar con tarjeta</span>
+              <span class="opcion-desc">Visa / Mastercard · Red Enlace CyberSource · Bolivia e internacional</span>
+            </div>
+            <span class="opcion-arrow">›</span>
+          </button>
+          <button class="opcion opcion-purple" onclick="elegirOpcion(this,'qr')">
+            <div class="opcion-icon icon-purple">📲</div>
+            <div style="flex:1;">
+              <span class="opcion-nombre">Pago QR Bolivia</span>
+              <span class="opcion-desc">QR bancario interbancario · Solo Bolivia · Envía comprobante por WhatsApp</span>
+            </div>
+            <span class="opcion-arrow">›</span>
+          </button>
+          <button class="opcion opcion-wa" onclick="elegirOpcion(this,'wa')">
+            <div class="opcion-icon icon-wa">💬</div>
+            <div style="flex:1;">
+              <span class="opcion-nombre">Contactar asesor</span>
+              <span class="opcion-desc">WhatsApp con el Arq. Freddy · Respuesta inmediata</span>
+            </div>
+            <span class="opcion-arrow">›</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn-confirmar" id="btn-confirmar" onclick="confirmar()" disabled>
+        Selecciona una opción de pago
+      </button>
+      <div class="modal-nota">🛡️ Garantía 24h · Acceso permanente a grabación incluido</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Countdown
+(function(){
+  const obj=new Date('2026-05-11T19:30:00-04:00');
+  function upd(){
+    const d=obj-new Date(); if(d<=0)return;
+    const p=n=>String(Math.floor(n)).padStart(2,'0');
+    document.getElementById('e-d').textContent=p(d/86400000);
+    document.getElementById('e-h').textContent=p((d%86400000)/3600000);
+    document.getElementById('e-m').textContent=p((d%3600000)/60000);
+    document.getElementById('e-s').textContent=p((d%60000)/1000);
+  }
+  upd();setInterval(upd,1000);
+})();
+
+let opcionActual=null;
+
+function abrirModal(){
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  opcionActual=null;
+  document.querySelectorAll('.opcion').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('btn-confirmar').disabled=true;
+  document.getElementById('btn-confirmar').textContent='Selecciona una opción de pago';
+  ['m-nombre','m-email','m-tel'].forEach(id=>document.getElementById(id).value='');
+}
+
+function cerrarModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function cerrarOverlay(e){
+  if(e.target===document.getElementById('modalOverlay'))cerrarModal();
+}
+
+function elegirOpcion(btn,opcion){
+  document.querySelectorAll('.opcion').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');opcionActual=opcion;
+  const t={tarjeta:'Pagar con tarjeta — Bs 200',qr:'Ver QR de pago Bolivia',wa:'Contactar asesor por WhatsApp'};
+  document.getElementById('btn-confirmar').disabled=false;
+  document.getElementById('btn-confirmar').textContent=t[opcion];
+}
+
+function confirmar(){
+  const n=document.getElementById('m-nombre').value.trim();
+  const e=document.getElementById('m-email').value.trim();
+  const t=document.getElementById('m-tel').value.trim();
+  if(!n||!e||!t){alert('Por favor completa tu nombre, correo y WhatsApp.');return;}
+  const msg=encodeURIComponent('Hola Arq. Freddy, quiero inscribirme:\nCurso: Construcción de Edificios de 5 Niveles\nFecha: 11 Mayo 2026 · 20:00h Zoom\nPrecio: Bs 200\nNombre: '+n+'\nEmail: '+e+'\nWA: '+t);
+  if(opcionActual==='tarjeta'){
+    // INSERTAR CREDENCIALES RED ENLACE CUANDO LLEGUEN
+    alert('💳 Pago con tarjeta disponible muy pronto.\nTe conectamos con el Arq. Freddy por WhatsApp.');
+    window.open('https://wa.me/59173979066?text='+msg,'_blank');
+  } else if(opcionActual==='qr'){
+    alert('📲 QR Bolivia\n\nMonto: Bs 200\nEscanea el QR del Arq. Freddy y envía tu comprobante por WhatsApp.');
+    window.open('https://wa.me/59173979066?text='+msg+'%0AOpci%C3%B3n%3A%20Pago%20QR%20Bolivia','_blank');
+  } else if(opcionActual==='wa'){
+    window.open('https://wa.me/59173979066?text='+msg+'%0AQuiero%20m%C3%A1s%20informaci%C3%B3n.','_blank');
+  }
+  cerrarModal();
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarModal();});
+</script>
+</body>
+</html>
