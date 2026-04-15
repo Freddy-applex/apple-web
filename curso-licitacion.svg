@@ -1,0 +1,64 @@
+<svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" width="400" height="225">
+  <defs>
+    <linearGradient id="bg6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0E1A30"/>
+      <stop offset="100%" style="stop-color:#1A2744"/>
+    </linearGradient>
+    <linearGradient id="ov6" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:rgba(0,0,0,0)"/>
+      <stop offset="50%" style="stop-color:rgba(26,39,68,0.4)"/>
+      <stop offset="100%" style="stop-color:rgba(26,39,68,0.96)"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="225" fill="url(#bg6)"/>
+  <!-- Edificio gubernamental -->
+  <rect x="100" y="70" width="200" height="100" fill="#C8B89A"/>
+  <!-- Columnas -->
+  <rect x="110" y="70" width="14" height="100" fill="#D4C4A6"/>
+  <rect x="138" y="70" width="14" height="100" fill="#D4C4A6"/>
+  <rect x="166" y="70" width="14" height="100" fill="#D4C4A6"/>
+  <rect x="194" y="70" width="14" height="100" fill="#D4C4A6"/>
+  <rect x="222" y="70" width="14" height="100" fill="#D4C4A6"/>
+  <rect x="250" y="70" width="14" height="100" fill="#D4C4A6"/>
+  <rect x="278" y="70" width="14" height="100" fill="#D4C4A6"/>
+  <!-- Frontón -->
+  <polygon points="90,72 200,30 310,72" fill="#b8a890"/>
+  <polygon points="94,72 200,34 306,72" fill="#C8B89A"/>
+  <!-- Escalinatas -->
+  <rect x="80" y="170" width="240" height="8" fill="#aaa"/>
+  <rect x="90" y="162" width="220" height="8" fill="#bbb"/>
+  <rect x="100" y="154" width="200" height="8" fill="#ccc"/>
+  <!-- Puerta doble -->
+  <rect x="178" y="120" width="44" height="50" rx="22" fill="#3a2a1a"/>
+  <line x1="200" y1="120" x2="200" y2="170" stroke="#2a1a0a" stroke-width="1.5"/>
+  <!-- Bandera Bolivia simulada -->
+  <rect x="195" y="8" width="3" height="28" fill="#888"/>
+  <rect x="198" y="10" width="22" height="7" fill="#ff0000"/>
+  <rect x="198" y="17" width="22" height="7" fill="#FFD700"/>
+  <rect x="198" y="24" width="22" height="7" fill="#007700"/>
+  <!-- Documento SICOES -->
+  <rect x="18" y="55" width="75" height="95" rx="4" fill="white" opacity="0.95"/>
+  <rect x="22" y="59" width="67" height="14" rx="2" fill="#1A2744"/>
+  <text x="55" y="70" font-family="Barlow,sans-serif" font-size="7" fill="#8DC63F" text-anchor="middle" font-weight="800">SICOES</text>
+  <rect x="22" y="78" width="67" height="4" rx="2" fill="#eee"/>
+  <rect x="22" y="86" width="50" height="4" rx="2" fill="#eee"/>
+  <rect x="22" y="94" width="67" height="4" rx="2" fill="#eee"/>
+  <rect x="22" y="102" width="40" height="4" rx="2" fill="#eee"/>
+  <rect x="22" y="110" width="67" height="4" rx="2" fill="#eee"/>
+  <rect x="22" y="118" width="55" height="4" rx="2" fill="#eee"/>
+  <rect x="22" y="126" width="67" height="4" rx="2" fill="#eee"/>
+  <rect x="22" y="136" width="67" height="10" rx="2" fill="#8DC63F" opacity="0.3"/>
+  <text x="55" y="144" font-family="Barlow,sans-serif" font-size="7" fill="#1A2744" text-anchor="middle" font-weight="700">PROPUESTA</text>
+  <!-- Sello GANADOR -->
+  <circle cx="70" cy="130" r="14" fill="#8DC63F" opacity="0.9"/>
+  <text x="70" y="128" font-family="Barlow,sans-serif" font-size="5" fill="#1A2744" text-anchor="middle" font-weight="800">PROP.</text>
+  <text x="70" y="136" font-family="Barlow,sans-serif" font-size="5" fill="#1A2744" text-anchor="middle" font-weight="800">GANADORA</text>
+  <!-- Mazo juicio -->
+  <rect x="310" y="100" width="60" height="12" rx="4" fill="#8B4513" transform="rotate(-30 340 106)"/>
+  <rect x="332" y="90" width="16" height="40" rx="3" fill="#6B3410" transform="rotate(-30 340 110)"/>
+
+  <rect width="400" height="225" fill="url(#ov6)"/>
+  <text x="20" y="178" font-family="Barlow,sans-serif" font-size="9" font-weight="700" fill="#8DC63F" letter-spacing="2">SABS · NB-SABS · SICOES</text>
+  <text x="20" y="196" font-family="Josefin Sans,sans-serif" font-size="15" font-weight="700" fill="white">Licitación de</text>
+  <text x="20" y="213" font-family="Josefin Sans,sans-serif" font-size="15" font-weight="700" fill="white">Obras Públicas</text>
+</svg>
