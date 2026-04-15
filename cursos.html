@@ -5,433 +5,249 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cursos Cortos en el Sector de la Construcción — Arquitectura e Ingeniería Civil · APPLENDE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Barlow:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --navy:#1A2744;--blue:#2E4A8E;
-  --green:#8DC63F;--purple:#6B6BBB;
-  --white:#fff;--offwhite:#F5F7FA;
-  --text:#2C3A52;--muted:#6B7A90;
-  --border:#E8ECF2;
-  --shadow:0 2px 12px rgba(0,0,0,0.08);
-}
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{background:var(--offwhite);color:var(--text);font-family:'Barlow',sans-serif;overflow-x:hidden;}
+body{font-family:'Barlow',sans-serif;background:#F5F7FA;color:#2C3A52;overflow-x:hidden;}
 
-/* ── NAV ── */
-nav{
-  position:sticky;top:0;z-index:100;
-  background:var(--navy);
-  padding:0 5%;height:60px;
+/* NAV */
+.nav{
+  background:#1A2744;padding:0 5%;height:60px;
   display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
   box-shadow:0 2px 8px rgba(0,0,0,0.3);
 }
 .nav-logo-svg{height:32px;width:auto;}
 .nav-search{
-  flex:1;max-width:500px;margin:0 24px;
+  flex:1;max-width:480px;margin:0 20px;
   display:flex;align-items:center;
-  background:var(--white);border-radius:24px;overflow:hidden;
-  border:2px solid var(--green);
+  background:#fff;border-radius:24px;overflow:hidden;
+  border:2px solid #8DC63F;
 }
 .nav-search input{
   flex:1;padding:8px 16px;border:none;outline:none;
-  font-size:14px;font-family:'Barlow',sans-serif;color:var(--text);
+  font-size:14px;font-family:'Barlow',sans-serif;
 }
 .nav-search button{
-  background:var(--green);border:none;padding:8px 16px;
-  cursor:pointer;font-size:16px;
+  background:#8DC63F;border:none;padding:8px 16px;cursor:pointer;font-size:15px;
 }
-.nav-right{display:flex;align-items:center;gap:12px;}
-.nav-wa{
-  background:#25D366;color:var(--white);
-  padding:8px 18px;border-radius:20px;
-  font-weight:700;font-size:13px;text-decoration:none;
-  white-space:nowrap;
-}
-.nav-back{
-  color:rgba(255,255,255,0.7);text-decoration:none;
-  font-size:13px;font-weight:500;
-  padding:8px 14px;border-radius:20px;
-  border:1px solid rgba(255,255,255,0.2);
-  white-space:nowrap;
-  transition:all .2s;
-}
-.nav-back:hover{color:var(--white);border-color:var(--green);}
+.nav-btns{display:flex;gap:10px;align-items:center;}
+.nav-back{color:rgba(255,255,255,0.75);text-decoration:none;font-size:13px;font-weight:600;padding:7px 14px;border:1px solid rgba(255,255,255,0.2);border-radius:20px;transition:all .2s;white-space:nowrap;}
+.nav-back:hover{color:#fff;border-color:#8DC63F;}
+.nav-wa{background:#25D366;color:#fff;padding:8px 16px;border-radius:20px;font-weight:700;font-size:13px;text-decoration:none;white-space:nowrap;}
 
-/* ── HERO BANNER ── */
-.hero-banner{
-  background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 60%,var(--purple) 100%);
-  padding:48px 5%;
-  display:flex;align-items:center;justify-content:space-between;
-  gap:40px;flex-wrap:wrap;
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#1A2744,#2E4A8E);
+  padding:36px 5%;
 }
-.hero-text{max-width:600px;}
-.hero-tag{
-  display:inline-block;
-  background:rgba(141,198,63,0.2);
-  border:1px solid rgba(141,198,63,0.4);
-  color:var(--green);font-size:12px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;
-  padding:5px 14px;border-radius:20px;margin-bottom:16px;
-}
-.hero-banner h1{
-  font-family:'Josefin Sans',sans-serif;
-  font-size:clamp(22px,3.5vw,38px);font-weight:700;
-  color:var(--white);line-height:1.2;margin-bottom:12px;
-}
-.hero-banner h1 span{color:var(--green);}
-.hero-banner p{
-  font-size:15px;color:rgba(255,255,255,0.75);
-  line-height:1.7;margin-bottom:24px;
-}
-.hero-stats{display:flex;gap:32px;flex-wrap:wrap;}
+.hero-tag{display:inline-block;background:rgba(141,198,63,0.2);border:1px solid rgba(141,198,63,0.4);color:#8DC63F;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:12px;}
+.hero h1{font-family:'Josefin Sans',sans-serif;font-size:clamp(20px,3.5vw,34px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:12px;}
+.hero h1 span{color:#8DC63F;}
+.hero-stats{display:flex;gap:24px;flex-wrap:wrap;margin-top:16px;}
 .hero-stat{text-align:center;}
-.hero-stat-num{font-size:28px;font-weight:800;color:var(--green);display:block;}
-.hero-stat-label{font-size:12px;color:rgba(255,255,255,0.6);}
+.hero-stat-num{font-family:'Josefin Sans',sans-serif;font-size:26px;font-weight:700;color:#8DC63F;display:block;line-height:1;}
+.hero-stat-label{font-size:11px;color:rgba(255,255,255,0.6);margin-top:3px;}
 
-/* ── FILTROS ── */
-.filtros-bar{
-  background:var(--white);
-  border-bottom:2px solid var(--border);
-  padding:0 5%;
-  display:flex;gap:4px;overflow-x:auto;
+/* FILTROS */
+.filtros{
+  background:#fff;border-bottom:2px solid #E2E8F0;
+  padding:0 5%;display:flex;gap:0;overflow-x:auto;
   position:sticky;top:60px;z-index:90;
 }
 .filtro{
-  padding:14px 18px;border:none;background:transparent;
-  font-size:14px;font-weight:600;color:var(--muted);
+  padding:14px 20px;border:none;background:transparent;
+  font-size:14px;font-weight:600;color:#6B7A90;
   cursor:pointer;white-space:nowrap;
   border-bottom:3px solid transparent;margin-bottom:-2px;
   transition:all .2s;font-family:'Barlow',sans-serif;
 }
-.filtro:hover{color:var(--navy);}
-.filtro.active{color:var(--navy);border-bottom-color:var(--navy);}
+.filtro:hover{color:#1A2744;}
+.filtro.active{color:#1A2744;border-bottom-color:#1A2744;}
 
-/* ── CURSOS EN VIVO ── */
-.vivo-section{
-  background:var(--navy);padding:28px 5%;margin-bottom:0;
+/* CURSOS EN VIVO */
+.vivo-bar{
+  background:#1A2744;padding:20px 5%;
 }
-.vivo-header-bar{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:20px;flex-wrap:wrap;gap:12px;
-}
-.vivo-left{display:flex;align-items:center;gap:14px;}
-.vivo-dot{
-  width:12px;height:12px;border-radius:50%;background:#dc2626;
-  animation:pulse-dot 1.5s ease-in-out infinite;flex-shrink:0;
-}
-@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,0.4);}50%{box-shadow:0 0 0 8px rgba(220,38,38,0);}}
-.vivo-title{font-size:18px;font-weight:800;color:var(--white);}
-.vivo-sub{font-size:13px;color:rgba(255,255,255,0.6);margin-top:2px;}
-.countdown-mini{
-  display:flex;align-items:center;gap:4px;
-  font-size:14px;font-weight:700;color:var(--white);
-  background:rgba(255,255,255,0.08);
-  padding:10px 16px;border-radius:10px;
-}
-.countdown-mini span{
-  background:rgba(220,38,38,0.3);
-  padding:4px 8px;border-radius:6px;
-  font-family:'Josefin Sans',sans-serif;font-size:16px;
-  min-width:28px;text-align:center;display:inline-block;
-}
-.vivo-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.vivo-card{
-  background:rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:14px;padding:20px;
-  display:flex;align-items:center;gap:16px;
-  position:relative;overflow:hidden;
-  transition:all .2s;
-}
-.vivo-card:hover{background:rgba(255,255,255,0.1);transform:translateY(-2px);}
-.vivo-card.internacional{border-color:rgba(107,107,187,0.4);}
-.intl-label{
-  position:absolute;top:0;left:0;right:0;
-  background:var(--purple);color:var(--white);
-  font-size:11px;font-weight:700;letter-spacing:1px;
-  text-align:center;padding:4px;
-}
-.vivo-card.internacional{padding-top:32px;}
-.vivo-fecha{
-  text-align:center;flex-shrink:0;
-  background:rgba(220,38,38,0.15);
-  border:1px solid rgba(220,38,38,0.3);
-  border-radius:10px;padding:10px 14px;min-width:60px;
-}
-.vf-mes{font-size:9px;font-weight:800;color:rgba(220,38,38,0.8);letter-spacing:1.5px;display:block;}
-.vf-dia{font-size:32px;font-weight:900;color:var(--white);line-height:1;display:block;}
-.vf-year{font-size:10px;color:rgba(255,255,255,0.5);display:block;}
-.vivo-info{flex:1;}
-.vivo-badge-cat{
-  font-size:10px;font-weight:700;letter-spacing:1px;
-  text-transform:uppercase;color:var(--green);
-  background:rgba(141,198,63,0.1);
-  padding:3px 8px;border-radius:10px;display:inline-block;margin-bottom:6px;
-}
-.vivo-info h3{font-size:15px;font-weight:700;color:var(--white);margin-bottom:4px;line-height:1.3;}
-.vivo-info p{font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:8px;}
-.cupos-row{display:flex;align-items:center;gap:8px;}
-.cupos-bar-mini{width:80px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;flex-shrink:0;}
-.cupos-fill-mini{height:100%;background:var(--green);border-radius:2px;}
-.cupos-row span{font-size:11px;color:rgba(255,255,255,0.5);}
-.vivo-action{text-align:center;flex-shrink:0;}
-.vivo-precio{font-size:22px;font-weight:900;color:var(--green);}
-.vivo-usd{font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:8px;}
-.btn-vivo{
-  background:var(--green);color:var(--navy);
-  border:none;padding:10px 18px;border-radius:8px;
-  font-weight:800;font-size:13px;cursor:pointer;
-  font-family:'Barlow',sans-serif;white-space:nowrap;
-  transition:all .2s;
-}
-.btn-vivo:hover{background:#9ed648;box-shadow:0 4px 16px rgba(141,198,63,0.4);}
+.vivo-bar-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:16px;}
+.vivo-dot{width:10px;height:10px;border-radius:50%;background:#dc2626;animation:pulse 1.5s infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,0.4);}50%{box-shadow:0 0 0 8px rgba(220,38,38,0);}}
+.vivo-titulo{font-size:16px;font-weight:800;color:#fff;}
+.vivo-sub{font-size:12px;color:rgba(255,255,255,0.55);margin-top:2px;}
+.countdown{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,0.08);padding:8px 14px;border-radius:10px;}
+.countdown span{background:rgba(220,38,38,0.3);padding:4px 8px;border-radius:6px;font-family:'Josefin Sans',sans-serif;font-size:16px;min-width:26px;text-align:center;display:inline-block;}
+.vivo-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.vivo-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;transition:all .2s;}
+.vivo-card:hover{background:rgba(255,255,255,0.1);}
+.vivo-card.intl{border-color:rgba(107,107,187,0.4);}
+.vivo-fecha{text-align:center;background:rgba(220,38,38,0.15);border:1px solid rgba(220,38,38,0.3);border-radius:10px;padding:10px 12px;flex-shrink:0;min-width:58px;}
+.vf-mes{font-size:8px;font-weight:800;color:rgba(220,38,38,0.8);letter-spacing:1.5px;display:block;text-transform:uppercase;}
+.vf-dia{font-size:30px;font-weight:900;color:#fff;line-height:1;display:block;}
+.vivo-info{flex:1;min-width:0;}
+.vivo-info h3{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px;line-height:1.3;}
+.vivo-info p{font-size:11px;color:rgba(255,255,255,0.55);margin-bottom:6px;}
+.cupos-bar{height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin-bottom:4px;width:80px;}
+.cupos-fill{height:100%;background:#8DC63F;border-radius:2px;width:5%;}
+.cupos-txt{font-size:10px;color:rgba(255,255,255,0.4);}
+.vivo-precio{text-align:center;flex-shrink:0;}
+.vivo-precio-num{font-size:20px;font-weight:900;color:#8DC63F;display:block;}
+.vivo-precio-usd{font-size:10px;color:rgba(255,255,255,0.4);display:block;margin-bottom:8px;}
+.btn-vivo{background:#8DC63F;color:#1A2744;border:none;padding:9px 14px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;font-family:'Barlow',sans-serif;white-space:nowrap;transition:all .2s;}
+.btn-vivo:hover{background:#9ed648;}
 
-/* ── MAIN CONTENT ── */
-.main-content{
-  max-width:1200px;margin:0 auto;
-  padding:32px 5%;
-}
-.section-title-bar{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:24px;
-}
-.section-title-bar h2{
-  font-family:'Josefin Sans',sans-serif;
-  font-size:clamp(20px,2.5vw,28px);font-weight:700;color:var(--navy);
-}
-.section-count{font-size:14px;color:var(--muted);}
+/* MAIN CURSOS */
+.main{max-width:1200px;margin:0 auto;padding:28px 5%;}
+.section-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.section-bar h2{font-family:'Josefin Sans',sans-serif;font-size:22px;font-weight:700;color:#1A2744;}
+.section-count{font-size:13px;color:#6B7A90;}
 
-/* ── GRID CARDS ── */
-.cursos-grid{
+/* GRID */
+.c-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:16px;
+  gap:18px;
 }
 
-/* ── CARD ── */
-.curso-card{
-  background:var(--white);
-  border:1px solid var(--border);
-  border-radius:8px;overflow:visible;
-  cursor:pointer;position:relative;
-  transition:box-shadow .2s;
-}
-.curso-card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12);z-index:10;}
-
-/* Thumbnail */
-.thumb{
-  height:130px;display:flex;align-items:center;
-  justify-content:center;position:relative;
+/* CARD */
+.c-card{
+  background:#fff;
+  border:1px solid #E2E8F0;
+  border-radius:8px;
   overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transition:box-shadow .25s, transform .25s;
+  cursor:pointer;
 }
-.thumb-icon{font-size:48px;}
-.thumb-nivel{
+.c-card:hover{
+  box-shadow:0 8px 28px rgba(0,0,0,0.12);
+  transform:translateY(-3px);
+}
+
+/* THUMB */
+.c-thumb{
+  position:relative;
+  width:100%;
+  padding-top:56.25%; /* 16:9 */
+  overflow:hidden;
+  flex-shrink:0;
+}
+.c-thumb img{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  transition:transform .4s;
+}
+.c-card:hover .c-thumb img{transform:scale(1.05);}
+.c-nivel{
   position:absolute;bottom:8px;right:8px;
-  background:rgba(0,0,0,0.6);color:var(--white);
+  background:rgba(0,0,0,0.65);color:#fff;
   font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;
   letter-spacing:0.5px;
 }
 
-/* Card body */
-.card-body{padding:12px;}
-.badge{
-  font-size:10px;font-weight:800;letter-spacing:0.5px;
-  padding:3px 8px;border-radius:4px;display:inline-block;margin-bottom:6px;
+/* INFO */
+.c-info{padding:12px;display:flex;flex-direction:column;gap:5px;flex:1;}
+.c-badge{font-size:10px;font-weight:800;padding:3px 8px;border-radius:4px;display:inline-block;width:fit-content;}
+.badge-best{background:#ecb613;color:#fff;}
+.badge-new{background:#8DC63F;color:#1A2744;}
+.badge-prox{background:#6B6BBB;color:#fff;}
+.badge-vivo{background:#dc2626;color:#fff;}
+.c-titulo{font-size:13px;font-weight:700;color:#1A2744;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:35px;}
+.c-inst{font-size:11px;color:#6B7A90;}
+.c-rating{display:flex;align-items:center;gap:3px;}
+.c-stars{color:#e65c00;font-size:11px;}
+.c-rnum{font-size:11px;font-weight:700;color:#e65c00;}
+.c-rcount{font-size:10px;color:#6B7A90;}
+.c-meta{font-size:10px;color:#6B7A90;}
+.c-precio{display:flex;align-items:center;gap:6px;margin-top:auto;padding-top:6px;}
+.c-precio-actual{font-size:16px;font-weight:800;color:#1A2744;}
+.c-precio-orig{font-size:11px;color:#6B7A90;text-decoration:line-through;}
+.c-btn{
+  width:100%;padding:10px;border-radius:6px;
+  font-weight:800;font-size:12px;border:none;cursor:pointer;
+  font-family:'Barlow',sans-serif;transition:all .2s;margin-top:6px;
 }
-.badge.bestseller{background:#ecb613;color:#fff;}
-.badge.nuevo{background:var(--green);color:var(--navy);}
-.badge.proximo{background:var(--purple);color:var(--white);}
-.badge.vivo{background:#dc2626;color:var(--white);}
+.c-btn-main{background:#8DC63F;color:#1A2744;}
+.c-btn-main:hover{background:#9ed648;}
+.c-btn-prox{background:#6B6BBB;color:#fff;}
+.c-btn-prox:hover{background:#5a5aaa;}
 
-.card-titulo{
-  font-size:14px;font-weight:700;color:var(--navy);
-  line-height:1.4;margin-bottom:4px;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
-}
-.card-instructor{font-size:12px;color:var(--muted);margin-bottom:6px;}
-.card-rating{display:flex;align-items:center;gap:4px;margin-bottom:6px;flex-wrap:wrap;}
-.stars{color:#e65c00;font-size:13px;}
-.rating-num{font-size:13px;font-weight:700;color:#e65c00;}
-.rating-count{font-size:12px;color:var(--muted);}
-.estudiantes{font-size:11px;color:var(--muted);}
-.card-meta{display:flex;gap:8px;font-size:11px;color:var(--muted);margin-bottom:8px;}
-.card-precio-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.precio-actual{font-size:18px;font-weight:800;color:var(--navy);}
-.precio-original-tachado{font-size:13px;color:var(--muted);text-decoration:line-through;}
-.descuento-badge{
-  font-size:11px;font-weight:700;
-  background:rgba(141,198,63,0.15);color:#3a6b00;
-  padding:2px 6px;border-radius:4px;
-}
+/* INSTRUCTORES */
+.inst-sec{background:#fff;border-top:2px solid #E2E8F0;padding:40px 5%;}
+.inst-sec h2{font-family:'Josefin Sans',sans-serif;font-size:24px;font-weight:700;color:#1A2744;margin-bottom:6px;}
+.inst-sec p{font-size:14px;color:#6B7A90;margin-bottom:28px;}
+.inst-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.inst-card{border:1px solid #E2E8F0;border-radius:10px;padding:20px;display:flex;gap:14px;align-items:flex-start;}
+.inst-av{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#6B6BBB,#2E4A8E);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.inst-nombre{font-size:14px;font-weight:700;color:#1A2744;margin-bottom:3px;}
+.inst-cargo{font-size:11px;color:#8DC63F;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.inst-bio{font-size:12px;color:#6B7A90;line-height:1.5;}
 
-/* TOOLTIP Udemy */
-.card-tooltip{
-  display:none;
-  position:absolute;
-  left:calc(100% + 10px);top:0;
-  width:280px;
-  background:var(--white);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:16px;
-  box-shadow:0 8px 40px rgba(0,0,0,0.15);
-  z-index:200;
-}
-.curso-card:last-child .card-tooltip,
-.curso-card:nth-last-child(2) .card-tooltip{
-  left:auto;right:calc(100% + 10px);
-}
-.curso-card:hover .card-tooltip{display:block;}
-.tt-titulo{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px;line-height:1.3;}
-.tt-modalidad{font-size:12px;color:var(--muted);margin-bottom:10px;}
-.tt-temas{list-style:none;display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
-.tt-temas li{font-size:12px;color:var(--text);}
-.tt-precio{font-size:20px;font-weight:800;color:var(--navy);margin-bottom:12px;}
-.tt-usd{font-size:13px;color:var(--muted);font-weight:400;}
-.btn-card{
-  width:100%;padding:12px;border-radius:6px;
-  font-weight:800;font-size:13px;border:none;cursor:pointer;
-  font-family:'Barlow',sans-serif;transition:all .2s;
-}
-.btn-comprar{
-  background:var(--green);color:var(--navy);
-}
-.btn-comprar:hover{background:#9ed648;}
-.btn-proximo{
-  background:var(--purple);color:var(--white);
-}
-.btn-proximo:hover{background:#5a5aaa;}
+/* GARANTIA */
+.garantia{background:linear-gradient(135deg,#1A2744,#2E4A8E);padding:36px 5%;text-align:center;}
+.garantia h3{font-size:20px;font-weight:700;color:#fff;margin-bottom:8px;}
+.garantia p{font-size:14px;color:rgba(255,255,255,0.65);max-width:480px;margin:0 auto;}
 
-/* ── INSTRUCTORES ── */
-.inst-section{
-  background:var(--white);border-top:2px solid var(--border);
-  padding:48px 5%;
-}
-.inst-section h2{
-  font-family:'Josefin Sans',sans-serif;
-  font-size:clamp(20px,2.5vw,28px);font-weight:700;
-  color:var(--navy);margin-bottom:8px;
-}
-.inst-section p{font-size:14px;color:var(--muted);margin-bottom:32px;}
-.inst-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-.inst-card{
-  border:1px solid var(--border);border-radius:12px;padding:24px;
-  display:flex;gap:16px;align-items:flex-start;
-  transition:box-shadow .2s;
-}
-.inst-card:hover{box-shadow:var(--shadow);}
-.inst-avatar{
-  width:64px;height:64px;border-radius:50%;
-  background:linear-gradient(135deg,var(--purple),var(--blue));
-  display:flex;align-items:center;justify-content:center;
-  font-size:26px;flex-shrink:0;
-}
-.inst-nombre{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:4px;}
-.inst-cargo{font-size:12px;color:var(--green);font-weight:600;margin-bottom:6px;}
-.inst-bio{font-size:12px;color:var(--muted);line-height:1.5;}
-
-/* ── GARANTIA ── */
-.garantia-bar{
-  background:linear-gradient(135deg,var(--navy),var(--blue));
-  padding:32px 5%;text-align:center;
-}
-.garantia-bar h3{font-size:20px;font-weight:700;color:var(--white);margin-bottom:8px;}
-.garantia-bar p{font-size:14px;color:rgba(255,255,255,0.7);max-width:500px;margin:0 auto;}
-
-/* ── MODAL ── */
-.modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,0.75);
-  z-index:1000;display:flex;align-items:center;justify-content:center;
-  padding:20px;opacity:0;pointer-events:none;transition:opacity 0.3s;
-}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
 .modal-overlay.open{opacity:1;pointer-events:all;}
-.modal{
-  background:var(--white);border-radius:12px;
-  max-width:460px;width:100%;max-height:90vh;overflow-y:auto;
-}
-.modal-header{
-  background:var(--navy);padding:20px 24px;
-  border-radius:12px 12px 0 0;position:relative;
-}
-.modal-close{
-  position:absolute;top:14px;right:14px;
-  background:rgba(255,255,255,0.1);border:none;
-  color:var(--white);width:28px;height:28px;border-radius:50%;
-  cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;
-}
-.modal-tipo{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--green);margin-bottom:4px;}
-.modal-titulo{font-size:16px;font-weight:700;color:var(--white);line-height:1.3;}
-.modal-precio-row{display:flex;align-items:baseline;gap:10px;margin-top:10px;}
-.modal-precio-bs{font-size:28px;font-weight:900;color:var(--green);}
-.modal-precio-usd{font-size:13px;color:rgba(255,255,255,0.6);}
-.modal-body{padding:20px 24px;display:flex;flex-direction:column;gap:14px;}
-.modal-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
-.form-input{
-  width:100%;background:var(--offwhite);
-  border:1.5px solid var(--border);border-radius:8px;
-  padding:11px 14px;font-size:14px;color:var(--text);
-  outline:none;transition:border .2s;font-family:'Barlow',sans-serif;
-}
-.form-input:focus{border-color:var(--green);}
-.metodos{display:flex;flex-direction:column;gap:8px;}
-.metodo{
-  display:flex;align-items:center;gap:12px;
-  background:var(--offwhite);border:2px solid var(--border);
-  border-radius:8px;padding:12px 14px;
-  cursor:pointer;transition:all .2s;width:100%;text-align:left;
-}
-.metodo:hover{border-color:var(--green);background:#f0f9e8;}
-.metodo.sel{border-color:var(--green);background:#f0f9e8;}
-.metodo-icon{font-size:22px;flex-shrink:0;}
-.metodo-name{font-size:13px;font-weight:700;color:var(--navy);}
-.metodo-desc{font-size:11px;color:var(--muted);margin-top:1px;}
-.radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.metodo.sel .radio{border-color:var(--green);background:var(--green);}
-.radio-inner{width:8px;height:8px;border-radius:50%;background:var(--white);display:none;}
-.metodo.sel .radio-inner{display:block;}
-.modal-footer{padding:0 24px 24px;}
-.btn-pagar{
-  width:100%;background:var(--green);color:var(--navy);
-  padding:14px;border-radius:8px;font-weight:800;font-size:15px;
-  border:none;cursor:pointer;transition:all .2s;font-family:'Barlow',sans-serif;
-}
-.btn-pagar:hover{background:#9ed648;box-shadow:0 4px 20px rgba(141,198,63,0.4);}
+.modal{background:#fff;border-radius:14px;max-width:440px;width:100%;max-height:90vh;overflow-y:auto;}
+.modal-hd{background:#1A2744;padding:20px 22px;border-radius:14px 14px 0 0;position:relative;}
+.modal-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.1);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;}
+.modal-tipo{font-size:10px;font-weight:700;letter-spacing:2px;color:#8DC63F;margin-bottom:4px;text-transform:uppercase;}
+.modal-tit{font-size:15px;font-weight:700;color:#fff;line-height:1.3;}
+.modal-precio{font-family:'Josefin Sans',sans-serif;font-size:32px;font-weight:700;color:#8DC63F;margin-top:10px;display:block;}
+.modal-bd{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.modal-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6B7A90;margin-bottom:4px;}
+.form-inp{width:100%;background:#F5F7FA;border:1.5px solid #E2E8F0;border-radius:8px;padding:10px 13px;font-size:14px;color:#2C3A52;outline:none;transition:border .2s;font-family:'Barlow',sans-serif;}
+.form-inp:focus{border-color:#8DC63F;}
+.metodos{display:flex;flex-direction:column;gap:7px;}
+.metodo{display:flex;align-items:center;gap:10px;background:#F5F7FA;border:2px solid #E2E8F0;border-radius:8px;padding:11px 13px;cursor:pointer;transition:all .2s;width:100%;text-align:left;font-family:'Barlow',sans-serif;}
+.metodo:hover{border-color:#8DC63F;background:#f0fff0;}
+.metodo.sel{border-color:#8DC63F;background:#f0fff0;}
+.metodo-icon{font-size:20px;flex-shrink:0;}
+.metodo-name{font-size:13px;font-weight:700;color:#1A2744;display:block;}
+.metodo-desc{font-size:11px;color:#6B7A90;}
+.radio{width:16px;height:16px;border-radius:50%;border:2px solid #E2E8F0;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-left:auto;}
+.metodo.sel .radio{border-color:#8DC63F;background:#8DC63F;}
+.radio-dot{width:7px;height:7px;border-radius:50%;background:#fff;display:none;}
+.metodo.sel .radio-dot{display:block;}
+.modal-ft{padding:0 22px 22px;}
+.btn-pagar{width:100%;background:#8DC63F;color:#1A2744;padding:14px;border-radius:8px;font-weight:800;font-size:14px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;}
+.btn-pagar:hover{background:#9ed648;}
 .btn-pagar:disabled{opacity:0.5;cursor:not-allowed;}
-.modal-security{text-align:center;font-size:11px;color:var(--muted);margin-top:8px;}
-.modal-wa{display:block;text-align:center;margin-top:8px;font-size:12px;color:var(--blue);text-decoration:underline;cursor:pointer;}
+.modal-sec{text-align:center;font-size:11px;color:#6B7A90;margin-top:8px;}
+.modal-wa-link{display:block;text-align:center;margin-top:8px;font-size:12px;color:#2E4A8E;cursor:pointer;text-decoration:underline;}
 
 /* FOOTER */
-footer{
-  background:var(--navy);padding:28px 5%;text-align:center;
-}
-footer p{font-size:12px;color:rgba(255,255,255,0.4);}
-footer a{color:var(--green);text-decoration:none;}
+footer{background:#0E1A30;border-top:1px solid rgba(141,198,63,0.12);padding:28px 5%;text-align:center;}
+footer p{font-size:12px;color:rgba(255,255,255,0.35);}
+footer a{color:#8DC63F;text-decoration:none;}
 
 /* RESPONSIVE */
-@media(max-width:1100px){.cursos-grid{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:900px){
-  .cursos-grid{grid-template-columns:repeat(2,1fr);}
+@media(max-width:1100px){.c-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:860px){
+  .c-grid{grid-template-columns:repeat(2,1fr);}
   .vivo-cards{grid-template-columns:1fr;}
   .inst-grid{grid-template-columns:1fr;}
   .nav-search{display:none;}
-  .card-tooltip{display:none !important;}
 }
-@media(max-width:600px){
-  .cursos-grid{grid-template-columns:1fr 1fr;}
-  .hero-banner{flex-direction:column;}
-  .hero-stats{gap:16px;}
-}
-@media(max-width:400px){
-  .cursos-grid{grid-template-columns:1fr;}
+@media(max-width:500px){
+  .c-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+  .hero h1{font-size:18px;}
+  .hero-stats{gap:14px;}
 }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
+<nav class="nav">
   <a href="index.html">
     <svg class="nav-logo-svg"   viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
 <defs>
@@ -484,45 +300,30 @@ footer a{color:var(--green);text-decoration:none;}
 
   </a>
   <div class="nav-search">
-    <input type="text" placeholder="Busca un curso..." id="searchInput" oninput="buscarCurso(this.value)">
+    <input type="text" placeholder="Busca un curso..." oninput="buscar(this.value)">
     <button>🔍</button>
   </div>
-  <div class="nav-right">
+  <div class="nav-btns">
     <a href="index.html" class="nav-back">← Inicio</a>
-    <a href="https://wa.me/59173979066?text=Hola,%20quiero%20información%20sobre%20los%20cursos%20de%20APPLENDE" target="_blank" class="nav-wa">💬 WhatsApp</a>
+    <a href="https://wa.me/59173979066" target="_blank" class="nav-wa">💬 WhatsApp</a>
   </div>
 </nav>
 
-<!-- HERO BANNER -->
-<div class="hero-banner">
-  <div class="hero-text">
-    <div class="hero-tag">🎓 Academia APPLENDE</div>
-    <h1>Cursos Cortos en el Sector de la <span>Construcción</span><br>Arquitectura e Ingeniería Civil</h1>
-    <p>Aprende con los mejores arquitectos bolivianos. Cursos online a tu ritmo y clases en vivo por Zoom. Certificado al finalizar.</p>
-  </div>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">🎓 Academia APPLENDE</div>
+  <h1>Cursos Cortos en el Sector de la <span>Construcción</span><br>Arquitectura e Ingeniería Civil</h1>
   <div class="hero-stats">
-    <div class="hero-stat">
-      <span class="hero-stat-num">9</span>
-      <span class="hero-stat-label">Cursos disponibles</span>
-    </div>
-    <div class="hero-stat">
-      <span class="hero-stat-num">3</span>
-      <span class="hero-stat-label">Instructores expertos</span>
-    </div>
-    <div class="hero-stat">
-      <span class="hero-stat-num">2.000+</span>
-      <span class="hero-stat-label">Estudiantes</span>
-    </div>
-    <div class="hero-stat">
-      <span class="hero-stat-num">🌎</span>
-      <span class="hero-stat-label">Internacional</span>
-    </div>
+    <div class="hero-stat"><span class="hero-stat-num">9</span><span class="hero-stat-label">Cursos</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">3</span><span class="hero-stat-label">Instructores</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">2,000+</span><span class="hero-stat-label">Estudiantes</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">🌎</span><span class="hero-stat-label">Internacional</span></div>
   </div>
 </div>
 
 <!-- FILTROS -->
-<div class="filtros-bar">
-  <button class="filtro active" onclick="filtrar('todos',this)">Todos los cursos</button>
+<div class="filtros">
+  <button class="filtro active" onclick="filtrar('todos',this)">Todos</button>
   <button class="filtro" onclick="filtrar('Construcción',this)">Construcción</button>
   <button class="filtro" onclick="filtrar('Presupuestos',this)">Presupuestos</button>
   <button class="filtro" onclick="filtrar('Software',this)">Software</button>
@@ -530,597 +331,430 @@ footer a{color:var(--green);text-decoration:none;}
   <button class="filtro" onclick="filtrar('Licitaciones',this)">Licitaciones</button>
 </div>
 
-<!-- CURSOS EN VIVO -->
-
-<div class="vivo-section">
-  <div class="vivo-header-bar">
-    <div class="vivo-left">
-      <span class="vivo-dot"></span>
+<!-- EN VIVO -->
+<div class="vivo-bar">
+  <div class="vivo-bar-inner">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="vivo-dot"></div>
       <div>
-        <div class="vivo-title">Próximos cursos en vivo — Mayo 2026</div>
-        <div class="vivo-sub">Clases por Zoom · 19:30 — 21:30 h Bolivia · Máx. 70 alumnos</div>
+        <div class="vivo-titulo">Cursos En Vivo — Mayo 2026</div>
+        <div class="vivo-sub">Zoom · 19:30 — 21:30 h Bolivia · Máx. 70 alumnos</div>
       </div>
     </div>
-    <div class="countdown-mini" id="countdown-mini">
-      <span id="cm-dias">00</span>d
-      <span id="cm-horas">00</span>h
-      <span id="cm-min">00</span>m
-      <span id="cm-seg">00</span>s
+    <div class="countdown">
+      <span id="cd-d">00</span>d
+      <span id="cd-h">00</span>h
+      <span id="cd-m">00</span>m
+      <span id="cd-s">00</span>s
     </div>
   </div>
   <div class="vivo-cards">
     <div class="vivo-card">
-      <div class="vivo-fecha">
-        <span class="vf-mes">MAYO</span>
-        <span class="vf-dia">6</span>
-        <span class="vf-year">2026</span>
-      </div>
+      <div class="vivo-fecha"><span class="vf-mes">MAYO</span><span class="vf-dia">11</span></div>
       <div class="vivo-info">
-        <span class="vivo-badge-cat">Construcción</span>
         <h3>Construcción de Edificios de 5 Niveles</h3>
-        <p>Arq. Freddy Velásquez · Avanzado · 24 horas</p>
-        <div class="cupos-row">
-          <div class="cupos-bar-mini"><div class="cupos-fill-mini" style="width:5%"></div></div>
-          <span>70 cupos disponibles</span>
-        </div>
+        <p>Arq. Freddy Velásquez · Avanzado · 24h</p>
+        <div class="cupos-bar"><div class="cupos-fill"></div></div>
+        <div class="cupos-txt">70 cupos disponibles</div>
       </div>
-      <div class="vivo-action">
-        <div class="vivo-precio">Bs 250</div>
-        <div class="vivo-usd">≈ $36 USD</div>
-        <button class="btn-vivo" onclick="abrirModal('Construcción de Edificios de 5 Niveles',250,36,'Arq. Freddy Velásquez','En Vivo · 6 Mayo · Zoom')">Reservar lugar</button>
+      <div class="vivo-precio">
+        <span class="vivo-precio-num">Bs 250</span>
+        <span class="vivo-precio-usd">≈ $36 USD</span>
+        <button class="btn-vivo" onclick="abrirModal('Construcción de Edificios de 5 Niveles',250,'Arq. Freddy Velásquez','vivo')">Reservar</button>
       </div>
     </div>
-    <div class="vivo-card internacional">
-      <div class="intl-label">🌎 Bolivia · Perú</div>
-      <div class="vivo-fecha">
-        <span class="vf-mes">MAYO</span>
-        <span class="vf-dia">13</span>
-        <span class="vf-year">2026</span>
-      </div>
-      <div class="vivo-info">
-        <span class="vivo-badge-cat">Software</span>
+    <div class="vivo-card intl">
+      <div style="position:absolute;top:0;left:0;right:0;background:#6B6BBB;color:#fff;font-size:10px;font-weight:700;text-align:center;padding:4px;border-radius:12px 12px 0 0;">🌎 Bolivia · Perú</div>
+      <div class="vivo-fecha" style="margin-top:16px;"><span class="vf-mes">MAYO</span><span class="vf-dia">18</span></div>
+      <div class="vivo-info" style="margin-top:16px;">
         <h3>Vectorworks + Plugins</h3>
-        <p>Arq. Pablo Aramayo · Básico · 14 horas</p>
-        <div class="cupos-row">
-          <div class="cupos-bar-mini"><div class="cupos-fill-mini" style="width:5%"></div></div>
-          <span>70 cupos disponibles</span>
-        </div>
+        <p>Arq. Pablo Aramayo · Básico · 14h</p>
+        <div class="cupos-bar"><div class="cupos-fill"></div></div>
+        <div class="cupos-txt">70 cupos disponibles</div>
       </div>
-      <div class="vivo-action">
-        <div class="vivo-precio">Bs 100</div>
-        <div class="vivo-usd">≈ $14 USD</div>
-        <button class="btn-vivo" onclick="abrirModal('Vectorworks + Plugins',100,14,'Arq. Pablo Aramayo','En Vivo · 13 Mayo · Zoom · Internacional')">Reservar lugar</button>
+      <div class="vivo-precio">
+        <span class="vivo-precio-num">Bs 100</span>
+        <span class="vivo-precio-usd">S/55 · $15</span>
+        <button class="btn-vivo" onclick="abrirModal('Vectorworks + Plugins',100,'Arq. Pablo Aramayo','vivo')">Reservar</button>
       </div>
     </div>
   </div>
 </div>
 
-
-<!-- MAIN -->
-<div class="main-content">
-  <div class="section-title-bar">
+<!-- CURSOS -->
+<div class="main">
+  <div class="section-bar">
     <h2>Todos los cursos</h2>
-    <span class="section-count" id="countCursos">9 cursos</span>
+    <span class="section-count" id="count">9 cursos</span>
   </div>
-  <div class="cursos-grid" id="cursosGrid">
-    <div class="curso-card" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">
-      <div class="thumb" style="padding:0;overflow:hidden;height:130px;">
-      <img src="curso-prescom.svg" alt="Curso" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-      <div class="thumb-nivel">Básico</div>
-    </div>
-      <div class="card-body">
-        <span class="badge bestseller">Más vendido</span>
-        <h3 class="card-titulo">Cómputo y Presupuesto con PRESCOM y APPLEX Pro</h3>
-        <p class="card-instructor">Arq. Freddy Velásquez</p>
-        <div class="card-rating">
-          <span class="stars">★★★★½</span><span class="rating-num">4.8</span>
-          <span class="rating-count">(124)</span>
-          <span class="estudiantes">512 estudiantes</span>
+  <div class="c-grid" id="grid">
+    <div class="c-card" data-cat="Cómputo y Presupuesto con PRESCOM y APPLEX Pro">
+  <div class="c-thumb">
+    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=480&h=270&fit=crop&q=80" alt="Cómputo y Presupuesto con PRESCOM y APPLEX Pro" loading="lazy">
+    <span class="c-nivel">Básico</span>
+  </div>
+  <div class="c-info">
+    <span class="c-badge badge-best">Más vendido</span>
+    <div class="c-titulo">Cómputo y Presupuesto con PRESCOM y APPLEX Pro</div>
+    <div class="c-inst">Arq. Freddy Velásquez</div>
+    <div class="c-rating">
+          <span class="c-stars">★★★★★</span>
+          <span class="c-rnum">4.8</span>
+          <span class="c-rcount">(124)</span>
         </div>
-        <div class="card-meta">
-          <span>⏱ 16h</span>
-          <span>📚 24 clases</span>
+    <div class="c-meta">⏱ 16h · 📜 Certificado</div>
+    <div class="c-precio">
+          <span class="c-precio-actual">Bs 150</span>
+          <span class="c-precio-orig">Bs 200</span>
         </div>
-        <div class="card-precio-row">
-          <span class="precio-actual">Bs 150</span>
-          <span class="precio-original-tachado">Bs 200</span>
-          <span class="descuento-badge">-25%</span>
+    <button class="c-btn c-btn-main" onclick="abrirModal('Cómputo y Presupuesto con PRESCOM y APPLEX Pro',150,'Arq. Freddy Velásquez','bestseller')">Inscribirme</button>
+  </div>
+</div>
+<div class="c-card" data-cat="Construcción de Casa de 2 Plantas">
+  <div class="c-thumb">
+    <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=480&h=270&fit=crop&q=80" alt="Construcción de Casa de 2 Plantas" loading="lazy">
+    <span class="c-nivel">Intermedio</span>
+  </div>
+  <div class="c-info">
+    
+    <div class="c-titulo">Construcción de Casa de 2 Plantas</div>
+    <div class="c-inst">Arq. Freddy Velásquez</div>
+    <div class="c-rating">
+          <span class="c-stars">★★★★★</span>
+          <span class="c-rnum">4.7</span>
+          <span class="c-rcount">(89)</span>
         </div>
-      </div>
-      <!-- Tooltip Udemy style -->
-      <div class="card-tooltip">
-        <div class="tt-titulo">Cómputo y Presupuesto con PRESCOM y APPLEX Pro</div>
-        <div class="tt-modalidad">🕐 Online · A tu ritmo</div>
-        <ul class="tt-temas"><li>✓ Cómputo métrico</li><li>✓ APU con APPLEX Pro</li><li>✓ Base de datos PRESCOM</li><li>✓ Cronograma Gantt</li></ul>
-        <div class="tt-precio">Bs 150 <span class="tt-usd">≈ $22 USD</span></div>
-        <button class="btn-card btn-comprar" onclick="abrirModal('Cómputo y Presupuesto con PRESCOM y APPLEX Pro',150,22,'Arq. Freddy Velásquez','Online · A tu ritmo')">Inscribirme ahora</button>
-      </div>
-    </div>
-<div class="curso-card" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">
-      <div class="thumb" style="padding:0;overflow:hidden;height:130px;">
-      <img src="curso-casa.svg" alt="Curso" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-      <div class="thumb-nivel">Intermedio</div>
-    </div>
-      <div class="card-body">
-        
-        <h3 class="card-titulo">Construcción de Casa de 2 Plantas</h3>
-        <p class="card-instructor">Arq. Freddy Velásquez</p>
-        <div class="card-rating">
-          <span class="stars">★★★★½</span><span class="rating-num">4.7</span>
-          <span class="rating-count">(89)</span>
-          <span class="estudiantes">341 estudiantes</span>
+    <div class="c-meta">⏱ 20h · 📜 Certificado</div>
+    <div class="c-precio">
+          <span class="c-precio-actual">Bs 200</span>
+          <span class="c-precio-orig">Bs 280</span>
         </div>
-        <div class="card-meta">
-          <span>⏱ 20h</span>
-          <span>📚 32 clases</span>
+    <button class="c-btn c-btn-main" onclick="abrirModal('Construcción de Casa de 2 Plantas',200,'Arq. Freddy Velásquez','')">Inscribirme</button>
+  </div>
+</div>
+<div class="c-card" data-cat="Construcción de Edificios de 5 Niveles">
+  <div class="c-thumb">
+    <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=480&h=270&fit=crop&q=80" alt="Construcción de Edificios de 5 Niveles" loading="lazy">
+    <span class="c-nivel">Avanzado</span>
+  </div>
+  <div class="c-info">
+    <span class="c-badge badge-new">Nuevo</span>
+    <div class="c-titulo">Construcción de Edificios de 5 Niveles</div>
+    <div class="c-inst">Arq. Freddy Velásquez</div>
+    <div class="c-rating">
+          <span class="c-stars">★★★★★</span>
+          <span class="c-rnum">4.9</span>
+          <span class="c-rcount">(67)</span>
         </div>
-        <div class="card-precio-row">
-          <span class="precio-actual">Bs 200</span>
-          <span class="precio-original-tachado">Bs 280</span>
-          <span class="descuento-badge">-29%</span>
+    <div class="c-meta">⏱ 24h · 📜 Certificado</div>
+    <div class="c-precio">
+          <span class="c-precio-actual">Bs 200</span>
+          <span class="c-precio-orig">Bs 300</span>
         </div>
-      </div>
-      <!-- Tooltip Udemy style -->
-      <div class="card-tooltip">
-        <div class="tt-titulo">Construcción de Casa de 2 Plantas</div>
-        <div class="tt-modalidad">🕐 Online · A tu ritmo</div>
-        <ul class="tt-temas"><li>✓ Fundaciones</li><li>✓ Estructura</li><li>✓ Instalaciones</li><li>✓ Acabados</li></ul>
-        <div class="tt-precio">Bs 200 <span class="tt-usd">≈ $29 USD</span></div>
-        <button class="btn-card btn-comprar" onclick="abrirModal('Construcción de Casa de 2 Plantas',200,29,'Arq. Freddy Velásquez','Online · A tu ritmo')">Inscribirme ahora</button>
-      </div>
-    </div>
-<div class="curso-card" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">
-      <div class="thumb" style="padding:0;overflow:hidden;height:130px;">
-      <img src="curso-edificios.svg" alt="Curso" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-      <div class="thumb-nivel">Avanzado</div>
-    </div>
-      <div class="card-body">
-        <span class="badge nuevo">Nuevo</span>
-        <h3 class="card-titulo">Construcción de Edificios de 5 Niveles</h3>
-        <p class="card-instructor">Arq. Freddy Velásquez</p>
-        <div class="card-rating">
-          <span class="stars">★★★★½</span><span class="rating-num">4.9</span>
-          <span class="rating-count">(67)</span>
-          <span class="estudiantes">198 estudiantes</span>
+    <button class="c-btn c-btn-main" onclick="abrirModal('Construcción de Edificios de 5 Niveles',200,'Arq. Freddy Velásquez','nuevo')">Inscribirme</button>
+  </div>
+</div>
+<div class="c-card" data-cat="Construcciones Civiles">
+  <div class="c-thumb">
+    <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=480&h=270&fit=crop&q=80" alt="Construcciones Civiles" loading="lazy">
+    <span class="c-nivel">Básico</span>
+  </div>
+  <div class="c-info">
+    <span class="c-badge badge-best">Más vendido</span>
+    <div class="c-titulo">Construcciones Civiles</div>
+    <div class="c-inst">Arq. Freddy Velásquez</div>
+    <div class="c-rating">
+          <span class="c-stars">★★★★★</span>
+          <span class="c-rnum">4.6</span>
+          <span class="c-rcount">(203)</span>
         </div>
-        <div class="card-meta">
-          <span>⏱ 24h</span>
-          <span>📚 38 clases</span>
+    <div class="c-meta">⏱ 18h · 📜 Certificado</div>
+    <div class="c-precio">
+          <span class="c-precio-actual">Bs 200</span>
+          <span class="c-precio-orig">Bs 250</span>
         </div>
-        <div class="card-precio-row">
-          <span class="precio-actual">Bs 200</span>
-          <span class="precio-original-tachado">Bs 300</span>
-          <span class="descuento-badge">-33%</span>
+    <button class="c-btn c-btn-main" onclick="abrirModal('Construcciones Civiles',200,'Arq. Freddy Velásquez','bestseller')">Inscribirme</button>
+  </div>
+</div>
+<div class="c-card" data-cat="Avalúos Inmobiliarios">
+  <div class="c-thumb">
+    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=480&h=270&fit=crop&q=80" alt="Avalúos Inmobiliarios" loading="lazy">
+    <span class="c-nivel">Intermedio</span>
+  </div>
+  <div class="c-info">
+    
+    <div class="c-titulo">Avalúos Inmobiliarios</div>
+    <div class="c-inst">Arq. Fernando Terrazas</div>
+    <div class="c-rating">
+          <span class="c-stars">★★★★★</span>
+          <span class="c-rnum">4.7</span>
+          <span class="c-rcount">(45)</span>
         </div>
-      </div>
-      <!-- Tooltip Udemy style -->
-      <div class="card-tooltip">
-        <div class="tt-titulo">Construcción de Edificios de 5 Niveles</div>
-        <div class="tt-modalidad">🕐 Online · A tu ritmo + En Vivo</div>
-        <ul class="tt-temas"><li>✓ Estructura</li><li>✓ Losas</li><li>✓ Instalaciones</li><li>✓ Gestión</li></ul>
-        <div class="tt-precio">Bs 200 <span class="tt-usd">≈ $29 USD</span></div>
-        <button class="btn-card btn-comprar" onclick="abrirModal('Construcción de Edificios de 5 Niveles',200,29,'Arq. Freddy Velásquez','Online · A tu ritmo + En Vivo')">Inscribirme ahora</button>
-      </div>
-    </div>
-<div class="curso-card" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">
-      <div class="thumb" style="padding:0;overflow:hidden;height:130px;">
-      <img src="curso-civil.svg" alt="Curso" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-      <div class="thumb-nivel">Básico</div>
-    </div>
-      <div class="card-body">
-        <span class="badge bestseller">Más vendido</span>
-        <h3 class="card-titulo">Construcciones Civiles</h3>
-        <p class="card-instructor">Arq. Freddy Velásquez</p>
-        <div class="card-rating">
-          <span class="stars">★★★★½</span><span class="rating-num">4.6</span>
-          <span class="rating-count">(203)</span>
-          <span class="estudiantes">876 estudiantes</span>
+    <div class="c-meta">⏱ 12h · 📜 Certificado</div>
+    <div class="c-precio">
+          <span class="c-precio-actual">Bs 150</span>
+          <span class="c-precio-orig">Bs 200</span>
         </div>
-        <div class="card-meta">
-          <span>⏱ 18h</span>
-          <span>📚 28 clases</span>
+    <button class="c-btn c-btn-main" onclick="abrirModal('Avalúos Inmobiliarios',150,'Arq. Fernando Terrazas','')">Inscribirme</button>
+  </div>
+</div>
+<div class="c-card" data-cat="Licitación de Obras Públicas">
+  <div class="c-thumb">
+    <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=480&h=270&fit=crop&q=80" alt="Licitación de Obras Públicas" loading="lazy">
+    <span class="c-nivel">Avanzado</span>
+  </div>
+  <div class="c-info">
+    
+    <div class="c-titulo">Licitación de Obras Públicas</div>
+    <div class="c-inst">Arq. Freddy Velásquez</div>
+    <div class="c-rating">
+          <span class="c-stars">★★★★★</span>
+          <span class="c-rnum">4.8</span>
+          <span class="c-rcount">(56)</span>
         </div>
-        <div class="card-precio-row">
-          <span class="precio-actual">Bs 200</span>
-          <span class="precio-original-tachado">Bs 250</span>
-          <span class="descuento-badge">-20%</span>
+    <div class="c-meta">⏱ 10h · 📜 Certificado</div>
+    <div class="c-precio">
+          <span class="c-precio-actual">Bs 80</span>
+          <span class="c-precio-orig">Bs 120</span>
         </div>
-      </div>
-      <!-- Tooltip Udemy style -->
-      <div class="card-tooltip">
-        <div class="tt-titulo">Construcciones Civiles</div>
-        <div class="tt-modalidad">🕐 Online · A tu ritmo</div>
-        <ul class="tt-temas"><li>✓ Materiales</li><li>✓ Procesos</li><li>✓ Normas técnicas</li><li>✓ Control de calidad</li></ul>
-        <div class="tt-precio">Bs 200 <span class="tt-usd">≈ $29 USD</span></div>
-        <button class="btn-card btn-comprar" onclick="abrirModal('Construcciones Civiles',200,29,'Arq. Freddy Velásquez','Online · A tu ritmo')">Inscribirme ahora</button>
-      </div>
-    </div>
-<div class="curso-card" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">
-      <div class="thumb" style="padding:0;overflow:hidden;height:130px;">
-      <img src="curso-avaluos.svg" alt="Curso" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-      <div class="thumb-nivel">Intermedio</div>
-    </div>
-      <div class="card-body">
-        
-        <h3 class="card-titulo">Avalúos Inmobiliarios</h3>
-        <p class="card-instructor">Arq. Fernando Terrazas</p>
-        <div class="card-rating">
-          <span class="stars">★★★★½</span><span class="rating-num">4.7</span>
-          <span class="rating-count">(45)</span>
-          <span class="estudiantes">167 estudiantes</span>
+    <button class="c-btn c-btn-main" onclick="abrirModal('Licitación de Obras Públicas',80,'Arq. Freddy Velásquez','')">Inscribirme</button>
+  </div>
+</div>
+<div class="c-card" data-cat="SketchUp + ENSCAPE">
+  <div class="c-thumb">
+    <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=480&h=270&fit=crop&q=80" alt="SketchUp + ENSCAPE" loading="lazy">
+    <span class="c-nivel">Básico</span>
+  </div>
+  <div class="c-info">
+    <span class="c-badge badge-prox">Próximamente</span>
+    <div class="c-titulo">SketchUp + ENSCAPE</div>
+    <div class="c-inst">Arq. Pablo Aramayo</div>
+    <div class="c-rating" style="font-size:11px;color:#6B7A90;">Primera edición</div>
+    <div class="c-meta">⏱ 14h · 📜 Certificado</div>
+    <div class="c-precio"><span style="color:#6B6BBB;font-weight:700;font-size:13px;">Próximamente</span></div>
+    <button class="c-btn c-btn-prox" onclick="notificarme('SketchUp + ENSCAPE')">Notificarme →</button>
+  </div>
+</div>
+<div class="c-card" data-cat="Revit — BIM para Arquitectos">
+  <div class="c-thumb">
+    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=480&h=270&fit=crop&q=80" alt="Revit — BIM para Arquitectos" loading="lazy">
+    <span class="c-nivel">Intermedio</span>
+  </div>
+  <div class="c-info">
+    <span class="c-badge badge-prox">Próximamente</span>
+    <div class="c-titulo">Revit — BIM para Arquitectos</div>
+    <div class="c-inst">Arq. Pablo Aramayo</div>
+    <div class="c-rating" style="font-size:11px;color:#6B7A90;">Primera edición</div>
+    <div class="c-meta">⏱ 16h · 📜 Certificado</div>
+    <div class="c-precio"><span style="color:#6B6BBB;font-weight:700;font-size:13px;">Próximamente</span></div>
+    <button class="c-btn c-btn-prox" onclick="notificarme('Revit — BIM para Arquitectos')">Notificarme →</button>
+  </div>
+</div>
+<div class="c-card" data-cat="Vectorworks + Plugins">
+  <div class="c-thumb">
+    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=480&h=270&fit=crop&q=80" alt="Vectorworks + Plugins" loading="lazy">
+    <span class="c-nivel">Básico</span>
+  </div>
+  <div class="c-info">
+    <span class="c-badge badge-vivo">🔴 En Vivo</span>
+    <div class="c-titulo">Vectorworks + Plugins</div>
+    <div class="c-inst">Arq. Pablo Aramayo</div>
+    <div class="c-rating" style="font-size:11px;color:#6B7A90;">Primera edición</div>
+    <div class="c-meta">⏱ 14h · 📜 Certificado</div>
+    <div class="c-precio">
+          <span class="c-precio-actual">Bs 80</span>
+          <span class="c-precio-orig">Bs 120</span>
         </div>
-        <div class="card-meta">
-          <span>⏱ 12h</span>
-          <span>📚 18 clases</span>
-        </div>
-        <div class="card-precio-row">
-          <span class="precio-actual">Bs 150</span>
-          <span class="precio-original-tachado">Bs 200</span>
-          <span class="descuento-badge">-25%</span>
-        </div>
-      </div>
-      <!-- Tooltip Udemy style -->
-      <div class="card-tooltip">
-        <div class="tt-titulo">Avalúos Inmobiliarios</div>
-        <div class="tt-modalidad">🕐 Online · A tu ritmo</div>
-        <ul class="tt-temas"><li>✓ Métodos de valuación</li><li>✓ Análisis de mercado</li><li>✓ Informe técnico</li><li>✓ Casos prácticos</li></ul>
-        <div class="tt-precio">Bs 150 <span class="tt-usd">≈ $22 USD</span></div>
-        <button class="btn-card btn-comprar" onclick="abrirModal('Avalúos Inmobiliarios',150,22,'Arq. Fernando Terrazas','Online · A tu ritmo')">Inscribirme ahora</button>
-      </div>
-    </div>
-<div class="curso-card" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">
-      <div class="thumb" style="padding:0;overflow:hidden;height:130px;">
-      <img src="curso-licitacion.svg" alt="Curso" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-      <div class="thumb-nivel">Avanzado</div>
-    </div>
-      <div class="card-body">
-        
-        <h3 class="card-titulo">Licitación de Obras Públicas</h3>
-        <p class="card-instructor">Arq. Freddy Velásquez</p>
-        <div class="card-rating">
-          <span class="stars">★★★★½</span><span class="rating-num">4.8</span>
-          <span class="rating-count">(56)</span>
-          <span class="estudiantes">234 estudiantes</span>
-        </div>
-        <div class="card-meta">
-          <span>⏱ 10h</span>
-          <span>📚 15 clases</span>
-        </div>
-        <div class="card-precio-row">
-          <span class="precio-actual">Bs 80</span>
-          <span class="precio-original-tachado">Bs 120</span>
-          <span class="descuento-badge">-33%</span>
-        </div>
-      </div>
-      <!-- Tooltip Udemy style -->
-      <div class="card-tooltip">
-        <div class="tt-titulo">Licitación de Obras Públicas</div>
-        <div class="tt-modalidad">🕐 Online · A tu ritmo</div>
-        <ul class="tt-temas"><li>✓ SABS y SICOES</li><li>✓ Propuesta técnica</li><li>✓ Propuesta económica</li><li>✓ Casos reales</li></ul>
-        <div class="tt-precio">Bs 80 <span class="tt-usd">≈ $11 USD</span></div>
-        <button class="btn-card btn-comprar" onclick="abrirModal('Licitación de Obras Públicas',80,11,'Arq. Freddy Velásquez','Online · A tu ritmo')">Inscribirme ahora</button>
-      </div>
-    </div>
-<div class="curso-card" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">
-      <div class="thumb" style="padding:0;overflow:hidden;height:130px;">
-      <img src="curso-sketchup.svg" alt="Curso" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-      <div class="thumb-nivel">Básico</div>
-    </div>
-      <div class="card-body">
-        <span class="badge proximo">Próximamente</span>
-        <h3 class="card-titulo">SketchUp + ENSCAPE</h3>
-        <p class="card-instructor">Arq. Pablo Aramayo</p>
-        <div class="card-rating">
-          <span style="color:#ccc;">Sin calificaciones aún</span>
-          <span class="rating-count">(0)</span>
-          <span class="estudiantes">0 estudiantes</span>
-        </div>
-        <div class="card-meta">
-          <span>⏱ 14h</span>
-          <span>📚 22 clases</span>
-        </div>
-        <div class="card-precio-row">
-          <span class="precio-actual">Bs 80</span>
-          <span class="precio-original-tachado">Bs 120</span>
-          <span class="descuento-badge">-33%</span>
-        </div>
-      </div>
-      <!-- Tooltip Udemy style -->
-      <div class="card-tooltip">
-        <div class="tt-titulo">SketchUp + ENSCAPE</div>
-        <div class="tt-modalidad">🕐 Próximamente</div>
-        <ul class="tt-temas"><li>✓ SketchUp</li><li>✓ ENSCAPE</li><li>✓ Renders</li><li>✓ Visualización</li></ul>
-        <div class="tt-precio">Bs 80 <span class="tt-usd">≈ $11 USD</span></div>
-        <button class="btn-card btn-proximo" onclick="notificarme('SketchUp + ENSCAPE')">Avisarme cuando esté disponible</button>
-      </div>
-    </div>
-<div class="curso-card" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">
-      <div class="thumb" style="padding:0;overflow:hidden;height:130px;">
-      <img src="curso-revit.svg" alt="Curso" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-      <div class="thumb-nivel">Intermedio</div>
-    </div>
-      <div class="card-body">
-        <span class="badge proximo">Próximamente</span>
-        <h3 class="card-titulo">Revit — BIM para Arquitectos</h3>
-        <p class="card-instructor">Arq. Pablo Aramayo</p>
-        <div class="card-rating">
-          <span style="color:#ccc;">Sin calificaciones aún</span>
-          <span class="rating-count">(0)</span>
-          <span class="estudiantes">0 estudiantes</span>
-        </div>
-        <div class="card-meta">
-          <span>⏱ 16h</span>
-          <span>📚 26 clases</span>
-        </div>
-        <div class="card-precio-row">
-          <span class="precio-actual">Bs 80</span>
-          <span class="precio-original-tachado">Bs 120</span>
-          <span class="descuento-badge">-33%</span>
-        </div>
-      </div>
-      <!-- Tooltip Udemy style -->
-      <div class="card-tooltip">
-        <div class="tt-titulo">Revit — BIM para Arquitectos</div>
-        <div class="tt-modalidad">🕐 Próximamente</div>
-        <ul class="tt-temas"><li>✓ BIM</li><li>✓ Revit</li><li>✓ Documentación</li><li>✓ Planos</li></ul>
-        <div class="tt-precio">Bs 80 <span class="tt-usd">≈ $11 USD</span></div>
-        <button class="btn-card btn-proximo" onclick="notificarme('Revit — BIM para Arquitectos')">Avisarme cuando esté disponible</button>
-      </div>
-    </div>
-<div class="curso-card" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip(this)">
-      <div class="thumb" style="padding:0;overflow:hidden;height:130px;">
-      <img src="curso-vectorworks.svg" alt="Curso" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-      <div class="thumb-nivel">Básico</div>
-    </div>
-      <div class="card-body">
-        <span class="badge nuevo">Nuevo</span>
-        <h3 class="card-titulo">Vectorworks + Plugins</h3>
-        <p class="card-instructor">Arq. Pablo Aramayo</p>
-        <div class="card-rating">
-          <span style="color:#ccc;">Sin calificaciones aún</span>
-          <span class="rating-count">(0)</span>
-          <span class="estudiantes">0 estudiantes</span>
-        </div>
-        <div class="card-meta">
-          <span>⏱ 14h</span>
-          <span>📚 20 clases</span>
-        </div>
-        <div class="card-precio-row">
-          <span class="precio-actual">Bs 80</span>
-          <span class="precio-original-tachado">Bs 120</span>
-          <span class="descuento-badge">-33%</span>
-        </div>
-      </div>
-      <!-- Tooltip Udemy style -->
-      <div class="card-tooltip">
-        <div class="tt-titulo">Vectorworks + Plugins</div>
-        <div class="tt-modalidad">🕐 En Vivo · 13 Mayo 2026</div>
-        <ul class="tt-temas"><li>✓ Vectorworks</li><li>✓ CAD</li><li>✓ 3D</li><li>✓ Plugins</li></ul>
-        <div class="tt-precio">Bs 80 <span class="tt-usd">≈ $11 USD</span></div>
-        <button class="btn-card btn-comprar" onclick="abrirModal('Vectorworks + Plugins',80,11,'Arq. Pablo Aramayo','En Vivo · 13 Mayo 2026')">Inscribirme ahora</button>
-      </div>
-    </div>
+    <button class="c-btn c-btn-main" onclick="abrirModal('Vectorworks + Plugins',80,'Arq. Pablo Aramayo','vivo')">Inscribirme</button>
+  </div>
+</div>
   </div>
 </div>
 
 <!-- INSTRUCTORES -->
-<section class="inst-section">
+<section class="inst-sec">
   <h2>Nuestros instructores</h2>
   <p>Arquitectos bolivianos con experiencia real en obra y docencia universitaria</p>
   <div class="inst-grid">
     <div class="inst-card">
-      <div class="inst-avatar">👷</div>
+      <div class="inst-av">👷</div>
       <div>
         <div class="inst-nombre">Arq. Freddy Velásquez</div>
         <div class="inst-cargo">Director & Instructor Principal</div>
-        <div class="inst-bio">Maestría en Gerencia de la Construcción Civil · Docente universitario · +20 años de experiencia · Fundador de APPLE Construcciones & Servicios · 5 cursos</div>
+        <div class="inst-bio">MSc. Gerencia de la Construcción Civil · Docente universitario · +20 años de experiencia · Fundador APPLE Construcciones</div>
       </div>
     </div>
     <div class="inst-card">
-      <div class="inst-avatar">🏛️</div>
+      <div class="inst-av">🏛️</div>
       <div>
         <div class="inst-nombre">Arq. Fernando Terrazas</div>
         <div class="inst-cargo">Especialista en Avalúos</div>
-        <div class="inst-bio">Especialista en valuación inmobiliaria · Avalúos comerciales, bancarios y legales bajo normativa boliviana · 1 curso</div>
+        <div class="inst-bio">Especialista en valuación inmobiliaria · Avalúos comerciales, bancarios y legales bajo normativa boliviana</div>
       </div>
     </div>
     <div class="inst-card">
-      <div class="inst-avatar">🖥️</div>
+      <div class="inst-av">🖥️</div>
       <div>
         <div class="inst-nombre">Arq. Pablo Aramayo</div>
         <div class="inst-cargo">Especialista en Software</div>
-        <div class="inst-bio">Experto en SketchUp+ENSCAPE, Revit y Vectorworks · Visualización 3D y metodología BIM · 3 cursos</div>
+        <div class="inst-bio">Experto en SketchUp+ENSCAPE, Revit y Vectorworks · Visualización 3D y metodología BIM aplicada</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- GARANTIA -->
-<div class="garantia-bar">
+<div class="garantia">
   <h3>🛡️ Garantía de satisfacción</h3>
-  <p>Si en las primeras 24 horas no estás satisfecho, te devolvemos el 100% de tu dinero. Sin preguntas.</p>
+  <p>Si en las primeras 24 horas no estás satisfecho con el curso, te devolvemos el 100% de tu dinero. Sin preguntas.</p>
 </div>
 
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <a href="index.html">APPLE Construcciones & Servicios</a> · Academia APPLENDE · Santa Cruz, Bolivia</p>
+  <p style="margin-top:6px;"><a href="https://wa.me/59173979066" target="_blank">💬 +591 73979066</a></p>
+</footer>
+
 <!-- MODAL -->
-<div class="modal-overlay" id="modalOverlay" onclick="cerrarOverlay(event)">
+<div class="modal-overlay" id="mo" onclick="cerrarOverlay(event)">
   <div class="modal">
-    <div class="modal-header">
+    <div class="modal-hd">
       <button class="modal-close" onclick="cerrarModal()">✕</button>
-      <div class="modal-tipo" id="mTipo">Inscripción al curso</div>
-      <div class="modal-titulo" id="mTitulo"></div>
-      <div class="modal-precio-row">
-        <span class="modal-precio-bs" id="mPrecioBS">Bs 0</span>
-        <span class="modal-precio-usd" id="mPrecioUSD"></span>
-      </div>
+      <div class="modal-tipo" id="m-tipo">Inscripción</div>
+      <div class="modal-tit" id="m-tit"></div>
+      <span class="modal-precio" id="m-precio"></span>
     </div>
-    <div class="modal-body">
+    <div class="modal-bd">
       <div>
         <div class="modal-label">Tus datos</div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
-          <input class="form-input" id="mNombre" type="text" placeholder="Nombre completo *">
-          <input class="form-input" id="mEmail" type="email" placeholder="Correo electrónico *">
-          <input class="form-input" id="mWA" type="tel" placeholder="WhatsApp * (+591 7XXXXXXX)">
+        <div style="display:flex;flex-direction:column;gap:7px;margin-top:6px;">
+          <input class="form-inp" id="m-nombre" type="text" placeholder="Nombre completo *">
+          <input class="form-inp" id="m-email" type="email" placeholder="Correo electrónico *">
+          <input class="form-inp" id="m-wa" type="tel" placeholder="WhatsApp * (+591 7XXXXXXX)">
         </div>
       </div>
       <div>
         <div class="modal-label">Método de pago</div>
         <div class="metodos" style="margin-top:6px;">
-          <button class="metodo" onclick="selMetodo(this,'red_enlace')">
+          <button class="metodo" onclick="selMetodo(this,'tarjeta')">
             <span class="metodo-icon">💳</span>
-            <div><div class="metodo-name">Red Enlace / CyberSource</div><div class="metodo-desc">Tarjeta VISA / Mastercard · Nacional e internacional</div></div>
-            <div class="radio"><div class="radio-inner"></div></div>
+            <div><span class="metodo-name">Tarjeta — Red Enlace</span><span class="metodo-desc">VISA / Mastercard · Bolivia e internacional</span></div>
+            <div class="radio"><div class="radio-dot"></div></div>
           </button>
           <button class="metodo" onclick="selMetodo(this,'tigo')">
             <span class="metodo-icon">📱</span>
-            <div><div class="metodo-name">Tigo Money</div><div class="metodo-desc">Pago desde tu celular Tigo</div></div>
-            <div class="radio"><div class="radio-inner"></div></div>
+            <div><span class="metodo-name">Tigo Money</span><span class="metodo-desc">Pago desde tu celular</span></div>
+            <div class="radio"><div class="radio-dot"></div></div>
           </button>
           <button class="metodo" onclick="selMetodo(this,'transferencia')">
             <span class="metodo-icon">🏦</span>
-            <div><div class="metodo-name">Transferencia bancaria</div><div class="metodo-desc">A cuenta del Arq. Freddy Velásquez</div></div>
-            <div class="radio"><div class="radio-inner"></div></div>
+            <div><span class="metodo-name">Transferencia bancaria</span><span class="metodo-desc">A cuenta del Arq. Freddy Velásquez</span></div>
+            <div class="radio"><div class="radio-dot"></div></div>
           </button>
           <button class="metodo" onclick="selMetodo(this,'pago_facil')">
             <span class="metodo-icon">🏪</span>
-            <div><div class="metodo-name">Pago Fácil</div><div class="metodo-desc">Red de agentes a nivel nacional</div></div>
-            <div class="radio"><div class="radio-inner"></div></div>
+            <div><span class="metodo-name">Pago Fácil</span><span class="metodo-desc">Red de agentes a nivel nacional</span></div>
+            <div class="radio"><div class="radio-dot"></div></div>
           </button>
         </div>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn-pagar" id="btnPagar" onclick="procesarPago()" disabled>Selecciona un método de pago</button>
-      <div class="modal-security">🔒 Pago 100% seguro · Tu acceso se activa al confirmar</div>
-      <span class="modal-wa" onclick="consultarWA()">¿Tienes dudas? Escríbenos por WhatsApp</span>
+    <div class="modal-ft">
+      <button class="btn-pagar" id="btn-pagar" disabled onclick="pagar()">Selecciona un método</button>
+      <div class="modal-sec">🔒 Pago seguro · Acceso se activa al confirmar</div>
+      <span class="modal-wa-link" onclick="waConsulta()">¿Dudas? Escríbenos por WhatsApp</span>
     </div>
   </div>
 </div>
 
-<!-- FOOTER -->
-<footer>
-  <p>© 2025 <a href="index.html">APPLE Construcciones & Servicios</a> · Academia APPLENDE · Santa Cruz, Bolivia</p>
-  <p style="margin-top:6px;"><a href="https://wa.me/59173979066" target="_blank">💬 +591 73979066</a></p>
-</footer>
-
 <script>
-let cursoActual = {}
-let metodoActual = null
-
-function abrirModal(titulo, precioBs, precioUsd, instructor, modalidad) {
-  cursoActual = {titulo, precioBs, precioUsd, instructor, modalidad}
-  document.getElementById('mTipo').textContent = modalidad.includes('Vivo') ? '🔴 Curso En Vivo · ' + modalidad : '🎓 ' + modalidad
-  document.getElementById('mTitulo').textContent = titulo
-  document.getElementById('mPrecioBS').textContent = 'Bs ' + precioBs
-  document.getElementById('mPrecioUSD').textContent = '≈ $' + precioUsd + ' USD'
-  document.getElementById('modalOverlay').classList.add('open')
-  document.body.style.overflow = 'hidden'
-  metodoActual = null
-  document.querySelectorAll('.metodo').forEach(b => b.classList.remove('sel'))
-  document.getElementById('btnPagar').disabled = true
-  document.getElementById('btnPagar').textContent = 'Selecciona un método de pago'
-  document.getElementById('mNombre').value = ''
-  document.getElementById('mEmail').value = ''
-  document.getElementById('mWA').value = ''
+let cur={};let met=null;
+function abrirModal(t,p,i,tipo){
+  cur={t,p,i,tipo};
+  document.getElementById('m-tipo').textContent=tipo==='vivo'?'🔴 Curso En Vivo · Mayo 2026':'🎓 Inscripción al curso';
+  document.getElementById('m-tit').textContent=t;
+  document.getElementById('m-precio').textContent='Bs '+p;
+  document.getElementById('mo').classList.add('open');
+  document.body.style.overflow='hidden';
+  met=null;
+  document.querySelectorAll('.metodo').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('btn-pagar').disabled=true;
+  document.getElementById('btn-pagar').textContent='Selecciona un método';
+  ['m-nombre','m-email','m-wa'].forEach(id=>document.getElementById(id).value='');
 }
-
-function cerrarModal() {
-  document.getElementById('modalOverlay').classList.remove('open')
-  document.body.style.overflow = ''
+function cerrarModal(){document.getElementById('mo').classList.remove('open');document.body.style.overflow='';}
+function cerrarOverlay(e){if(e.target===document.getElementById('mo'))cerrarModal();}
+function selMetodo(b,m){
+  document.querySelectorAll('.metodo').forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel');met=m;
+  document.getElementById('btn-pagar').disabled=false;
+  const n={tarjeta:'Pagar con tarjeta — Bs '+cur.p,tigo:'Pagar Tigo Money — Bs '+cur.p,transferencia:'Ver datos transferencia',pago_facil:'Ver Pago Fácil'};
+  document.getElementById('btn-pagar').textContent=n[m];
 }
-function cerrarOverlay(e) { if(e.target===document.getElementById('modalOverlay')) cerrarModal() }
-
-function selMetodo(btn, metodo) {
-  document.querySelectorAll('.metodo').forEach(b => b.classList.remove('sel'))
-  btn.classList.add('sel'); metodoActual = metodo
-  document.getElementById('btnPagar').disabled = false
-  const n = {red_enlace:'Pagar con tarjeta — Bs '+cursoActual.precioBs,tigo:'Pagar con Tigo — Bs '+cursoActual.precioBs,transferencia:'Ver datos de transferencia',pago_facil:'Ver instrucciones Pago Fácil'}
-  document.getElementById('btnPagar').textContent = n[metodo]
+function pagar(){
+  const n=document.getElementById('m-nombre').value.trim();
+  const e=document.getElementById('m-email').value.trim();
+  const w=document.getElementById('m-wa').value.trim();
+  if(!n||!e||!w){alert('Por favor completa todos tus datos.');return;}
+  const msg=encodeURIComponent('Hola, quiero inscribirme:\nCurso: '+cur.t+'\nPrecio: Bs '+cur.p+'\nNombre: '+n+'\nEmail: '+e+'\nWA: '+w+'\nMétodo: '+met);
+  if(met==='tarjeta')alert('🚧 Pago con tarjeta disponible pronto. Te contactamos por WhatsApp.');
+  else if(met==='tigo')alert('Tigo Money: 72172740 (Freddy Velásquez)\nMonto: Bs '+cur.p+'\nEnvía comprobante por WA.');
+  else if(met==='transferencia')alert('Titular: Freddy Gabriel Velásquez Reinaga\nMonto: Bs '+cur.p+'\nEnvía comprobante por WA.');
+  else if(met==='pago_facil')alert('Empresa: APPLE Construcciones\nMonto: Bs '+cur.p+'\nEnvía comprobante por WA.');
+  window.open('https://wa.me/59173979066?text='+msg,'_blank');
+  cerrarModal();
 }
-
-function procesarPago() {
-  const nombre = document.getElementById('mNombre').value.trim()
-  const email  = document.getElementById('mEmail').value.trim()
-  const wa     = document.getElementById('mWA').value.trim()
-  if(!nombre||!email||!wa){alert('Por favor completa todos tus datos.');return}
-  const msg = encodeURIComponent('Hola, quiero inscribirme:\nCurso: '+cursoActual.titulo+'\nModalidad: '+cursoActual.modalidad+'\nPrecio: Bs '+cursoActual.precioBs+'\nNombre: '+nombre+'\nEmail: '+email+'\nWhatsApp: '+wa+'\nMétodo: '+metodoActual)
-  if(metodoActual==='red_enlace') alert('🚧 Pago con tarjeta disponible en 48 horas. Te contactamos por WhatsApp.')
-  else if(metodoActual==='tigo') alert('Envía Bs '+cursoActual.precioBs+' a Tigo Money: 72172740\n(Freddy Gabriel Velásquez)\nConcepto: APPLENDE\nEnvía comprobante por WhatsApp.')
-  else if(metodoActual==='transferencia') alert('Titular: Freddy Gabriel Velásquez Reinaga\nMonto: Bs '+cursoActual.precioBs+'\nEnvía el comprobante por WhatsApp.')
-  else if(metodoActual==='pago_facil') alert('Empresa: APPLE Construcciones\nMonto: Bs '+cursoActual.precioBs+'\nEnvía el comprobante por WhatsApp.')
-  window.open('https://wa.me/59173979066?text='+msg,'_blank')
-  cerrarModal()
+function waConsulta(){window.open('https://wa.me/59173979066?text=Hola,%20tengo%20dudas%20sobre%20los%20cursos%20de%20APPLENDE','_blank');}
+function notificarme(t){
+  const e=prompt('Ingresa tu correo para notificarte:');
+  if(e){const msg=encodeURIComponent('Quiero ser notificado del curso: '+t+' · Email: '+e);window.open('https://wa.me/59173979066?text='+msg,'_blank');}
 }
-
-function consultarWA() { window.open('https://wa.me/59173979066?text=Hola,%20tengo%20dudas%20sobre%20los%20cursos%20de%20APPLENDE','_blank') }
-
-function notificarme(titulo) {
-  const email = prompt('Ingresa tu correo para avisarte cuando esté disponible:')
-  if(email) {
-    const msg = encodeURIComponent('Hola, quiero ser notificado del curso: '+titulo+'\nMi correo: '+email)
-    window.open('https://wa.me/59173979066?text='+msg,'_blank')
+function filtrar(cat,btn){
+  document.querySelectorAll('.filtro').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  let count=0;
+  document.querySelectorAll('.c-card').forEach(card=>{
+    const tit=card.querySelector('.c-titulo')?.textContent||'';
+    const inst=card.querySelector('.c-inst')?.textContent||'';
+    const cats={
+      'Construcción':tit.includes('Casa')||tit.includes('Edificio')||tit.includes('Civiles'),
+      'Presupuestos':tit.includes('PRESCOM')||tit.includes('Presupuesto'),
+      'Software':tit.includes('SketchUp')||tit.includes('Revit')||tit.includes('Vectorworks'),
+      'Avalúos':tit.includes('Avalúo'),
+      'Licitaciones':tit.includes('Licitación')
+    };
+    const show=cat==='todos'||cats[cat];
+    card.style.display=show?'flex':'none';
+    if(show)count++;
+  });
+  document.getElementById('count').textContent=count+' curso'+(count!==1?'s':'');
+}
+function buscar(v){
+  let count=0;
+  document.querySelectorAll('.c-card').forEach(card=>{
+    const tit=card.querySelector('.c-titulo')?.textContent.toLowerCase()||'';
+    const inst=card.querySelector('.c-inst')?.textContent.toLowerCase()||'';
+    const show=tit.includes(v.toLowerCase())||inst.includes(v.toLowerCase());
+    card.style.display=show?'flex':'none';
+    if(show)count++;
+  });
+  document.getElementById('count').textContent=count+' resultado'+(count!==1?'s':'');
+}
+// Countdown
+(function(){
+  const obj=new Date('2026-05-11T19:30:00-04:00');
+  function upd(){
+    const d=obj-new Date();
+    if(d<=0)return;
+    const p=n=>String(Math.floor(n)).padStart(2,'0');
+    document.getElementById('cd-d').textContent=p(d/86400000);
+    document.getElementById('cd-h').textContent=p((d%86400000)/3600000);
+    document.getElementById('cd-m').textContent=p((d%3600000)/60000);
+    document.getElementById('cd-s').textContent=p((d%60000)/1000);
   }
-}
-
-function filtrar(cat, btn) {
-  document.querySelectorAll('.filtro').forEach(b => b.classList.remove('active'))
-  btn.classList.add('active')
-  let count = 0
-  document.querySelectorAll('.curso-card').forEach(card => {
-    const cardCat = card.querySelector('.cat-tag,.badge')
-    const catTag = card.querySelector('.thumb-nivel')
-    const titulo = card.querySelector('.card-titulo')?.textContent || ''
-    const catMap = {
-      'Presupuestos': titulo.includes('PRESCOM') || titulo.includes('Presupuesto'),
-      'Construcción': titulo.includes('Construcción') || titulo.includes('Edificios') || titulo.includes('Casa'),
-      'Software': titulo.includes('SketchUp') || titulo.includes('Revit') || titulo.includes('Vectorworks'),
-      'Avalúos': titulo.includes('Avalúo'),
-      'Licitaciones': titulo.includes('Licitación')
-    }
-    const show = cat === 'todos' || catMap[cat]
-    card.style.display = show ? 'block' : 'none'
-    if(show) count++
-  })
-  document.getElementById('countCursos').textContent = count + ' curso' + (count!==1?'s':'')
-}
-
-function buscarCurso(val) {
-  let count = 0
-  document.querySelectorAll('.curso-card').forEach(card => {
-    const titulo = card.querySelector('.card-titulo')?.textContent.toLowerCase() || ''
-    const inst = card.querySelector('.card-instructor')?.textContent.toLowerCase() || ''
-    const show = titulo.includes(val.toLowerCase()) || inst.includes(val.toLowerCase())
-    card.style.display = show ? 'block' : 'none'
-    if(show) count++
-  })
-  document.getElementById('countCursos').textContent = count + ' resultado' + (count!==1?'s':'')
-}
-
-// Cuenta regresiva
-function countdown() {
-  const obj = new Date('2026-05-06T19:30:00-04:00')
-  const now = new Date()
-  const d = obj - now
-  if(d<=0) return
-  const dias=Math.floor(d/86400000), horas=Math.floor((d%86400000)/3600000)
-  const min=Math.floor((d%3600000)/60000), seg=Math.floor((d%60000)/1000)
-  const p = n => String(n).padStart(2,'0')
-  document.getElementById('cm-dias').textContent=p(dias)
-  document.getElementById('cm-horas').textContent=p(horas)
-  document.getElementById('cm-min').textContent=p(min)
-  document.getElementById('cm-seg').textContent=p(seg)
-}
-countdown(); setInterval(countdown,1000)
-
-document.addEventListener('keydown', e => { if(e.key==='Escape') cerrarModal() })
+  upd();setInterval(upd,1000);
+})();
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarModal();});
 </script>
 </body>
 </html>
