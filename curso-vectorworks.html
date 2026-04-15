@@ -262,16 +262,44 @@ footer a{color:var(--green);}
   .btn-cta,.btn-cta-wa{width:100%;justify-content:center;}
 }
 
+/* Vectorworks — acentos violeta */
+.section-tag { color: var(--purple) !important; }
+.inst-cargo { color: var(--purple) !important; }
+.t-num { background: var(--purple) !important; }
+.t-num.navy { background: var(--navy) !important; }
+.t-item:hover { border-color: var(--purple) !important; }
+.hero-foto-badge { background: rgba(107,107,187,0.92) !important; }
+.countdown-bar { background: linear-gradient(135deg,var(--navy-dark),var(--purple)) !important; }
+.modal-hd { background: linear-gradient(135deg,var(--navy),var(--purple)) !important; }
+.cta-section { background: linear-gradient(135deg,var(--navy),var(--purple)) !important; }
+.ibadge-purple { background: rgba(107,107,187,0.2); border-color: rgba(107,107,187,0.3); color: var(--purple); }
 
-/* Estilos específicos Vectorworks */
-.section-tag { color: var(--purple); }
-.inst-cargo { color: var(--purple); }
-.t-item:hover { border-color: var(--purple); }
-.hero-foto-badge { background: rgba(107,107,187,0.9); }
-.precio-banner { background: linear-gradient(135deg,var(--purple),var(--blue)); }
-.modal-hd { background: linear-gradient(135deg,var(--navy),var(--purple)); }
-.m-input:focus { border-color: var(--purple); }
-.cta-section { background: linear-gradient(135deg,var(--navy),var(--purple)); }
+/* Precio banner */
+.precio-banner {
+  background: linear-gradient(135deg,var(--purple),var(--blue));
+  padding: 16px 5%;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+  border-bottom: 2px solid var(--green);
+}
+.pb-left { display: flex; flex-direction: column; }
+.pb-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 4px; }
+.pb-precio { font-family: "Josefin Sans",sans-serif; font-size: 42px; font-weight: 700; color: #fff; line-height: 1; }
+.pb-precio-sub { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 4px; }
+.pb-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.pb-pais { font-size: 13px; color: rgba(255,255,255,0.75); font-weight: 600; }
+.pb-btn { background: var(--green); color: var(--navy); padding: 12px 28px; border-radius: 10px; font-weight: 800; font-size: 14px; border: none; cursor: pointer; font-family: "Barlow",sans-serif; transition: all .2s; }
+.pb-btn:hover { background: #9ed648; }
+
+/* Precio card */
+.ic-pais-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; display: block; }
+.ic-pais-detected { font-size: 12px; color: var(--purple); font-weight: 600; margin-bottom: 16px; }
+.modal-pais-info { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 4px; }
+
+@media(max-width:600px) {
+  .precio-banner { flex-direction: column; }
+  .pb-right { align-items: flex-start; }
+}
 </style>
 </head>
 <body>
@@ -338,7 +366,7 @@ footer a{color:var(--green);}
 
 <!-- HERO FOTO -->
 <div class="hero-foto-wrap">
-  <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1400&h=500&fit=crop&q=85" class="hero-foto" alt="Vectorworks + Plugins">
+  <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1400&h=500&fit=crop&q=85" class="hero-foto" alt="Vectorworks + Plugins" style="object-fit:cover;object-position:center 50%;transform:scale(1.4);transform-origin:center 50%;">
   <div class="hero-foto-overlay">
     <div class="hero-foto-text">
       <div class="hero-foto-badge"><div class="hero-dot"></div> En Vivo · 18 de Mayo, 2026 · Zoom</div>
@@ -364,12 +392,12 @@ footer a{color:var(--green);}
   </div>
 </div>
 
-<!-- PRECIO BANNER -->
+<!-- PRECIO BANNER AUTOMÁTICO -->
 <div class="precio-banner">
   <div class="pb-left">
     <span class="pb-label">Tu precio según tu ubicación</span>
     <span class="pb-precio" id="pb-precio">Bs 100</span>
-    <span class="pb-precio-sub" id="pb-sub">Bolivia · Detectando tu ubicación...</span>
+    <span class="pb-precio-sub" id="pb-sub">Detectando tu ubicación...</span>
   </div>
   <div class="pb-right">
     <span class="pb-pais" id="pb-pais">🌎 Precio internacional disponible</span>
@@ -381,7 +409,7 @@ footer a{color:var(--green);}
 <div class="countdown-bar">
   <div>
     <div class="cd-label">⏳ El curso inicia en:</div>
-    <div class="cd-sub">Vectorworks + Plugins · 18 Mayo 2026 · Días y horario a confirmar con el instructor</div>
+    <div class="cd-sub" style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:2px;">Vectorworks + Plugins · 18 Mayo 2026 · Horario a confirmar con el instructor</div>
   </div>
   <div class="cd-timer">
     <div class="cd-unit"><span class="cd-num" id="v-d">00</span><span class="cd-sub-label">Días</span></div>
@@ -402,8 +430,8 @@ footer a{color:var(--green);}
 
     <span class="section-tag">Sobre el curso</span>
     <h2>¿Qué aprenderás?</h2>
-    <p>Domina Vectorworks y sus plugins especializados para el diseño arquitectónico profesional. Aprende desde la interfaz básica hasta la documentación técnica completa: planos 2D, modelado 3D y presentaciones de alto nivel.</p>
-    <p>Clases en vivo por Zoom con el Arq. Pablo Aramayo, especialista en software arquitectónico. Acceso permanente a la grabación y materiales de apoyo incluidos.</p>
+    <p>Domina Vectorworks y sus plugins especializados para el diseño arquitectónico profesional. Aprende desde la interfaz básica hasta documentación técnica completa: planos 2D, modelado 3D y presentaciones de alto nivel.</p>
+    <p>Clases en vivo por Zoom con el Arq. Pablo Aramayo, especialista en software arquitectónico. Acceso permanente a la grabación y materiales incluidos.</p>
 
     <div class="separador"></div>
 
@@ -415,15 +443,12 @@ footer a{color:var(--green);}
         <div class="play-icon">▶️</div>
         <p>Video disponible próximamente</p>
       </div>
-      <!-- Descomenta con tu ID de Vimeo:
-      <iframe src="https://player.vimeo.com/video/VIDEO_ID_VECTORWORKS?badge=0&autopause=0" allow="autoplay; fullscreen; picture-in-picture" title="Vectorworks + Plugins"></iframe>
-      -->
     </div>
 
     <div class="separador"></div>
 
     <!-- Temario -->
-    <span class="section-tag">Contenido</span>
+    <span class="section-tag">Contenido del curso</span>
     <h2>Temario completo — 12 módulos · 7 clases · 10.5 horas académicas</h2>
     <p>Contenido práctico con proyectos reales desde la interfaz básica hasta plugins avanzados.</p>
     <div class="temario-grid">
@@ -434,11 +459,11 @@ footer a{color:var(--green);}
       <div class="t-item"><div class="t-num">5</div><div class="t-texto"><strong>Modelado 3D básico</strong>Extrusiones, techos, escaleras y elementos volumétricos.</div></div>
       <div class="t-item"><div class="t-num navy">6</div><div class="t-texto"><strong>Materiales y texturas</strong>Asignación de materiales y colores a elementos en 3D.</div></div>
       <div class="t-item"><div class="t-num">7</div><div class="t-texto"><strong>Iluminación básica</strong>Luces solares, artificiales y configuración de escenas.</div></div>
-      <div class="t-item"><div class="t-num navy">8</div><div class="t-texto"><strong>Renderizado con Renderworks</strong>Calidad de render, materiales avanzados y exportación.</div></div>
+      <div class="t-item"><div class="t-num navy">8</div><div class="t-texto"><strong>Renderizado Renderworks</strong>Calidad de render, materiales avanzados y exportación.</div></div>
       <div class="t-item"><div class="t-num">9</div><div class="t-texto"><strong>Plugins arquitectónicos</strong>Ventanas paramétricas, escaleras y cubiertas avanzadas.</div></div>
       <div class="t-item"><div class="t-num navy">10</div><div class="t-texto"><strong>Hojas de presentación</strong>Vistas en hojas de dibujo, carteles, escalas y PDF.</div></div>
       <div class="t-item"><div class="t-num">11</div><div class="t-texto"><strong>Interoperabilidad</strong>Exportación a AutoCAD DWG, IFC y formatos de intercambio.</div></div>
-      <div class="t-item"><div class="t-num navy">12</div><div class="t-texto"><strong>Proyecto final integrador</strong>Vivienda completa: planos, cortes, 3D y hoja de presentación.</div></div>
+      <div class="t-item"><div class="t-num navy">12</div><div class="t-texto"><strong>Proyecto final integrador</strong>Vivienda completa: planos, cortes, 3D y presentación.</div></div>
     </div>
 
     <div class="separador"></div>
@@ -447,7 +472,7 @@ footer a{color:var(--green);}
     <span class="section-tag">Tu instructor</span>
     <h2>Arq. Pablo Aramayo</h2>
     <div class="inst-card">
-      <div class="inst-av">🖥️</div>
+      <div class="inst-av" style="background:linear-gradient(135deg,var(--purple),var(--blue));border-color:rgba(107,107,187,0.25);">🖥️</div>
       <div>
         <div class="inst-nombre">Arq. Pablo Aramayo</div>
         <span class="inst-cargo">Especialista en Software Arquitectónico · Academia APPLENDE</span>
@@ -470,7 +495,7 @@ footer a{color:var(--green);}
       <div style="margin-bottom:4px;">
         <span class="ic-precio-num" id="ic-precio">Bs 100</span>
       </div>
-      <div class="ic-precio-sub" id="ic-precio-sub">Detectando tu ubicación...</div>
+      <div class="ic-usd" id="ic-precio-sub">Detectando tu ubicación...</div>
       <div class="ic-pais-detected" id="ic-pais-detected">🌎 Precio internacional disponible</div>
       <div class="ic-alerta">⚡ Solo 70 cupos disponibles</div>
 
@@ -542,7 +567,7 @@ footer a{color:var(--green);}
             </div>
             <span class="opcion-arrow">›</span>
           </button>
-          <button class="opcion opcion-purple" id="btn-qr" onclick="elegirOpcion(this,'qr')">
+          <button class="opcion opcion-purple" id="btn-qr" onclick="elegirOpcion(this,'qr')" style="display:none;">
             <div class="opcion-icon icon-purple">📲</div>
             <div style="flex:1;">
               <span class="opcion-nombre">Pago QR Bolivia</span>
@@ -571,11 +596,10 @@ footer a{color:var(--green);}
 </div>
 
 <script>
-// ── Detección automática de país y precio ──
 const precios = {
-  BO: { label: 'Bs 100', sub: 'Bolivia', pais: '🇧🇴 Bolivia — Bs 100', showQR: true },
-  PE: { label: 'S/ 55',  sub: 'Perú',    pais: '🇵🇪 Perú — S/ 55',    showQR: false },
-  DEFAULT: { label: '$15 USD', sub: 'Internacional', pais: '🌎 Internacional — $15 USD', showQR: false }
+  BO: { label:'Bs 100', sub:'Bolivia · ≈ $14 USD', pais:'🇧🇴 Bolivia — Bs 100', showQR:true },
+  PE: { label:'S/ 55',  sub:'Perú · ≈ $15 USD',   pais:'Perú — S/ 55',           showQR:false },
+  DEFAULT: { label:'$15 USD', sub:'Internacional', pais:'🌎 Internacional — $15 USD', showQR:false }
 };
 
 let paisActual = 'DEFAULT';
@@ -585,50 +609,42 @@ async function detectarPais() {
   try {
     const res = await fetch('https://ipapi.co/json/');
     const data = await res.json();
-    const codigo = data.country_code;
-    if (codigo === 'BO') paisActual = 'BO';
-    else if (codigo === 'PE') paisActual = 'PE';
-    else paisActual = 'DEFAULT';
-  } catch(e) {
-    paisActual = 'DEFAULT';
-  }
+    const c = data.country_code;
+    if(c==='BO') paisActual='BO';
+    else if(c==='PE') paisActual='PE';
+    else paisActual='DEFAULT';
+  } catch(e) { paisActual='DEFAULT'; }
   actualizarPrecio();
 }
 
 function actualizarPrecio() {
   const p = precios[paisActual];
-  // Actualizar precio banner
   document.getElementById('pb-precio').textContent = p.label;
-  document.getElementById('pb-sub').textContent = p.sub + ' · Precio en tu moneda local';
+  document.getElementById('pb-sub').textContent = p.sub;
   document.getElementById('pb-pais').textContent = p.pais;
-  // Actualizar card inscripcion
   document.getElementById('ic-precio').textContent = p.label;
   document.getElementById('ic-precio-sub').textContent = p.sub;
   document.getElementById('ic-pais-detected').textContent = p.pais;
-  // Actualizar modal
   document.getElementById('modal-precio-display').textContent = p.label;
   document.getElementById('modal-pais-info').textContent = p.pais;
-  // Mostrar/ocultar QR solo para Bolivia
   document.getElementById('btn-qr').style.display = p.showQR ? 'flex' : 'none';
 }
 
 detectarPais();
 
-// ── Countdown ──
 (function(){
   const obj = new Date('2026-05-18T20:00:00-04:00');
   function upd(){
-    const d = obj - new Date(); if(d<=0)return;
-    const p = n => String(Math.floor(n)).padStart(2,'0');
-    document.getElementById('v-d').textContent = p(d/86400000);
-    document.getElementById('v-h').textContent = p((d%86400000)/3600000);
-    document.getElementById('v-m').textContent = p((d%3600000)/60000);
-    document.getElementById('v-s').textContent = p((d%60000)/1000);
+    const d=obj-new Date(); if(d<=0)return;
+    const p=n=>String(Math.floor(n)).padStart(2,'0');
+    document.getElementById('v-d').textContent=p(d/86400000);
+    document.getElementById('v-h').textContent=p((d%86400000)/3600000);
+    document.getElementById('v-m').textContent=p((d%3600000)/60000);
+    document.getElementById('v-s').textContent=p((d%60000)/1000);
   }
   upd(); setInterval(upd,1000);
 })();
 
-// ── Modal ──
 function abrirModal(){
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow='hidden';
@@ -651,12 +667,8 @@ function cerrarOverlay(e){
 function elegirOpcion(btn,opcion){
   document.querySelectorAll('.opcion').forEach(b=>b.classList.remove('sel'));
   btn.classList.add('sel'); opcionActual=opcion;
-  const p = precios[paisActual];
-  const t={
-    tarjeta:'Pagar con tarjeta — '+p.label,
-    qr:'Ver QR de pago Bolivia',
-    wa:'Contactar asesor por WhatsApp'
-  };
+  const p=precios[paisActual];
+  const t={tarjeta:'Pagar con tarjeta — '+p.label, qr:'Ver QR de pago Bolivia', wa:'Contactar asesor por WhatsApp'};
   document.getElementById('btn-confirmar').disabled=false;
   document.getElementById('btn-confirmar').textContent=t[opcion];
 }
@@ -667,19 +679,12 @@ function confirmar(){
   const t=document.getElementById('m-tel').value.trim();
   if(!n||!e||!t){alert('Por favor completa tu nombre, correo y WhatsApp.');return;}
   const p=precios[paisActual];
-  const msg=encodeURIComponent(
-    'Hola Arq. Freddy, quiero inscribirme:\n'+
-    'Curso: Vectorworks + Plugins\n'+
-    'Fecha: 18 Mayo 2026\n'+
-    'Precio: '+p.label+'\n'+
-    'País: '+p.sub+'\n'+
-    'Nombre: '+n+'\nEmail: '+e+'\nWA: '+t
-  );
+  const msg=encodeURIComponent('Hola Arq. Freddy, quiero inscribirme:\nCurso: Vectorworks + Plugins\nFecha: 18 Mayo 2026\nPrecio: '+p.label+'\nPaís: '+p.sub+'\nNombre: '+n+'\nEmail: '+e+'\nWA: '+t);
   if(opcionActual==='tarjeta'){
     alert('💳 Pago con tarjeta disponible muy pronto.\nTe conectamos con el Arq. Freddy por WhatsApp.');
     window.open('https://wa.me/59173979066?text='+msg,'_blank');
   } else if(opcionActual==='qr'){
-    alert('📲 QR Bolivia\n\nMonto: Bs 100\nEscanea el QR del Arq. Freddy y envía tu comprobante por WhatsApp.');
+    alert('📲 QR Bolivia\n\nMonto: Bs 100\nEscanea el QR y envía tu comprobante por WhatsApp.');
     window.open('https://wa.me/59173979066?text='+msg+'%0AOpci%C3%B3n%3A%20QR%20Bolivia','_blank');
   } else if(opcionActual==='wa'){
     window.open('https://wa.me/59173979066?text='+msg+'%0AQuiero%20m%C3%A1s%20informaci%C3%B3n.','_blank');
