@@ -141,33 +141,71 @@
     </div>
   </div>
   <div class="vivo-cards">
-    <div class="vivo-card">
-      <div class="vivo-fecha"><span class="vf-mes">MAYO</span><span class="vf-dia">11</span></div>
-      <div class="vivo-info">
-        <h3>Construcción de Edificios de 5 Niveles</h3>
-        <p>Arq. Freddy Velásquez · Avanzado · 24h</p>
-        <div class="cupos-bar"><div class="cupos-fill"></div></div>
-        <div class="cupos-txt">70 cupos disponibles</div>
+    <!-- Card Edificios -->
+    <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:all .2s;">
+      <!-- Foto -->
+      <div style="position:relative;height:180px;overflow:hidden;flex-shrink:0;">
+        <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&h=360&fit=crop&q=80"
+             style="width:100%;height:100%;object-fit:cover;object-position:center 60%;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(26,39,68,0.9) 100%);"></div>
+        <div style="position:absolute;top:12px;left:12px;">
+          <span style="background:#dc2626;color:#fff;font-size:10px;font-weight:800;padding:4px 12px;border-radius:20px;letter-spacing:1px;">🔴 EN VIVO</span>
+        </div>
+        <div style="position:absolute;bottom:12px;left:14px;right:14px;">
+          <div style="font-family:'Josefin Sans',sans-serif;font-size:16px;font-weight:700;color:#fff;line-height:1.2;">Construcción de Edificios de 5 Niveles</div>
+        </div>
       </div>
-      <div class="vivo-precio">
-        <span class="vivo-precio-num">Bs 250</span>
-        <span class="vivo-precio-usd">≈ $36 USD</span>
-        <button class="btn-vivo" onclick="abrirModal('Construcción de Edificios de 5 Niveles',250,'Arq. Freddy Velásquez','vivo')">Reservar</button>
+      <!-- Info -->
+      <div style="padding:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.65);margin-bottom:4px;">👤 Arq. Freddy Velásquez</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.65);margin-bottom:8px;">📅 11 Mayo · ⏱ 7 clases · 10.5 hrs académicas</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:100px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;">
+              <div style="width:5%;height:100%;background:#8DC63F;border-radius:2px;"></div>
+            </div>
+            <span style="font-size:11px;color:rgba(255,255,255,0.45);">70 cupos disponibles</span>
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-family:'Josefin Sans',sans-serif;font-size:28px;font-weight:700;color:#8DC63F;line-height:1;">Bs 200</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:10px;">≈ $29 USD</div>
+          <a href="curso-edificios.html" style="display:inline-block;background:#8DC63F;color:#1A2744;padding:10px 20px;border-radius:8px;font-weight:800;font-size:13px;text-decoration:none;transition:all .2s;white-space:nowrap;">Mayor información →</a>
+        </div>
       </div>
     </div>
-    <div class="vivo-card intl">
-      <div style="position:absolute;top:0;left:0;right:0;background:#6B6BBB;color:#fff;font-size:10px;font-weight:700;text-align:center;padding:4px;border-radius:12px 12px 0 0;">🌎 Bolivia · Perú</div>
-      <div class="vivo-fecha" style="margin-top:16px;"><span class="vf-mes">MAYO</span><span class="vf-dia">18</span></div>
-      <div class="vivo-info" style="margin-top:16px;">
-        <h3>Vectorworks + Plugins</h3>
-        <p>Arq. Pablo Aramayo · Básico · 14h</p>
-        <div class="cupos-bar"><div class="cupos-fill"></div></div>
-        <div class="cupos-txt">70 cupos disponibles</div>
+    <!-- Card Vectorworks -->
+    <div style="background:rgba(107,107,187,0.08);border:1px solid rgba(107,107,187,0.25);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:all .2s;">
+      <!-- Foto -->
+      <div style="position:relative;height:180px;overflow:hidden;flex-shrink:0;">
+        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=700&h=360&fit=crop&q=80"
+             style="width:100%;height:100%;object-fit:cover;object-position:center 40%;transform:scale(1.3);transform-origin:center 50%;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(26,39,68,0.9) 100%);"></div>
+        <div style="position:absolute;top:12px;left:12px;display:flex;gap:6px;">
+          <span style="background:#dc2626;color:#fff;font-size:10px;font-weight:800;padding:4px 12px;border-radius:20px;letter-spacing:1px;">🔴 EN VIVO</span>
+          <span style="background:#6B6BBB;color:#fff;font-size:10px;font-weight:800;padding:4px 12px;border-radius:20px;">🌎 Internacional</span>
+        </div>
+        <div style="position:absolute;bottom:12px;left:14px;right:14px;">
+          <div style="font-family:'Josefin Sans',sans-serif;font-size:16px;font-weight:700;color:#fff;line-height:1.2;">Vectorworks + Plugins</div>
+        </div>
       </div>
-      <div class="vivo-precio">
-        <span class="vivo-precio-num">Bs 100</span>
-        <span class="vivo-precio-usd">S/55 · $15</span>
-        <button class="btn-vivo" onclick="abrirModal('Vectorworks + Plugins',100,'Arq. Pablo Aramayo','vivo')">Reservar</button>
+      <!-- Info -->
+      <div style="padding:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.65);margin-bottom:4px;">👤 Arq. Pablo Aramayo</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.65);margin-bottom:8px;">📅 18 Mayo · ⏱ 7 clases · 10.5 hrs académicas</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:100px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;">
+              <div style="width:5%;height:100%;background:#8DC63F;border-radius:2px;"></div>
+            </div>
+            <span style="font-size:11px;color:rgba(255,255,255,0.45);">70 cupos disponibles</span>
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-family:'Josefin Sans',sans-serif;font-size:28px;font-weight:700;color:#8DC63F;line-height:1;">Bs 100</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:10px;">S/ 55 · Perú</div>
+          <a href="curso-vectorworks.html" style="display:inline-block;background:#8DC63F;color:#1A2744;padding:10px 20px;border-radius:8px;font-weight:800;font-size:13px;text-decoration:none;transition:all .2s;white-space:nowrap;">Mayor información →</a>
+        </div>
       </div>
     </div>
   </div>
