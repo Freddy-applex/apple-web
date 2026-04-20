@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Servicios — APPLE Construcciones &amp; Servicios | Ingeniería Civil en Bolivia</title>
+<meta name="description" content="Servicios de ingeniería civil, arquitectura, presupuestos de obra, supervisión y consultoría en Santa Cruz de la Sierra, Bolivia. Más de 15 años de experiencia.">
+<meta name="keywords" content="ingeniería civil Bolivia, construcción Santa Cruz, presupuestos APU, supervisión de obra, diseño estructural, topografía">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ── ESTILOS PROPIOS DE servicios.html ── */
+
+/* Reset propio (evita heredar defectos del style.css actual) */
+.max-w{max-width:1200px;margin:0 auto;}
+
+/* NAVBAR (idéntico al index) */
+.nav-links-main{display:flex;align-items:center;gap:8px;}
+.nav-link-main{color:rgba(255,255,255,.72);font-size:13px;font-weight:500;padding:8px 14px;border-radius:0;border:none;background:transparent;transition:all .2s;white-space:nowrap;position:relative;}
+.nav-link-main::after{content:'';position:absolute;bottom:0;left:14px;right:14px;height:2px;background:var(--green);transform:scaleX(0);transition:transform .2s;}
+.nav-link-main:hover{color:#fff;}.nav-link-main:hover::after{transform:scaleX(1);}
+.nav-link-main.active{color:#fff;}.nav-link-main.active::after{transform:scaleX(1);}
+.nav-link-main.dd{position:relative;cursor:pointer;}
+.nav-dd{position:absolute;top:calc(100% + 8px);left:0;background:var(--navy-dark);border:1px solid rgba(141,198,63,.2);border-radius:12px;min-width:240px;padding:8px 0;opacity:0;visibility:hidden;transform:translateY(6px);transition:all .22s;z-index:200;}
+.nav-link-main.dd:hover .nav-dd{opacity:1;visibility:visible;transform:none;}
+.nav-dd a{display:flex;align-items:center;gap:10px;padding:11px 16px;font-size:13px;color:rgba(255,255,255,.7);transition:all .15s;}
+.nav-dd a:hover{color:var(--green);background:rgba(141,198,63,.07);padding-left:20px;}
+.nav-dd-sep{height:1px;background:rgba(255,255,255,.06);margin:4px 0;}
+.nav-link-2line{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1;padding:10px 20px;border:none;background:transparent;transition:all .2s;text-align:center;}
+.nl2-top{font-size:10px;color:rgba(255,255,255,.55);font-weight:500;}
+.nl2-bot{font-size:14px;font-weight:700;color:var(--green);letter-spacing:.5px;font-family:'Josefin Sans',sans-serif;}
+
+/* HAMBURGER */
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.hamburger span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;}
+#mob{display:none;position:fixed;top:60px;left:0;right:0;background:var(--navy-dark);z-index:999;flex-direction:column;border-top:2px solid var(--green);max-height:calc(100dvh - 60px);overflow-y:auto;}
+#mob.open{display:flex;}
+#mob a{color:rgba(255,255,255,.82);font-size:14px;font-weight:500;padding:13px 24px;border-bottom:1px solid rgba(255,255,255,.05);}
+#mob a:hover{color:var(--green);}
+#mob .mob-sub{padding-left:40px;font-size:13px;background:rgba(255,255,255,.02);}
+#mob .mob-cta{background:var(--green);color:var(--navy);font-weight:700;text-align:center;border-bottom:none;margin:16px 24px;border-radius:20px;}
+
+/* HERO DE PÁGINA */
+.page-hero{position:relative;background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 45%,var(--blue) 100%);padding:70px 5% 60px;overflow:hidden;border-bottom:3px solid var(--green);}
+.page-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(141,198,63,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(141,198,63,.05) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.page-hero::after{content:'';position:absolute;top:0;right:-80px;width:380px;height:380px;background:radial-gradient(circle,rgba(107,107,187,.25) 0%,transparent 65%);pointer-events:none;}
+.breadcrumb{position:relative;z-index:2;font-size:12px;color:rgba(255,255,255,.55);margin-bottom:20px;letter-spacing:1px;}
+.breadcrumb a{color:var(--green);}
+.breadcrumb span{margin:0 8px;opacity:.5;}
+.page-hero-inner{position:relative;z-index:2;max-width:780px;}
+.page-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(141,198,63,.1);border:1px solid rgba(141,198,63,.3);color:var(--green);font-size:10.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;padding:7px 14px;border-radius:20px;margin-bottom:18px;}
+.page-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse-dot 2s infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.4;}}
+.page-title{font-family:'Josefin Sans',sans-serif;font-size:clamp(30px,5vw,54px);font-weight:700;color:#fff;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.page-title .g{color:var(--green);}.page-title .v{color:var(--purple);}
+.page-sub{font-size:15px;color:rgba(255,255,255,.7);max-width:620px;line-height:1.65;}
+.page-sub strong{color:var(--green);font-weight:600;}
+
+/* SECCIÓN BASE */
+.sec{padding:72px 5%;}
+.sec-white{background:#fff;}
+.sec-dark{background:linear-gradient(135deg,var(--navy-dark) 0%,var(--blue) 100%);position:relative;overflow:hidden;}
+.sec-dark::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(141,198,63,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(141,198,63,.03) 1px,transparent 1px);background-size:70px 70px;pointer-events:none;}
+.sec-offwhite{background:var(--offwhite);}
+.sec-head{margin-bottom:44px;max-width:720px;}
+.sec-tag{font-size:10.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:10px;display:block;}
+.sec-tag.v{color:var(--purple);}
+.sec-h2{font-family:'Josefin Sans',sans-serif;font-size:clamp(26px,3.6vw,44px);font-weight:700;line-height:1;letter-spacing:-.5px;margin-bottom:14px;}
+.sec-h2.w{color:#fff;}
+.sec-h2.n{color:var(--navy);}
+.sec-p{font-size:15px;line-height:1.7;}
+.sec-p.w{color:rgba(255,255,255,.7);}
+.sec-p.n{color:var(--muted);}
+
+/* GRID SERVICIOS — card expandida */
+.svx-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;position:relative;z-index:2;}
+.svx-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:transform .3s,box-shadow .3s;position:relative;display:flex;flex-direction:column;}
+.svx-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),var(--purple));transform:scaleX(0);transform-origin:left;transition:transform .35s;z-index:5;}
+.svx-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(26,39,68,.14);}
+.svx-card:hover::before{transform:scaleX(1);}
+.svx-head{position:relative;height:200px;background-size:cover;background-position:center;}
+.svx-head::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(14,26,48,.3) 0%,rgba(14,26,48,.85) 100%);}
+.svx-num{position:absolute;top:14px;right:16px;font-family:'Josefin Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.7);z-index:2;}
+.svx-ico-wrap{position:absolute;bottom:14px;left:18px;width:48px;height:48px;border-radius:12px;background:rgba(141,198,63,.2);border:1px solid rgba(141,198,63,.4);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;font-size:24px;z-index:2;}
+.svx-cat{position:absolute;bottom:20px;right:16px;z-index:2;font-size:10px;font-weight:700;color:#fff;letter-spacing:2px;text-transform:uppercase;background:rgba(107,107,187,.45);padding:5px 11px;border-radius:20px;backdrop-filter:blur(6px);}
+.svx-body{padding:24px 24px 20px;display:flex;flex-direction:column;flex:1;}
+.svx-name{font-family:'Josefin Sans',sans-serif;font-size:20px;font-weight:700;color:var(--navy);margin-bottom:10px;line-height:1.1;}
+.svx-desc{font-size:13.5px;color:var(--muted);line-height:1.7;margin-bottom:18px;}
+.svx-bullets{list-style:none;margin-bottom:18px;padding:0;}
+.svx-bullets li{font-size:12.5px;color:var(--text);padding-left:22px;position:relative;margin-bottom:7px;line-height:1.55;}
+.svx-bullets li::before{content:'';position:absolute;left:0;top:7px;width:12px;height:2px;background:var(--green);}
+.svx-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:16px;border-top:1px solid var(--border);}
+.svx-cta{font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--green);display:inline-flex;align-items:center;gap:6px;transition:gap .2s;cursor:pointer;}
+.svx-card:hover .svx-cta{gap:10px;}
+.svx-ask{font-size:11px;font-weight:600;color:var(--muted);background:var(--offwhite);padding:6px 11px;border-radius:20px;border:1px solid var(--border);transition:all .2s;}
+.svx-ask:hover{border-color:#25D366;color:#25D366;}
+
+/* PROCESO — timeline */
+.proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative;z-index:2;}
+.proc-step{position:relative;padding:24px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(141,198,63,.18);border-radius:12px;transition:all .3s;}
+.proc-step:hover{background:rgba(141,198,63,.08);border-color:rgba(141,198,63,.4);transform:translateY(-4px);}
+.proc-num{font-family:'Josefin Sans',sans-serif;font-size:38px;font-weight:700;color:var(--green);line-height:1;display:block;margin-bottom:10px;opacity:.85;}
+.proc-ttl{font-family:'Josefin Sans',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:8px;}
+.proc-desc{font-size:12.5px;color:rgba(255,255,255,.6);line-height:1.65;}
+
+/* TECNOLOGÍA */
+.tech-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
+.tech-item{background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px 14px;text-align:center;transition:all .25s;}
+.tech-item:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 6px 18px rgba(141,198,63,.12);}
+.tech-icon{font-size:28px;margin-bottom:10px;display:block;}
+.tech-name{font-size:11.5px;font-weight:700;color:var(--navy);letter-spacing:.5px;line-height:1.3;}
+
+/* GARANTÍAS / DIFERENCIADORES */
+.diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.diff-card{background:#fff;border:1px solid var(--border);border-left:4px solid var(--green);border-radius:0 10px 10px 0;padding:22px 22px 22px 20px;}
+.diff-card.v{border-left-color:var(--purple);}
+.diff-icon{font-size:22px;margin-bottom:10px;display:block;}
+.diff-ttl{font-family:'Josefin Sans',sans-serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:7px;}
+.diff-desc{font-size:12.5px;color:var(--muted);line-height:1.65;}
+
+/* CTA FINAL */
+.cta-final{background:var(--navy);padding:64px 5%;text-align:center;position:relative;overflow:hidden;}
+.cta-final::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center top,rgba(141,198,63,.1) 0%,transparent 65%);pointer-events:none;}
+.cta-final-inner{position:relative;z-index:2;max-width:620px;margin:0 auto;}
+.cta-final h3{font-family:'Josefin Sans',sans-serif;font-size:clamp(24px,3.2vw,36px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:12px;}
+.cta-final h3 .g{color:var(--green);}
+.cta-final p{font-size:15px;color:rgba(255,255,255,.65);margin-bottom:28px;line-height:1.6;}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-cta{background:var(--green);color:var(--navy);padding:14px 30px;border-radius:10px;font-weight:800;font-size:14px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;letter-spacing:.5px;display:inline-flex;align-items:center;gap:8px;}
+.btn-cta:hover{background:#9ed648;transform:translateY(-2px);}
+.btn-cta-wa{background:#25D366;color:#fff;padding:14px 30px;border-radius:10px;font-weight:800;font-size:14px;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-cta-wa:hover{background:#1ebe5a;transform:translateY(-2px);}
+.btn-cta-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.25);padding:13px 28px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
+.btn-cta-outline:hover{border-color:var(--green);color:var(--green);}
+
+/* FOOTER (idéntico al index) */
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:28px;}
+.ft-logo{font-family:'Josefin Sans',sans-serif;color:#fff;font-size:18px;letter-spacing:2px;margin-bottom:10px;}
+.ft-logo span{color:var(--green);}
+.ft-desc{color:rgba(255,255,255,.4);font-size:13px;line-height:1.7;}
+.ft-col-h{color:#fff;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;}
+.ft-links a{display:block;color:rgba(255,255,255,.45);font-size:13px;margin-bottom:8px;transition:all .2s;}
+.ft-links a:hover{color:var(--green);padding-left:4px;}
+.ft-bot{border-top:1px solid rgba(255,255,255,.07);padding-top:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.ft-copy{font-size:12px;color:rgba(255,255,255,.28);}
+.ft-hecho{font-size:11px;color:rgba(255,255,255,.22);}
+.ft-hecho span{color:var(--green);}
+
+/* ── RESPONSIVE BIEN RESUELTO ── */
+@media(max-width:1000px){
+  .svx-grid{grid-template-columns:1fr 1fr;}
+  .proc-grid{grid-template-columns:repeat(2,1fr);}
+  .tech-grid{grid-template-columns:repeat(4,1fr);}
+  .diff-grid{grid-template-columns:1fr;}
+  .ft-grid{grid-template-columns:1fr 1fr;gap:28px;}
+}
+@media(max-width:820px){
+  .nav-links-main,.nav-cta-wrap{display:none;}
+  .hamburger{display:flex;}
+}
+@media(max-width:680px){
+  .svx-grid{grid-template-columns:1fr;gap:16px;}
+  .proc-grid{grid-template-columns:1fr;gap:12px;}
+  .tech-grid{grid-template-columns:repeat(3,1fr);gap:10px;}
+  .sec{padding:52px 5%;}
+  .page-hero{padding:52px 5% 44px;}
+  .svx-head{height:170px;}
+  .ft-grid{grid-template-columns:1fr;gap:24px;}
+  .ft-bot{flex-direction:column;text-align:center;}
+  .cta-final{padding:48px 5%;}
+  .btn-cta,.btn-cta-wa,.btn-cta-outline{width:100%;justify-content:center;}
+}
+@media(max-width:420px){
+  .tech-grid{grid-template-columns:repeat(2,1fr);}
+  .svx-body{padding:20px 20px 18px;}
+  .svx-head{height:150px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html"><img src="logo_apple.png" alt="APPLE" class="nav-logo-svg"></a>
+  <div class="nav-links-main">
+    <div class="nav-link-main dd">Quiénes Somos ▾
+      <div class="nav-dd">
+        <a href="nosotros.html#historia">🏛️ Historia y Trayectoria</a>
+        <a href="nosotros.html#equipo">👥 Nuestro Equipo</a>
+        <a href="nosotros.html#documentos">🛡️ Documentos de Respaldo</a>
+        <a href="nosotros.html#reconocimientos">🏆 Premios y Reconocimientos</a>
+      </div>
+    </div>
+    <a href="servicios.html" class="nav-link-main active">Servicios</a>
+    <a href="obras.html" class="nav-link-main">Obras y Proyectos</a>
+    <a href="cursos.html" class="nav-link-2line">
+      <span class="nl2-top">Academia</span>
+      <span class="nl2-bot">APPLENDE</span>
+    </a>
+    <a href="applex.html" class="nav-link-2line">
+      <span class="nl2-top">Software</span>
+      <span class="nl2-bot">APPLEX Pro</span>
+    </a>
+    <a href="index.html#contacto" class="nav-link-main">Contacto</a>
+  </div>
+  <div class="nav-cta-wrap">
+    <a href="https://wa.me/59164403290" target="_blank" class="nav-btn">Consultar →</a>
+  </div>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menú"><span></span><span></span><span></span></button>
+</nav>
+
+<div id="mob">
+  <a href="nosotros.html" onclick="toggleMenu()">Quiénes Somos</a>
+  <a href="nosotros.html#historia" onclick="toggleMenu()" class="mob-sub">🏛️ Historia y Trayectoria</a>
+  <a href="nosotros.html#equipo" onclick="toggleMenu()" class="mob-sub">👥 Nuestro Equipo</a>
+  <a href="servicios.html" onclick="toggleMenu()">Servicios</a>
+  <a href="obras.html" onclick="toggleMenu()">Obras y Proyectos</a>
+  <a href="cursos.html" onclick="toggleMenu()">Academia APPLENDE</a>
+  <a href="applex.html" onclick="toggleMenu()">Software APPLEX Pro</a>
+  <a href="index.html#contacto" onclick="toggleMenu()">Contacto</a>
+  <a href="https://wa.me/59164403290" target="_blank" class="mob-cta" onclick="toggleMenu()">💬 Consultar por WhatsApp</a>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="max-w">
+    <div class="breadcrumb">
+      <a href="index.html">Inicio</a><span>›</span>Servicios
+    </div>
+    <div class="page-hero-inner">
+      <div class="page-badge">
+        <span class="page-dot"></span>
+        LO QUE HACEMOS
+      </div>
+      <h1 class="page-title">Soluciones integrales de <span class="g">ingeniería civil</span> y <span class="v">arquitectura</span></h1>
+      <p class="page-sub">Diseñamos, presupuestamos, construimos y supervisamos. <strong>Más de 15 años de experiencia</strong> entregando obras con trazabilidad técnica, financiera y legal en Santa Cruz de la Sierra y todo el territorio boliviano.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS EXPANDIDOS -->
+<section class="sec sec-white">
+  <div class="max-w">
+    <div class="sec-head">
+      <span class="sec-tag">— Cartera de servicios</span>
+      <h2 class="sec-h2 n">Seis líneas de servicio<br>bajo una misma dirección técnica</h2>
+      <p class="sec-p n">Cada servicio se entrega con metodología documentada, entregables claros y un responsable técnico asignado desde el primer día.</p>
+    </div>
+
+    <div class="svx-grid">
+
+      <!-- 01 -->
+      <article class="svx-card">
+        <div class="svx-head" style="background-image:url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&q=75')">
+          <span class="svx-num">01</span>
+          <span class="svx-cat">Ejecución</span>
+          <div class="svx-ico-wrap">🏗️</div>
+        </div>
+        <div class="svx-body">
+          <h3 class="svx-name">Construcción Civil</h3>
+          <p class="svx-desc">Ejecución integral de obras residenciales, comerciales e infraestructura pública con hormigón armado, acero estructural y sistemas mixtos.</p>
+          <ul class="svx-bullets">
+            <li>Edificios multifamiliares hasta 12 niveles</li>
+            <li>Viviendas unifamiliares y condominios</li>
+            <li>Naves industriales y galpones</li>
+            <li>Obra gris y acabados llave en mano</li>
+          </ul>
+          <div class="svx-foot">
+            <span class="svx-cta">Ver proyectos →</span>
+            <a href="https://wa.me/59164403290?text=Quiero%20cotizar%20una%20obra%20civil" target="_blank" class="svx-ask">💬 Cotizar</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 02 -->
+      <article class="svx-card">
+        <div class="svx-head" style="background-image:url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=75')">
+          <span class="svx-num">02</span>
+          <span class="svx-cat">Diseño</span>
+          <div class="svx-ico-wrap">📐</div>
+        </div>
+        <div class="svx-body">
+          <h3 class="svx-name">Diseño Estructural</h3>
+          <p class="svx-desc">Cálculo y diseño de estructuras bajo norma boliviana (CBH-87) e internacionales. Entregamos memoria, planos y especificaciones firmadas.</p>
+          <ul class="svx-bullets">
+            <li>Análisis sísmico y por viento</li>
+            <li>Hormigón armado, metálicas y mixtas</li>
+            <li>Diseño de fundaciones especiales</li>
+            <li>Revisión y peritaje de estructuras existentes</li>
+          </ul>
+          <div class="svx-foot">
+            <span class="svx-cta">Solicitar estudio →</span>
+            <a href="https://wa.me/59164403290?text=Necesito%20un%20dise%C3%B1o%20estructural" target="_blank" class="svx-ask">💬 Cotizar</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 03 -->
+      <article class="svx-card">
+        <div class="svx-head" style="background-image:url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=75')">
+          <span class="svx-num">03</span>
+          <span class="svx-cat">Gestión</span>
+          <div class="svx-ico-wrap">📊</div>
+        </div>
+        <div class="svx-body">
+          <h3 class="svx-name">Presupuestos y APUs</h3>
+          <p class="svx-desc">Cómputos métricos, análisis de precios unitarios y presupuestos de obra usando nuestro propio software <strong>APPLEX Pro</strong> con base de datos actualizada de 12 regionales de Bolivia.</p>
+          <ul class="svx-bullets">
+            <li>Cómputo métrico con deducciones</li>
+            <li>APUs con mano de obra, material y equipo</li>
+            <li>Cronograma valorizado (Gantt)</li>
+            <li>Entrega en Excel, PDF y formato PRESCOM</li>
+          </ul>
+          <div class="svx-foot">
+            <a href="applex.html" class="svx-cta">Conocer APPLEX Pro →</a>
+            <a href="https://wa.me/59164403290?text=Quiero%20un%20presupuesto%20de%20obra" target="_blank" class="svx-ask">💬 Pedir</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 04 -->
+      <article class="svx-card">
+        <div class="svx-head" style="background-image:url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=900&q=75')">
+          <span class="svx-num">04</span>
+          <span class="svx-cat">Levantamiento</span>
+          <div class="svx-ico-wrap">🔭</div>
+        </div>
+        <div class="svx-body">
+          <h3 class="svx-name">Topografía y Replanteo</h3>
+          <p class="svx-desc">Levantamientos topográficos con estación total y GPS diferencial. Replanteo de obra punto por punto y control planialtimétrico durante la ejecución.</p>
+          <ul class="svx-bullets">
+            <li>Levantamiento planimétrico y altimétrico</li>
+            <li>Curvas de nivel y modelo digital de terreno</li>
+            <li>Replanteo de ejes, ejes de columnas y niveles</li>
+            <li>Cubicación de movimiento de tierras</li>
+          </ul>
+          <div class="svx-foot">
+            <span class="svx-cta">Agendar visita →</span>
+            <a href="https://wa.me/59164403290?text=Necesito%20un%20levantamiento%20topogr%C3%A1fico" target="_blank" class="svx-ask">💬 Cotizar</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 05 -->
+      <article class="svx-card">
+        <div class="svx-head" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=75')">
+          <span class="svx-num">05</span>
+          <span class="svx-cat">Control</span>
+          <div class="svx-ico-wrap">👁️</div>
+        </div>
+        <div class="svx-body">
+          <h3 class="svx-name">Supervisión de Obra</h3>
+          <p class="svx-desc">Fiscalización técnica y financiera de obras ejecutadas por terceros. Protegemos al propietario verificando calidad, plazos, avances y certificaciones.</p>
+          <ul class="svx-bullets">
+            <li>Supervisión permanente en obra</li>
+            <li>Aprobación de planillas y cambios de orden</li>
+            <li>Informes mensuales con curva S y fotos</li>
+            <li>Control de calidad de materiales y ensayos</li>
+          </ul>
+          <div class="svx-foot">
+            <span class="svx-cta">Contratar supervisión →</span>
+            <a href="https://wa.me/59164403290?text=Requiero%20supervisi%C3%B3n%20de%20obra" target="_blank" class="svx-ask">💬 Consultar</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 06 -->
+      <article class="svx-card">
+        <div class="svx-head" style="background-image:url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=900&q=75')">
+          <span class="svx-num">06</span>
+          <span class="svx-cat">Asesoría</span>
+          <div class="svx-ico-wrap">📋</div>
+        </div>
+        <div class="svx-body">
+          <h3 class="svx-name">Consultoría e Ingeniería</h3>
+          <p class="svx-desc">Acompañamiento técnico para gobiernos municipales, empresas privadas y particulares en proyectos de inversión, estudios de factibilidad y peritajes.</p>
+          <ul class="svx-bullets">
+            <li>Estudios técnicos y de factibilidad (TESA)</li>
+            <li>Peritajes y valuaciones inmobiliarias</li>
+            <li>Asesoría para licitaciones públicas</li>
+            <li>Dictámenes técnicos para procesos legales</li>
+          </ul>
+          <div class="svx-foot">
+            <span class="svx-cta">Agendar reunión →</span>
+            <a href="https://wa.me/59164403290?text=Necesito%20una%20consultor%C3%ADa%20t%C3%A9cnica" target="_blank" class="svx-ask">💬 Contactar</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- NUESTRO PROCESO -->
+<section class="sec sec-dark">
+  <div class="max-w" style="position:relative;z-index:2;">
+    <div class="sec-head">
+      <span class="sec-tag">— Cómo trabajamos</span>
+      <h2 class="sec-h2 w">Proceso estandarizado<br>en 4 fases</h2>
+      <p class="sec-p w">Cada proyecto, independiente de su magnitud, pasa por las mismas cuatro fases con entregables claros y puntos de aprobación del cliente.</p>
+    </div>
+    <div class="proc-grid">
+      <div class="proc-step">
+        <span class="proc-num">01</span>
+        <h4 class="proc-ttl">Diagnóstico</h4>
+        <p class="proc-desc">Visita a sitio, levantamiento de requerimientos, análisis de terreno y revisión de documentación legal. Cierre con acta y alcance firmado.</p>
+      </div>
+      <div class="proc-step">
+        <span class="proc-num">02</span>
+        <h4 class="proc-ttl">Proyecto Ejecutivo</h4>
+        <p class="proc-desc">Diseño arquitectónico, cálculo estructural, instalaciones, presupuesto con APUs y cronograma. Entregables firmados por profesionales habilitados.</p>
+      </div>
+      <div class="proc-step">
+        <span class="proc-num">03</span>
+        <h4 class="proc-ttl">Ejecución</h4>
+        <p class="proc-desc">Dirección técnica en obra, control de calidad, avance semanal valorizado y reuniones de seguimiento con el cliente cada 15 días.</p>
+      </div>
+      <div class="proc-step">
+        <span class="proc-num">04</span>
+        <h4 class="proc-ttl">Entrega y Garantía</h4>
+        <p class="proc-desc">Recepción provisional, liquidación final, entrega de planos As-Built y póliza de garantía estructural por 5 años sobre lo ejecutado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECNOLOGÍA -->
+<section class="sec sec-offwhite">
+  <div class="max-w">
+    <div class="sec-head">
+      <span class="sec-tag v">— Stack técnico</span>
+      <h2 class="sec-h2 n">Tecnología que usamos<br>en cada proyecto</h2>
+      <p class="sec-p n">Herramientas profesionales licenciadas y software propio desarrollado en casa para garantizar precisión y velocidad.</p>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-item"><span class="tech-icon">🧮</span><div class="tech-name">APPLEX Pro</div></div>
+      <div class="tech-item"><span class="tech-icon">🏛️</span><div class="tech-name">AutoCAD</div></div>
+      <div class="tech-item"><span class="tech-icon">📐</span><div class="tech-name">Revit BIM</div></div>
+      <div class="tech-item"><span class="tech-icon">🧱</span><div class="tech-name">SAP2000</div></div>
+      <div class="tech-item"><span class="tech-icon">🏗️</span><div class="tech-name">Etabs</div></div>
+      <div class="tech-item"><span class="tech-icon">✏️</span><div class="tech-name">Vectorworks</div></div>
+      <div class="tech-item"><span class="tech-icon">📊</span><div class="tech-name">MS Project</div></div>
+      <div class="tech-item"><span class="tech-icon">🗺️</span><div class="tech-name">QGIS</div></div>
+      <div class="tech-item"><span class="tech-icon">📷</span><div class="tech-name">Estación Total</div></div>
+      <div class="tech-item"><span class="tech-icon">🛰️</span><div class="tech-name">GPS Diferencial</div></div>
+      <div class="tech-item"><span class="tech-icon">🚁</span><div class="tech-name">Drones RTK</div></div>
+      <div class="tech-item"><span class="tech-icon">🔬</span><div class="tech-name">Ensayos in situ</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIADORES -->
+<section class="sec sec-white">
+  <div class="max-w">
+    <div class="sec-head">
+      <span class="sec-tag">— Por qué elegirnos</span>
+      <h2 class="sec-h2 n">Tres garantías<br>que nos diferencian</h2>
+    </div>
+    <div class="diff-grid">
+      <div class="diff-card">
+        <span class="diff-icon">🛡️</span>
+        <h4 class="diff-ttl">Respaldo legal y tributario</h4>
+        <p class="diff-desc">NIT 2989818012, FUNDEMPRESA vigente, afiliación a la Sociedad de Ingenieros de Bolivia y Colegio de Arquitectos. Documentación disponible a demanda.</p>
+      </div>
+      <div class="diff-card v">
+        <span class="diff-icon">📈</span>
+        <h4 class="diff-ttl">Trazabilidad financiera</h4>
+        <p class="diff-desc">Cada peso invertido queda registrado en planillas valorizadas, con curva S de avance y conciliación mensual firmada. Sin sorpresas al final de la obra.</p>
+      </div>
+      <div class="diff-card">
+        <span class="diff-icon">🎓</span>
+        <h4 class="diff-ttl">Actualización técnica constante</h4>
+        <p class="diff-desc">Nuestro equipo capacita a colegas a través de Academia APPLENDE. Lo que enseñamos, lo aplicamos primero en nuestras obras.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <div class="cta-final-inner">
+    <h3>¿Listo para iniciar <span class="g">tu proyecto</span>?</h3>
+    <p>Cotización sin compromiso en menos de 48 horas. Atendemos en Santa Cruz, La Paz, Cochabamba y todo el territorio nacional.</p>
+    <div class="cta-btns">
+      <a href="https://wa.me/59164403290?text=Quiero%20cotizar%20un%20proyecto" target="_blank" class="btn-cta-wa">💬 Cotizar por WhatsApp</a>
+      <a href="index.html#contacto" class="btn-cta-outline">Formulario de contacto</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="max-w">
+    <div class="ft-grid">
+      <div>
+        <div class="ft-logo">APPLE <span>Construcciones</span></div>
+        <p class="ft-desc">Ingeniería civil, software APPLEX Pro y academia de capacitación APPLENDE. Santa Cruz de la Sierra, Bolivia.</p>
+      </div>
+      <div>
+        <div class="ft-col-h">Empresa</div>
+        <div class="ft-links">
+          <a href="nosotros.html">Quiénes Somos</a>
+          <a href="servicios.html">Servicios</a>
+          <a href="obras.html">Obras y Proyectos</a>
+          <a href="index.html#contacto">Contacto</a>
+        </div>
+      </div>
+      <div>
+        <div class="ft-col-h">Productos</div>
+        <div class="ft-links">
+          <a href="applex.html">APPLEX Pro v1.0</a>
+          <a href="cursos.html">Academia APPLENDE</a>
+        </div>
+      </div>
+      <div>
+        <div class="ft-col-h">Contacto</div>
+        <div class="ft-links">
+          <a href="tel:+59164403290">+591 64403290</a>
+          <a href="mailto:appleconstrucciones.c@gmail.com">appleconstrucciones.c@gmail.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <p class="ft-copy">© 2026 APPLE Construcciones &amp; Servicios · NIT 2989818012</p>
+      <p class="ft-hecho">Hecho con ♥ en <span>Bolivia</span></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll
+window.addEventListener('scroll',()=>{
+  document.querySelector('.nav').style.boxShadow=scrollY>60?'0 4px 24px rgba(0,0,0,.4)':'0 2px 8px rgba(0,0,0,.3)';
+});
+// Mobile menu
+function toggleMenu(){document.getElementById('mob').classList.toggle('open')}
+</script>
+
+</body>
+</html>

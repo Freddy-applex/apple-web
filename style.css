@@ -1,3 +1,9 @@
+/* ═══════════════════════════════════════════════════════════════════
+   APPLE Construcciones & Servicios — style.css
+   Hoja de estilos compartida por: cursos.html, curso-*.html, applex.html, nosotros.html
+   (El index.html usa su propio <style> inline ya corregido)
+   Versión: 2.0 — Responsive fixes aplicados
+   ═══════════════════════════════════════════════════════════════════ */
 
 :root{
   --navy:#1A2744;--navy-dark:#0E1A30;--blue:#2E4A8E;
@@ -11,7 +17,7 @@ body{font-family:'Barlow',sans-serif;color:var(--text);background:var(--white);o
 img{max-width:100%;display:block;}
 a{text-decoration:none;color:inherit;}
 
-/* NAV */
+/* ─── NAV ─── */
 .nav{position:sticky;top:0;z-index:200;background:var(--navy);height:60px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.3);}
 .nav-logo-svg{height:32px;width:auto;}
 .nav-links{display:flex;align-items:center;gap:10px;}
@@ -21,7 +27,7 @@ a{text-decoration:none;color:inherit;}
 .nav-btn:hover{background:#9ed648;}
 .nav-wa{background:#25D366;color:#fff;padding:9px 18px;border-radius:20px;font-weight:700;font-size:13px;white-space:nowrap;}
 
-/* HERO FOTO */
+/* ─── HERO FOTO (para páginas de cursos) ─── */
 .hero-foto-wrap{position:relative;overflow:hidden;}
 .hero-foto{width:100%;height:420px;object-fit:cover;object-position:center 50%;display:block;}
 .hero-foto-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,39,68,0.3) 0%,rgba(26,39,68,0.85) 100%);display:flex;align-items:flex-end;padding:32px 5%;}
@@ -33,14 +39,14 @@ a{text-decoration:none;color:inherit;}
 .hero-foto-text h1 span{color:var(--green);}
 .hero-foto-text p{font-size:15px;color:rgba(255,255,255,0.8);}
 
-/* INFO BAR */
+/* ─── INFO BAR ─── */
 .info-bar{background:var(--navy);padding:20px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
 .info-badges{display:flex;gap:10px;flex-wrap:wrap;}
 .ibadge{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:6px 12px;font-size:12px;color:rgba(255,255,255,0.85);font-weight:500;}
 .ibadge-purple{background:rgba(107,107,187,0.2);border-color:rgba(107,107,187,0.3);}
 .ibadge-green{background:rgba(141,198,63,0.15);border-color:rgba(141,198,63,0.3);color:var(--green);}
 
-/* COUNTDOWN BAR */
+/* ─── COUNTDOWN BAR ─── */
 .countdown-bar{background:linear-gradient(135deg,var(--navy-dark),var(--blue));padding:16px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;border-bottom:2px solid var(--green);}
 .cd-label{font-size:14px;font-weight:700;color:#fff;}
 .cd-sub{font-size:12px;color:rgba(255,255,255,0.55);margin-top:2px;}
@@ -50,10 +56,10 @@ a{text-decoration:none;color:inherit;}
 .cd-sub-label{font-size:9px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-top:4px;display:block;}
 .cd-sep{font-size:24px;font-weight:700;color:rgba(141,198,63,0.4);margin-top:-6px;}
 
-/* MAIN LAYOUT */
+/* ─── MAIN LAYOUT (cursos individuales) ─── */
 .main-layout{max-width:1100px;margin:0 auto;padding:40px 5%;display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:start;}
 
-/* CARD INSCRIPCION */
+/* ─── CARD INSCRIPCIÓN ─── */
 .inscripcion-card{background:var(--white);border:2px solid var(--border);border-radius:14px;padding:24px;position:sticky;top:80px;box-shadow:0 8px 32px rgba(0,0,0,0.1);}
 .ic-precio-num{font-family:'Josefin Sans',sans-serif;font-size:42px;font-weight:700;color:var(--navy);line-height:1;}
 .ic-precio-orig{font-size:16px;color:var(--muted);text-decoration:line-through;margin-left:8px;}
@@ -69,21 +75,21 @@ a{text-decoration:none;color:inherit;}
 .ic-feat::before{content:'✓';color:var(--green);font-weight:800;font-size:14px;flex-shrink:0;}
 .ic-garantia{text-align:center;font-size:11px;color:var(--muted);margin-top:12px;}
 
-/* SECCIONES */
+/* ─── SECCIONES ─── */
 .section-tag{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--green);display:block;margin-bottom:10px;}
 .section-tag.purple{color:var(--purple);}
 .contenido h2{font-family:'Josefin Sans',sans-serif;font-size:clamp(20px,2.5vw,30px);font-weight:700;color:var(--navy);margin-bottom:12px;}
 .contenido p{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:16px;}
 .separador{height:1px;background:var(--border);margin:36px 0;}
 
-/* VIDEO */
+/* ─── VIDEO ─── */
 .video-wrap{position:relative;padding-bottom:56.25%;border-radius:12px;overflow:hidden;background:var(--navy);border:1px solid var(--border);margin-top:20px;}
 .video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
 .video-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:linear-gradient(135deg,var(--navy),var(--blue));}
 .video-placeholder .play-icon{font-size:56px;opacity:0.7;}
 .video-placeholder p{color:rgba(255,255,255,0.5);font-size:13px;}
 
-/* TEMARIO */
+/* ─── TEMARIO ─── */
 .temario-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;}
 .t-item{display:flex;align-items:flex-start;gap:12px;background:var(--offwhite);border:1px solid var(--border);border-radius:8px;padding:14px;transition:all .2s;}
 .t-item:hover{border-color:var(--green);background:var(--white);box-shadow:0 4px 12px rgba(141,198,63,0.1);}
@@ -92,7 +98,7 @@ a{text-decoration:none;color:inherit;}
 .t-texto{font-size:13px;color:var(--text);line-height:1.4;}
 .t-texto strong{color:var(--navy);display:block;margin-bottom:2px;}
 
-/* INSTRUCTOR */
+/* ─── INSTRUCTOR ─── */
 .inst-card{display:flex;gap:24px;align-items:flex-start;background:var(--offwhite);border:1px solid var(--border);border-radius:14px;padding:24px;margin-top:20px;}
 .inst-av{width:80px;height:80px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-size:32px;border:3px solid rgba(141,198,63,0.25);}
 .inst-nombre{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:4px;}
@@ -102,7 +108,7 @@ a{text-decoration:none;color:inherit;}
 .inst-tag{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px;}
 .inst-tag::before{content:'✓';color:var(--green);font-weight:800;}
 
-/* CTA FINAL */
+/* ─── CTA FINAL ─── */
 .cta-section{background:var(--navy);padding:56px 5%;text-align:center;}
 .cta-section h2{font-family:'Josefin Sans',sans-serif;font-size:clamp(20px,3vw,34px);font-weight:700;color:#fff;margin-bottom:12px;}
 .cta-section p{font-size:15px;color:rgba(255,255,255,0.65);max-width:460px;margin:0 auto 28px;}
@@ -112,7 +118,7 @@ a{text-decoration:none;color:inherit;}
 .btn-cta-wa{background:#25D366;color:#fff;padding:15px 36px;border-radius:10px;font-weight:800;font-size:15px;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
 .btn-cta-wa:hover{background:#1ebe5a;transform:translateY(-2px);}
 
-/* CURSOS GRID (cursos.html) */
+/* ─── CURSOS GRID (cursos.html) ─── */
 .c-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
 .c-card{background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .25s,transform .25s;cursor:pointer;}
 .c-card:hover{box-shadow:0 8px 28px rgba(0,0,0,0.12);transform:translateY(-3px);}
@@ -142,7 +148,7 @@ a{text-decoration:none;color:inherit;}
 .c-btn-prox{background:var(--purple);color:#fff;}
 .c-btn-prox:hover{background:#5a5aaa;}
 
-/* CURSOS EN VIVO BAR */
+/* ─── CURSOS EN VIVO BAR ─── */
 .vivo-bar{background:var(--navy);padding:20px 5%;}
 .vivo-bar-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:16px;}
 .vivo-dot{width:10px;height:10px;border-radius:50%;background:#dc2626;animation:pulse-vivo 1.5s infinite;flex-shrink:0;}
@@ -170,13 +176,14 @@ a{text-decoration:none;color:inherit;}
 .btn-vivo{background:var(--green);color:var(--navy);border:none;padding:9px 14px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;font-family:'Barlow',sans-serif;white-space:nowrap;transition:all .2s;}
 .btn-vivo:hover{background:#9ed648;}
 
-/* FILTROS */
-.filtros{background:#fff;border-bottom:2px solid var(--border);padding:0 5%;display:flex;gap:0;overflow-x:auto;position:sticky;top:60px;z-index:90;}
+/* ─── FILTROS ─── */
+.filtros{background:#fff;border-bottom:2px solid var(--border);padding:0 5%;display:flex;gap:0;overflow-x:auto;position:sticky;top:60px;z-index:90;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.filtros::-webkit-scrollbar{display:none;}
 .filtro{padding:14px 20px;border:none;background:transparent;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;font-family:'Barlow',sans-serif;}
 .filtro:hover{color:var(--navy);}
 .filtro.active{color:var(--navy);border-bottom-color:var(--navy);}
 
-/* SERVICIOS */
+/* ─── SERVICIOS (usado por cursos individuales) ─── */
 .servicios-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
 .servicio-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:24px;transition:all .2s;position:relative;overflow:hidden;}
 .servicio-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),var(--purple));transform:scaleX(0);transform-origin:left;transition:transform .3s;}
@@ -186,7 +193,7 @@ a{text-decoration:none;color:inherit;}
 .servicio-card h4{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:8px;font-family:'Josefin Sans',sans-serif;}
 .servicio-card p{font-size:13px;color:var(--muted);line-height:1.6;}
 
-/* MODAL */
+/* ─── MODAL ─── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(6px);}
 .modal-overlay.open{opacity:1;pointer-events:all;}
 .modal-box{background:var(--white);border-radius:16px;max-width:460px;width:100%;max-height:92vh;overflow-y:auto;}
@@ -218,7 +225,7 @@ a{text-decoration:none;color:inherit;}
 .btn-confirmar:disabled{opacity:0.45;cursor:not-allowed;}
 .modal-nota{text-align:center;font-size:11px;color:var(--muted);background:var(--offwhite);padding:10px;border-radius:8px;}
 
-/* FOOTER */
+/* ─── FOOTER ─── */
 footer{background:var(--navy-dark);border-top:1px solid rgba(141,198,63,0.12);padding:32px 5%;}
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;margin-bottom:28px;}
 .footer-brand h3{font-family:'Josefin Sans',sans-serif;color:#fff;font-size:18px;letter-spacing:2px;margin-bottom:10px;}
@@ -231,26 +238,63 @@ footer{background:var(--navy-dark);border-top:1px solid rgba(141,198,63,0.12);pa
 .footer-bottom p{font-size:12px;color:rgba(255,255,255,0.3);}
 .footer-bottom a{color:var(--green);}
 
-/* RESPONSIVE */
-@media(max-width:900px){
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE — Versión 2.0 (3 breakpoints, fixes consolidados)
+   Breakpoints: 1000px (tablets) · 700px (móvil grande) · 420px (móvil chico)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── TABLET ( ≤ 1000px ) ─── */
+@media(max-width:1000px){
   .main-layout{grid-template-columns:1fr;}
   .inscripcion-card{position:static;}
   .temario-grid{grid-template-columns:1fr;}
   .inst-card{flex-direction:column;}
   .servicios-grid{grid-template-columns:repeat(2,1fr);}
-  .footer-grid{grid-template-columns:1fr 1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:28px;}
   .vivo-cards{grid-template-columns:1fr;}
   .c-grid{grid-template-columns:repeat(3,1fr);}
 }
+
+/* ─── MÓVIL GRANDE ( ≤ 700px ) ─── */
 @media(max-width:700px){
   .c-grid{grid-template-columns:repeat(2,1fr);}
   .servicios-grid{grid-template-columns:1fr;}
-  .footer-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;gap:24px;}
+  .footer-bottom{flex-direction:column;text-align:center;}
+  .hero-foto{height:280px;}
+  .hero-foto-overlay{padding:24px 5%;}
+  .info-bar{padding:16px 5%;}
+  .countdown-bar{padding:14px 5%;}
+  .cd-num{font-size:26px;padding:6px 10px;min-width:50px;}
+  .cd-sub-label{font-size:8px;}
+  .main-layout{padding:28px 5%;gap:28px;}
+  .inscripcion-card{padding:20px;}
+  .ic-precio-num{font-size:34px;}
+  .inst-av{width:70px;height:70px;font-size:26px;}
+  .vivo-card{flex-wrap:wrap;}
+  .cta-section{padding:44px 5%;}
+  .cta-btns{flex-direction:column;align-items:stretch;}
+  .btn-cta,.btn-cta-wa{width:100%;justify-content:center;text-align:center;}
+  .modal-bd{padding:18px 20px;}
+  .modal-ft{padding:0 20px 20px;}
+  footer{padding:28px 5%;}
 }
-@media(max-width:600px){
-  .hero-foto{height:260px;}
-  .nav-links .nav-link{display:none;}
-  .cd-num{font-size:24px;padding:6px 10px;min-width:46px;}
-  .cta-btns{flex-direction:column;align-items:center;}
-  .btn-cta,.btn-cta-wa{width:100%;justify-content:center;}
+
+/* ─── MÓVIL CHICO ( ≤ 420px ) ─── */
+@media(max-width:420px){
+  .c-grid{grid-template-columns:1fr;}
+  .c-titulo{min-height:auto;}
+  .hero-foto{height:240px;}
+  .hero-foto-text h1{font-size:22px;}
+  .cd-timer{gap:6px;}
+  .cd-num{font-size:22px;padding:5px 8px;min-width:42px;}
+  .cd-sep{display:none;}
+  .countdown-mini{font-size:12px;padding:6px 10px;}
+  .countdown-mini span{font-size:14px;min-width:22px;padding:3px 6px;}
+  .vivo-fecha{min-width:50px;padding:8px 10px;}
+  .vf-dia{font-size:24px;}
+  .ic-precio-num{font-size:30px;}
+  .ic-btn-main{font-size:14px;padding:13px;}
+  .servicios-grid{grid-template-columns:1fr;}
+  .section-tag{letter-spacing:2px;}
 }
