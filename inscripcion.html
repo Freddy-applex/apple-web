@@ -565,35 +565,28 @@ function avanzarAPago(datos) {
 
 function construirMensajeWA(datos, curso) {
   const precioFmt = APPLENDE_UI.formatearPrecio(curso.precio_bs, curso.precio_original_bs);
-  let msg = '¡Hola Arq. Freddy! 👋
-
-';
-  msg += 'Me inscribí al curso *' + curso.titulo + '* y ya realicé el pago.
-
-';
-  msg += '📋 *Mis datos:*
-';
-  msg += '• Nombre: ' + datos.nombre + '
-';
-  msg += '• CI: ' + datos.ci + '
-';
-  msg += '• Email: ' + datos.email + '
-';
-  msg += '• Ciudad: ' + datos.ciudad + '
-';
-  msg += '• Monto pagado: Bs ' + precioFmt.precio + '
-';
+  const lineas = [];
+  lineas.push('¡Hola Arq. Freddy! 👋');
+  lineas.push('');
+  lineas.push('Me inscribí al curso *' + curso.titulo + '* y ya realicé el pago.');
+  lineas.push('');
+  lineas.push('📋 *Mis datos:*');
+  lineas.push('• Nombre: ' + datos.nombre);
+  lineas.push('• CI: ' + datos.ci);
+  lineas.push('• Email: ' + datos.email);
+  lineas.push('• Ciudad: ' + datos.ciudad);
+  lineas.push('• Monto pagado: Bs ' + precioFmt.precio);
   if (curso.modalidad === 'en_vivo' && curso.cohorte_proxima_fecha) {
     const fmt = APPLENDE_UI.formatearFechaCohorte(curso.cohorte_proxima_fecha);
-    msg += '• Cohorte: ' + fmt.completo + '
-';
+    lineas.push('• Cohorte: ' + fmt.completo);
   }
-  msg += '
-📎 Les adjunto el comprobante de pago.
-
-Gracias!';
-  return msg;
+  lineas.push('');
+  lineas.push('📎 Les adjunto el comprobante de pago.');
+  lineas.push('');
+  lineas.push('Gracias!');
+  return lineas.join(String.fromCharCode(10));
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
   cargarCurso();
