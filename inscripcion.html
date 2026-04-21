@@ -384,8 +384,6 @@ function renderizarResumen(curso) {
   document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
 
   document.getElementById('pago-monto').textContent = 'Bs ' + precioFmt.precio;
-  document.getElementById('pago-monto-bank').textContent = 'Bs ' + precioFmt.precio;
-  document.getElementById('pago-monto-tigo').textContent = 'Bs ' + precioFmt.precio;
 
   if (curso.modalidad === 'en_vivo') {
     document.body.classList.add('modo-vivo');
