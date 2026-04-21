@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Academia · APPLENDE</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#1A2744; --navy-dark:#0E1A30; --blue:#2E4A8E;
+      --green:#8DC63F; --green-dark:#6aaa2a; --purple:#6B6BBB;
+      --gray:#BFBFBF; --white:#fff; --offwhite:#F5F7FA;
+      --text:#2C3A52; --muted:#6B7A90; --border:#E2E8F0;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Barlow',sans-serif;color:var(--text);background:var(--offwhite);min-height:100vh;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;}
+
+    #loading{
+      position:fixed;inset:0;background:var(--navy);z-index:100;
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+    }
+    #loading.hidden{display:none;}
+    .loader-bar{width:40px;height:2px;background:var(--green);animation:loaderPulse 1s ease-in-out infinite;margin-right:14px;}
+    @keyframes loaderPulse{0%,100%{opacity:0.3;transform:scaleX(1);}50%{opacity:1;transform:scaleX(1.5);}}
+
+    .nav{
+      position:sticky;top:0;z-index:200;background:var(--navy);
+      height:60px;padding:0 5%;display:flex;align-items:center;
+      justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.3);
+    }
+    .nav-brand{display:flex;align-items:center;gap:10px;color:#fff;font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:18px;letter-spacing:2px;}
+    .nav-brand .squares{display:flex;gap:3px;}
+    .nav-brand .squares span{width:14px;height:14px;border-radius:2px;}
+    .nav-brand .squares span:nth-child(1){background:var(--green);}
+    .nav-brand .squares span:nth-child(2){background:var(--gray);}
+    .nav-brand .squares span:nth-child(3){background:var(--purple);}
+    .nav-brand .accent{color:var(--green);}
+    .badge-rol{
+      background:rgba(141,198,63,0.2);color:var(--green);
+      font-size:10px;font-weight:700;letter-spacing:2px;
+      text-transform:uppercase;padding:4px 10px;border-radius:20px;
+      margin-left:10px;border:1px solid rgba(141,198,63,0.4);
+    }
+    .nav-user{display:flex;align-items:center;gap:14px;color:#fff;}
+    .user-info{text-align:right;line-height:1.2;}
+    .user-info .name{font-size:13px;font-weight:600;}
+    .user-info .email{font-size:11px;color:rgba(255,255,255,0.5);}
+    .btn-logout{
+      background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;
+      padding:7px 14px;border-radius:20px;font-family:'Barlow',sans-serif;
+      font-weight:600;font-size:12px;cursor:pointer;transition:all .2s;
+    }
+    .btn-logout:hover{background:rgba(220,38,38,0.15);border-color:#dc2626;color:#ff6b68;}
+
+    main{max-width:1200px;margin:0 auto;padding:40px 5%;}
+
+    /* Welcome hero */
+    .welcome-hero{
+      background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);
+      color:#fff;border-radius:14px;padding:36px 32px;margin-bottom:32px;
+      position:relative;overflow:hidden;
+    }
+    .welcome-hero::before{
+      content:'';position:absolute;top:-40%;right:-10%;
+      width:50%;aspect-ratio:1;
+      background:radial-gradient(circle,rgba(141,198,63,0.25) 0%,transparent 70%);
+      pointer-events:none;
+    }
+    .welcome-hero .kicker{
+      font-size:11px;font-weight:700;letter-spacing:3px;
+      text-transform:uppercase;color:var(--green);margin-bottom:10px;
+    }
+    .welcome-hero h1{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:clamp(26px,4vw,38px);letter-spacing:1px;line-height:1.15;
+      position:relative;z-index:1;
+    }
+    .welcome-hero p{
+      margin-top:10px;color:rgba(255,255,255,0.7);
+      max-width:540px;line-height:1.6;font-size:14px;
+      position:relative;z-index:1;
+    }
+
+    .section-title{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:18px;color:var(--navy);letter-spacing:1px;
+      margin:28px 0 14px;display:flex;align-items:center;gap:10px;
+    }
+    .section-title::before{content:'';width:24px;height:2px;background:var(--green);}
+
+    .courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+    .course-card{
+      background:var(--white);border:2px solid var(--border);border-radius:12px;
+      overflow:hidden;display:flex;flex-direction:column;transition:all .2s;
+    }
+    .course-card:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.08);}
+    .course-card .cover{
+      height:120px;background:linear-gradient(135deg,var(--purple) 0%,var(--blue) 100%);
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font-size:36px;position:relative;
+    }
+    .course-card .cover::after{
+      content:'';position:absolute;inset:0;
+      background:repeating-linear-gradient(45deg,rgba(255,255,255,0.03) 0,rgba(255,255,255,0.03) 2px,transparent 2px,transparent 12px);
+    }
+    .course-card .body{padding:18px;flex:1;display:flex;flex-direction:column;}
+    .course-card h3{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:16px;
+      color:var(--navy);letter-spacing:0.5px;margin-bottom:4px;
+    }
+    .course-card .meta{font-size:12px;color:var(--muted);margin-bottom:12px;}
+    .course-card .progress{margin-top:auto;}
+    .progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+    .progress-bar>span{display:block;height:100%;background:var(--green);border-radius:2px;}
+    .progress-label{
+      display:flex;justify-content:space-between;
+      font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+      color:var(--muted);margin-top:6px;
+    }
+
+    .empty-state{
+      background:var(--white);border:2px solid var(--border);border-radius:14px;
+      padding:40px 32px;text-align:center;color:var(--muted);
+    }
+    .empty-state .emoji{font-size:48px;margin-bottom:14px;}
+    .empty-state h3{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:18px;
+      color:var(--navy);letter-spacing:0.5px;margin-bottom:6px;
+    }
+    .empty-state p{font-size:14px;margin-bottom:18px;}
+    .empty-state a{
+      display:inline-block;padding:12px 22px;
+      background:linear-gradient(135deg,var(--green),var(--green-dark));
+      color:var(--navy);border-radius:20px;
+      font-family:'Barlow',sans-serif;font-weight:800;font-size:13px;
+      letter-spacing:1px;text-transform:uppercase;
+      box-shadow:0 4px 16px rgba(141,198,63,0.3);transition:all .3s;
+    }
+    .empty-state a:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(141,198,63,0.4);}
+
+    @media(max-width:700px){
+      .nav{padding:0 4%;}
+      .nav-brand{font-size:15px;}
+      .nav-user .user-info{display:none;}
+      main{padding:28px 5%;}
+      .welcome-hero{padding:26px 22px;}
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loading">
+    <span class="loader-bar"></span>
+    Cargando tu academia…
+  </div>
+
+  <nav class="nav">
+    <div class="nav-brand">
+      <span class="squares"><span></span><span></span><span></span></span>
+      <span>APPLENDE<span class="accent">.</span></span>
+      <span class="badge-rol">Estudiante</span>
+    </div>
+    <div class="nav-user">
+      <div class="user-info">
+        <div class="name" id="userName">Cargando…</div>
+        <div class="email" id="userEmail"></div>
+      </div>
+      <button class="btn-logout" id="logoutBtn">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <main>
+
+    <section class="welcome-hero">
+      <p class="kicker">Mi academia · Santa Cruz, Bolivia</p>
+      <h1 id="welcomeTitle">Bienvenido</h1>
+      <p>Aquí podrás acceder a tus cursos, ver el progreso de tus clases en vivo,
+         descargar materiales y obtener tus certificados al finalizar.</p>
+    </section>
+
+    <h2 class="section-title">Mis cursos</h2>
+
+    <div class="empty-state">
+      <div class="emoji">🎓</div>
+      <h3>Aún no tienes cursos activos</h3>
+      <p>Explora el catálogo y comienza tu formación en ingeniería civil.</p>
+      <a href="/cursos.html">Ver cursos disponibles</a>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL      = 'https://wdoqzsmwuvozhkclqbjk.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indkb3F6c213dXZvemhrY2xxYmprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTI0NzQsImV4cCI6MjA5MjI4ODQ3NH0.qlfh1Qz695Kg_hH5n-LbtAw6r-1gzpkCe5NOznxNSnM';
+    const ROLES_PERMITIDOS = ['estudiante','instructor'];
+    const LOGIN_URL = '/login.html';
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    (async function guardSession(){
+      const {data:{session}}=await supabase.auth.getSession();
+      if(!session){window.location.href=LOGIN_URL;return;}
+
+      const {data:perfil,error}=await supabase
+        .from('perfiles').select('rol,nombre,apellido').eq('id',session.user.id).single();
+
+      if(error||!perfil){await supabase.auth.signOut();window.location.href=LOGIN_URL;return;}
+
+      if(!ROLES_PERMITIDOS.includes(perfil.rol)){
+        const destino={
+          admin:'/admin/dashboard.html',
+          coordinador:'/coordinador/dashboard.html'
+        }[perfil.rol]||LOGIN_URL;
+        window.location.href=destino;return;
+      }
+
+      document.getElementById('userName').textContent=`${perfil.nombre} ${perfil.apellido}`;
+      document.getElementById('userEmail').textContent=session.user.email;
+      document.getElementById('welcomeTitle').textContent=`Bienvenido, ${perfil.nombre}`;
+      document.getElementById('loading').classList.add('hidden');
+    })();
+
+    document.getElementById('logoutBtn').addEventListener('click',async()=>{
+      await supabase.auth.signOut();
+      window.location.href=LOGIN_URL;
+    });
+  </script>
+
+</body>
+</html>
