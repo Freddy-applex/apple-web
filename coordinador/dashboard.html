@@ -218,16 +218,16 @@
     const ROLES_PERMITIDOS = ['coordinador','admin'];
     const LOGIN_URL = '/login.html';
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     (async function guardSession(){
-      const {data:{session}}=await supabase.auth.getSession();
+      const {data:{session}}=await supabaseClient.auth.getSession();
       if(!session){window.location.href=LOGIN_URL;return;}
 
       const {data:perfil,error}=await supabase
         .from('perfiles').select('rol,nombre,apellido').eq('id',session.user.id).single();
 
-      if(error||!perfil){await supabase.auth.signOut();window.location.href=LOGIN_URL;return;}
+      if(error||!perfil){await supabaseClient.auth.signOut();window.location.href=LOGIN_URL;return;}
 
       if(!ROLES_PERMITIDOS.includes(perfil.rol)){
         const destino={
@@ -243,7 +243,7 @@
     })();
 
     document.getElementById('logoutBtn').addEventListener('click',async()=>{
-      await supabase.auth.signOut();
+      await supabaseClient.auth.signOut();
       window.location.href=LOGIN_URL;
     });
   </script>
