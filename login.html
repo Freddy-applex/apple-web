@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="APPLENDE Academia · Plataforma de ingeniería civil · Santa Cruz, Bolivia">
+  <title>Iniciar sesión · APPLENDE Academia</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#1A2744; --navy-dark:#0E1A30; --blue:#2E4A8E;
+      --green:#8DC63F; --green-dark:#6aaa2a; --purple:#6B6BBB;
+      --gray:#BFBFBF; --white:#fff; --offwhite:#F5F7FA;
+      --text:#2C3A52; --muted:#6B7A90; --border:#E2E8F0;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      font-family:'Barlow',sans-serif;color:var(--text);
+      min-height:100vh;overflow-x:hidden;
+      background:var(--navy);
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(107,107,187,0.25) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(141,198,63,0.10) 0%, transparent 45%),
+        linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 100%);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:32px 5%;position:relative;
+    }
+    a{text-decoration:none;color:inherit;}
+
+    body::before{
+      content:'';position:fixed;inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);
+      background-size:48px 48px;pointer-events:none;z-index:0;
+    }
+
+    .brand-mark{
+      position:absolute;top:24px;left:5%;
+      font-size:11px;font-weight:700;letter-spacing:3px;
+      text-transform:uppercase;color:rgba(255,255,255,0.5);
+      z-index:2;display:flex;align-items:center;gap:10px;
+    }
+    .brand-mark::before{content:'';width:24px;height:2px;background:var(--green);}
+
+    .version-tag{
+      position:absolute;top:24px;right:5%;
+      font-size:11px;font-weight:700;letter-spacing:2px;
+      color:rgba(255,255,255,0.5);z-index:2;
+    }
+
+    .login-shell{
+      position:relative;z-index:1;width:100%;max-width:440px;
+      animation:fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+    .login-header{text-align:center;margin-bottom:28px;color:#fff;}
+    .login-header .squares{display:inline-flex;gap:4px;margin-bottom:18px;}
+    .login-header .squares span{display:block;width:18px;height:18px;border-radius:3px;}
+    .login-header .squares span:nth-child(1){background:var(--green);}
+    .login-header .squares span:nth-child(2){background:var(--gray);}
+    .login-header .squares span:nth-child(3){background:var(--purple);}
+    .login-header h1{
+      font-family:'Josefin Sans',sans-serif;
+      font-weight:700;font-size:40px;letter-spacing:3px;line-height:1;
+    }
+    .login-header h1 .accent{color:var(--green);}
+    .login-header .subtitle{
+      margin-top:8px;font-size:12px;font-weight:600;letter-spacing:4px;
+      text-transform:uppercase;color:rgba(255,255,255,0.55);
+    }
+
+    .login-card{
+      background:var(--white);border-radius:14px;padding:36px 32px 28px;
+      box-shadow:0 20px 60px -20px rgba(0,0,0,0.4);
+      position:relative;border:1px solid var(--border);
+    }
+    .login-card::before{
+      content:'';position:absolute;top:22px;bottom:22px;left:-4px;width:4px;border-radius:2px;
+      background:linear-gradient(180deg,var(--green) 0%,var(--green) 35%,var(--gray) 35%,var(--gray) 70%,var(--purple) 70%);
+    }
+
+    .card-title{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:24px;
+      color:var(--navy);margin-bottom:4px;letter-spacing:1px;
+    }
+    .card-subtitle{font-size:13px;color:var(--muted);margin-bottom:24px;}
+
+    .field{margin-bottom:16px;}
+    .field label{
+      display:block;font-size:10px;font-weight:700;letter-spacing:2px;
+      text-transform:uppercase;color:var(--muted);margin-bottom:7px;
+    }
+    .field input{
+      width:100%;padding:12px 14px;background:var(--offwhite);
+      border:1.5px solid var(--border);border-radius:8px;
+      font-family:'Barlow',sans-serif;font-size:14px;
+      color:var(--text);transition:border .2s;outline:none;
+    }
+    .field input::placeholder{color:var(--muted);}
+    .field input:focus{border-color:var(--green);background:var(--white);}
+    .field input:disabled{opacity:0.6;cursor:not-allowed;}
+
+    .field-row{
+      display:flex;align-items:center;justify-content:space-between;
+      margin:14px 0 22px;font-size:13px;
+    }
+    .remember{display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--text);user-select:none;}
+    .remember input{
+      appearance:none;width:16px;height:16px;border:1.5px solid var(--border);
+      border-radius:3px;cursor:pointer;position:relative;transition:all .15s;background:var(--offwhite);
+    }
+    .remember input:checked{background:var(--green);border-color:var(--green);}
+    .remember input:checked::after{
+      content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      color:var(--navy);font-size:11px;font-weight:800;
+    }
+
+    .link-purple{color:var(--purple);font-weight:600;transition:color .15s;}
+    .link-purple:hover{color:var(--navy);text-decoration:underline;}
+
+    .btn-primary{
+      width:100%;padding:15px;
+      background:linear-gradient(135deg,var(--green),var(--green-dark));
+      color:var(--navy);border:none;border-radius:10px;
+      font-family:'Barlow',sans-serif;font-weight:800;font-size:15px;
+      letter-spacing:1px;text-transform:uppercase;
+      cursor:pointer;transition:all .3s;
+      box-shadow:0 4px 16px rgba(141,198,63,0.3);
+      display:flex;align-items:center;justify-content:center;gap:10px;
+    }
+    .btn-primary:hover:not(:disabled){
+      transform:translateY(-2px);box-shadow:0 8px 28px rgba(141,198,63,0.45);
+    }
+    .btn-primary:disabled{opacity:0.6;cursor:not-allowed;}
+    .btn-primary .arrow{transition:transform .2s;}
+    .btn-primary:hover:not(:disabled) .arrow{transform:translateX(4px);}
+
+    .spinner{
+      width:16px;height:16px;border:2px solid var(--navy);
+      border-top-color:transparent;border-radius:50%;
+      animation:spin .8s linear infinite;display:none;
+    }
+    @keyframes spin{to{transform:rotate(360deg);}}
+    .btn-primary.loading .spinner{display:inline-block;}
+    .btn-primary.loading .arrow,.btn-primary.loading .btn-label{display:none;}
+
+    .alert{
+      padding:12px 14px;border-radius:8px;font-size:13px;
+      margin-bottom:16px;display:none;align-items:flex-start;gap:8px;line-height:1.45;
+    }
+    .alert.active{display:flex;}
+    .alert-error{background:rgba(220,38,38,0.08);color:#dc2626;border-left:3px solid #dc2626;}
+    .alert-success{background:rgba(141,198,63,0.10);color:var(--green-dark);border-left:3px solid var(--green);}
+
+    .divider{
+      display:flex;align-items:center;margin:22px 0 18px;
+      color:var(--muted);font-size:11px;letter-spacing:3px;
+      text-transform:uppercase;font-weight:700;
+    }
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
+    .divider::before{margin-right:12px;}
+    .divider::after{margin-left:12px;}
+
+    .signup-link{text-align:center;font-size:14px;color:var(--text);}
+
+    .login-footer{
+      margin-top:28px;text-align:center;color:rgba(255,255,255,0.45);
+      font-size:11px;letter-spacing:2px;text-transform:uppercase;line-height:1.8;
+    }
+    .login-footer strong{
+      color:#fff;font-weight:700;letter-spacing:3px;font-family:'Josefin Sans',sans-serif;
+    }
+    .login-footer strong span{color:var(--green);}
+
+    @media(max-width:700px){
+      .brand-mark,.version-tag{top:16px;font-size:10px;}
+      .login-card{padding:28px 22px 22px;}
+      .login-header h1{font-size:32px;}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="brand-mark">Ecosistema APPLE</div>
+  <div class="version-tag">v1.0 · 2026</div>
+
+  <main class="login-shell">
+
+    <header class="login-header">
+      <div class="squares" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <h1>APPLENDE<span class="accent">.</span></h1>
+      <p class="subtitle">Santa Cruz · Bolivia</p>
+    </header>
+
+    <section class="login-card">
+      <h2 class="card-title">Iniciar sesión</h2>
+      <p class="card-subtitle">Accede a tu panel académico</p>
+
+      <div id="alert" class="alert alert-error" role="alert"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" name="email"
+            placeholder="tu.correo@dominio.com" autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" name="password"
+            placeholder="••••••••••" autocomplete="current-password" required>
+        </div>
+
+        <div class="field-row">
+          <label class="remember">
+            <input type="checkbox" id="remember" checked>
+            <span>Mantener sesión</span>
+          </label>
+          <a href="#" class="link-purple" id="forgotLink">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <button type="submit" class="btn-primary" id="loginBtn">
+          <span class="spinner"></span>
+          <span class="btn-label">Iniciar sesión</span>
+          <span class="arrow">→</span>
+        </button>
+      </form>
+
+      <div class="divider">o</div>
+
+      <p class="signup-link">
+        ¿Nuevo aquí? <a href="/registro.html" class="link-purple">Regístrate</a>
+      </p>
+    </section>
+
+    <footer class="login-footer">
+      <strong>APPLE Construcciones <span>&amp;</span> Servicios</strong><br>
+      Arq. Freddy Velásquez Reinaga · Director General
+    </footer>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL      = 'https://wdoqzsmwuvozhkclqbjk.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indkb3F6c213dXZvemhrY2xxYmprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTI0NzQsImV4cCI6MjA5MjI4ODQ3NH0.qlfh1Qz695Kg_hH5n-LbtAw6r-1gzpkCe5NOznxNSnM';
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const ROL_REDIRECT = {
+      admin:       '/admin/dashboard.html',
+      coordinador: '/coordinador/dashboard.html',
+      instructor:  '/alumno/dashboard.html',
+      estudiante:  '/alumno/dashboard.html'
+    };
+
+    const alertEl  = document.getElementById('alert');
+    const loginBtn = document.getElementById('loginBtn');
+    const form     = document.getElementById('loginForm');
+
+    function showError(msg){alertEl.textContent=msg;alertEl.classList.remove('alert-success');alertEl.classList.add('alert-error','active');}
+    function showSuccess(msg){alertEl.textContent=msg;alertEl.classList.remove('alert-error');alertEl.classList.add('alert-success','active');}
+    function hideAlert(){alertEl.classList.remove('active');}
+    function setLoading(l){loginBtn.disabled=l;loginBtn.classList.toggle('loading',l);form.querySelectorAll('input').forEach(i=>i.disabled=l);}
+
+    (async function checkExistingSession(){
+      const {data:{session}}=await supabase.auth.getSession();
+      if(session){
+        const rol=await obtenerRol(session.user.id);
+        if(rol&&ROL_REDIRECT[rol]) window.location.href=ROL_REDIRECT[rol];
+      }
+    })();
+
+    async function obtenerRol(userId){
+      const {data,error}=await supabase
+        .from('perfiles').select('rol,nombre,apellido').eq('id',userId).single();
+      if(error){console.error('Error obteniendo rol:',error);return null;}
+      return data?.rol||null;
+    }
+
+    form.addEventListener('submit',async(e)=>{
+      e.preventDefault();hideAlert();
+      const email=document.getElementById('email').value.trim();
+      const password=document.getElementById('password').value;
+      if(!email||!password){showError('Completa correo y contraseña.');return;}
+      setLoading(true);
+      try{
+        const {data,error}=await supabase.auth.signInWithPassword({email,password});
+        if(error){showError(traducirError(error.message));setLoading(false);return;}
+        const rol=await obtenerRol(data.user.id);
+        if(!rol){showError('Tu perfil no está configurado. Contacta al administrador.');setLoading(false);return;}
+        const destino=ROL_REDIRECT[rol];
+        if(!destino){showError(`Rol desconocido: ${rol}. Contacta al administrador.`);setLoading(false);return;}
+        showSuccess('Bienvenido. Redirigiendo…');
+        setTimeout(()=>{window.location.href=destino;},600);
+      }catch(err){
+        console.error(err);
+        showError('Error inesperado. Intenta de nuevo.');
+        setLoading(false);
+      }
+    });
+
+    function traducirError(msg){
+      const m=msg.toLowerCase();
+      if(m.includes('invalid login credentials')) return 'Correo o contraseña incorrectos.';
+      if(m.includes('email not confirmed'))       return 'Debes confirmar tu correo antes de ingresar.';
+      if(m.includes('too many requests'))         return 'Demasiados intentos. Espera unos minutos.';
+      if(m.includes('network'))                   return 'Sin conexión. Revisa tu internet.';
+      return msg;
+    }
+
+    document.getElementById('forgotLink').addEventListener('click',async(e)=>{
+      e.preventDefault();
+      const email=document.getElementById('email').value.trim();
+      if(!email){showError('Escribe tu correo primero y luego haz clic en "Olvidaste tu contraseña".');return;}
+      const {error}=await supabase.auth.resetPasswordForEmail(email,{
+        redirectTo:window.location.origin+'/reset-password.html'
+      });
+      if(error) showError('No se pudo enviar el correo de recuperación.');
+      else      showSuccess('Te enviamos un correo para recuperar tu contraseña.');
+    });
+  </script>
+
+</body>
+</html>
