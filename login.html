@@ -254,7 +254,7 @@
     const SUPABASE_URL      = 'https://wdoqzsmwuvozhkclqbjk.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indkb3F6c213dXZvemhrY2xxYmprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTI0NzQsImV4cCI6MjA5MjI4ODQ3NH0.qlfh1Qz695Kg_hH5n-LbtAw6r-1gzpkCe5NOznxNSnM';
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const ROL_REDIRECT = {
       admin:       '/admin/dashboard.html',
@@ -273,7 +273,7 @@
     function setLoading(l){loginBtn.disabled=l;loginBtn.classList.toggle('loading',l);form.querySelectorAll('input').forEach(i=>i.disabled=l);}
 
     (async function checkExistingSession(){
-      const {data:{session}}=await supabase.auth.getSession();
+      const {data:{session}}=await supabaseClient.auth.getSession();
       if(session){
         const rol=await obtenerRol(session.user.id);
         if(rol&&ROL_REDIRECT[rol]) window.location.href=ROL_REDIRECT[rol];
@@ -294,7 +294,7 @@
       if(!email||!password){showError('Completa correo y contraseña.');return;}
       setLoading(true);
       try{
-        const {data,error}=await supabase.auth.signInWithPassword({email,password});
+        const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
         if(error){showError(traducirError(error.message));setLoading(false);return;}
         const rol=await obtenerRol(data.user.id);
         if(!rol){showError('Tu perfil no está configurado. Contacta al administrador.');setLoading(false);return;}
@@ -322,7 +322,7 @@
       e.preventDefault();
       const email=document.getElementById('email').value.trim();
       if(!email){showError('Escribe tu correo primero y luego haz clic en "Olvidaste tu contraseña".');return;}
-      const {error}=await supabase.auth.resetPasswordForEmail(email,{
+      const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{
         redirectTo:window.location.origin+'/reset-password.html'
       });
       if(error) showError('No se pudo enviar el correo de recuperación.');
