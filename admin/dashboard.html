@@ -263,7 +263,7 @@
       const {data:{session}}=await supabaseClient.auth.getSession();
       if(!session){window.location.href=LOGIN_URL;return;}
 
-      const {data:perfil,error}=await supabase
+      const {data:perfil,error}=await supabaseClient
         .from('perfiles').select('rol,nombre,apellido').eq('id',session.user.id).single();
 
       if(error||!perfil){
