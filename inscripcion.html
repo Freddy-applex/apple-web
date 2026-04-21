@@ -117,13 +117,38 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 .pago-met-sub{font-size:11px;color:var(--muted);}
 .pago-met-body{font-size:12.5px;color:var(--text);line-height:1.7;}
 .pago-met-body strong{color:var(--navy);}
-.pago-qr-img{width:100%;max-width:160px;aspect-ratio:1;background:var(--offwhite);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11px;text-align:center;padding:12px;margin:8px 0;border:2px dashed var(--border);}
 
-/* Bloque principal de pago (unificado mientras no hay QR/banco reales) */
-.pago-met-principal{border:1.5px solid rgba(141,198,63,.35);background:linear-gradient(135deg,rgba(141,198,63,.04),rgba(141,198,63,.01));border-radius:12px;grid-column:1/-1;}
-.pago-met-icon-whatsapp{background:rgba(37,211,102,.15);font-size:22px;}
-.pago-medios-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
-.pago-medio-pill{display:inline-flex;align-items:center;gap:6px;background:var(--white);border:1px solid var(--border);color:var(--navy);font-size:12px;font-weight:600;padding:6px 12px;border-radius:18px;white-space:nowrap;}
+/* ═══ CARD DE PAGO CON QR (diseño 2 columnas) ═══ */
+.pago-qr-card{display:grid;grid-template-columns:280px 1fr;gap:24px;background:linear-gradient(135deg,rgba(141,198,63,.04),rgba(107,107,187,.03));border:1.5px solid rgba(141,198,63,.25);border-radius:14px;padding:24px;margin-bottom:24px;}
+@media(max-width:640px){.pago-qr-card{grid-template-columns:1fr;}}
+
+.pago-qr-col-qr{display:flex;flex-direction:column;align-items:center;gap:12px;}
+.pago-qr-frame{width:240px;height:240px;background:var(--white);border:2px solid var(--navy);border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;padding:12px;}
+.pago-qr-frame img{width:100%;height:100%;object-fit:contain;display:block;}
+.pago-qr-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;gap:10px;}
+.pago-qr-ph-icon{font-size:42px;opacity:.4;}
+.pago-qr-ph-txt{font-size:14px;color:var(--navy);line-height:1.5;}
+.pago-qr-ph-txt strong{color:var(--green-dark);font-weight:800;}
+.pago-qr-ph-hint{font-size:11px;color:var(--muted);line-height:1.4;margin-top:6px;}
+.pago-qr-footer{text-align:center;font-size:12px;color:var(--text);line-height:1.5;}
+.pago-qr-footer strong{color:var(--navy);}
+.pago-qr-footer small{color:var(--muted);font-size:11px;}
+
+.pago-qr-col-info{display:flex;flex-direction:column;gap:14px;}
+.pago-qr-info-tit{font-family:'Josefin Sans',sans-serif;font-size:20px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.pago-qr-info-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:8px;}
+
+.pago-info-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.pago-info-row:last-of-type{border-bottom:none;}
+.pago-info-lbl{font-size:12px;color:var(--muted);font-weight:600;flex-shrink:0;}
+.pago-info-val{font-size:14px;color:var(--navy);font-weight:700;text-align:right;}
+#pago-monto-qr{font-family:'Josefin Sans',sans-serif;font-size:18px;color:var(--green-dark);}
+
+.pago-otros-medios{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-top:10px;}
+.pago-otros-tit{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px;letter-spacing:.3px;}
+.pago-medios-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.pago-medio-pill{display:inline-flex;align-items:center;gap:4px;background:var(--offwhite);border:1px solid var(--border);color:var(--navy);font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:18px;white-space:nowrap;}
+.pago-otros-hint{font-size:11.5px;color:var(--muted);line-height:1.5;font-style:italic;}
 
 .pago-separator{display:flex;align-items:center;gap:14px;margin:24px 0;}
 .pago-sep-line{flex:1;height:1px;background:var(--border);}
@@ -256,30 +281,51 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 
       <div class="pago-confirm">
         <div class="pago-confirm-tit">📋 Datos guardados — falta el pago</div>
-        <div class="pago-confirm-desc">Tu cupo se confirma automáticamente cuando verificamos tu pago. Tenés 48 horas para coordinar la transferencia con nosotros.</div>
+        <div class="pago-confirm-desc">Tu cupo se confirma automáticamente cuando verificamos tu pago. Tenés 48 horas para realizar la transferencia.</div>
       </div>
 
-      <div class="pago-metodos">
-
-        <div class="pago-met pago-met-principal">
-          <div class="pago-met-head">
-            <div class="pago-met-icon pago-met-icon-whatsapp">💬</div>
-            <div>
-              <div class="pago-met-tit">Coordinamos el pago por WhatsApp</div>
-              <div class="pago-met-sub">Te enviamos QR, datos bancarios o Tigo Money según te convenga</div>
+      <div class="pago-qr-card">
+        <div class="pago-qr-col-qr">
+          <div class="pago-qr-frame" id="qr-frame">
+            <div class="pago-qr-placeholder">
+              <div class="pago-qr-ph-icon">📱</div>
+              <div class="pago-qr-ph-txt">QR Bolivia<br><strong>Próximamente</strong></div>
+              <div class="pago-qr-ph-hint">Mientras tanto, pedinos los datos bancarios por WhatsApp</div>
             </div>
           </div>
-          <div class="pago-met-body">
-            Aceptamos múltiples medios de pago. Escribinos por WhatsApp (botón abajo) y en segundos te pasamos el medio que prefieras:
-            <div class="pago-medios-list">
-              <span class="pago-medio-pill">📱 QR Bolivia</span>
-              <span class="pago-medio-pill">🏦 Transferencia BNB</span>
-              <span class="pago-medio-pill">💰 Tigo Money</span>
-              <span class="pago-medio-pill">💵 Efectivo (Santa Cruz)</span>
-            </div>
+          <div class="pago-qr-footer">
+            <strong>📱 Escaneá con cualquier banco</strong><br>
+            <small>BNB · Unión · BISA · Mercantil · etc.</small>
           </div>
         </div>
 
+        <div class="pago-qr-col-info">
+          <div class="pago-qr-info-tit">Pagá con QR Bolivia</div>
+          <div class="pago-qr-info-desc">El QR funciona con cualquier app bancaria de Bolivia. Escaneá desde tu celular y el monto se carga automáticamente.</div>
+
+          <div class="pago-info-row">
+            <div class="pago-info-lbl">💰 Monto a pagar</div>
+            <div class="pago-info-val" id="pago-monto-qr">Bs 200</div>
+          </div>
+          <div class="pago-info-row">
+            <div class="pago-info-lbl">👤 Beneficiario</div>
+            <div class="pago-info-val">Arq. Freddy Velásquez Reinaga</div>
+          </div>
+          <div class="pago-info-row">
+            <div class="pago-info-lbl">🏢 NIT</div>
+            <div class="pago-info-val">2989818012</div>
+          </div>
+
+          <div class="pago-otros-medios">
+            <div class="pago-otros-tit">🔄 Otros medios disponibles</div>
+            <div class="pago-medios-list">
+              <span class="pago-medio-pill">🏦 Transferencia bancaria</span>
+              <span class="pago-medio-pill">💰 Tigo Money</span>
+              <span class="pago-medio-pill">💵 Efectivo (Santa Cruz)</span>
+            </div>
+            <div class="pago-otros-hint">Escribinos por WhatsApp y te pasamos los datos del medio que prefieras.</div>
+          </div>
+        </div>
       </div>
 
       <div class="pago-separator">
@@ -384,6 +430,7 @@ function renderizarResumen(curso) {
   document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
 
   document.getElementById('pago-monto').textContent = 'Bs ' + precioFmt.precio;
+  document.getElementById('pago-monto-qr').textContent = 'Bs ' + precioFmt.precio;
 
   if (curso.modalidad === 'en_vivo') {
     document.body.classList.add('modo-vivo');
