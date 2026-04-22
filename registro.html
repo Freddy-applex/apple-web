@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Regístrate en APPLENDE Academia · Formación en ingeniería civil · Santa Cruz, Bolivia">
+  <title>Regístrate · APPLENDE Academia</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#1A2744; --navy-dark:#0E1A30; --blue:#2E4A8E;
+      --green:#8DC63F; --green-dark:#6aaa2a; --purple:#6B6BBB;
+      --gray:#BFBFBF; --white:#fff; --offwhite:#F5F7FA;
+      --text:#2C3A52; --muted:#6B7A90; --border:#E2E8F0;
+      --red:#dc2626;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      font-family:'Barlow',sans-serif;color:var(--text);
+      min-height:100vh;overflow-x:hidden;
+      background:var(--navy);
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(107,107,187,0.25) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(141,198,63,0.10) 0%, transparent 45%),
+        linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 100%);
+      padding:32px 5%;position:relative;
+    }
+    a{text-decoration:none;color:inherit;}
+
+    body::before{
+      content:'';position:fixed;inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);
+      background-size:48px 48px;pointer-events:none;z-index:0;
+    }
+
+    .brand-mark{
+      position:absolute;top:24px;left:5%;
+      font-size:11px;font-weight:700;letter-spacing:3px;
+      text-transform:uppercase;color:rgba(255,255,255,0.5);
+      z-index:2;display:flex;align-items:center;gap:10px;
+    }
+    .brand-mark::before{content:'';width:24px;height:2px;background:var(--green);}
+
+    .back-link{
+      position:absolute;top:24px;right:5%;
+      font-size:12px;font-weight:600;letter-spacing:1px;
+      color:rgba(255,255,255,0.6);z-index:2;
+      transition:color .2s;
+    }
+    .back-link:hover{color:var(--green);}
+
+    .shell{
+      position:relative;z-index:1;max-width:560px;margin:40px auto 0;
+      animation:fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+    .header{text-align:center;margin-bottom:28px;color:#fff;}
+    .header .squares{display:inline-flex;gap:4px;margin-bottom:18px;}
+    .header .squares span{display:block;width:18px;height:18px;border-radius:3px;}
+    .header .squares span:nth-child(1){background:var(--green);}
+    .header .squares span:nth-child(2){background:var(--gray);}
+    .header .squares span:nth-child(3){background:var(--purple);}
+    .header h1{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:34px;letter-spacing:2px;line-height:1;
+    }
+    .header h1 .accent{color:var(--green);}
+    .header .subtitle{
+      margin-top:8px;font-size:12px;font-weight:600;letter-spacing:4px;
+      text-transform:uppercase;color:rgba(255,255,255,0.55);
+    }
+
+    /* ─── CARD ─── */
+    .card{
+      background:var(--white);border-radius:14px;padding:32px 28px;
+      box-shadow:0 20px 60px -20px rgba(0,0,0,0.4);
+      position:relative;border:1px solid var(--border);
+    }
+    .card::before{
+      content:'';position:absolute;top:22px;bottom:22px;left:-4px;width:4px;border-radius:2px;
+      background:linear-gradient(180deg,var(--green) 0%,var(--green) 35%,var(--gray) 35%,var(--gray) 70%,var(--purple) 70%);
+    }
+
+    .card-title{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:22px;
+      color:var(--navy);margin-bottom:4px;letter-spacing:1px;
+    }
+    .card-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px;}
+
+    /* ─── PROGRESS ─── */
+    .progress{
+      display:flex;align-items:center;justify-content:center;
+      gap:0;margin-bottom:26px;
+    }
+    .progress-step{
+      display:flex;flex-direction:column;align-items:center;gap:6px;
+      color:var(--muted);flex:1;position:relative;
+    }
+    .progress-step .dot{
+      width:28px;height:28px;border-radius:50%;
+      background:var(--offwhite);border:2px solid var(--border);
+      display:flex;align-items:center;justify-content:center;
+      font-weight:800;font-size:12px;color:var(--muted);
+      transition:all .3s;
+    }
+    .progress-step.active .dot{
+      background:var(--green);border-color:var(--green);color:var(--navy);
+    }
+    .progress-step.done .dot{
+      background:var(--navy);border-color:var(--navy);color:#fff;
+    }
+    .progress-step .label{
+      font-size:10px;font-weight:700;letter-spacing:1.5px;
+      text-transform:uppercase;
+    }
+    .progress-step.active .label,.progress-step.done .label{color:var(--navy);}
+    .progress-line{
+      flex:0 1 60px;height:2px;background:var(--border);
+      margin:0 4px;margin-top:-18px;
+    }
+    .progress-line.done{background:var(--navy);}
+
+    /* ─── FIELDS ─── */
+    .step{display:none;}
+    .step.active{display:block;animation:fadeIn .3s ease;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .field{margin-bottom:14px;}
+    .field.full{grid-column:1/-1;}
+    .field label{
+      display:block;font-size:10px;font-weight:700;letter-spacing:2px;
+      text-transform:uppercase;color:var(--muted);margin-bottom:7px;
+    }
+    .field input, .field select{
+      width:100%;padding:11px 14px;background:var(--offwhite);
+      border:1.5px solid var(--border);border-radius:8px;
+      font-family:'Barlow',sans-serif;font-size:14px;
+      color:var(--text);transition:border .2s;outline:none;
+    }
+    .field input::placeholder{color:var(--muted);}
+    .field input:focus, .field select:focus{border-color:var(--green);background:var(--white);}
+    .field input:disabled, .field select:disabled{opacity:0.6;cursor:not-allowed;}
+    .field .hint{
+      font-size:11px;color:var(--muted);margin-top:5px;display:block;
+    }
+    .field .error-msg{
+      font-size:11px;color:var(--red);margin-top:5px;display:none;
+    }
+    .field.has-error input, .field.has-error select{border-color:var(--red);}
+    .field.has-error .error-msg{display:block;}
+
+    .optional-tag{
+      background:var(--offwhite);color:var(--muted);font-size:10px;
+      font-weight:700;letter-spacing:1px;text-transform:uppercase;
+      padding:2px 8px;border-radius:10px;margin-left:8px;
+    }
+
+    /* ─── ALERT ─── */
+    .alert{
+      padding:12px 14px;border-radius:8px;font-size:13px;
+      margin-bottom:16px;display:none;align-items:flex-start;gap:8px;line-height:1.45;
+    }
+    .alert.active{display:flex;}
+    .alert-error{background:rgba(220,38,38,0.08);color:var(--red);border-left:3px solid var(--red);}
+    .alert-success{background:rgba(141,198,63,0.10);color:var(--green-dark);border-left:3px solid var(--green);}
+    .alert-info{background:rgba(107,107,187,0.08);color:var(--purple);border-left:3px solid var(--purple);}
+
+    /* ─── BUTTONS ─── */
+    .actions{display:flex;gap:10px;margin-top:18px;}
+    .btn{
+      padding:13px 22px;border:none;border-radius:10px;
+      font-family:'Barlow',sans-serif;font-weight:800;font-size:14px;
+      letter-spacing:1px;text-transform:uppercase;
+      cursor:pointer;transition:all .3s;flex:1;
+      display:flex;align-items:center;justify-content:center;gap:8px;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--green),var(--green-dark));
+      color:var(--navy);box-shadow:0 4px 16px rgba(141,198,63,0.3);
+    }
+    .btn-primary:hover:not(:disabled){
+      transform:translateY(-2px);box-shadow:0 8px 28px rgba(141,198,63,0.45);
+    }
+    .btn-secondary{
+      background:var(--white);color:var(--muted);
+      border:1.5px solid var(--border);
+    }
+    .btn-secondary:hover:not(:disabled){border-color:var(--muted);color:var(--text);}
+    .btn:disabled{opacity:0.6;cursor:not-allowed;}
+    .btn .spinner{
+      width:14px;height:14px;border:2px solid currentColor;
+      border-top-color:transparent;border-radius:50%;
+      animation:spin .8s linear infinite;display:none;
+    }
+    @keyframes spin{to{transform:rotate(360deg);}}
+    .btn.loading .spinner{display:inline-block;}
+    .btn.loading .arrow,.btn.loading .lbl{display:none;}
+
+    /* ─── SUCCESS SCREEN ─── */
+    .success-screen{
+      display:none;text-align:center;padding:20px 0;
+    }
+    .success-screen.active{display:block;animation:fadeIn .4s ease;}
+    .success-screen .check-icon{
+      width:80px;height:80px;margin:0 auto 20px;
+      background:var(--green);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:40px;color:var(--navy);
+      box-shadow:0 8px 28px rgba(141,198,63,0.3);
+    }
+    .success-screen h2{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:24px;color:var(--navy);margin-bottom:10px;letter-spacing:0.5px;
+    }
+    .success-screen p{color:var(--text);font-size:14px;line-height:1.55;margin-bottom:16px;}
+    .success-screen .detail-box{
+      background:var(--offwhite);border-left:3px solid var(--green);
+      padding:14px 16px;border-radius:8px;text-align:left;
+      margin-bottom:18px;font-size:13px;
+    }
+    .success-screen .detail-box strong{color:var(--navy);}
+
+    .footer{
+      margin-top:22px;text-align:center;color:rgba(255,255,255,0.45);
+      font-size:11px;letter-spacing:2px;text-transform:uppercase;line-height:1.8;
+    }
+    .footer strong{color:#fff;font-weight:700;letter-spacing:3px;font-family:'Josefin Sans',sans-serif;}
+    .footer strong span{color:var(--green);}
+    .footer a{color:rgba(255,255,255,0.6);}
+    .footer a:hover{color:var(--green);}
+
+    @media(max-width:600px){
+      .brand-mark,.back-link{top:16px;font-size:10px;}
+      .card{padding:24px 20px;}
+      .header h1{font-size:28px;}
+      .row{grid-template-columns:1fr;}
+      .progress-step .label{font-size:9px;}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="brand-mark">Ecosistema APPLE</div>
+  <a href="/login.html" class="back-link">¿Ya tienes cuenta? Inicia sesión →</a>
+
+  <main class="shell">
+
+    <header class="header">
+      <div class="squares"><span></span><span></span><span></span></div>
+      <h1>APPLENDE<span class="accent">.</span></h1>
+      <p class="subtitle">Santa Cruz · Bolivia</p>
+    </header>
+
+    <section class="card">
+
+      <!-- SUCCESS SCREEN (se muestra al final) -->
+      <div class="success-screen" id="successScreen">
+        <div class="check-icon">✓</div>
+        <h2>¡Bienvenido a APPLENDE!</h2>
+        <p id="successMsg">Tu cuenta se creó correctamente.</p>
+        <div class="detail-box" id="successDetail"></div>
+        <a href="/alumno/dashboard.html" class="btn btn-primary" style="text-decoration:none;">
+          <span class="lbl">Entrar a mi academia</span>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+
+      <!-- FORMULARIO -->
+      <div id="formContainer">
+        <h2 class="card-title">Crea tu cuenta</h2>
+        <p class="card-subtitle">Regístrate e inscríbete en un curso en un solo paso.</p>
+
+        <div class="progress">
+          <div class="progress-step active" id="stepIndicator1">
+            <div class="dot">1</div>
+            <div class="label">Tus datos</div>
+          </div>
+          <div class="progress-line" id="progressLine"></div>
+          <div class="progress-step" id="stepIndicator2">
+            <div class="dot">2</div>
+            <div class="label">Tu curso</div>
+          </div>
+        </div>
+
+        <div id="alert" class="alert" role="alert"></div>
+
+        <!-- PASO 1 -->
+        <div class="step active" id="step1">
+          <div class="row">
+            <div class="field">
+              <label for="nombre">Nombre *</label>
+              <input type="text" id="nombre" placeholder="Juan" autocomplete="given-name">
+              <span class="error-msg">Nombre inválido</span>
+            </div>
+            <div class="field">
+              <label for="apellido">Apellido *</label>
+              <input type="text" id="apellido" placeholder="Pérez" autocomplete="family-name">
+              <span class="error-msg">Apellido inválido</span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="ci">Cédula de identidad *</label>
+              <input type="text" id="ci" placeholder="1234567" inputmode="numeric">
+              <span class="error-msg">CI inválido</span>
+            </div>
+            <div class="field">
+              <label for="whatsapp">WhatsApp *</label>
+              <input type="tel" id="whatsapp" placeholder="70123456" autocomplete="tel">
+              <span class="error-msg">Número inválido</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="email">Correo electrónico *</label>
+            <input type="email" id="email" placeholder="tu.correo@ejemplo.com" autocomplete="email">
+            <span class="error-msg">Correo inválido</span>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="ciudad">Ciudad</label>
+              <select id="ciudad">
+                <option value="Santa Cruz">Santa Cruz</option>
+                <option value="La Paz">La Paz</option>
+                <option value="Cochabamba">Cochabamba</option>
+                <option value="Sucre">Sucre</option>
+                <option value="Tarija">Tarija</option>
+                <option value="Oruro">Oruro</option>
+                <option value="Potosí">Potosí</option>
+                <option value="Beni">Beni</option>
+                <option value="Pando">Pando</option>
+                <option value="Otra">Otra</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="password">Contraseña *</label>
+              <input type="password" id="password" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+              <span class="hint">Mínimo 6 caracteres</span>
+              <span class="error-msg">Mínimo 6 caracteres</span>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" id="btnNext">
+              <span class="spinner"></span>
+              <span class="lbl">Continuar</span>
+              <span class="arrow">→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- PASO 2 -->
+        <div class="step" id="step2">
+          <div class="field full">
+            <label for="curso">¿A qué curso quieres inscribirte? <span class="optional-tag">Opcional</span></label>
+            <select id="curso">
+              <option value="">— Seleccionar curso (opcional) —</option>
+            </select>
+            <span class="hint">Puedes inscribirte más tarde desde tu panel.</span>
+          </div>
+
+          <div class="field full" id="cohorteField" style="display:none;">
+            <label for="cohorte">Cohorte (grupo)</label>
+            <select id="cohorte">
+              <option value="">— Sin preferencia —</option>
+            </select>
+          </div>
+
+          <div class="alert alert-info active" style="margin-top:8px;">
+            <span>ℹ Si seleccionas un curso, Karina (Coordinadora Académica) recibirá tu solicitud y te contactará por WhatsApp para coordinar el pago.</span>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-secondary" id="btnBack">
+              <span>← Atrás</span>
+            </button>
+            <button class="btn btn-primary" id="btnSubmit">
+              <span class="spinner"></span>
+              <span class="lbl">Finalizar registro</span>
+              <span class="arrow">✓</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <footer class="footer">
+      <strong>APPLE Construcciones <span>&amp;</span> Servicios</strong><br>
+      Santa Cruz · Bolivia
+    </footer>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ═══════════════════════════════════════════════════════════════
+    // CONFIG
+    // ═══════════════════════════════════════════════════════════════
+    const SUPABASE_URL      = 'https://wdoqzsmwuvozhkclqbjk.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indkb3F6c213dXZvemhrY2xxYmprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTI0NzQsImV4cCI6MjA5MjI4ODQ3NH0.qlfh1Qz695Kg_hH5n-LbtAw6r-1gzpkCe5NOznxNSnM';
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let cursos = [];
+    let cohortes = [];
+    let datosUsuario = {};
+
+    // ═══════════════════════════════════════════════════════════════
+    // CARGA INICIAL
+    // ═══════════════════════════════════════════════════════════════
+    (async function init(){
+      // Si ya hay sesión activa, ir directo al dashboard
+      const {data:{session}} = await supabaseClient.auth.getSession();
+      if(session){
+        window.location.href = '/alumno/dashboard.html';
+        return;
+      }
+
+      // Cargar cursos
+      const {data:cursosData, error} = await supabaseClient
+        .from('cursos').select('id, titulo, slug').order('titulo');
+      if(!error) cursos = cursosData || [];
+
+      const selectCurso = document.getElementById('curso');
+      cursos.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.textContent = c.titulo;
+        selectCurso.appendChild(opt);
+      });
+
+      // Cargar cohortes
+      const {data:cohData} = await supabaseClient
+        .from('cohortes').select('id, nombre, curso_id, fecha_inicio')
+        .order('fecha_inicio');
+      cohortes = cohData || [];
+
+      // Pre-selección por query param (?curso=slug)
+      const params = new URLSearchParams(window.location.search);
+      const cursoSlug = params.get('curso');
+      if(cursoSlug){
+        const c = cursos.find(x => x.slug === cursoSlug);
+        if(c){ selectCurso.value = c.id; actualizarCohortes(c.id); }
+      }
+    })();
+
+    // ═══════════════════════════════════════════════════════════════
+    // UTILIDADES UI
+    // ═══════════════════════════════════════════════════════════════
+    const alertEl = document.getElementById('alert');
+
+    function showAlert(msg, tipo='error'){
+      alertEl.textContent = msg;
+      alertEl.className = 'alert alert-' + tipo + ' active';
+    }
+    function hideAlert(){alertEl.classList.remove('active');}
+    function setLoading(btnId, loading){
+      const btn = document.getElementById(btnId);
+      btn.disabled = loading;
+      btn.classList.toggle('loading', loading);
+    }
+    function markError(fieldId, hasError){
+      const field = document.getElementById(fieldId).closest('.field');
+      field.classList.toggle('has-error', hasError);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // VALIDACIÓN PASO 1
+    // ═══════════════════════════════════════════════════════════════
+    function validarPaso1(){
+      const v = {
+        nombre: document.getElementById('nombre').value.trim(),
+        apellido: document.getElementById('apellido').value.trim(),
+        ci: document.getElementById('ci').value.trim(),
+        whatsapp: document.getElementById('whatsapp').value.trim(),
+        email: document.getElementById('email').value.trim().toLowerCase(),
+        ciudad: document.getElementById('ciudad').value,
+        password: document.getElementById('password').value
+      };
+      let ok = true;
+
+      markError('nombre', v.nombre.length < 2); if(v.nombre.length < 2) ok=false;
+      markError('apellido', v.apellido.length < 2); if(v.apellido.length < 2) ok=false;
+      markError('ci', !/^\d{5,15}$/.test(v.ci)); if(!/^\d{5,15}$/.test(v.ci)) ok=false;
+      markError('whatsapp', !/^\d{7,15}$/.test(v.whatsapp)); if(!/^\d{7,15}$/.test(v.whatsapp)) ok=false;
+      markError('email', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)); if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) ok=false;
+      markError('password', v.password.length < 6); if(v.password.length < 6) ok=false;
+
+      if(ok) datosUsuario = v;
+      return ok;
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // NAVEGACIÓN ENTRE PASOS
+    // ═══════════════════════════════════════════════════════════════
+    document.getElementById('btnNext').onclick = async () => {
+      hideAlert();
+      if(!validarPaso1()){
+        showAlert('Revisa los campos marcados en rojo.');
+        return;
+      }
+
+      // Ir al paso 2
+      document.getElementById('step1').classList.remove('active');
+      document.getElementById('step2').classList.add('active');
+      document.getElementById('stepIndicator1').classList.remove('active');
+      document.getElementById('stepIndicator1').classList.add('done');
+      document.getElementById('stepIndicator2').classList.add('active');
+      document.getElementById('progressLine').classList.add('done');
+      window.scrollTo({top:0, behavior:'smooth'});
+    };
+
+    document.getElementById('btnBack').onclick = () => {
+      hideAlert();
+      document.getElementById('step2').classList.remove('active');
+      document.getElementById('step1').classList.add('active');
+      document.getElementById('stepIndicator2').classList.remove('active');
+      document.getElementById('stepIndicator1').classList.remove('done');
+      document.getElementById('stepIndicator1').classList.add('active');
+      document.getElementById('progressLine').classList.remove('done');
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // COHORTES: al cambiar curso, actualizar dropdown de cohortes
+    // ═══════════════════════════════════════════════════════════════
+    document.getElementById('curso').addEventListener('change', e => {
+      actualizarCohortes(e.target.value);
+    });
+
+    function actualizarCohortes(cursoId){
+      const cohField = document.getElementById('cohorteField');
+      const cohSelect = document.getElementById('cohorte');
+      cohSelect.innerHTML = '<option value="">— Sin preferencia —</option>';
+
+      if(!cursoId){cohField.style.display='none'; return;}
+
+      const cohsDelCurso = cohortes.filter(c => c.curso_id === cursoId);
+      if(cohsDelCurso.length === 0){cohField.style.display='none'; return;}
+
+      cohsDelCurso.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        const fecha = c.fecha_inicio ? ' (' + new Date(c.fecha_inicio).toLocaleDateString('es-BO') + ')' : '';
+        opt.textContent = c.nombre + fecha;
+        cohSelect.appendChild(opt);
+      });
+      cohField.style.display='block';
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // SUBMIT FINAL
+    // ═══════════════════════════════════════════════════════════════
+    document.getElementById('btnSubmit').onclick = async () => {
+      hideAlert();
+      setLoading('btnSubmit', true);
+
+      const cursoId = document.getElementById('curso').value || null;
+      const cohorteId = document.getElementById('cohorte').value || null;
+
+      try {
+        // 1. Crear cuenta en Supabase Auth (con metadata para el trigger)
+        const {data:authData, error:authError} = await supabaseClient.auth.signUp({
+          email: datosUsuario.email,
+          password: datosUsuario.password,
+          options: {
+            data: {
+              nombre: datosUsuario.nombre,
+              apellido: datosUsuario.apellido,
+              ci: datosUsuario.ci,
+              telefono: datosUsuario.whatsapp,
+              ciudad: datosUsuario.ciudad,
+              pais: 'Bolivia'
+            }
+          }
+        });
+
+        if(authError){
+          setLoading('btnSubmit', false);
+          showAlert(traducirError(authError.message));
+          return;
+        }
+
+        // 2. Si eligió un curso, crear inscripción pendiente
+        let inscripcionResult = null;
+        if(cursoId){
+          const {data:inscData, error:inscError} = await supabaseClient.rpc('crear_inscripcion_pendiente', {
+            p_curso_id: cursoId,
+            p_cohorte_id: cohorteId,
+            p_nombre: datosUsuario.nombre + ' ' + datosUsuario.apellido,
+            p_ci: datosUsuario.ci,
+            p_email: datosUsuario.email,
+            p_whatsapp: datosUsuario.whatsapp,
+            p_ciudad: datosUsuario.ciudad
+          });
+          if(!inscError && inscData?.success){
+            inscripcionResult = inscData;
+          }
+        }
+
+        // 3. Pantalla de éxito
+        mostrarExito(inscripcionResult);
+
+      } catch(err){
+        console.error(err);
+        setLoading('btnSubmit', false);
+        showAlert('Error inesperado. Intenta de nuevo.');
+      }
+    };
+
+    function mostrarExito(inscripcion){
+      document.getElementById('formContainer').style.display = 'none';
+      document.getElementById('successScreen').classList.add('active');
+
+      let msg = `Hola <strong>${escapar(datosUsuario.nombre)}</strong>, tu cuenta fue creada con el correo <strong>${escapar(datosUsuario.email)}</strong>.`;
+      document.getElementById('successMsg').innerHTML = msg;
+
+      let detalle = '';
+      if(inscripcion){
+        detalle = `
+          <strong>📋 Inscripción registrada</strong><br>
+          Curso: <strong>${escapar(inscripcion.curso_titulo)}</strong><br>
+          Estado: <strong style="color:var(--green-dark);">Pendiente de aprobación</strong><br>
+          <br>
+          <span style="color:var(--muted);">Karina (Coordinadora) recibirá tu solicitud y te contactará por WhatsApp al número registrado para coordinar el pago.</span>
+        `;
+      } else {
+        detalle = `
+          <strong>📚 Siguiente paso</strong><br>
+          Puedes explorar los cursos disponibles desde tu panel personal e inscribirte cuando estés listo.
+        `;
+      }
+      document.getElementById('successDetail').innerHTML = detalle;
+    }
+
+    function traducirError(msg){
+      const m = (msg||'').toLowerCase();
+      if(m.includes('already registered') || m.includes('already exists')) 
+        return 'Este correo ya está registrado. ¿Quieres iniciar sesión?';
+      if(m.includes('weak password') || m.includes('password'))
+        return 'La contraseña es muy débil. Usa al menos 6 caracteres.';
+      if(m.includes('rate limit') || m.includes('too many'))
+        return 'Demasiados intentos. Espera unos minutos.';
+      if(m.includes('network'))
+        return 'Sin conexión. Revisa tu internet.';
+      return msg;
+    }
+
+    function escapar(s){
+      if(!s) return '';
+      return String(s).replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[c]));
+    }
+  </script>
+
+</body>
+</html>
