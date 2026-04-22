@@ -555,7 +555,7 @@
           precio_cotizado, moneda, estado, fecha_expira, notas_admin,
           curso_id, cohorte_id, creado_en
         `)
-        .in('estado', ['pendiente_pago','pendiente'])
+        .eq('estado','pendiente_pago')
         .order('creado_en', {ascending: false});
 
       if(error){console.error(error);showToast('Error cargando inscripciones','error');return;}
@@ -593,14 +593,14 @@
       const [pend, aprob, rech] = await Promise.all([
         supabaseClient.from('inscripciones_pendientes')
           .select('id', {count:'exact', head:true})
-          .in('estado', ['pendiente_pago','pendiente']),
+          .eq('estado','pendiente_pago'),
         supabaseClient.from('inscripciones_pendientes')
           .select('id', {count:'exact', head:true})
-          .eq('estado','aprobada')
+          .eq('estado','confirmado')
           .gte('fecha_confirmacion', hoyISO),
         supabaseClient.from('inscripciones_pendientes')
           .select('id', {count:'exact', head:true})
-          .eq('estado','rechazada')
+          .eq('estado','rechazado')
           .gte('fecha_confirmacion', hoyISO)
       ]);
 
