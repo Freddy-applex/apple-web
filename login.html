@@ -215,7 +215,13 @@ document.getElementById('form-login').addEventListener('submit', async function(
   btn.disabled = true;
   btn.innerHTML = '<span class="login-btn-loader"></span>Verificando credenciales…';
 
-  const sb = window.APPLENDE.supabase;
+  const sb = window.obtenerSupabase();
+  if (!sb) {
+    mostrarError('Error de configuración', 'No se pudo inicializar la conexión con el servidor. Recargá la página.');
+    btn.disabled = false;
+    btn.innerHTML = 'Iniciar sesión →';
+    return;
+  }
 
   try {
     // ─── 1. Intento de login ───

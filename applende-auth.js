@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════════════
-   APPLENDE — Helper universal de autenticación v1.0
+   APPLENDE — Helper universal de autenticación v1.1
    ──────────────────────────────────────────────────────────────────────
    Uso: Incluir DESPUÉS de applende-config.js en cualquier página APPLENDE
    que necesite saber si hay sesión activa y a dónde redirigir al usuario.
@@ -10,18 +10,27 @@
      - cerrarSesion()           → hace logout y redirige a /login.html
      - iniciarNavAuth(selector) → actualiza un <div id="nav-auth"> con
                                   el botón correcto (login o mi-panel)
+
+   CAMBIO v1.1: Ahora usa window.obtenerSupabase() (la convención real
+   de applende-config.js) en lugar de window.APPLENDE.supabase (que
+   no existe — APPLENDE es el objeto de constantes, no el namespace).
    ══════════════════════════════════════════════════════════════════════ */
 
 (function () {
   'use strict';
 
-  // ─── Cliente Supabase (reutiliza el global) ─────────────────────────
-  function obtenerSupabase() {
-    if (window.APPLENDE && window.APPLENDE.supabase) {
-      return window.APPLENDE.supabase;
+  // ─── Cliente Supabase (usa el singleton de applende-config.js) ──────
+  function obtenerSB() {
+    if (typeof window.obtenerSupabase !== 'function') {
+      console.warn('[APPLENDE_AUTH] window.obtenerSupabase no disponible. ¿Cargaste applende-config.js antes?');
+      return null;
     }
-    console.warn('[APPLENDE_AUTH] APPLENDE.supabase no disponible');
-    return null;
+    const sb = window.obtenerSupabase();
+    if (!sb) {
+      console.warn('[APPLENDE_AUTH] obtenerSupabase() devolvió null');
+      return null;
+    }
+    return sb;
   }
 
   // ─── Mapa de rol → ruta del dashboard correspondiente ──────────────
@@ -38,7 +47,7 @@
 
   // ─── Obtener sesión actual + perfil con rol ────────────────────────
   async function obtenerSesion() {
-    const sb = obtenerSupabase();
+    const sb = obtenerSB();
     if (!sb) return null;
 
     try {
@@ -77,7 +86,7 @@
 
   // ─── Cerrar sesión ─────────────────────────────────────────────────
   async function cerrarSesion(redirigirA) {
-    const sb = obtenerSupabase();
+    const sb = obtenerSB();
     if (sb) {
       try {
         await sb.auth.signOut();
