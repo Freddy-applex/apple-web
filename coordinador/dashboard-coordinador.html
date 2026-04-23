@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Coordinación · APPLENDE Academia</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#1A2744; --navy-dark:#0E1A30; --blue:#2E4A8E;
+      --green:#8DC63F; --green-dark:#6aaa2a; --purple:#6B6BBB;
+      --gray:#BFBFBF; --white:#fff; --offwhite:#F5F7FA;
+      --text:#2C3A52; --muted:#6B7A90; --border:#E2E8F0;
+      --red:#dc2626; --red-soft:#FEEAEA;
+      --amber:#D97706; --amber-soft:#FEF3C7;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Barlow',sans-serif;color:var(--text);background:var(--offwhite);min-height:100vh;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;}
+
+    /* ─── LOADING ─── */
+    #loading{
+      position:fixed;inset:0;background:var(--navy);z-index:1000;
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+    }
+    #loading.hidden{display:none;}
+    .loader-bar{width:40px;height:2px;background:var(--purple);animation:loaderPulse 1s ease-in-out infinite;margin-right:14px;}
+    @keyframes loaderPulse{0%,100%{opacity:0.3;transform:scaleX(1);}50%{opacity:1;transform:scaleX(1.5);}}
+
+    /* ─── NAVBAR ─── */
+    .nav{
+      position:sticky;top:0;z-index:200;background:var(--navy);
+      height:60px;padding:0 5%;display:flex;align-items:center;
+      justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.3);
+    }
+    .nav-brand{display:flex;align-items:center;gap:10px;color:#fff;font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:18px;letter-spacing:2px;}
+    .nav-brand .squares{display:flex;gap:3px;}
+    .nav-brand .squares span{width:14px;height:14px;border-radius:2px;}
+    .nav-brand .squares span:nth-child(1){background:var(--green);}
+    .nav-brand .squares span:nth-child(2){background:var(--gray);}
+    .nav-brand .squares span:nth-child(3){background:var(--purple);}
+    .nav-brand .accent{color:var(--green);}
+    .badge-rol{
+      background:rgba(107,107,187,0.2);color:#9999dd;
+      font-size:10px;font-weight:700;letter-spacing:2px;
+      text-transform:uppercase;padding:4px 10px;border-radius:20px;
+      margin-left:10px;border:1px solid rgba(107,107,187,0.4);
+    }
+    .nav-user{display:flex;align-items:center;gap:14px;color:#fff;}
+    .user-info{text-align:right;line-height:1.2;}
+    .user-info .name{font-size:13px;font-weight:600;}
+    .user-info .email{font-size:11px;color:rgba(255,255,255,0.5);}
+    .btn-logout{
+      background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;
+      padding:7px 14px;border-radius:20px;font-family:'Barlow',sans-serif;
+      font-weight:600;font-size:12px;cursor:pointer;transition:all .2s;
+    }
+    .btn-logout:hover{background:rgba(220,38,38,0.15);border-color:var(--red);color:#ff6b68;}
+
+    /* ─── Volver al sitio ─── */
+    .nav-back{
+      display:flex;align-items:center;gap:6px;
+      color:rgba(255,255,255,0.75);
+      padding:7px 14px;border-radius:20px;
+      border:1px solid rgba(255,255,255,0.18);
+      font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;
+      letter-spacing:0.3px;transition:all .2s;
+    }
+    .nav-back:hover{
+      color:var(--green);border-color:var(--green);
+      background:rgba(141,198,63,0.10);
+    }
+    .nav-back .arrow{font-size:14px;line-height:1;}
+    @media(max-width:700px){
+      .nav-back .label-full{display:none;}
+    }
+
+    main{max-width:1280px;margin:0 auto;padding:32px 5%;}
+
+    /* ─── PAGE HEADING ─── */
+    .page-heading{margin-bottom:24px;border-left:4px solid var(--purple);padding-left:14px;}
+    .page-heading h1{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:clamp(24px,3.5vw,32px);color:var(--navy);
+      letter-spacing:1px;line-height:1.1;
+    }
+    .page-heading p{color:var(--muted);margin-top:6px;font-size:14px;}
+
+    /* ─── TABS ─── */
+    .tabs{
+      display:flex;gap:4px;border-bottom:2px solid var(--border);
+      margin-bottom:28px;overflow-x:auto;
+    }
+    .tab{
+      padding:14px 22px;background:transparent;border:none;
+      font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:14px;
+      letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);
+      cursor:pointer;transition:all .2s;
+      border-bottom:3px solid transparent;margin-bottom:-2px;
+      display:flex;align-items:center;gap:10px;white-space:nowrap;
+    }
+    .tab:hover{color:var(--navy);}
+    .tab.active{color:var(--navy);border-bottom-color:var(--green);}
+    .tab .count{
+      background:var(--purple);color:#fff;
+      font-family:'Barlow',sans-serif;font-size:11px;font-weight:800;
+      padding:2px 8px;border-radius:20px;letter-spacing:0;
+      min-width:22px;text-align:center;
+    }
+    .tab.active .count{background:var(--green);color:var(--navy);}
+
+    .tab-content{display:none;}
+    .tab-content.active{display:block;animation:fadeIn .25s ease;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+    /* ─── STATS ROW ─── */
+    .stats-row{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:14px;margin-bottom:24px;
+    }
+    .stat-mini{
+      background:var(--white);border:2px solid var(--border);border-radius:10px;
+      padding:16px 18px;display:flex;align-items:center;gap:14px;
+    }
+    .stat-mini .icon{
+      width:44px;height:44px;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;font-size:20px;
+      flex-shrink:0;
+    }
+    .stat-mini.amber .icon{background:var(--amber-soft);}
+    .stat-mini.green .icon{background:rgba(141,198,63,0.15);}
+    .stat-mini.red .icon{background:var(--red-soft);}
+    .stat-mini .data{line-height:1.2;}
+    .stat-mini .num{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:22px;color:var(--navy);
+    }
+    .stat-mini .label{
+      font-size:11px;font-weight:700;letter-spacing:1.5px;
+      text-transform:uppercase;color:var(--muted);margin-top:2px;
+    }
+
+    /* ─── FILTERS ─── */
+    .filters{
+      background:var(--white);border:2px solid var(--border);border-radius:10px;
+      padding:14px 18px;margin-bottom:20px;
+      display:flex;gap:12px;flex-wrap:wrap;align-items:center;
+    }
+    .filter-input{
+      flex:1;min-width:200px;
+      padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;
+      font-family:'Barlow',sans-serif;font-size:14px;
+      background:var(--offwhite);outline:none;transition:border .2s;
+    }
+    .filter-input:focus{border-color:var(--green);background:#fff;}
+    .filter-select{
+      padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;
+      font-family:'Barlow',sans-serif;font-size:14px;
+      background:var(--offwhite);outline:none;cursor:pointer;
+      min-width:180px;
+    }
+    .btn-refresh{
+      padding:10px 16px;background:var(--navy);color:#fff;border:none;
+      border-radius:8px;font-family:'Barlow',sans-serif;font-weight:700;
+      font-size:13px;cursor:pointer;letter-spacing:0.5px;transition:all .2s;
+      display:flex;align-items:center;gap:6px;
+    }
+    .btn-refresh:hover{background:var(--navy-dark);}
+
+    /* ─── INSCRIPCIÓN CARD ─── */
+    .insc-list{display:flex;flex-direction:column;gap:14px;}
+    .insc-card{
+      background:var(--white);border:2px solid var(--border);border-radius:12px;
+      padding:20px 22px;transition:all .2s;
+    }
+    .insc-card:hover{border-color:var(--purple);box-shadow:0 4px 16px rgba(107,107,187,0.08);}
+    .insc-card.processing{opacity:0.5;pointer-events:none;}
+    
+    .insc-header{
+      display:flex;justify-content:space-between;align-items:flex-start;
+      gap:12px;margin-bottom:14px;flex-wrap:wrap;
+    }
+    .insc-name{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:18px;color:var(--navy);letter-spacing:0.5px;
+    }
+    .insc-meta-top{
+      display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);
+      margin-top:4px;
+    }
+    .insc-meta-top span{display:flex;align-items:center;gap:5px;}
+
+    .insc-badge{
+      font-size:10px;font-weight:700;letter-spacing:1.5px;
+      text-transform:uppercase;padding:4px 10px;border-radius:20px;
+      flex-shrink:0;
+    }
+    .insc-badge.pendiente{background:var(--amber-soft);color:var(--amber);border:1px solid #FCD34D;}
+    .insc-badge.aprobada{background:rgba(141,198,63,0.15);color:var(--green-dark);border:1px solid var(--green);}
+    .insc-badge.rechazada{background:var(--red-soft);color:var(--red);border:1px solid #FCA5A5;}
+
+    .insc-body{
+      background:var(--offwhite);border-radius:8px;padding:14px 16px;
+      display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;
+      margin-bottom:16px;
+    }
+    .insc-field{display:flex;flex-direction:column;gap:2px;}
+    .insc-field .label{
+      font-size:10px;font-weight:700;letter-spacing:1.5px;
+      text-transform:uppercase;color:var(--muted);
+    }
+    .insc-field .value{font-size:14px;color:var(--text);font-weight:500;}
+    .insc-field .value.highlight{color:var(--navy);font-weight:700;}
+
+    .insc-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;}
+    .btn-action{
+      padding:10px 20px;border:none;border-radius:8px;
+      font-family:'Barlow',sans-serif;font-weight:800;font-size:13px;
+      letter-spacing:1px;text-transform:uppercase;cursor:pointer;
+      transition:all .2s;display:flex;align-items:center;gap:8px;
+    }
+    .btn-reject{background:var(--white);color:var(--red);border:1.5px solid var(--red);}
+    .btn-reject:hover{background:var(--red);color:#fff;}
+    .btn-approve{background:linear-gradient(135deg,var(--green),var(--green-dark));color:var(--navy);box-shadow:0 4px 14px rgba(141,198,63,0.3);}
+    .btn-approve:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(141,198,63,0.45);}
+
+    /* ─── EMPTY STATE ─── */
+    .empty-state{
+      background:var(--white);border:2px dashed var(--border);border-radius:12px;
+      padding:48px 32px;text-align:center;color:var(--muted);
+    }
+    .empty-state .emoji{font-size:48px;margin-bottom:12px;}
+    .empty-state h3{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:18px;
+      color:var(--navy);margin-bottom:6px;letter-spacing:0.5px;
+    }
+    .empty-state p{font-size:14px;}
+
+    /* ─── MODAL ─── */
+    .modal-overlay{
+      position:fixed;inset:0;background:rgba(14,26,48,0.85);z-index:1000;
+      display:none;align-items:center;justify-content:center;padding:20px;
+      backdrop-filter:blur(6px);
+    }
+    .modal-overlay.open{display:flex;animation:fadeIn .2s ease;}
+    .modal-box{
+      background:var(--white);border-radius:14px;max-width:480px;width:100%;
+      max-height:92vh;overflow-y:auto;
+    }
+    .modal-head{
+      background:var(--navy);color:#fff;padding:20px 24px;
+      border-radius:14px 14px 0 0;position:relative;
+    }
+    .modal-head .kicker{
+      font-size:10px;font-weight:700;letter-spacing:2.5px;
+      text-transform:uppercase;color:var(--green);margin-bottom:6px;
+    }
+    .modal-head h3{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:20px;letter-spacing:0.5px;
+    }
+    .modal-close{
+      position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.1);
+      border:none;color:#fff;width:30px;height:30px;border-radius:50%;
+      cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;
+    }
+    .modal-close:hover{background:rgba(255,255,255,0.2);}
+    .modal-body{padding:22px 24px;}
+    .modal-body p{margin-bottom:14px;font-size:14px;line-height:1.5;color:var(--text);}
+    .modal-body .info-box{
+      background:var(--offwhite);border-radius:8px;padding:12px 14px;
+      margin-bottom:16px;font-size:13px;
+    }
+    .modal-body .info-box strong{color:var(--navy);}
+    .modal-body label{
+      display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;
+      text-transform:uppercase;color:var(--muted);margin-bottom:6px;
+    }
+    .modal-body textarea{
+      width:100%;padding:12px 14px;border:1.5px solid var(--border);
+      border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;
+      resize:vertical;min-height:90px;outline:none;background:var(--offwhite);
+    }
+    .modal-body textarea:focus{border-color:var(--green);background:#fff;}
+    .modal-foot{
+      padding:0 24px 22px;display:flex;gap:10px;justify-content:flex-end;
+    }
+    .modal-foot .btn-cancel{
+      padding:10px 18px;background:var(--white);color:var(--muted);
+      border:1.5px solid var(--border);border-radius:8px;
+      font-family:'Barlow',sans-serif;font-weight:700;font-size:13px;
+      cursor:pointer;letter-spacing:0.5px;
+    }
+    .modal-foot .btn-cancel:hover{border-color:var(--muted);color:var(--text);}
+    .modal-foot .btn-confirm{
+      padding:10px 22px;border:none;border-radius:8px;
+      font-family:'Barlow',sans-serif;font-weight:800;font-size:13px;
+      letter-spacing:1px;text-transform:uppercase;cursor:pointer;color:#fff;
+      transition:all .2s;
+    }
+    .modal-foot .btn-confirm.green{background:var(--green);color:var(--navy);}
+    .modal-foot .btn-confirm.green:hover{background:var(--green-dark);color:#fff;}
+    .modal-foot .btn-confirm.red{background:var(--red);}
+    .modal-foot .btn-confirm.red:hover{background:#b91c1c;}
+    .modal-foot .btn-confirm:disabled{opacity:0.5;cursor:not-allowed;}
+
+    /* ─── TOAST ─── */
+    .toast{
+      position:fixed;bottom:24px;right:24px;z-index:1100;
+      background:var(--navy);color:#fff;padding:14px 20px;border-radius:10px;
+      box-shadow:0 12px 40px rgba(0,0,0,0.25);
+      font-size:14px;display:flex;align-items:center;gap:10px;
+      transform:translateX(120%);transition:transform .3s cubic-bezier(0.16,1,0.3,1);
+      max-width:380px;
+    }
+    .toast.show{transform:translateX(0);}
+    .toast.success{border-left:4px solid var(--green);}
+    .toast.error{border-left:4px solid var(--red);background:#7f1d1d;}
+    .toast .icon{font-size:18px;flex-shrink:0;}
+
+    /* ─── PLACEHOLDER (otras tabs) ─── */
+    .placeholder-tab{
+      background:var(--white);border-radius:14px;padding:60px 32px;
+      text-align:center;border:2px solid var(--border);
+    }
+    .placeholder-tab .emoji{font-size:54px;margin-bottom:16px;}
+    .placeholder-tab h2{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:22px;
+      color:var(--navy);margin-bottom:8px;letter-spacing:0.5px;
+    }
+    .placeholder-tab p{color:var(--muted);font-size:14px;max-width:480px;margin:0 auto;}
+
+    @media(max-width:700px){
+      .nav{padding:0 4%;}
+      .nav-brand{font-size:15px;}
+      .nav-user .user-info{display:none;}
+      main{padding:24px 5%;}
+      .insc-body{grid-template-columns:1fr;}
+      .insc-actions{justify-content:stretch;}
+      .insc-actions .btn-action{flex:1;justify-content:center;}
+      .filters{flex-direction:column;align-items:stretch;}
+      .filter-input,.filter-select{min-width:0;width:100%;}
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loading">
+    <span class="loader-bar"></span>
+    Verificando sesión…
+  </div>
+
+  <nav class="nav">
+    <div class="nav-brand">
+      <span class="squares"><span></span><span></span><span></span></span>
+      <span>APPLENDE<span class="accent">.</span></span>
+      <span class="badge-rol">Coordinación</span>
+    </div>
+    <div class="nav-user">
+      <a href="/cursos.html" class="nav-back" title="Volver a la Academia">
+        <span class="arrow">←</span>
+        <span class="label-full">Volver a la Academia</span>
+      </a>
+      <div class="user-info">
+        <div class="name" id="userName">Cargando…</div>
+        <div class="email" id="userEmail"></div>
+      </div>
+      <button class="btn-logout" id="logoutBtn">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <main>
+
+    <div class="page-heading">
+      <h1>Coordinación académica</h1>
+      <p>Gestión de inscripciones, estudiantes y cohortes.</p>
+    </div>
+
+    <!-- ─── TABS ─── -->
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="inscripciones">
+        Inscripciones
+        <span class="count" id="tabCountInscripciones">0</span>
+      </button>
+      <button class="tab" data-tab="estudiantes">Estudiantes</button>
+      <button class="tab" data-tab="cohortes">Cohortes</button>
+    </nav>
+
+    <!-- ─── TAB: INSCRIPCIONES ─── -->
+    <section class="tab-content active" id="tab-inscripciones">
+
+      <div class="stats-row">
+        <div class="stat-mini amber">
+          <div class="icon">⏳</div>
+          <div class="data">
+            <div class="num" id="statPendientes">—</div>
+            <div class="label">Pendientes</div>
+          </div>
+        </div>
+        <div class="stat-mini green">
+          <div class="icon">✅</div>
+          <div class="data">
+            <div class="num" id="statAprobadasHoy">—</div>
+            <div class="label">Aprobadas hoy</div>
+          </div>
+        </div>
+        <div class="stat-mini red">
+          <div class="icon">✗</div>
+          <div class="data">
+            <div class="num" id="statRechazadasHoy">—</div>
+            <div class="label">Rechazadas hoy</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="filters">
+        <input type="text" class="filter-input" id="filterSearch" 
+               placeholder="🔍 Buscar por nombre, email o CI...">
+        <select class="filter-select" id="filterCurso">
+          <option value="">Todos los cursos</option>
+        </select>
+        <button class="btn-refresh" id="btnRefresh" title="Refrescar">
+          ↻ Refrescar
+        </button>
+      </div>
+
+      <div id="inscripcionesList" class="insc-list">
+        <!-- Las tarjetas se renderizan aquí -->
+      </div>
+
+    </section>
+
+    <!-- ─── TAB: ESTUDIANTES (placeholder) ─── -->
+    <section class="tab-content" id="tab-estudiantes">
+      <div class="placeholder-tab">
+        <div class="emoji">🎓</div>
+        <h2>Gestión de Estudiantes</h2>
+        <p>Próximo bloque: ver y gestionar todos los estudiantes registrados, sus cursos activos y estado de pagos.</p>
+      </div>
+    </section>
+
+    <!-- ─── TAB: COHORTES (placeholder) ─── -->
+    <section class="tab-content" id="tab-cohortes">
+      <div class="placeholder-tab">
+        <div class="emoji">📅</div>
+        <h2>Cohortes y Clases en Vivo</h2>
+        <p>Próximo bloque: crear y gestionar cohortes, programar clases en vivo, asignar instructores.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── MODAL APROBAR ─── -->
+  <div class="modal-overlay" id="modalApprove">
+    <div class="modal-box">
+      <div class="modal-head">
+        <button class="modal-close" data-close="modalApprove">✕</button>
+        <p class="kicker">Confirmar acción</p>
+        <h3>Aprobar inscripción</h3>
+      </div>
+      <div class="modal-body">
+        <div class="info-box" id="approveInfo"></div>
+        <p>Al aprobar:</p>
+        <ul style="margin:0 0 14px 18px;font-size:13px;color:var(--muted);line-height:1.7;">
+          <li>Se creará una inscripción oficial</li>
+          <li>El alumno tendrá acceso al contenido del curso</li>
+          <li>Se registrará tu nombre como aprobador</li>
+        </ul>
+        <label for="approveNotes">Notas internas (opcional)</label>
+        <textarea id="approveNotes" placeholder="Ej: Pago verificado por WhatsApp con captura del banco..."></textarea>
+      </div>
+      <div class="modal-foot">
+        <button class="btn-cancel" data-close="modalApprove">Cancelar</button>
+        <button class="btn-confirm green" id="btnConfirmApprove">✓ Aprobar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MODAL RECHAZAR ─── -->
+  <div class="modal-overlay" id="modalReject">
+    <div class="modal-box">
+      <div class="modal-head" style="background:#7f1d1d;">
+        <button class="modal-close" data-close="modalReject">✕</button>
+        <p class="kicker" style="color:#fca5a5;">Confirmar acción</p>
+        <h3>Rechazar inscripción</h3>
+      </div>
+      <div class="modal-body">
+        <div class="info-box" id="rejectInfo"></div>
+        <p style="color:var(--red);">⚠ Esta acción notificará el rechazo. Indica el motivo claramente.</p>
+        <label for="rejectReason">Motivo del rechazo *</label>
+        <textarea id="rejectReason" placeholder="Ej: Pago no verificado tras 48h. Datos de CI no coinciden con los registros..."></textarea>
+      </div>
+      <div class="modal-foot">
+        <button class="btn-cancel" data-close="modalReject">Cancelar</button>
+        <button class="btn-confirm red" id="btnConfirmReject">✗ Rechazar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TOAST ─── -->
+  <div class="toast" id="toast">
+    <span class="icon" id="toastIcon">✓</span>
+    <span id="toastMsg"></span>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ═══════════════════════════════════════════════════════════════
+    // CONFIG
+    // ═══════════════════════════════════════════════════════════════
+    const SUPABASE_URL      = 'https://wdoqzsmwuvozhkclqbjk.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indkb3F6c213dXZvemhrY2xxYmprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTI0NzQsImV4cCI6MjA5MjI4ODQ3NH0.qlfh1Qz695Kg_hH5n-LbtAw6r-1gzpkCe5NOznxNSnM';
+    const ROLES_PERMITIDOS  = ['coordinador','admin'];
+    const LOGIN_URL         = '/login.html';
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Estado global
+    let estado = {
+      perfil: null,
+      pendientes: [],
+      cursos: [],
+      filtroBusqueda: '',
+      filtroCurso: '',
+      pendienteSeleccionada: null
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // GUARDIA DE SESIÓN
+    // ═══════════════════════════════════════════════════════════════
+    (async function init(){
+      const {data:{session}} = await supabaseClient.auth.getSession();
+      if(!session){window.location.href=LOGIN_URL;return;}
+
+      const {data:perfil, error} = await supabaseClient
+        .from('perfiles').select('rol,nombre,apellido')
+        .eq('id', session.user.id).single();
+
+      if(error||!perfil){
+        await supabaseClient.auth.signOut();
+        window.location.href=LOGIN_URL;return;
+      }
+
+      if(!ROLES_PERMITIDOS.includes(perfil.rol)){
+        const destino = {
+          instructor:'/alumno/dashboard.html',
+          estudiante:'/alumno/dashboard.html'
+        }[perfil.rol] || LOGIN_URL;
+        window.location.href = destino;return;
+      }
+
+      estado.perfil = perfil;
+      document.getElementById('userName').textContent = `${perfil.nombre} ${perfil.apellido}`;
+      document.getElementById('userEmail').textContent = session.user.email;
+      document.getElementById('loading').classList.add('hidden');
+
+      await cargarCursos();
+      await cargarPendientes();
+      await cargarStats();
+      configurarRealtime();
+    })();
+
+    // ═══════════════════════════════════════════════════════════════
+    // CARGA DE DATOS
+    // ═══════════════════════════════════════════════════════════════
+    async function cargarPendientes(){
+      const {data, error} = await supabaseClient
+        .from('inscripciones_pendientes')
+        .select(`
+          id, nombre_alumno, ci_alumno, email_alumno, whatsapp_alumno, ciudad_alumno,
+          precio_cotizado, moneda, estado, fecha_expira, notas_admin,
+          curso_id, cohorte_id, creado_en
+        `)
+        .eq('estado','pendiente_pago')
+        .order('creado_en', {ascending: false});
+
+      if(error){console.error(error);showToast('Error cargando inscripciones','error');return;}
+      
+      // Hidratar con nombre del curso (lookup local)
+      estado.pendientes = (data || []).map(p => ({
+        ...p,
+        curso_nombre: estado.cursos.find(c => c.id === p.curso_id)?.titulo || 'Curso desconocido'
+      }));
+
+      renderizar();
+    }
+
+    async function cargarCursos(){
+      const {data, error} = await supabaseClient
+        .from('cursos').select('id, titulo, slug')
+        .order('titulo');
+      if(error){console.error(error);return;}
+      estado.cursos = data || [];
+
+      // Llenar filtro de cursos
+      const select = document.getElementById('filterCurso');
+      estado.cursos.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.textContent = c.titulo;
+        select.appendChild(opt);
+      });
+    }
+
+    async function cargarStats(){
+      const hoy = new Date(); hoy.setHours(0,0,0,0);
+      const hoyISO = hoy.toISOString();
+
+      const [pend, aprob, rech] = await Promise.all([
+        supabaseClient.from('inscripciones_pendientes')
+          .select('id', {count:'exact', head:true})
+          .eq('estado','pendiente_pago'),
+        supabaseClient.from('inscripciones_pendientes')
+          .select('id', {count:'exact', head:true})
+          .eq('estado','confirmado')
+          .gte('fecha_confirmacion', hoyISO),
+        supabaseClient.from('inscripciones_pendientes')
+          .select('id', {count:'exact', head:true})
+          .eq('estado','rechazado')
+          .gte('fecha_confirmacion', hoyISO)
+      ]);
+
+      document.getElementById('statPendientes').textContent = pend.count ?? '—';
+      document.getElementById('statAprobadasHoy').textContent = aprob.count ?? '—';
+      document.getElementById('statRechazadasHoy').textContent = rech.count ?? '—';
+      document.getElementById('tabCountInscripciones').textContent = pend.count ?? '0';
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // RENDER
+    // ═══════════════════════════════════════════════════════════════
+    function renderizar(){
+      const list = document.getElementById('inscripcionesList');
+      const filtradas = estado.pendientes.filter(p => {
+        // Filtro de búsqueda
+        if(estado.filtroBusqueda){
+          const q = estado.filtroBusqueda.toLowerCase();
+          const match = (p.nombre_alumno||'').toLowerCase().includes(q)
+                     || (p.email_alumno||'').toLowerCase().includes(q)
+                     || (p.ci_alumno||'').toLowerCase().includes(q);
+          if(!match) return false;
+        }
+        // Filtro de curso
+        if(estado.filtroCurso && p.curso_id !== estado.filtroCurso) return false;
+        return true;
+      });
+
+      if(filtradas.length === 0){
+        list.innerHTML = `
+          <div class="empty-state">
+            <div class="emoji">${estado.pendientes.length === 0 ? '✨' : '🔍'}</div>
+            <h3>${estado.pendientes.length === 0 ? '¡Todo al día!' : 'Sin resultados'}</h3>
+            <p>${estado.pendientes.length === 0 
+              ? 'No hay inscripciones pendientes de aprobación.' 
+              : 'Ninguna inscripción coincide con tus filtros.'}</p>
+          </div>`;
+        return;
+      }
+
+      list.innerHTML = filtradas.map(p => renderCard(p)).join('');
+
+      // Bind acciones
+      list.querySelectorAll('[data-approve]').forEach(btn => {
+        btn.onclick = () => abrirModalAprobar(btn.dataset.approve);
+      });
+      list.querySelectorAll('[data-reject]').forEach(btn => {
+        btn.onclick = () => abrirModalRechazar(btn.dataset.reject);
+      });
+    }
+
+    function renderCard(p){
+      const fecha = new Date(p.creado_en);
+      const tiempoTranscurrido = formatearTiempo(fecha);
+      const moneda = p.moneda || 'BOB';
+      const precio = parseFloat(p.precio_cotizado||0).toLocaleString('es-BO',{minimumFractionDigits:2});
+      
+      return `
+        <article class="insc-card" data-id="${p.id}">
+          <div class="insc-header">
+            <div>
+              <div class="insc-name">${escapar(p.nombre_alumno)}</div>
+              <div class="insc-meta-top">
+                <span>📧 ${escapar(p.email_alumno)}</span>
+                <span>🪪 CI ${escapar(p.ci_alumno)}</span>
+                ${p.whatsapp_alumno ? `<span>📱 ${escapar(p.whatsapp_alumno)}</span>` : ''}
+                <span>⏱ Hace ${tiempoTranscurrido}</span>
+              </div>
+            </div>
+            <span class="insc-badge pendiente">PENDIENTE</span>
+          </div>
+
+          <div class="insc-body">
+            <div class="insc-field">
+              <span class="label">Curso solicitado</span>
+              <span class="value highlight">${escapar(p.curso_nombre)}</span>
+            </div>
+            <div class="insc-field">
+              <span class="label">Monto cotizado</span>
+              <span class="value highlight">${moneda} ${precio}</span>
+            </div>
+            ${p.ciudad_alumno ? `
+            <div class="insc-field">
+              <span class="label">Ciudad</span>
+              <span class="value">${escapar(p.ciudad_alumno)}</span>
+            </div>` : ''}
+            ${p.notas_admin ? `
+            <div class="insc-field">
+              <span class="label">Notas previas</span>
+              <span class="value">${escapar(p.notas_admin)}</span>
+            </div>` : ''}
+          </div>
+
+          <div class="insc-actions">
+            <button class="btn-action btn-reject" data-reject="${p.id}">✗ Rechazar</button>
+            <button class="btn-action btn-approve" data-approve="${p.id}">✓ Aprobar</button>
+          </div>
+        </article>`;
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // MODALES
+    // ═══════════════════════════════════════════════════════════════
+    function abrirModalAprobar(id){
+      const p = estado.pendientes.find(x => x.id === id);
+      if(!p) return;
+      estado.pendienteSeleccionada = p;
+      document.getElementById('approveInfo').innerHTML = 
+        `<strong>${escapar(p.nombre_alumno)}</strong> · ${escapar(p.email_alumno)}<br>
+         Curso: <strong>${escapar(p.curso_nombre)}</strong>`;
+      document.getElementById('approveNotes').value = '';
+      document.getElementById('modalApprove').classList.add('open');
+    }
+
+    function abrirModalRechazar(id){
+      const p = estado.pendientes.find(x => x.id === id);
+      if(!p) return;
+      estado.pendienteSeleccionada = p;
+      document.getElementById('rejectInfo').innerHTML = 
+        `<strong>${escapar(p.nombre_alumno)}</strong> · ${escapar(p.email_alumno)}<br>
+         Curso: <strong>${escapar(p.curso_nombre)}</strong>`;
+      document.getElementById('rejectReason').value = '';
+      document.getElementById('modalReject').classList.add('open');
+    }
+
+    function cerrarModales(){
+      document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open'));
+      estado.pendienteSeleccionada = null;
+    }
+
+    document.querySelectorAll('[data-close]').forEach(btn => {
+      btn.onclick = () => document.getElementById(btn.dataset.close).classList.remove('open');
+    });
+
+    // ═══════════════════════════════════════════════════════════════
+    // ACCIONES: Aprobar / Rechazar
+    // ═══════════════════════════════════════════════════════════════
+    document.getElementById('btnConfirmApprove').onclick = async () => {
+      const p = estado.pendienteSeleccionada;
+      if(!p) return;
+      const notas = document.getElementById('approveNotes').value.trim();
+      const btn = document.getElementById('btnConfirmApprove');
+      btn.disabled = true; btn.textContent = 'Procesando…';
+
+      const {data, error} = await supabaseClient.rpc('aprobar_inscripcion', {
+        pendiente_id: p.id,
+        notas_internas: notas || null
+      });
+
+      btn.disabled = false; btn.innerHTML = '✓ Aprobar';
+
+      if(error){
+        showToast('Error: ' + error.message, 'error');
+        return;
+      }
+
+      if(data?.success){
+        showToast(`✓ Inscripción de ${p.nombre_alumno} aprobada`, 'success');
+        cerrarModales();
+        await cargarPendientes();
+        await cargarStats();
+      } else {
+        const msg = data?.error || 'No se pudo aprobar';
+        if(data?.requiere_registro){
+          showToast(`⚠ ${data.email_alumno} aún no tiene cuenta. Pídele que se registre primero.`, 'error');
+        } else {
+          showToast('Error: ' + msg, 'error');
+        }
+      }
+    };
+
+    document.getElementById('btnConfirmReject').onclick = async () => {
+      const p = estado.pendienteSeleccionada;
+      if(!p) return;
+      const motivo = document.getElementById('rejectReason').value.trim();
+      if(motivo.length < 5){
+        showToast('El motivo debe tener al menos 5 caracteres', 'error');
+        return;
+      }
+      const btn = document.getElementById('btnConfirmReject');
+      btn.disabled = true; btn.textContent = 'Procesando…';
+
+      const {data, error} = await supabaseClient.rpc('rechazar_inscripcion', {
+        pendiente_id: p.id,
+        motivo: motivo
+      });
+
+      btn.disabled = false; btn.innerHTML = '✗ Rechazar';
+
+      if(error){showToast('Error: '+error.message,'error');return;}
+
+      if(data?.success){
+        showToast(`Inscripción de ${p.nombre_alumno} rechazada`, 'success');
+        cerrarModales();
+        await cargarPendientes();
+        await cargarStats();
+      } else {
+        showToast('Error: ' + (data?.error || 'No se pudo rechazar'), 'error');
+      }
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // FILTROS y TABS
+    // ═══════════════════════════════════════════════════════════════
+    document.getElementById('filterSearch').addEventListener('input', e => {
+      estado.filtroBusqueda = e.target.value;
+      renderizar();
+    });
+    document.getElementById('filterCurso').addEventListener('change', e => {
+      estado.filtroCurso = e.target.value;
+      renderizar();
+    });
+    document.getElementById('btnRefresh').onclick = async () => {
+      await cargarPendientes();
+      await cargarStats();
+      showToast('Datos actualizados', 'success');
+    };
+
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.onclick = () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+      };
+    });
+
+    // ═══════════════════════════════════════════════════════════════
+    // REALTIME (auto-actualiza si entran nuevas inscripciones)
+    // ═══════════════════════════════════════════════════════════════
+    function configurarRealtime(){
+      supabaseClient
+        .channel('inscripciones-pendientes-realtime')
+        .on('postgres_changes', {
+          event: '*', schema: 'public', table: 'inscripciones_pendientes'
+        }, async (payload) => {
+          await cargarPendientes();
+          await cargarStats();
+          if(payload.eventType === 'INSERT'){
+            showToast('🔔 Nueva inscripción recibida', 'success');
+          }
+        })
+        .subscribe();
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // UTILIDADES
+    // ═══════════════════════════════════════════════════════════════
+    function showToast(msg, tipo='success'){
+      const t = document.getElementById('toast');
+      t.className = 'toast ' + tipo;
+      document.getElementById('toastIcon').textContent = tipo === 'success' ? '✓' : '⚠';
+      document.getElementById('toastMsg').textContent = msg;
+      requestAnimationFrame(() => t.classList.add('show'));
+      clearTimeout(t._timeout);
+      t._timeout = setTimeout(() => t.classList.remove('show'), 4000);
+    }
+
+    function escapar(s){
+      if(!s) return '';
+      return String(s).replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[c]));
+    }
+
+    function formatearTiempo(fecha){
+      const ms = Date.now() - fecha.getTime();
+      const min = Math.floor(ms/60000);
+      const hr = Math.floor(min/60);
+      const dia = Math.floor(hr/24);
+      if(min < 1) return 'segundos';
+      if(min < 60) return `${min} min`;
+      if(hr < 24) return `${hr}h`;
+      return `${dia}d`;
+    }
+
+    // Logout
+    document.getElementById('logoutBtn').onclick = async () => {
+      await supabaseClient.auth.signOut();
+      window.location.href = LOGIN_URL;
+    };
+  </script>
+
+</body>
+</html>
