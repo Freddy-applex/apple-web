@@ -294,14 +294,66 @@ document.getElementById('form-login').addEventListener('submit', async function(
   }
 });
 
-// ─── Recuperación de contraseña (placeholder por ahora) ───
-document.getElementById('link-forgot').addEventListener('click', function(e) {
+// ─── Recuperación de contraseña (email automático con Supabase) ───
+document.getElementById('link-forgot').addEventListener('click', async function(e) {
   e.preventDefault();
-  const email = document.getElementById('inp-email').value.trim();
-  const mensaje = email
-    ? 'Para recuperar tu contraseña de ' + email + ', escribinos por WhatsApp al +591 64403290 y te ayudamos personalmente.'
-    : 'Para recuperar tu contraseña, escribinos por WhatsApp al +591 64403290 con tu email registrado y te ayudamos personalmente.';
-  mostrarError('Recuperación de contraseña', mensaje);
+  ocultarMensajes();
+
+  const email = document.getElementById('inp-email').value.trim().toLowerCase();
+
+  if (!email) {
+    mostrarError(
+      'Email requerido',
+      'Primero escribí tu email en el campo de arriba, después hacé click en "¿Olvidaste tu contraseña?".'
+    );
+    document.getElementById('inp-email').focus();
+    return;
+  }
+
+  // Validación básica de formato
+  if (!email.includes('@') || !email.includes('.')) {
+    mostrarError('Email inválido', 'Revisá que hayas escrito bien tu email.');
+    return;
+  }
+
+  const sb = window.obtenerSupabase();
+  if (!sb) {
+    mostrarError('Error de configuración', 'Recargá la página e intentá de nuevo.');
+    return;
+  }
+
+  const link = this;
+  const textoOriginal = link.textContent;
+  link.textContent = 'Enviando...';
+  link.style.pointerEvents = 'none';
+
+  try {
+    const { error } = await sb.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/reset-password.html'
+    });
+
+    if (error) {
+      console.error('[LOGIN] Error al enviar reset:', error);
+      mostrarError(
+        'No pudimos enviar el email',
+        'Intentá de nuevo en unos minutos o escribinos por WhatsApp al +591 64403290.'
+      );
+    } else {
+      mostrarExito(
+        '¡Email enviado!',
+        'Te mandamos un enlace a ' + email + '. Revisá tu bandeja (y spam). El link vence en 1 hora.'
+      );
+    }
+  } catch (err) {
+    console.error('[LOGIN] Error inesperado en reset:', err);
+    mostrarError(
+      'Error de conexión',
+      'Verificá tu internet o escribinos por WhatsApp al +591 64403290.'
+    );
+  } finally {
+    link.textContent = textoOriginal;
+    link.style.pointerEvents = 'auto';
+  }
 });
 </script>
 
