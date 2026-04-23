@@ -63,6 +63,24 @@
     }
     .btn-logout:hover{background:rgba(220,38,38,0.15);border-color:var(--red);color:#ff6b68;}
 
+    /* ─── Volver al sitio ─── */
+    .nav-back{
+      display:flex;align-items:center;gap:6px;
+      color:rgba(255,255,255,0.75);
+      padding:7px 14px;border-radius:20px;
+      border:1px solid rgba(255,255,255,0.18);
+      font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;
+      letter-spacing:0.3px;transition:all .2s;
+    }
+    .nav-back:hover{
+      color:var(--green);border-color:var(--green);
+      background:rgba(141,198,63,0.10);
+    }
+    .nav-back .arrow{font-size:14px;line-height:1;}
+    @media(max-width:700px){
+      .nav-back .label-full{display:none;}
+    }
+
     main{max-width:1280px;margin:0 auto;padding:32px 5%;}
 
     /* ─── PAGE HEADING ─── */
@@ -345,6 +363,10 @@
       <span class="badge-rol">Coordinación</span>
     </div>
     <div class="nav-user">
+      <a href="/index.html" class="nav-back" title="Volver al sitio APPLE">
+        <span class="arrow">←</span>
+        <span class="label-full">Volver al sitio</span>
+      </a>
       <div class="user-info">
         <div class="name" id="userName">Cargando…</div>
         <div class="email" id="userEmail"></div>
