@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin · APPLENDE Academia</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#1A2744; --navy-dark:#0E1A30; --blue:#2E4A8E;
+      --green:#8DC63F; --green-dark:#6aaa2a; --purple:#6B6BBB;
+      --gray:#BFBFBF; --white:#fff; --offwhite:#F5F7FA;
+      --text:#2C3A52; --muted:#6B7A90; --border:#E2E8F0;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Barlow',sans-serif;color:var(--text);background:var(--offwhite);min-height:100vh;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;}
+
+    /* Loading overlay */
+    #loading{
+      position:fixed;inset:0;background:var(--navy);z-index:100;
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font-size:12px;font-weight:700;
+      letter-spacing:3px;text-transform:uppercase;
+    }
+    #loading.hidden{display:none;}
+    .loader-bar{
+      width:40px;height:2px;background:var(--green);
+      animation:loaderPulse 1s ease-in-out infinite;margin-right:14px;
+    }
+    @keyframes loaderPulse{
+      0%,100%{opacity:0.3;transform:scaleX(1);}
+      50%{opacity:1;transform:scaleX(1.5);}
+    }
+
+    /* Nav — igual que la nodriz */
+    .nav{
+      position:sticky;top:0;z-index:200;background:var(--navy);
+      height:60px;padding:0 5%;display:flex;align-items:center;
+      justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.3);
+    }
+    .nav-brand{
+      display:flex;align-items:center;gap:10px;color:#fff;
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:18px;letter-spacing:2px;
+    }
+    .nav-brand .squares{display:flex;gap:3px;}
+    .nav-brand .squares span{width:14px;height:14px;border-radius:2px;}
+    .nav-brand .squares span:nth-child(1){background:var(--green);}
+    .nav-brand .squares span:nth-child(2){background:var(--gray);}
+    .nav-brand .squares span:nth-child(3){background:var(--purple);}
+    .nav-brand .accent{color:var(--green);}
+    .badge-rol{
+      background:rgba(220,38,38,0.15);color:#ff6b68;
+      font-size:10px;font-weight:700;letter-spacing:2px;
+      text-transform:uppercase;padding:4px 10px;border-radius:20px;
+      margin-left:10px;border:1px solid rgba(220,38,38,0.3);
+    }
+    .nav-user{display:flex;align-items:center;gap:14px;color:#fff;}
+    .user-info{text-align:right;line-height:1.2;}
+    .user-info .name{font-size:13px;font-weight:600;}
+    .user-info .email{font-size:11px;color:rgba(255,255,255,0.5);}
+    .btn-logout{
+      background:transparent;border:1px solid rgba(255,255,255,0.2);
+      color:#fff;padding:7px 14px;border-radius:20px;
+      font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;
+      cursor:pointer;transition:all .2s;
+    }
+    .btn-logout:hover{background:rgba(220,38,38,0.15);border-color:#dc2626;color:#ff6b68;}
+
+    /* ─── Volver al sitio ─── */
+    .nav-back{
+      display:flex;align-items:center;gap:6px;
+      color:rgba(255,255,255,0.75);
+      padding:7px 14px;border-radius:20px;
+      border:1px solid rgba(255,255,255,0.18);
+      font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;
+      letter-spacing:0.3px;transition:all .2s;
+    }
+    .nav-back:hover{
+      color:var(--green);border-color:var(--green);
+      background:rgba(141,198,63,0.10);
+    }
+    .nav-back .arrow{font-size:14px;line-height:1;}
+    @media(max-width:700px){
+      .nav-back .label-full{display:none;}
+    }
+
+    /* Main */
+    main{max-width:1200px;margin:0 auto;padding:40px 5%;}
+
+    .page-heading{margin-bottom:32px;border-left:4px solid var(--green);padding-left:14px;}
+    .page-heading h1{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:clamp(24px,3.5vw,34px);color:var(--navy);
+      letter-spacing:1px;line-height:1.1;
+    }
+    .page-heading p{color:var(--muted);margin-top:6px;font-size:14px;}
+
+    /* Stats */
+    .stats-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:14px;margin-bottom:36px;
+    }
+    .stat-card{
+      background:var(--white);border:2px solid var(--border);border-radius:12px;
+      padding:22px;position:relative;overflow:hidden;transition:all .2s;
+    }
+    .stat-card:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.06);}
+    .stat-card::before{
+      content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--green);
+    }
+    .stat-card .label{
+      font-size:10px;font-weight:700;letter-spacing:2px;
+      text-transform:uppercase;color:var(--muted);margin-bottom:8px;
+    }
+    .stat-card .value{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:38px;color:var(--navy);line-height:1;
+    }
+    .stat-card .delta{font-size:12px;color:var(--muted);margin-top:8px;}
+
+    /* Module grid */
+    .module-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;
+    }
+    .module-card{
+      background:var(--white);border:2px solid var(--border);border-radius:12px;
+      padding:24px;transition:all .2s;position:relative;cursor:pointer;
+    }
+    .module-card:hover{
+      border-color:var(--purple);transform:translateY(-3px);
+      box-shadow:0 8px 28px rgba(107,107,187,0.15);
+    }
+    .module-card .icon-block{
+      width:44px;height:44px;background:rgba(107,107,187,0.12);
+      border-radius:10px;display:flex;align-items:center;justify-content:center;
+      font-size:22px;margin-bottom:14px;
+    }
+    .module-card h3{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:17px;color:var(--navy);letter-spacing:0.5px;margin-bottom:6px;
+    }
+    .module-card p{color:var(--muted);font-size:13px;line-height:1.55;}
+    .module-card .soon{
+      position:absolute;top:14px;right:14px;
+      background:rgba(107,107,187,0.12);color:var(--purple);
+      font-size:9px;font-weight:700;letter-spacing:1.5px;
+      text-transform:uppercase;padding:3px 9px;border-radius:20px;
+    }
+
+    .placeholder-note{
+      margin-top:32px;background:var(--white);
+      border-left:4px solid var(--green);padding:16px 20px;
+      border-radius:8px;color:var(--muted);font-size:13px;
+      line-height:1.6;border:1px solid var(--border);
+    }
+    .placeholder-note strong{color:var(--navy);}
+
+    @media(max-width:700px){
+      .nav{padding:0 4%;}
+      .nav-brand{font-size:15px;}
+      .nav-user .user-info{display:none;}
+      main{padding:28px 5%;}
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loading">
+    <span class="loader-bar"></span>
+    Verificando sesión…
+  </div>
+
+  <nav class="nav">
+    <div class="nav-brand">
+      <span class="squares"><span></span><span></span><span></span></span>
+      <span>APPLENDE<span class="accent">.</span></span>
+      <span class="badge-rol">Admin</span>
+    </div>
+    <div class="nav-user">
+      <a href="/cursos.html" class="nav-back" title="Volver a la Academia">
+        <span class="arrow">←</span>
+        <span class="label-full">Volver a la Academia</span>
+      </a>
+      <div class="user-info">
+        <div class="name" id="userName">Cargando…</div>
+        <div class="email" id="userEmail"></div>
+      </div>
+      <button class="btn-logout" id="logoutBtn">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <main>
+
+    <div class="page-heading">
+      <h1>Panel de administración</h1>
+      <p>Gestión integral del ecosistema APPLENDE Academia.</p>
+    </div>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <p class="label">Estudiantes</p>
+        <div class="value">—</div>
+        <p class="delta">Conectar métricas</p>
+      </div>
+      <div class="stat-card">
+        <p class="label">Cursos activos</p>
+        <div class="value">4</div>
+        <p class="delta">Pre-cargados en BD</p>
+      </div>
+      <div class="stat-card">
+        <p class="label">Instructores</p>
+        <div class="value">2+</div>
+        <p class="delta">Carlos Heredia, Luis Ancalle…</p>
+      </div>
+      <div class="stat-card">
+        <p class="label">Inscripciones</p>
+        <div class="value">—</div>
+        <p class="delta">Pendientes de pagos</p>
+      </div>
+    </section>
+
+    <section class="module-grid">
+      <div class="module-card">
+        <div class="icon-block">🎓</div>
+        <h3>Cursos</h3>
+        <p>Crear, editar y publicar cursos, cohortes y clases en vivo.</p>
+        <span class="soon">Próximamente</span>
+      </div>
+      <div class="module-card">
+        <div class="icon-block">👥</div>
+        <h3>Usuarios &amp; Roles</h3>
+        <p>Gestión de estudiantes, instructores, coordinadores y admins.</p>
+        <span class="soon">Próximamente</span>
+      </div>
+      <div class="module-card">
+        <div class="icon-block">💳</div>
+        <h3>Inscripciones &amp; Pagos</h3>
+        <p>Libélula / Pago Fácil. Aprobar, rechazar y conciliar pagos.</p>
+        <span class="soon">Próximamente</span>
+      </div>
+      <div class="module-card">
+        <div class="icon-block">📊</div>
+        <h3>Reportes</h3>
+        <p>Ingresos, asistencias, certificados emitidos y KPIs clave.</p>
+        <span class="soon">Próximamente</span>
+      </div>
+      <div class="module-card">
+        <div class="icon-block">📢</div>
+        <h3>Comunicaciones</h3>
+        <p>Emails masivos vía Resend y notificaciones push.</p>
+        <span class="soon">Próximamente</span>
+      </div>
+      <div class="module-card">
+        <div class="icon-block">⚙️</div>
+        <h3>Configuración</h3>
+        <p>Parámetros del sistema, integraciones y webhooks.</p>
+        <span class="soon">Próximamente</span>
+      </div>
+    </section>
+
+    <div class="placeholder-note">
+      <strong>Dashboard base operativo.</strong> Esta vista es el esqueleto del panel admin.
+      Los módulos se irán habilitando en los próximos bloques del roadmap APPLE.
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL      = 'https://wdoqzsmwuvozhkclqbjk.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indkb3F6c213dXZvemhrY2xxYmprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTI0NzQsImV4cCI6MjA5MjI4ODQ3NH0.qlfh1Qz695Kg_hH5n-LbtAw6r-1gzpkCe5NOznxNSnM';
+    const ROLES_PERMITIDOS = ['admin'];
+    const LOGIN_URL = '/login.html';
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    (async function guardSession(){
+      const {data:{session}}=await supabaseClient.auth.getSession();
+      if(!session){window.location.href=LOGIN_URL;return;}
+
+      const {data:perfil,error}=await supabaseClient
+        .from('perfiles').select('rol,nombre,apellido').eq('id',session.user.id).single();
+
+      if(error||!perfil){
+        console.error('No se pudo obtener el perfil:',error);
+        await supabaseClient.auth.signOut();
+        window.location.href=LOGIN_URL;return;
+      }
+
+      if(!ROLES_PERMITIDOS.includes(perfil.rol)){
+        const destino={
+          coordinador:'/coordinador/dashboard.html',
+          instructor:'/alumno/dashboard.html',
+          estudiante:'/alumno/dashboard.html'
+        }[perfil.rol]||LOGIN_URL;
+        window.location.href=destino;return;
+      }
+
+      document.getElementById('userName').textContent=`${perfil.nombre} ${perfil.apellido}`;
+      document.getElementById('userEmail').textContent=session.user.email;
+      document.getElementById('loading').classList.add('hidden');
+    })();
+
+    document.getElementById('logoutBtn').addEventListener('click',async()=>{
+      await supabaseClient.auth.signOut();
+      window.location.href=LOGIN_URL;
+    });
+  </script>
+
+</body>
+</html>
