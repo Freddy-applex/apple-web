@@ -1,334 +1,303 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="APPLENDE Academia · Plataforma de ingeniería civil · Santa Cruz, Bolivia">
-  <title>Iniciar sesión · APPLENDE Academia</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Iniciar sesión en APPLENDE Academia">
+<title>Iniciar sesión · APPLENDE</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Josefin+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1A2744;--navy-dark:#0E1A30;--blue:#2E4A8E;--purple:#6B6BBB;
+  --green:#8DC63F;--green-dark:#7AB232;
+  --text:#1A2744;--muted:#6B7A90;--white:#fff;--offwhite:#F5F7FA;--border:#E4E7ED;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Barlow',sans-serif;color:var(--text);background:var(--navy-dark);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;line-height:1.5;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(107,107,187,.15), transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(141,198,63,.1), transparent 50%);
+}
+a{text-decoration:none;color:inherit;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+input{font-family:inherit;font-size:inherit;color:inherit;}
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+.login-wrap{width:100%;max-width:420px;}
 
-  <style>
-    :root{
-      --navy:#1A2744; --navy-dark:#0E1A30; --blue:#2E4A8E;
-      --green:#8DC63F; --green-dark:#6aaa2a; --purple:#6B6BBB;
-      --gray:#BFBFBF; --white:#fff; --offwhite:#F5F7FA;
-      --text:#2C3A52; --muted:#6B7A90; --border:#E2E8F0;
-    }
-    *{margin:0;padding:0;box-sizing:border-box;}
-    html{scroll-behavior:smooth;}
-    body{
-      font-family:'Barlow',sans-serif;color:var(--text);
-      min-height:100vh;overflow-x:hidden;
-      background:var(--navy);
-      background-image:
-        radial-gradient(circle at 20% 20%, rgba(107,107,187,0.25) 0%, transparent 50%),
-        radial-gradient(circle at 85% 75%, rgba(141,198,63,0.10) 0%, transparent 45%),
-        linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 100%);
-      display:flex;flex-direction:column;align-items:center;justify-content:center;
-      padding:32px 5%;position:relative;
-    }
-    a{text-decoration:none;color:inherit;}
+.login-logo{text-align:center;margin-bottom:24px;}
+.login-logo img{height:56px;width:auto;display:inline-block;}
 
-    body::before{
-      content:'';position:fixed;inset:0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);
-      background-size:48px 48px;pointer-events:none;z-index:0;
-    }
+.login-card{background:var(--white);border-radius:16px;padding:36px 32px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.login-tit{font-family:'Josefin Sans',sans-serif;font-size:26px;font-weight:700;color:var(--navy);margin-bottom:6px;text-align:center;}
+.login-desc{font-size:13px;color:var(--muted);text-align:center;margin-bottom:26px;}
 
-    .brand-mark{
-      position:absolute;top:24px;left:5%;
-      font-size:11px;font-weight:700;letter-spacing:3px;
-      text-transform:uppercase;color:rgba(255,255,255,0.5);
-      z-index:2;display:flex;align-items:center;gap:10px;
-    }
-    .brand-mark::before{content:'';width:24px;height:2px;background:var(--green);}
+.login-row{margin-bottom:16px;}
+.login-lbl{display:block;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase;}
+.login-input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;background:var(--offwhite);transition:all .2s;}
+.login-input:focus{outline:none;border-color:var(--green);background:#fff;box-shadow:0 0 0 3px rgba(141,198,63,.12);}
 
-    .version-tag{
-      position:absolute;top:24px;right:5%;
-      font-size:11px;font-weight:700;letter-spacing:2px;
-      color:rgba(255,255,255,0.5);z-index:2;
-    }
+.pwd-wrap{position:relative;}
+.pwd-wrap .login-input{padding-right:42px;}
+.pwd-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;opacity:.5;padding:4px 8px;line-height:1;}
+.pwd-toggle:hover{opacity:.9;}
 
-    .login-shell{
-      position:relative;z-index:1;width:100%;max-width:440px;
-      animation:fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both;
-    }
-    @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.login-row-aux{display:flex;justify-content:space-between;align-items:center;margin:8px 0 20px;font-size:12px;}
+.login-remember{display:flex;align-items:center;gap:6px;color:var(--muted);cursor:pointer;}
+.login-remember input{accent-color:var(--green);cursor:pointer;}
+.login-forgot{color:var(--purple);font-weight:600;}
+.login-forgot:hover{text-decoration:underline;}
 
-    .login-header{text-align:center;margin-bottom:28px;color:#fff;}
-    .login-header .squares{display:inline-flex;gap:4px;margin-bottom:18px;}
-    .login-header .squares span{display:block;width:18px;height:18px;border-radius:3px;}
-    .login-header .squares span:nth-child(1){background:var(--green);}
-    .login-header .squares span:nth-child(2){background:var(--gray);}
-    .login-header .squares span:nth-child(3){background:var(--purple);}
-    .login-header h1{
-      font-family:'Josefin Sans',sans-serif;
-      font-weight:700;font-size:40px;letter-spacing:3px;line-height:1;
-    }
-    .login-header h1 .accent{color:var(--green);}
-    .login-header .subtitle{
-      margin-top:8px;font-size:12px;font-weight:600;letter-spacing:4px;
-      text-transform:uppercase;color:rgba(255,255,255,0.55);
-    }
+.login-btn{display:block;width:100%;background:linear-gradient(135deg,var(--green),var(--green-dark));color:var(--navy);padding:14px;border-radius:10px;font-weight:800;font-size:14px;letter-spacing:.4px;transition:all .2s;box-shadow:0 4px 16px rgba(141,198,63,.25);}
+.login-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 28px rgba(141,198,63,.4);}
+.login-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.login-btn-loader{display:inline-block;width:14px;height:14px;border:2px solid var(--navy);border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite;margin-right:8px;vertical-align:-3px;}
+@keyframes spin{to{transform:rotate(360deg);}}
 
-    .login-card{
-      background:var(--white);border-radius:14px;padding:36px 32px 28px;
-      box-shadow:0 20px 60px -20px rgba(0,0,0,0.4);
-      position:relative;border:1px solid var(--border);
-    }
-    .login-card::before{
-      content:'';position:absolute;top:22px;bottom:22px;left:-4px;width:4px;border-radius:2px;
-      background:linear-gradient(180deg,var(--green) 0%,var(--green) 35%,var(--gray) 35%,var(--gray) 70%,var(--purple) 70%);
-    }
+.login-divider{display:flex;align-items:center;gap:12px;margin:22px 0 18px;}
+.login-divider-line{flex:1;height:1px;background:var(--border);}
+.login-divider-txt{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;}
 
-    .card-title{
-      font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:24px;
-      color:var(--navy);margin-bottom:4px;letter-spacing:1px;
-    }
-    .card-subtitle{font-size:13px;color:var(--muted);margin-bottom:24px;}
+.login-signup{text-align:center;font-size:13px;color:var(--muted);}
+.login-signup a{color:var(--navy);font-weight:700;border-bottom:1.5px solid var(--green);padding-bottom:1px;}
 
-    .field{margin-bottom:16px;}
-    .field label{
-      display:block;font-size:10px;font-weight:700;letter-spacing:2px;
-      text-transform:uppercase;color:var(--muted);margin-bottom:7px;
-    }
-    .field input{
-      width:100%;padding:12px 14px;background:var(--offwhite);
-      border:1.5px solid var(--border);border-radius:8px;
-      font-family:'Barlow',sans-serif;font-size:14px;
-      color:var(--text);transition:border .2s;outline:none;
-    }
-    .field input::placeholder{color:var(--muted);}
-    .field input:focus{border-color:var(--green);background:var(--white);}
-    .field input:disabled{opacity:0.6;cursor:not-allowed;}
+.error-box{background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.2);border-left:4px solid #dc2626;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:18px;display:none;}
+.error-box.show{display:block;}
+.error-box strong{color:#991B1B;display:block;font-size:12.5px;margin-bottom:2px;}
+.error-box span{color:#991B1B;font-size:12px;line-height:1.5;}
+.error-box a{color:#991B1B;text-decoration:underline;font-weight:700;}
 
-    .field-row{
-      display:flex;align-items:center;justify-content:space-between;
-      margin:14px 0 22px;font-size:13px;
-    }
-    .remember{display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--text);user-select:none;}
-    .remember input{
-      appearance:none;width:16px;height:16px;border:1.5px solid var(--border);
-      border-radius:3px;cursor:pointer;position:relative;transition:all .15s;background:var(--offwhite);
-    }
-    .remember input:checked{background:var(--green);border-color:var(--green);}
-    .remember input:checked::after{
-      content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-      color:var(--navy);font-size:11px;font-weight:800;
-    }
+.success-box{background:rgba(141,198,63,.1);border:1px solid rgba(141,198,63,.35);border-left:4px solid var(--green);border-radius:0 8px 8px 0;padding:14px 16px;margin-bottom:18px;display:none;}
+.success-box.show{display:block;}
+.success-box strong{color:var(--green-dark);display:block;font-size:13px;margin-bottom:2px;}
+.success-box span{color:var(--navy);font-size:12.5px;}
 
-    .link-purple{color:var(--purple);font-weight:600;transition:color .15s;}
-    .link-purple:hover{color:var(--navy);text-decoration:underline;}
+.back-link{display:block;text-align:center;font-size:12px;color:rgba(255,255,255,.55);margin-top:20px;}
+.back-link:hover{color:#fff;}
 
-    .btn-primary{
-      width:100%;padding:15px;
-      background:linear-gradient(135deg,var(--green),var(--green-dark));
-      color:var(--navy);border:none;border-radius:10px;
-      font-family:'Barlow',sans-serif;font-weight:800;font-size:15px;
-      letter-spacing:1px;text-transform:uppercase;
-      cursor:pointer;transition:all .3s;
-      box-shadow:0 4px 16px rgba(141,198,63,0.3);
-      display:flex;align-items:center;justify-content:center;gap:10px;
-    }
-    .btn-primary:hover:not(:disabled){
-      transform:translateY(-2px);box-shadow:0 8px 28px rgba(141,198,63,0.45);
-    }
-    .btn-primary:disabled{opacity:0.6;cursor:not-allowed;}
-    .btn-primary .arrow{transition:transform .2s;}
-    .btn-primary:hover:not(:disabled) .arrow{transform:translateX(4px);}
-
-    .spinner{
-      width:16px;height:16px;border:2px solid var(--navy);
-      border-top-color:transparent;border-radius:50%;
-      animation:spin .8s linear infinite;display:none;
-    }
-    @keyframes spin{to{transform:rotate(360deg);}}
-    .btn-primary.loading .spinner{display:inline-block;}
-    .btn-primary.loading .arrow,.btn-primary.loading .btn-label{display:none;}
-
-    .alert{
-      padding:12px 14px;border-radius:8px;font-size:13px;
-      margin-bottom:16px;display:none;align-items:flex-start;gap:8px;line-height:1.45;
-    }
-    .alert.active{display:flex;}
-    .alert-error{background:rgba(220,38,38,0.08);color:#dc2626;border-left:3px solid #dc2626;}
-    .alert-success{background:rgba(141,198,63,0.10);color:var(--green-dark);border-left:3px solid var(--green);}
-
-    .divider{
-      display:flex;align-items:center;margin:22px 0 18px;
-      color:var(--muted);font-size:11px;letter-spacing:3px;
-      text-transform:uppercase;font-weight:700;
-    }
-    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
-    .divider::before{margin-right:12px;}
-    .divider::after{margin-left:12px;}
-
-    .signup-link{text-align:center;font-size:14px;color:var(--text);}
-
-    .login-footer{
-      margin-top:28px;text-align:center;color:rgba(255,255,255,0.45);
-      font-size:11px;letter-spacing:2px;text-transform:uppercase;line-height:1.8;
-    }
-    .login-footer strong{
-      color:#fff;font-weight:700;letter-spacing:3px;font-family:'Josefin Sans',sans-serif;
-    }
-    .login-footer strong span{color:var(--green);}
-
-    @media(max-width:700px){
-      .brand-mark,.version-tag{top:16px;font-size:10px;}
-      .login-card{padding:28px 22px 22px;}
-      .login-header h1{font-size:32px;}
-    }
-  </style>
+.footer-note{text-align:center;font-size:11px;color:rgba(255,255,255,.4);margin-top:24px;letter-spacing:.3px;}
+.footer-note strong{color:rgba(255,255,255,.7);}
+</style>
 </head>
 <body>
 
-  <div class="brand-mark">Ecosistema APPLE</div>
-  <div class="version-tag">v1.0 · 2026</div>
+<div class="login-wrap">
 
-  <main class="login-shell">
+  <a href="/index.html" class="login-logo">
+    <img src="data:image/png;base64,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" alt="APPLENDE">
+  </a>
 
-    <header class="login-header">
-      <div class="squares" aria-hidden="true">
-        <span></span><span></span><span></span>
+  <div class="login-card">
+    <h1 class="login-tit">Iniciar sesión</h1>
+    <p class="login-desc">Accedé a tu panel académico</p>
+
+    <div class="error-box" id="error-box">
+      <strong id="error-tit">Error</strong>
+      <span id="error-desc"></span>
+    </div>
+
+    <div class="success-box" id="success-box">
+      <strong id="success-tit">¡Bienvenido!</strong>
+      <span id="success-desc">Redirigiendo a tu panel…</span>
+    </div>
+
+    <form id="form-login">
+
+      <div class="login-row">
+        <label class="login-lbl" for="inp-email">Correo electrónico</label>
+        <input type="email" class="login-input" id="inp-email" placeholder="tu@email.com" autocomplete="email" required>
       </div>
-      <h1>APPLENDE<span class="accent">.</span></h1>
-      <p class="subtitle">Santa Cruz · Bolivia</p>
-    </header>
 
-    <section class="login-card">
-      <h2 class="card-title">Iniciar sesión</h2>
-      <p class="card-subtitle">Accede a tu panel académico</p>
-
-      <div id="alert" class="alert alert-error" role="alert"></div>
-
-      <form id="loginForm" novalidate>
-        <div class="field">
-          <label for="email">Correo electrónico</label>
-          <input type="email" id="email" name="email"
-            placeholder="tu.correo@dominio.com" autocomplete="email" required>
+      <div class="login-row">
+        <label class="login-lbl" for="inp-password">Contraseña</label>
+        <div class="pwd-wrap">
+          <input type="password" class="login-input" id="inp-password" placeholder="Tu contraseña" autocomplete="current-password" required>
+          <button type="button" class="pwd-toggle" id="tog-pwd" aria-label="Mostrar contraseña">👁️</button>
         </div>
+      </div>
 
-        <div class="field">
-          <label for="password">Contraseña</label>
-          <input type="password" id="password" name="password"
-            placeholder="••••••••••" autocomplete="current-password" required>
-        </div>
+      <div class="login-row-aux">
+        <label class="login-remember">
+          <input type="checkbox" id="inp-remember" checked>
+          <span>Mantener sesión</span>
+        </label>
+        <a href="#" class="login-forgot" id="link-forgot">¿Olvidaste tu contraseña?</a>
+      </div>
 
-        <div class="field-row">
-          <label class="remember">
-            <input type="checkbox" id="remember" checked>
-            <span>Mantener sesión</span>
-          </label>
-          <a href="#" class="link-purple" id="forgotLink">¿Olvidaste tu contraseña?</a>
-        </div>
+      <button type="submit" class="login-btn" id="btn-login">Iniciar sesión →</button>
 
-        <button type="submit" class="btn-primary" id="loginBtn">
-          <span class="spinner"></span>
-          <span class="btn-label">Iniciar sesión</span>
-          <span class="arrow">→</span>
-        </button>
-      </form>
+      <div class="login-divider">
+        <div class="login-divider-line"></div>
+        <div class="login-divider-txt">O</div>
+        <div class="login-divider-line"></div>
+      </div>
 
-      <div class="divider">o</div>
+      <div class="login-signup">
+        ¿Nuevo aquí? <a href="/cursos.html">Regístrate</a>
+      </div>
 
-      <p class="signup-link">
-        ¿Nuevo aquí? <a href="/registro.html" class="link-purple">Regístrate</a>
-      </p>
-    </section>
+    </form>
+  </div>
 
-    <footer class="login-footer">
-      <strong>APPLE Construcciones <span>&amp;</span> Servicios</strong><br>
-      Arq. Freddy Velásquez Reinaga · Director General
-    </footer>
+  <a href="/index.html" class="back-link">← Volver al sitio</a>
 
-  </main>
+  <div class="footer-note">
+    <strong>APPLE CONSTRUCCIONES &amp; SERVICIOS</strong><br>
+    ARQ. FREDDY VELÁSQUEZ REINAGA · DIRECTOR GENERAL
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const SUPABASE_URL      = 'https://wdoqzsmwuvozhkclqbjk.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indkb3F6c213dXZvemhrY2xxYmprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTI0NzQsImV4cCI6MjA5MjI4ODQ3NH0.qlfh1Qz695Kg_hH5n-LbtAw6r-1gzpkCe5NOznxNSnM';
+</div>
 
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/applende-config.js"></script>
+<script src="/applende-auth.js"></script>
+<script>
+/* ════════════════════════════════════════════════════════════════
+   APPLENDE — login.html v2.0
+   Login unificado con detección automática de rol y redirect
+   ════════════════════════════════════════════════════════════════ */
 
-    const ROL_REDIRECT = {
-      admin:       '/admin/dashboard.html',
-      coordinador: '/coordinador/dashboard.html',
-      instructor:  '/alumno/dashboard.html',
-      estudiante:  '/alumno/dashboard.html'
-    };
+// ─── Toggle mostrar/ocultar contraseña ───
+document.getElementById('tog-pwd').addEventListener('click', function() {
+  const inp = document.getElementById('inp-password');
+  const isPwd = inp.type === 'password';
+  inp.type = isPwd ? 'text' : 'password';
+  this.textContent = isPwd ? '🙈' : '👁️';
+});
 
-    const alertEl  = document.getElementById('alert');
-    const loginBtn = document.getElementById('loginBtn');
-    const form     = document.getElementById('loginForm');
+// ─── Si ya hay sesión activa, redirigir directo al dashboard ───
+(async function() {
+  try {
+    const sesion = await window.APPLENDE_AUTH.obtenerSesion();
+    if (sesion) {
+      const ruta = window.APPLENDE_AUTH.rutaDashboardPorRol(sesion.rol);
+      console.log('[LOGIN] Sesión activa detectada, redirigiendo a:', ruta);
+      window.location.href = ruta;
+    }
+  } catch (e) {
+    console.warn('[LOGIN] No se pudo verificar sesión:', e);
+  }
+})();
 
-    function showError(msg){alertEl.textContent=msg;alertEl.classList.remove('alert-success');alertEl.classList.add('alert-error','active');}
-    function showSuccess(msg){alertEl.textContent=msg;alertEl.classList.remove('alert-error');alertEl.classList.add('alert-success','active');}
-    function hideAlert(){alertEl.classList.remove('active');}
-    function setLoading(l){loginBtn.disabled=l;loginBtn.classList.toggle('loading',l);form.querySelectorAll('input').forEach(i=>i.disabled=l);}
+// ─── Helpers UI ───
+function mostrarError(titulo, mensaje) {
+  document.getElementById('success-box').classList.remove('show');
+  document.getElementById('error-tit').textContent = titulo;
+  document.getElementById('error-desc').innerHTML = mensaje;
+  document.getElementById('error-box').classList.add('show');
+}
 
-    (async function checkExistingSession(){
-      const {data:{session}}=await supabaseClient.auth.getSession();
-      if(session){
-        const rol=await obtenerRol(session.user.id);
-        if(rol&&ROL_REDIRECT[rol]) window.location.href=ROL_REDIRECT[rol];
+function mostrarExito(titulo, mensaje) {
+  document.getElementById('error-box').classList.remove('show');
+  document.getElementById('success-tit').textContent = titulo;
+  document.getElementById('success-desc').textContent = mensaje;
+  document.getElementById('success-box').classList.add('show');
+}
+
+function ocultarMensajes() {
+  document.getElementById('error-box').classList.remove('show');
+  document.getElementById('success-box').classList.remove('show');
+}
+
+// ─── Submit del form ───
+document.getElementById('form-login').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  ocultarMensajes();
+
+  const email = document.getElementById('inp-email').value.trim().toLowerCase();
+  const password = document.getElementById('inp-password').value;
+
+  if (!email || !password) {
+    mostrarError('Datos incompletos', 'Ingresá tu email y contraseña.');
+    return;
+  }
+
+  const btn = document.getElementById('btn-login');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="login-btn-loader"></span>Verificando credenciales…';
+
+  const sb = window.APPLENDE.supabase;
+
+  try {
+    // ─── 1. Intento de login ───
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      console.error('[LOGIN] Error en signIn:', error);
+      const msg = (error.message || '').toLowerCase();
+      if (msg.includes('invalid') || msg.includes('credentials')) {
+        mostrarError(
+          'Credenciales incorrectas',
+          'El email o contraseña son incorrectos. Verificá tus datos.'
+        );
+      } else if (msg.includes('email') && msg.includes('confirm')) {
+        mostrarError(
+          'Email no confirmado',
+          'Revisá tu bandeja de entrada y confirmá tu email antes de iniciar sesión.'
+        );
+      } else {
+        mostrarError('No pudimos iniciar sesión', error.message || 'Intentá nuevamente en unos instantes.');
       }
-    })();
-
-    async function obtenerRol(userId){
-      const {data,error}=await supabaseClient
-        .from('perfiles').select('rol,nombre,apellido').eq('id',userId).single();
-      if(error){console.error('Error obteniendo rol:',error);return null;}
-      return data?.rol||null;
+      btn.disabled = false;
+      btn.innerHTML = 'Iniciar sesión →';
+      return;
     }
 
-    form.addEventListener('submit',async(e)=>{
-      e.preventDefault();hideAlert();
-      const email=document.getElementById('email').value.trim();
-      const password=document.getElementById('password').value;
-      if(!email||!password){showError('Completa correo y contraseña.');return;}
-      setLoading(true);
-      try{
-        const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
-        if(error){showError(traducirError(error.message));setLoading(false);return;}
-        const rol=await obtenerRol(data.user.id);
-        if(!rol){showError('Tu perfil no está configurado. Contacta al administrador.');setLoading(false);return;}
-        const destino=ROL_REDIRECT[rol];
-        if(!destino){showError(`Rol desconocido: ${rol}. Contacta al administrador.`);setLoading(false);return;}
-        showSuccess('Bienvenido. Redirigiendo…');
-        setTimeout(()=>{window.location.href=destino;},600);
-      }catch(err){
-        console.error(err);
-        showError('Error inesperado. Intenta de nuevo.');
-        setLoading(false);
-      }
-    });
-
-    function traducirError(msg){
-      const m=msg.toLowerCase();
-      if(m.includes('invalid login credentials')) return 'Correo o contraseña incorrectos.';
-      if(m.includes('email not confirmed'))       return 'Debes confirmar tu correo antes de ingresar.';
-      if(m.includes('too many requests'))         return 'Demasiados intentos. Espera unos minutos.';
-      if(m.includes('network'))                   return 'Sin conexión. Revisa tu internet.';
-      return msg;
+    if (!data || !data.user) {
+      mostrarError('Error inesperado', 'No se pudo obtener la sesión. Intentá nuevamente.');
+      btn.disabled = false;
+      btn.innerHTML = 'Iniciar sesión →';
+      return;
     }
 
-    document.getElementById('forgotLink').addEventListener('click',async(e)=>{
-      e.preventDefault();
-      const email=document.getElementById('email').value.trim();
-      if(!email){showError('Escribe tu correo primero y luego haz clic en "Olvidaste tu contraseña".');return;}
-      const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{
-        redirectTo:window.location.origin+'/reset-password.html'
-      });
-      if(error) showError('No se pudo enviar el correo de recuperación.');
-      else      showSuccess('Te enviamos un correo para recuperar tu contraseña.');
-    });
-  </script>
+    // ─── 2. Consultar rol del perfil ───
+    btn.innerHTML = '<span class="login-btn-loader"></span>Cargando tu panel…';
+
+    const { data: perfil, error: errPerfil } = await sb
+      .from('perfiles')
+      .select('nombre, apellido, rol')
+      .eq('id', data.user.id)
+      .maybeSingle();
+
+    // ─── 3. Determinar ruta según rol ───
+    let rol = 'alumno';  // default
+    let nombreBienvenida = 'Bienvenido';
+
+    if (perfil) {
+      rol = perfil.rol || 'alumno';
+      if (perfil.nombre) {
+        nombreBienvenida = '¡Hola, ' + perfil.nombre.split(' ')[0] + '!';
+      }
+    } else if (errPerfil) {
+      console.warn('[LOGIN] No se pudo leer perfil, usando rol por defecto:', errPerfil);
+    }
+
+    const ruta = window.APPLENDE_AUTH.rutaDashboardPorRol(rol);
+
+    mostrarExito(nombreBienvenida, 'Redirigiendo a tu panel…');
+
+    // Dar 1.2 segundos de feedback visual antes de redirigir
+    setTimeout(function() {
+      window.location.href = ruta;
+    }, 1200);
+
+  } catch (err) {
+    console.error('[LOGIN] Error inesperado:', err);
+    mostrarError('Error de conexión', 'Verificá tu internet e intentá nuevamente.');
+    btn.disabled = false;
+    btn.innerHTML = 'Iniciar sesión →';
+  }
+});
+
+// ─── Recuperación de contraseña (placeholder por ahora) ───
+document.getElementById('link-forgot').addEventListener('click', function(e) {
+  e.preventDefault();
+  const email = document.getElementById('inp-email').value.trim();
+  const mensaje = email
+    ? 'Para recuperar tu contraseña de ' + email + ', escribinos por WhatsApp al +591 64403290 y te ayudamos personalmente.'
+    : 'Para recuperar tu contraseña, escribinos por WhatsApp al +591 64403290 con tu email registrado y te ayudamos personalmente.';
+  mostrarError('Recuperación de contraseña', mensaje);
+});
+</script>
 
 </body>
 </html>
