@@ -80,6 +80,22 @@ body.modo-vivo .resumen-cohorte{display:block;}
 .form-check-lbl{font-size:12.5px;color:var(--text);line-height:1.6;cursor:pointer;}
 .form-check-lbl a{color:var(--navy);font-weight:700;text-decoration:underline;}
 
+/* ═══ PASSWORD FIELD (con toggle mostrar/ocultar) ═══ */
+.pwd-wrap{position:relative;}
+.pwd-wrap .form-input{padding-right:44px;}
+.pwd-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;opacity:.6;padding:4px 8px;line-height:1;transition:opacity .15s;}
+.pwd-toggle:hover{opacity:1;}
+
+/* ═══ LINK "YA TENGO CUENTA" ═══ */
+.login-link-box{text-align:center;font-size:13px;color:var(--muted);margin-top:18px;padding-top:18px;border-top:1px dashed var(--border);}
+.login-link-box a{color:var(--navy);font-weight:700;text-decoration:none;border-bottom:1.5px solid var(--green);padding-bottom:1px;}
+.login-link-box a:hover{color:var(--green-dark);}
+
+/* ═══ BOX INFO (para "usuario creado") ═══ */
+.info-box{background:rgba(141,198,63,.08);border:1px solid rgba(141,198,63,.25);border-left:4px solid var(--green);border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:20px;font-size:12.5px;color:var(--navy);line-height:1.5;display:none;}
+.info-box.show{display:block;}
+.info-box strong{color:var(--green-dark);}
+
 .form-btn{display:block;width:100%;background:linear-gradient(135deg,var(--green),var(--green-dark));color:var(--navy);padding:16px;border-radius:10px;font-weight:800;font-size:15px;letter-spacing:.4px;transition:all .2s;box-shadow:0 4px 16px rgba(141,198,63,.25);}
 .form-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 28px rgba(141,198,63,.4);}
 .form-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
@@ -210,8 +226,8 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
   <div class="grid" id="contenedor" style="display:none">
 
     <div class="form-card">
-      <h1 class="form-tit">Completá tus datos</h1>
-      <p class="form-desc">Esta información es necesaria para registrar tu inscripción. En el próximo paso vas a realizar el pago.</p>
+      <h1 class="form-tit">Creá tu cuenta y reservá tu cupo</h1>
+      <p class="form-desc">Completá tus datos para registrar tu inscripción y crear tu cuenta en APPLENDE. En el próximo paso vas a coordinar el pago.</p>
 
       <div class="error-box" id="error-general">
         <div class="error-tit" id="error-tit">Error al procesar</div>
@@ -252,15 +268,34 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
         <div class="form-row">
           <label class="form-lbl form-lbl-req" for="inp-email">Email</label>
           <input type="email" class="form-input" id="inp-email" placeholder="ej: juan@gmail.com" autocomplete="email" required>
-          <div class="form-hint">Te enviaremos el acceso al aula virtual cuando confirmemos tu pago</div>
+          <div class="form-hint">Será tu usuario para acceder al aula virtual. Usá un email real.</div>
           <div class="form-err" id="err-email">Email inválido</div>
         </div>
 
         <div class="form-row">
           <label class="form-lbl form-lbl-req" for="inp-whatsapp">WhatsApp</label>
-          <input type="tel" class="form-input" id="inp-whatsapp" placeholder="Ej: 64403290" autocomplete="tel" required>
+          <input type="tel" class="form-input" id="inp-whatsapp" placeholder="Ej: 70123456" autocomplete="tel" required>
           <div class="form-hint">Solo el número (sin +591). Lo usaremos para coordinar el pago contigo.</div>
           <div class="form-err" id="err-whatsapp">Número de WhatsApp inválido</div>
+        </div>
+
+        <div class="form-row-2">
+          <div>
+            <label class="form-lbl form-lbl-req" for="inp-password">Contraseña</label>
+            <div class="pwd-wrap">
+              <input type="password" class="form-input" id="inp-password" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required>
+              <button type="button" class="pwd-toggle" id="tog-pwd" aria-label="Mostrar contraseña">👁️</button>
+            </div>
+            <div class="form-err" id="err-password">La contraseña debe tener al menos 6 caracteres</div>
+          </div>
+          <div>
+            <label class="form-lbl form-lbl-req" for="inp-password2">Confirmar contraseña</label>
+            <div class="pwd-wrap">
+              <input type="password" class="form-input" id="inp-password2" placeholder="Repetí la contraseña" autocomplete="new-password" required>
+              <button type="button" class="pwd-toggle" id="tog-pwd2" aria-label="Mostrar contraseña">👁️</button>
+            </div>
+            <div class="form-err" id="err-password2">Las contraseñas no coinciden</div>
+          </div>
         </div>
 
         <div class="form-check">
@@ -270,18 +305,22 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
           </label>
         </div>
 
-        <button type="submit" class="form-btn" id="btn-continuar">Continuar al pago →</button>
+        <button type="submit" class="form-btn" id="btn-continuar">Crear cuenta y continuar al pago →</button>
+
+        <div class="login-link-box">
+          ¿Ya tenés cuenta en APPLENDE? <a href="login.html">Iniciá sesión →</a>
+        </div>
 
       </form>
     </div>
 
     <div class="pago-card">
-      <h1 class="pago-tit">¡Casi listo, <span id="pago-nombre">amigo</span>! 🎉</h1>
-      <p class="pago-desc">Tus datos quedaron registrados. <strong>Para reservar tu cupo</strong>, necesitás realizar el pago de <strong id="pago-monto">Bs 200</strong>.</p>
+      <h1 class="pago-tit">¡Cuenta creada, <span id="pago-nombre">amigo</span>! 🎉</h1>
+      <p class="pago-desc">Tu cuenta quedó registrada en APPLENDE. <strong>Para reservar tu cupo</strong>, necesitás realizar el pago de <strong id="pago-monto">Bs 200</strong>.</p>
 
       <div class="pago-confirm">
-        <div class="pago-confirm-tit">📋 Datos guardados — falta el pago</div>
-        <div class="pago-confirm-desc">Tu cupo se confirma automáticamente cuando verificamos tu pago. Tenés 48 horas para realizar la transferencia.</div>
+        <div class="pago-confirm-tit">📋 Cuenta creada · Inscripción registrada</div>
+        <div class="pago-confirm-desc">Tu cupo se confirma automáticamente cuando verificamos tu pago. Tenés 48 horas para realizar la transferencia. Después del pago, vas a poder acceder al aula virtual con tu email y contraseña.</div>
       </div>
 
       <div class="pago-qr-card">
@@ -339,6 +378,7 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
       </div>
 
       <a href="cursos.html" class="pago-back">← Volver al catálogo de cursos</a>
+      <a href="alumno/dashboard.html" class="pago-back" style="margin-top:8px;color:var(--navy);font-weight:700;">Ir a mi dashboard →</a>
 
     </div>
 
@@ -376,11 +416,98 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="applende-config.js"></script>
 <script>
+/* ════════════════════════════════════════════════════════════════
+   APPLENDE — inscripcion.html v2.0
+   Flujo B: signUp + insert en inscripciones_pendientes
+   Consulta directa a tablas base (NO depende de v_catalogo_cursos)
+   ════════════════════════════════════════════════════════════════ */
+
+const WA_KARINA = '59164403290'; // WhatsApp corporativo APPLENDE (Karina)
+const TIPO_CAMBIO_USD = 6.96;    // Bolivianos por USD (ajustar si cambia)
+
 let cursoActual = null;
+let cohorteActual = null;
 let inscripcionCreada = null;
 
 function obtenerSlug() {
   return new URLSearchParams(window.location.search).get('slug');
+}
+
+function obtenerSupabase() {
+  // Reutiliza el cliente de applende-config.js si existe
+  if (window.APPLENDE && window.APPLENDE.supabase) return window.APPLENDE.supabase;
+  // Fallback: crear uno nuevo
+  const URL = 'https://wdoqzsmwuvozhkclqbjk.supabase.co';
+  const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indkb3F6c213dXZvemhrY2xxYmprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTI0NzQsImV4cCI6MjA5MjI4ODQ3NH0.qlfh1Qz695Kg_hH5n-LbtAw6r-1gzpkCe5NOznxNSnM';
+  return window.supabase.createClient(URL, KEY);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   CARGA DEL CURSO (tablas base, sin depender de v_catalogo_cursos)
+   ════════════════════════════════════════════════════════════════ */
+async function cargarCurso() {
+  const slug = obtenerSlug();
+  if (!slug) {
+    mostrarErrorInicial('No se especificó el curso. Volvé al catálogo para elegir uno.');
+    return;
+  }
+
+  const sb = obtenerSupabase();
+
+  try {
+    // 1) Cargar datos del curso desde tabla base
+    const { data: curso, error: errCurso } = await sb
+      .from('cursos')
+      .select('id, slug, titulo, subtitulo, modalidad, duracion_horas, precio_bs, precio_original_bs, instructor_id, estado')
+      .eq('slug', slug)
+      .eq('estado', 'publicado')
+      .maybeSingle();
+
+    if (errCurso) throw errCurso;
+    if (!curso) {
+      mostrarErrorInicial('No encontramos el curso solicitado o no está disponible en este momento.');
+      return;
+    }
+
+    // 2) Cargar nombre del instructor (opcional - si falla, seguimos)
+    let instructorNombre = '';
+    if (curso.instructor_id) {
+      try {
+        const { data: inst } = await sb
+          .from('instructores')
+          .select('nombre')
+          .eq('id', curso.instructor_id)
+          .maybeSingle();
+        if (inst) instructorNombre = inst.nombre;
+      } catch (e) { console.warn('[APPLENDE] No se pudo cargar instructor:', e); }
+    }
+    curso.instructor_nombre = instructorNombre;
+
+    // 3) Cargar cohorte próxima (solo si es curso en vivo)
+    if (curso.modalidad === 'en_vivo') {
+      try {
+        const { data: cohortes } = await sb
+          .from('cohortes')
+          .select('id, nombre, fecha_inicio, cupos_totales, cupos_ocupados')
+          .eq('curso_id', curso.id)
+          .gte('fecha_inicio', new Date().toISOString())
+          .order('fecha_inicio', { ascending: true })
+          .limit(1);
+        if (cohortes && cohortes.length > 0) {
+          cohorteActual = cohortes[0];
+        }
+      } catch (e) { console.warn('[APPLENDE] No se pudo cargar cohorte:', e); }
+    }
+
+    cursoActual = curso;
+    renderizarResumen(curso);
+    document.getElementById('carga-inicial').style.display = 'none';
+    document.getElementById('contenedor').style.display = 'grid';
+
+  } catch (err) {
+    console.error('[APPLENDE] Error cargando curso:', err);
+    mostrarErrorInicial('Error de conexión. Verificá tu internet e intentá nuevamente.');
+  }
 }
 
 function mostrarErrorInicial(mensaje) {
@@ -391,96 +518,92 @@ function mostrarErrorInicial(mensaje) {
   `;
 }
 
-async function cargarCurso() {
-  const slug = obtenerSlug();
-  if (!slug) {
-    mostrarErrorInicial('No se especificó el curso. Volvé al catálogo para elegir uno.');
-    return;
+function formatearPrecio(precio, precioOriginal) {
+  const fmt = n => Number(n).toLocaleString('es-BO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  const result = { precio: fmt(precio || 0) };
+  if (precioOriginal && Number(precioOriginal) > Number(precio)) {
+    result.original = fmt(precioOriginal);
   }
-  try {
-    const { data, error } = await APPLENDE_DB.obtenerCursoPorSlug(slug);
-    if (error || !data) {
-      mostrarErrorInicial('No encontramos el curso solicitado.');
-      return;
-    }
-    cursoActual = data;
-    renderizarResumen(data);
-    document.getElementById('carga-inicial').style.display = 'none';
-    document.getElementById('contenedor').style.display = 'grid';
-  } catch (err) {
-    console.error('[APPLENDE] Error cargando curso:', err);
-    mostrarErrorInicial('Error de conexión. Verificá tu internet.');
-  }
+  return result;
+}
+
+function formatearFecha(fechaISO) {
+  if (!fechaISO) return '';
+  const d = new Date(fechaISO);
+  return d.toLocaleDateString('es-BO', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
 function renderizarResumen(curso) {
   document.getElementById('res-curso').textContent = curso.titulo;
   document.getElementById('res-inst').textContent = curso.instructor_nombre || '';
 
-  const precioFmt = APPLENDE_UI.formatearPrecio(curso.precio_bs, curso.precio_original_bs);
+  const precioFmt = formatearPrecio(curso.precio_bs, curso.precio_original_bs);
   document.getElementById('res-precio').textContent = 'Bs ' + precioFmt.precio;
   if (precioFmt.original) {
     document.getElementById('res-porig').textContent = 'Bs ' + precioFmt.original;
   }
-  const usd = Math.round(curso.precio_bs / APPLENDE.TIPO_CAMBIO_USD);
+  const usd = Math.round((curso.precio_bs || 0) / TIPO_CAMBIO_USD);
   document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
 
   document.getElementById('pago-monto').textContent = 'Bs ' + precioFmt.precio;
   document.getElementById('pago-monto-qr').textContent = 'Bs ' + precioFmt.precio;
 
-  if (curso.modalidad === 'en_vivo') {
+  if (curso.modalidad === 'en_vivo' && cohorteActual) {
     document.body.classList.add('modo-vivo');
-    if (curso.cohorte_proxima_fecha) {
-      const fmt = APPLENDE_UI.formatearFechaCohorte(curso.cohorte_proxima_fecha);
-      document.getElementById('res-coh-fecha').textContent = '📅 Inicia ' + fmt.completo;
-    }
-    const disp = curso.cohorte_proxima_cupos_disponibles || 0;
-    const tot = curso.cohorte_proxima_cupos_totales || 0;
-    document.getElementById('res-coh-cupos').textContent = '⚡ ' + disp + ' de ' + tot + ' cupos disponibles';
+    document.getElementById('res-coh-fecha').textContent = '📅 Inicia ' + formatearFecha(cohorteActual.fecha_inicio);
+    const disponibles = (cohorteActual.cupos_totales || 0) - (cohorteActual.cupos_ocupados || 0);
+    document.getElementById('res-coh-cupos').textContent = '⚡ ' + disponibles + ' de ' + cohorteActual.cupos_totales + ' cupos disponibles';
   }
 }
 
+/* ════════════════════════════════════════════════════════════════
+   VALIDACIÓN DE FORMULARIO
+   ════════════════════════════════════════════════════════════════ */
 function validarFormulario() {
   let ok = true;
-  const campos = ['nombre', 'ci', 'email', 'whatsapp'];
-  campos.forEach(c => {
+  ['nombre', 'ci', 'email', 'whatsapp', 'password', 'password2'].forEach(c => {
     const err = document.getElementById('err-' + c);
     const inp = document.getElementById('inp-' + c);
-    err.classList.remove('show');
-    inp.classList.remove('error');
+    if (err) err.classList.remove('show');
+    if (inp) inp.classList.remove('error');
   });
+  document.getElementById('error-general').classList.remove('show');
 
   const nombre = document.getElementById('inp-nombre').value.trim();
   const palabras = nombre.split(/\s+/).filter(p => p.length > 0);
   const todasTienenLetras = palabras.every(p => /[a-zA-ZáéíóúÁÉÍÓÚñÑ]/.test(p));
   if (nombre.length < 5 || palabras.length < 2 || !todasTienenLetras) {
-    document.getElementById('err-nombre').textContent = 'Ingresá nombre y apellido (mínimo 2 palabras con letras)';
-    document.getElementById('err-nombre').classList.add('show');
-    document.getElementById('inp-nombre').classList.add('error');
+    marcarError('nombre', 'Ingresá nombre y apellido (mínimo 2 palabras con letras)');
     ok = false;
   }
 
   const ci = document.getElementById('inp-ci').value.trim();
   if (ci.length < 5 || !/^[0-9A-Z\-]+$/i.test(ci)) {
-    document.getElementById('err-ci').textContent = 'CI inválido (solo números y letras)';
-    document.getElementById('err-ci').classList.add('show');
-    document.getElementById('inp-ci').classList.add('error');
+    marcarError('ci', 'CI inválido (solo números y letras)');
     ok = false;
   }
 
   const email = document.getElementById('inp-email').value.trim();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    document.getElementById('err-email').textContent = 'Email inválido';
-    document.getElementById('err-email').classList.add('show');
-    document.getElementById('inp-email').classList.add('error');
+    marcarError('email', 'Email inválido');
     ok = false;
   }
 
   const wa = document.getElementById('inp-whatsapp').value.trim().replace(/[\s\-\+]/g, '');
   if (!/^[0-9]{7,12}$/.test(wa)) {
-    document.getElementById('err-whatsapp').textContent = 'Número inválido (7-12 dígitos, sin +591)';
-    document.getElementById('err-whatsapp').classList.add('show');
-    document.getElementById('inp-whatsapp').classList.add('error');
+    marcarError('whatsapp', 'Número inválido (7-12 dígitos, sin +591)');
+    ok = false;
+  }
+
+  const pwd = document.getElementById('inp-password').value;
+  if (pwd.length < 6) {
+    marcarError('password', 'La contraseña debe tener al menos 6 caracteres');
+    ok = false;
+  }
+
+  const pwd2 = document.getElementById('inp-password2').value;
+  if (pwd !== pwd2) {
+    marcarError('password2', 'Las contraseñas no coinciden');
     ok = false;
   }
 
@@ -493,92 +616,144 @@ function validarFormulario() {
   return ok;
 }
 
-function mostrarErrorGeneral(msg) {
+function marcarError(campo, mensaje) {
+  const err = document.getElementById('err-' + campo);
+  const inp = document.getElementById('inp-' + campo);
+  if (err) { err.textContent = mensaje; err.classList.add('show'); }
+  if (inp) inp.classList.add('error');
+}
+
+function mostrarErrorGeneral(msg, titulo) {
   const box = document.getElementById('error-general');
-  document.getElementById('error-desc').textContent = msg;
+  document.getElementById('error-tit').textContent = titulo || 'No pudimos procesar tu inscripción';
+  document.getElementById('error-desc').innerHTML = msg;
   box.classList.add('show');
   box.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-function ocultarErrorGeneral() {
-  document.getElementById('error-general').classList.remove('show');
-}
-
-async function procesarInscripcion(e) {
-  e.preventDefault();
-  ocultarErrorGeneral();
+/* ════════════════════════════════════════════════════════════════
+   PROCESAR INSCRIPCIÓN: signUp + insert inscripción pendiente
+   ════════════════════════════════════════════════════════════════ */
+async function procesarInscripcion(ev) {
+  ev.preventDefault();
   if (!validarFormulario()) return;
-  if (!cursoActual) return;
+  if (!cursoActual) {
+    mostrarErrorGeneral('No se cargó el curso correctamente. Recargá la página.');
+    return;
+  }
 
   const btn = document.getElementById('btn-continuar');
   btn.disabled = true;
-  btn.innerHTML = '<span class="form-btn-loader"></span>Procesando...';
-
-  if (cursoActual.modalidad === 'en_vivo') {
-    const disp = cursoActual.cohorte_proxima_cupos_disponibles || 0;
-    if (disp <= 0) {
-      mostrarErrorGeneral('Lo sentimos, no quedan cupos disponibles en este grupo. Escribinos por WhatsApp para la próxima edición.');
-      btn.disabled = false;
-      btn.textContent = 'Continuar al pago →';
-      return;
-    }
-  }
+  btn.innerHTML = '<span class="form-btn-loader"></span>Creando cuenta...';
 
   const datosAlumno = {
     nombre: document.getElementById('inp-nombre').value.trim(),
     ci: document.getElementById('inp-ci').value.trim(),
-    email: document.getElementById('inp-email').value.trim(),
+    email: document.getElementById('inp-email').value.trim().toLowerCase(),
     whatsapp: document.getElementById('inp-whatsapp').value.trim().replace(/[\s\-\+]/g, ''),
-    ciudad: document.getElementById('inp-ciudad').value
+    ciudad: document.getElementById('inp-ciudad').value,
+    password: document.getElementById('inp-password').value
   };
 
+  const sb = obtenerSupabase();
+
   try {
-    const sb = obtenerSupabase();
-    
+    // ────── PASO 1: Crear cuenta en auth.users ──────
+    // Parseamos nombre y apellido para el trigger crear_perfil_al_registrarse
+    const partesNombre = datosAlumno.nombre.split(/\s+/).filter(p => p.length > 0);
+    const nombre = partesNombre[0];
+    const apellido = partesNombre.slice(1).join(' ');
+
+    const { data: authData, error: errAuth } = await sb.auth.signUp({
+      email: datosAlumno.email,
+      password: datosAlumno.password,
+      options: {
+        data: {
+          nombre: nombre,
+          apellido: apellido,
+          ci: datosAlumno.ci,
+          telefono: datosAlumno.whatsapp,
+          ciudad: datosAlumno.ciudad,
+          pais: 'Bolivia'
+        }
+      }
+    });
+
+    if (errAuth) {
+      console.error('[APPLENDE] Error en signUp:', errAuth);
+      const msg = (errAuth.message || '').toLowerCase();
+      if (msg.includes('already') || msg.includes('registered') || msg.includes('duplicate')) {
+        mostrarErrorGeneral(
+          `Este email ya tiene una cuenta en APPLENDE. Si es tuya, <a href="login.html" style="color:#991B1B;text-decoration:underline;font-weight:700;">iniciá sesión acá</a> y registrate desde tu dashboard, o escribinos por WhatsApp al ${WA_KARINA.replace('591','+591 ')}.`,
+          'Email ya registrado'
+        );
+      } else if (msg.includes('password') || msg.includes('weak')) {
+        marcarError('password', 'La contraseña es muy débil. Usá al menos 6 caracteres.');
+      } else if (msg.includes('invalid') && msg.includes('email')) {
+        marcarError('email', 'Email inválido.');
+      } else {
+        mostrarErrorGeneral('No pudimos crear tu cuenta. Probá nuevamente o escribinos por WhatsApp.');
+      }
+      btn.disabled = false;
+      btn.innerHTML = 'Crear cuenta y continuar al pago →';
+      return;
+    }
+
+    // ────── PASO 2: Crear inscripción pendiente ──────
+    btn.innerHTML = '<span class="form-btn-loader"></span>Registrando inscripción...';
+
+    const inscripcionData = {
+      curso_id: cursoActual.id,
+      cohorte_id: cohorteActual ? cohorteActual.id : null,
+      nombre_alumno: datosAlumno.nombre,
+      ci_alumno: datosAlumno.ci,
+      email_alumno: datosAlumno.email,
+      whatsapp_alumno: datosAlumno.whatsapp,
+      ciudad_alumno: datosAlumno.ciudad,
+      precio_cotizado: cursoActual.precio_bs,
+      moneda: 'BOB',
+      estado: 'pendiente_pago'
+    };
+
     const { data: insc, error: errInsc } = await sb
       .from('inscripciones_pendientes')
-      .insert([{
-        curso_id: cursoActual.id,
-        cohorte_id: cursoActual.cohorte_proxima_id,
-        nombre_alumno: datosAlumno.nombre,
-        ci_alumno: datosAlumno.ci,
-        email_alumno: datosAlumno.email,
-        whatsapp_alumno: datosAlumno.whatsapp,
-        ciudad_alumno: datosAlumno.ciudad,
-        precio_cotizado: cursoActual.precio_bs,
-        moneda: 'BOB',
-        estado: 'pendiente_pago'
-      }])
+      .insert([inscripcionData])
       .select()
       .single();
-    
+
     if (errInsc) {
       console.error('[APPLENDE] Error al crear inscripción:', errInsc);
       if (errInsc.code === '23505') {
-        mostrarErrorGeneral('Ya tenés una inscripción pendiente para este curso con este email. Contactanos por WhatsApp si querés continuar con el pago.');
-      } else if (errInsc.code === '42P01') {
-        console.warn('[APPLENDE] Tabla inscripciones_pendientes no existe, usando tabla inscripciones directamente...');
+        // Duplicado: ya hay inscripción pendiente para este email+curso
+        // Pero la cuenta SÍ se creó, así que avanzamos igual
+        console.warn('[APPLENDE] Ya existe inscripción pendiente, continuando al pago...');
+        inscripcionCreada = { email_alumno: datosAlumno.email };
         avanzarAPago(datosAlumno);
         return;
-      } else {
-        mostrarErrorGeneral('Error al guardar la inscripción. Probá nuevamente o escribinos por WhatsApp.');
       }
+      mostrarErrorGeneral(
+        `Tu cuenta se creó correctamente, pero tuvimos un problema al registrar la inscripción. Por favor escribinos por WhatsApp al <a href="https://wa.me/${WA_KARINA}" target="_blank" style="color:#991B1B;font-weight:700;text-decoration:underline;">+591 64403290</a> y te ayudamos a completar el proceso.`,
+        '⚠️ Inscripción incompleta'
+      );
       btn.disabled = false;
-      btn.textContent = 'Continuar al pago →';
+      btn.innerHTML = 'Crear cuenta y continuar al pago →';
       return;
     }
-    
+
     inscripcionCreada = insc;
     avanzarAPago(datosAlumno);
-    
+
   } catch (err) {
     console.error('[APPLENDE] Error inesperado:', err);
     mostrarErrorGeneral('Error de conexión. Verificá tu internet y reintentá.');
     btn.disabled = false;
-    btn.textContent = 'Continuar al pago →';
+    btn.innerHTML = 'Crear cuenta y continuar al pago →';
   }
 }
 
+/* ════════════════════════════════════════════════════════════════
+   PANTALLA DE PAGO
+   ════════════════════════════════════════════════════════════════ */
 function capitalizarNombre(texto) {
   if (!texto) return '';
   return texto.trim().toLowerCase()
@@ -599,22 +774,22 @@ function extraerPrimerNombre(nombreCompleto) {
 function avanzarAPago(datos) {
   document.body.classList.add('pantalla-pago');
   document.getElementById('pago-nombre').textContent = extraerPrimerNombre(datos.nombre);
-  
+
   const mensajeWA = construirMensajeWA(datos, cursoActual);
-  const urlWA = 'https://wa.me/' + APPLENDE.WHATSAPP_NUMERO + '?text=' + encodeURIComponent(mensajeWA);
+  const urlWA = 'https://wa.me/' + WA_KARINA + '?text=' + encodeURIComponent(mensajeWA);
   document.getElementById('btn-whatsapp').href = urlWA;
-  
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function construirMensajeWA(datos, curso) {
-  const precioFmt = APPLENDE_UI.formatearPrecio(curso.precio_bs, curso.precio_original_bs);
+  const precioFmt = formatearPrecio(curso.precio_bs, curso.precio_original_bs);
   const nombreFmt = capitalizarNombre(datos.nombre);
   const ciudadFmt = capitalizarNombre(datos.ciudad);
   const lineas = [];
-  lineas.push('Hola Arq. Freddy, buenas!');
+  lineas.push('Hola APPLENDE, buenas!');
   lineas.push('');
-  lineas.push('Acabo de inscribirme al curso *' + curso.titulo + '* desde la web.');
+  lineas.push('Acabo de crear mi cuenta y me inscribí al curso *' + curso.titulo + '* desde la web.');
   lineas.push('');
   lineas.push('*Mis datos:*');
   lineas.push('- Nombre: ' + nombreFmt);
@@ -622,20 +797,37 @@ function construirMensajeWA(datos, curso) {
   lineas.push('- Email: ' + datos.email);
   lineas.push('- Ciudad: ' + ciudadFmt);
   lineas.push('- Monto a pagar: Bs ' + precioFmt.precio);
-  if (curso.modalidad === 'en_vivo' && curso.cohorte_proxima_fecha) {
-    const fmt = APPLENDE_UI.formatearFechaCohorte(curso.cohorte_proxima_fecha);
-    lineas.push('- Grupo: ' + fmt.completo);
+  if (curso.modalidad === 'en_vivo' && cohorteActual) {
+    lineas.push('- Grupo: ' + formatearFecha(cohorteActual.fecha_inicio));
   }
   lineas.push('');
-  lineas.push('Me confirman por favor a que cuenta realizar el pago? En cuanto pague les paso el comprobante por aca.');
+  lineas.push('¿Me confirman a qué cuenta realizar el pago? En cuanto pague les paso el comprobante por acá.');
   lineas.push('');
   lineas.push('Gracias!');
   return lineas.join(String.fromCharCode(10));
 }
 
+/* ════════════════════════════════════════════════════════════════
+   INICIALIZACIÓN
+   ════════════════════════════════════════════════════════════════ */
+function setupTogglesPassword() {
+  const toggle = (btnId, inpId) => {
+    const btn = document.getElementById(btnId);
+    const inp = document.getElementById(inpId);
+    if (!btn || !inp) return;
+    btn.addEventListener('click', () => {
+      const isPwd = inp.type === 'password';
+      inp.type = isPwd ? 'text' : 'password';
+      btn.textContent = isPwd ? '🙈' : '👁️';
+    });
+  };
+  toggle('tog-pwd', 'inp-password');
+  toggle('tog-pwd2', 'inp-password2');
+}
 
 document.addEventListener('DOMContentLoaded', function() {
   cargarCurso();
+  setupTogglesPassword();
   document.getElementById('form-inscripcion').addEventListener('submit', procesarInscripcion);
 });
 </script>
