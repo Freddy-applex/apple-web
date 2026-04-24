@@ -925,17 +925,23 @@ async function logout() {
 // CARGAR CURSOS Y COHORTES
 // ============================================
 async function cargarCursos() {
+  // cursos.titulo (no .nombre), cohortes.nombre
   const { data, error } = await _supa
-    .from('courses')
-    .select('id, nombre, slug, cohortes(id, nombre, fecha_inicio)')
-    .order('nombre');
+    .from('cursos')
+    .select('id, titulo, slug, cohortes(id, nombre, fecha_inicio)')
+    .order('titulo');
 
   if (error) {
+    console.error('Error cargando cursos:', error);
     toast('Error al cargar cursos: ' + error.message, 'error');
     return;
   }
 
-  cursos = data || [];
+  // Normalizar: mapear "titulo" -> "nombre" para que el resto del código funcione
+  cursos = (data || []).map(c => ({
+    ...c,
+    nombre: c.titulo
+  }));
 
   const filterCurso = document.getElementById('filterCurso');
   const modalCurso = document.getElementById('modalCurso');
