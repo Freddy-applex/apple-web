@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula Virtual · APPLENDE Academia</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#1A2744; --navy-dark:#0E1A30; --blue:#2E4A8E;
+      --green:#8DC63F; --green-dark:#6aaa2a; --purple:#6B6BBB;
+      --gray:#BFBFBF; --white:#fff; --offwhite:#F5F7FA;
+      --text:#2C3A52; --muted:#6B7A90; --border:#E2E8F0;
+      --red:#dc2626;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Barlow',sans-serif;color:var(--text);background:var(--offwhite);min-height:100vh;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;}
+
+    /* Loading */
+    #loading{
+      position:fixed;inset:0;background:var(--navy);z-index:100;
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font-size:12px;font-weight:700;
+      letter-spacing:3px;text-transform:uppercase;
+    }
+    #loading.hidden{display:none;}
+    .loader-bar{
+      width:40px;height:2px;background:var(--green);
+      animation:loaderPulse 1s ease-in-out infinite;margin-right:14px;
+    }
+    @keyframes loaderPulse{
+      0%,100%{opacity:0.3;transform:scaleX(1);}
+      50%{opacity:1;transform:scaleX(1.5);}
+    }
+
+    /* Nav */
+    .nav{
+      position:sticky;top:0;z-index:200;background:var(--navy);
+      height:60px;padding:0 5%;display:flex;align-items:center;
+      justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.3);
+    }
+    .nav-brand{
+      display:flex;align-items:center;gap:10px;color:#fff;
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:18px;letter-spacing:2px;
+    }
+    .nav-brand .squares{display:flex;gap:3px;}
+    .nav-brand .squares span{width:14px;height:14px;border-radius:2px;}
+    .nav-brand .squares span:nth-child(1){background:var(--green);}
+    .nav-brand .squares span:nth-child(2){background:var(--gray);}
+    .nav-brand .squares span:nth-child(3){background:var(--purple);}
+    .nav-brand .accent{color:var(--green);}
+    .nav-back{
+      display:flex;align-items:center;gap:6px;
+      color:rgba(255,255,255,0.75);
+      padding:7px 14px;border-radius:20px;
+      border:1px solid rgba(255,255,255,0.18);
+      font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;
+      letter-spacing:0.3px;transition:all .2s;
+    }
+    .nav-back:hover{
+      color:var(--green);border-color:var(--green);
+      background:rgba(141,198,63,0.10);
+    }
+    .nav-user{display:flex;align-items:center;gap:14px;color:#fff;}
+    .user-info{text-align:right;line-height:1.2;}
+    .user-info .name{font-size:13px;font-weight:600;}
+    .user-info .email{font-size:11px;color:rgba(255,255,255,0.5);}
+    .btn-logout{
+      background:transparent;border:1px solid rgba(255,255,255,0.2);
+      color:#fff;padding:7px 14px;border-radius:20px;
+      font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;
+      cursor:pointer;transition:all .2s;
+    }
+    .btn-logout:hover{background:rgba(220,38,38,0.15);border-color:var(--red);color:#ff6b68;}
+    @media(max-width:700px){
+      .nav{padding:0 4%;}
+      .nav-brand{font-size:14px;}
+      .nav-brand .squares span{width:11px;height:11px;}
+      .nav-user .user-info, .nav-back .label-full{display:none;}
+    }
+
+    /* Main */
+    main{max-width:1100px;margin:0 auto;padding:32px 5% 60px;}
+
+    /* ─── HERO con countdown ─── */
+    .hero{
+      background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%);
+      color:#fff;border-radius:18px;padding:36px 32px;
+      margin-bottom:28px;position:relative;overflow:hidden;
+    }
+    .hero::before{
+      content:'';position:absolute;top:-30px;right:-30px;
+      width:200px;height:200px;border-radius:50%;
+      background:radial-gradient(circle,rgba(141,198,63,0.18),transparent 70%);
+    }
+    .hero-tag{
+      display:inline-block;background:rgba(141,198,63,0.18);
+      color:var(--green);font-size:10px;font-weight:700;letter-spacing:2px;
+      text-transform:uppercase;padding:4px 12px;border-radius:20px;
+      margin-bottom:14px;border:1px solid rgba(141,198,63,0.3);
+    }
+    .hero-title{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:clamp(24px,4vw,38px);letter-spacing:1px;
+      line-height:1.1;margin-bottom:8px;
+    }
+    .hero-cohorte{
+      font-size:14px;color:rgba(255,255,255,0.7);
+      font-weight:500;margin-bottom:24px;
+    }
+    .hero-cohorte strong{color:var(--green);font-weight:700;}
+
+    .countdown-label{
+      font-size:11px;font-weight:700;letter-spacing:2px;
+      text-transform:uppercase;color:rgba(255,255,255,0.6);
+      margin-bottom:12px;
+    }
+    .countdown-grid{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+      max-width:480px;margin-bottom:22px;
+    }
+    .countdown-cell{
+      background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
+      border-radius:12px;padding:18px 8px 12px;text-align:center;
+      backdrop-filter:blur(10px);
+    }
+    .countdown-num{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:clamp(28px,5vw,42px);color:#fff;line-height:1;
+    }
+    .countdown-lbl{
+      font-size:10px;font-weight:700;letter-spacing:1.5px;
+      text-transform:uppercase;color:rgba(255,255,255,0.65);
+      margin-top:6px;
+    }
+    .hero-fecha{
+      display:flex;align-items:center;gap:8px;font-size:14px;
+      color:rgba(255,255,255,0.85);margin-bottom:24px;
+    }
+    .hero-fecha .icon{font-size:18px;}
+
+    .btn-zoom{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:16px 28px;border-radius:12px;
+      font-family:'Barlow',sans-serif;font-weight:800;font-size:15px;
+      letter-spacing:1.5px;text-transform:uppercase;
+      transition:all .25s;cursor:pointer;border:none;
+      background:var(--green);color:var(--navy);
+      box-shadow:0 6px 20px rgba(141,198,63,0.35);
+    }
+    .btn-zoom:hover:not(:disabled){
+      background:var(--green-dark);color:#fff;
+      transform:translateY(-2px);box-shadow:0 10px 28px rgba(141,198,63,0.5);
+    }
+    .btn-zoom:disabled{
+      background:rgba(255,255,255,0.10);color:rgba(255,255,255,0.5);
+      cursor:not-allowed;border:1px solid rgba(255,255,255,0.15);
+      box-shadow:none;
+    }
+    .btn-zoom .icon{font-size:20px;}
+    .zoom-hint{
+      font-size:12px;color:rgba(255,255,255,0.55);
+      margin-top:10px;font-weight:500;
+    }
+    .zoom-hint.alerta{
+      color:#FFD27A;font-weight:600;
+    }
+
+    /* ─── SECTION genérico ─── */
+    .section{
+      background:#fff;border-radius:14px;padding:28px;
+      margin-bottom:20px;border:1px solid var(--border);
+      box-shadow:0 2px 12px rgba(0,0,0,0.03);
+    }
+    .section-head{
+      display:flex;align-items:center;gap:10px;margin-bottom:18px;
+      padding-bottom:14px;border-bottom:2px solid var(--offwhite);
+    }
+    .section-head .icon{font-size:22px;}
+    .section-head h2{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:18px;color:var(--navy);letter-spacing:1px;
+      text-transform:uppercase;
+    }
+
+    /* ─── INSTRUCTOR ─── */
+    .instr-content{display:flex;gap:22px;align-items:flex-start;}
+    .instr-foto{
+      width:110px;height:110px;border-radius:50%;
+      background:linear-gradient(135deg,var(--purple),var(--blue));
+      display:flex;align-items:center;justify-content:center;
+      font-size:42px;color:#fff;font-family:'Josefin Sans',sans-serif;
+      font-weight:700;flex-shrink:0;border:3px solid var(--green);
+      object-fit:cover;
+    }
+    img.instr-foto{padding:0;}
+    .instr-info h3{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:20px;color:var(--navy);margin-bottom:4px;letter-spacing:0.5px;
+    }
+    .instr-titulo{
+      font-size:13px;color:var(--purple);font-weight:700;
+      letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;
+    }
+    .instr-bio{font-size:14px;color:var(--text);line-height:1.6;}
+    @media(max-width:600px){
+      .instr-content{flex-direction:column;align-items:center;text-align:center;}
+    }
+
+    /* ─── MATERIALES ─── */
+    .mat-empty{
+      text-align:center;padding:30px 16px;color:var(--muted);
+      background:var(--offwhite);border-radius:10px;font-size:14px;
+    }
+    .mat-empty .emoji{font-size:38px;display:block;margin-bottom:10px;opacity:0.6;}
+    .mat-list{display:flex;flex-direction:column;gap:10px;}
+    .mat-item{
+      display:flex;align-items:center;gap:14px;
+      padding:14px 16px;border:1.5px solid var(--border);
+      border-radius:10px;transition:all .2s;background:#fff;
+    }
+    .mat-item:hover{border-color:var(--purple);background:rgba(107,107,187,0.03);}
+    .mat-icon{
+      width:44px;height:44px;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:22px;flex-shrink:0;
+    }
+    .mat-icon.pdf{background:rgba(220,38,38,0.10);color:var(--red);}
+    .mat-icon.excel{background:rgba(34,139,34,0.10);color:#228B22;}
+    .mat-icon.word{background:rgba(46,74,142,0.10);color:var(--blue);}
+    .mat-icon.video{background:rgba(141,198,63,0.10);color:var(--green-dark);}
+    .mat-icon.imagen{background:rgba(107,107,187,0.10);color:var(--purple);}
+    .mat-icon.enlace{background:rgba(107,107,187,0.10);color:var(--purple);}
+    .mat-icon.otro{background:var(--offwhite);color:var(--muted);}
+    .mat-info{flex:1;min-width:0;}
+    .mat-name{
+      font-weight:700;font-size:14px;color:var(--navy);
+      margin-bottom:2px;
+    }
+    .mat-meta{font-size:11px;color:var(--muted);font-weight:500;}
+    .mat-btn{
+      padding:8px 14px;background:var(--purple);color:#fff;
+      border:none;border-radius:8px;font-family:'Barlow',sans-serif;
+      font-weight:700;font-size:12px;cursor:pointer;
+      letter-spacing:0.5px;transition:all .2s;flex-shrink:0;
+      text-decoration:none;display:inline-flex;align-items:center;gap:5px;
+    }
+    .mat-btn:hover{background:#5b5ba9;transform:translateY(-1px);}
+    .mat-btn.loading{opacity:0.6;cursor:wait;}
+    @media(max-width:560px){
+      .mat-item{flex-wrap:wrap;}
+      .mat-info{flex-basis:calc(100% - 60px);}
+      .mat-btn{flex:1;justify-content:center;margin-top:6px;flex-basis:100%;}
+    }
+
+    /* ─── CALENDARIO ─── */
+    .cal-list{display:flex;flex-direction:column;gap:8px;}
+    .cal-row{
+      display:grid;grid-template-columns:60px 1fr 110px;gap:14px;align-items:center;
+      padding:12px 16px;border-radius:8px;
+      background:var(--offwhite);border:1px solid var(--border);
+      transition:all .2s;
+    }
+    .cal-row.hoy{
+      border-color:var(--green);background:rgba(141,198,63,0.05);
+      box-shadow:0 0 0 2px rgba(141,198,63,0.15);
+    }
+    .cal-row.pasada{opacity:0.55;}
+    .cal-num{
+      font-family:'Josefin Sans',sans-serif;font-weight:700;
+      font-size:14px;color:var(--purple);text-align:center;letter-spacing:0.5px;
+    }
+    .cal-info{font-size:13px;}
+    .cal-fecha{font-weight:700;color:var(--navy);}
+    .cal-dia{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+    .cal-hora{font-size:13px;color:var(--text);font-weight:600;text-align:right;}
+    .cal-row.hoy .cal-hora::after{
+      content:' · HOY';color:var(--green-dark);font-weight:800;font-size:11px;
+    }
+    @media(max-width:560px){
+      .cal-row{grid-template-columns:42px 1fr;gap:10px;}
+      .cal-hora{grid-column:2;text-align:left;font-size:12px;color:var(--muted);}
+    }
+
+    /* ─── CONTACTO ─── */
+    .contacto-card{
+      display:flex;gap:18px;align-items:center;
+      background:linear-gradient(135deg,rgba(37,211,102,0.08),rgba(141,198,63,0.04));
+      border:1.5px solid rgba(37,211,102,0.25);
+      border-radius:12px;padding:20px;
+    }
+    .contacto-icon{
+      width:54px;height:54px;border-radius:50%;
+      background:#25D366;color:#fff;display:flex;align-items:center;
+      justify-content:center;font-size:26px;flex-shrink:0;
+    }
+    .contacto-text{flex:1;font-size:13.5px;color:var(--text);line-height:1.5;}
+    .contacto-text strong{color:var(--navy);font-weight:700;}
+    .btn-wa{
+      background:#25D366;color:#fff;text-decoration:none;
+      padding:12px 22px;border-radius:10px;
+      font-weight:800;font-size:13px;letter-spacing:0.5px;
+      display:inline-flex;align-items:center;gap:7px;
+      transition:all .2s;flex-shrink:0;
+    }
+    .btn-wa:hover{background:#1ebe5a;transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,211,102,0.4);}
+    @media(max-width:560px){
+      .contacto-card{flex-direction:column;text-align:center;}
+    }
+
+    /* ─── ERROR ─── */
+    .err-screen{
+      max-width:520px;margin:80px auto;text-align:center;padding:40px 24px;
+      background:#fff;border-radius:14px;border:1px solid var(--border);
+    }
+    .err-screen .emoji{font-size:50px;margin-bottom:14px;display:block;}
+    .err-screen h2{
+      font-family:'Josefin Sans',sans-serif;font-size:22px;
+      color:var(--navy);margin-bottom:10px;
+    }
+    .err-screen p{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:18px;}
+    .err-screen a{
+      display:inline-block;padding:11px 22px;background:var(--green);
+      color:var(--navy);border-radius:8px;font-weight:700;font-size:13px;
+      letter-spacing:0.5px;text-transform:uppercase;
+    }
+
+    /* Toast */
+    .toast{
+      position:fixed;bottom:24px;right:24px;z-index:1100;
+      background:var(--navy);color:#fff;padding:14px 20px;border-radius:10px;
+      box-shadow:0 12px 40px rgba(0,0,0,0.25);font-size:14px;
+      display:flex;align-items:center;gap:10px;
+      transform:translateX(120%);transition:transform .3s cubic-bezier(0.16,1,0.3,1);
+      max-width:380px;
+    }
+    .toast.show{transform:translateX(0);}
+    .toast.error{border-left:4px solid var(--red);background:#7f1d1d;}
+  </style>
+</head>
+<body>
+
+  <div id="loading">
+    <span class="loader-bar"></span>
+    Cargando aula virtual…
+  </div>
+
+  <nav class="nav">
+    <div class="nav-brand">
+      <span class="squares"><span></span><span></span><span></span></span>
+      <span>APPLENDE<span class="accent">.</span></span>
+    </div>
+    <div class="nav-user">
+      <a href="/alumno/dashboard.html" class="nav-back" title="Volver al dashboard">
+        <span>←</span>
+        <span class="label-full">Mi Academia</span>
+      </a>
+      <div class="user-info">
+        <div class="name" id="userName">Cargando…</div>
+        <div class="email" id="userEmail"></div>
+      </div>
+      <button class="btn-logout" id="logoutBtn">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <main id="main" style="display:none;">
+
+    <!-- HERO -->
+    <section class="hero">
+      <span class="hero-tag" id="badgeModalidad">EN VIVO · ZOOM</span>
+      <h1 class="hero-title" id="cursoTitulo">—</h1>
+      <p class="hero-cohorte"><strong id="cohorteNombre">—</strong></p>
+
+      <div id="countdownBlock">
+        <p class="countdown-label" id="countdownLabel">Tu primera clase comienza en</p>
+        <div class="countdown-grid">
+          <div class="countdown-cell"><div class="countdown-num" id="cdDias">--</div><div class="countdown-lbl">días</div></div>
+          <div class="countdown-cell"><div class="countdown-num" id="cdHoras">--</div><div class="countdown-lbl">horas</div></div>
+          <div class="countdown-cell"><div class="countdown-num" id="cdMin">--</div><div class="countdown-lbl">minutos</div></div>
+          <div class="countdown-cell"><div class="countdown-num" id="cdSeg">--</div><div class="countdown-lbl">segundos</div></div>
+        </div>
+      </div>
+
+      <div class="hero-fecha">
+        <span class="icon">📅</span>
+        <span id="heroFecha">—</span>
+      </div>
+
+      <button class="btn-zoom" id="btnZoom" disabled>
+        <span class="icon">🎥</span>
+        <span id="zoomLabel">INGRESAR A ZOOM</span>
+      </button>
+      <p class="zoom-hint" id="zoomHint">El link estará disponible 1 hora antes de cada clase</p>
+    </section>
+
+    <!-- INSTRUCTOR -->
+    <section class="section">
+      <div class="section-head">
+        <span class="icon">👨‍🏫</span>
+        <h2>Tu instructor</h2>
+      </div>
+      <div class="instr-content" id="instrContent">
+        <div class="instr-foto" id="instrFoto">CH</div>
+        <div class="instr-info">
+          <h3 id="instrNombre">—</h3>
+          <div class="instr-titulo" id="instrTitulo">—</div>
+          <p class="instr-bio" id="instrBio">—</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MATERIALES -->
+    <section class="section">
+      <div class="section-head">
+        <span class="icon">📁</span>
+        <h2>Materiales del curso</h2>
+      </div>
+      <div id="materialesContainer">
+        <div class="mat-empty">
+          <span class="emoji">📚</span>
+          Los materiales del curso aparecerán acá a medida que el instructor los publique.
+        </div>
+      </div>
+    </section>
+
+    <!-- CALENDARIO -->
+    <section class="section">
+      <div class="section-head">
+        <span class="icon">📅</span>
+        <h2>Calendario de clases</h2>
+      </div>
+      <div class="cal-list" id="calList">
+        <!-- Sesiones generadas dinámicamente -->
+      </div>
+    </section>
+
+    <!-- CONTACTO KARINA -->
+    <section class="section">
+      <div class="section-head">
+        <span class="icon">💬</span>
+        <h2>¿Tenés alguna duda?</h2>
+      </div>
+      <div class="contacto-card">
+        <div class="contacto-icon">💬</div>
+        <div class="contacto-text">
+          <strong>Karina Campos</strong> · Coordinadora Académica<br>
+          Te responde por WhatsApp para cualquier consulta sobre el curso, pagos o material.
+        </div>
+        <a href="https://wa.me/59164403290" target="_blank" rel="noopener" class="btn-wa">
+          📱 Escribir
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Pantalla de error si no está inscrito -->
+  <div id="errScreen" class="err-screen" style="display:none;">
+    <span class="emoji">🔒</span>
+    <h2 id="errTitle">No tenés acceso a este curso</h2>
+    <p id="errMsg">No encontramos una inscripción activa tuya en este curso. Si pagaste recientemente, esperá la confirmación de Karina o contactanos por WhatsApp.</p>
+    <a href="/alumno/dashboard.html">Volver al dashboard</a>
+  </div>
+
+  <div class="toast" id="toast"><span class="msg"></span></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ═══════════════════════════════════════════════════════════════
+    // CONFIG
+    // ═══════════════════════════════════════════════════════════════
+    const SUPABASE_URL = 'https://wdoqzsmwuvozhkclqbjk.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_YsQshZ_X8aAYIgevuRXESg_al83VtZw';
+    const LOGIN_URL = '/login.html';
+    const WA_KARINA = '59164403290';
+
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let estado = {
+      user: null,
+      curso: null,
+      cohorte: null,
+      inscripcion: null,
+      instructor: null,
+      materiales: [],
+      proximaClase: null,
+      countdownTimer: null
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // INIT
+    // ═══════════════════════════════════════════════════════════════
+    (async function init(){
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get('slug');
+
+      if (!slug) {
+        mostrarError('Falta el curso', 'No especificaste qué curso querés ver.');
+        return;
+      }
+
+      // Verificar sesión
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) { window.location.href = LOGIN_URL; return; }
+      estado.user = session.user;
+
+      // Cargar perfil
+      const { data: perfil } = await sb
+        .from('perfiles')
+        .select('nombre, apellido')
+        .eq('id', session.user.id)
+        .maybeSingle();
+      
+      const nombreCompleto = perfil 
+        ? `${perfil.nombre || ''} ${perfil.apellido || ''}`.trim()
+        : session.user.email.split('@')[0];
+      document.getElementById('userName').textContent = nombreCompleto || 'Alumno';
+      document.getElementById('userEmail').textContent = session.user.email;
+
+      // Cargar curso
+      const { data: curso, error: errCurso } = await sb
+        .from('cursos')
+        .select('id, slug, titulo, modalidad, instructor_id, duracion_horas')
+        .eq('slug', slug)
+        .eq('estado', 'publicado')
+        .maybeSingle();
+
+      if (errCurso || !curso) {
+        mostrarError('Curso no encontrado', 'Este curso no existe o no está disponible.');
+        return;
+      }
+      estado.curso = curso;
+
+      // Verificar inscripción ACTIVA del alumno en este curso
+      const { data: inscripcion } = await sb
+        .from('inscripciones')
+        .select('id, cohorte_id, acceso_activo, estado_pago')
+        .eq('alumno_id', session.user.id)
+        .eq('curso_id', curso.id)
+        .eq('acceso_activo', true)
+        .maybeSingle();
+
+      if (!inscripcion) {
+        mostrarError('Sin acceso al curso', 'No tenés una inscripción activa en este curso. Si te inscribiste y pagaste, esperá que Karina confirme. Si tenés dudas, escribinos por WhatsApp.');
+        return;
+      }
+      estado.inscripcion = inscripcion;
+
+      // Cargar la cohorte del alumno
+      if (inscripcion.cohorte_id) {
+        const { data: cohorte } = await sb
+          .from('cohortes')
+          .select('id, nombre, fecha_inicio, fecha_fin, dias_clase, hora_inicio_clase, duracion_clase_minutos, plataforma, link_clases, password_clases, zona_horaria')
+          .eq('id', inscripcion.cohorte_id)
+          .maybeSingle();
+        if (cohorte) estado.cohorte = cohorte;
+      }
+
+      // Cargar instructor
+      if (curso.instructor_id) {
+        const { data: instr } = await sb
+          .from('instructores')
+          .select('nombre_publico, titulo, bio, avatar_url')
+          .eq('id', curso.instructor_id)
+          .maybeSingle();
+        if (instr) estado.instructor = instr;
+      }
+
+      // Cargar materiales (RLS filtra automáticamente)
+      const { data: materiales } = await sb
+        .from('materiales_curso')
+        .select('id, nombre, descripcion, tipo, url, tamano_bytes, orden')
+        .eq('curso_id', curso.id)
+        .eq('publicado', true)
+        .order('orden', { ascending: true })
+        .order('creado_en', { ascending: true });
+      estado.materiales = materiales || [];
+
+      // Renderizar todo
+      renderHero();
+      renderInstructor();
+      renderMateriales();
+      renderCalendario();
+
+      // Mostrar contenido y ocultar loading
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('main').style.display = 'block';
+
+      // Iniciar countdown
+      iniciarCountdown();
+    })();
+
+    // ═══════════════════════════════════════════════════════════════
+    // RENDER HERO
+    // ═══════════════════════════════════════════════════════════════
+    function renderHero(){
+      document.getElementById('cursoTitulo').textContent = estado.curso.titulo;
+      
+      if (estado.cohorte) {
+        document.getElementById('cohorteNombre').textContent = estado.cohorte.nombre;
+        const fechaIni = new Date(estado.cohorte.fecha_inicio);
+        const fechaStr = fechaIni.toLocaleDateString('es-BO', { 
+          weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' 
+        });
+        const horaStr = fechaIni.toLocaleTimeString('es-BO', { 
+          hour: '2-digit', minute: '2-digit', timeZone: 'America/La_Paz'
+        });
+        document.getElementById('heroFecha').textContent = `${fechaStr} · ${horaStr} (Bolivia)`;
+        
+        // Calcular próxima clase
+        estado.proximaClase = calcularProximaClase();
+      } else {
+        document.getElementById('cohorteNombre').textContent = 'Tu grupo aún no está asignado';
+        document.getElementById('heroFecha').textContent = 'Karina te confirmará la fecha por WhatsApp';
+      }
+
+      // Configurar botón Zoom
+      configurarBotonZoom();
+    }
+
+    function configurarBotonZoom(){
+      const btn = document.getElementById('btnZoom');
+      const hint = document.getElementById('zoomHint');
+      
+      if (!estado.cohorte) {
+        btn.disabled = true;
+        hint.textContent = 'El link estará disponible cuando se asigne tu cohorte';
+        return;
+      }
+
+      if (!estado.cohorte.link_clases || estado.cohorte.link_clases.trim() === '') {
+        btn.disabled = true;
+        hint.innerHTML = '⏳ <strong>Link de Zoom pendiente</strong> · Karina lo cargará 24h antes del inicio del curso';
+        return;
+      }
+
+      // Hay link. Verificar si está dentro de la ventana de habilitación
+      const ahora = new Date();
+      const proxima = estado.proximaClase;
+      
+      if (!proxima) {
+        // No hay próxima clase calculada (curso terminado quizás)
+        btn.disabled = true;
+        hint.textContent = 'No hay clases programadas próximas';
+        return;
+      }
+
+      const minutosHasta = (proxima.fecha - ahora) / 1000 / 60;
+      
+      if (minutosHasta <= 60 && minutosHasta >= -120) {
+        // Habilitar botón: 1h antes hasta 2h después de iniciar
+        btn.disabled = false;
+        hint.classList.add('alerta');
+        if (minutosHasta > 0) {
+          hint.innerHTML = `🟢 <strong>Tu clase comienza en ${Math.round(minutosHasta)} minutos.</strong> Ya podés ingresar.`;
+        } else {
+          hint.innerHTML = `🔴 <strong>Clase EN CURSO.</strong> Hacé click para entrar.`;
+        }
+        btn.onclick = () => {
+          window.open(estado.cohorte.link_clases, '_blank', 'noopener,noreferrer');
+          if (estado.cohorte.password_clases) {
+            mostrarToast('Password del Zoom: ' + estado.cohorte.password_clases);
+          }
+        };
+      } else {
+        btn.disabled = true;
+        hint.textContent = 'El link se habilitará 1 hora antes de la próxima clase';
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // CÁLCULO DE PRÓXIMA CLASE
+    // ═══════════════════════════════════════════════════════════════
+    function calcularProximaClase(){
+      if (!estado.cohorte || !estado.cohorte.fecha_inicio) return null;
+      
+      const ahora = new Date();
+      const inicio = new Date(estado.cohorte.fecha_inicio);
+      const fin = estado.cohorte.fecha_fin ? new Date(estado.cohorte.fecha_fin) : null;
+      
+      // Si el curso aún no empezó → primera clase es fecha_inicio
+      if (ahora < inicio) {
+        return { fecha: inicio, numero: 1 };
+      }
+      
+      // Si el curso ya terminó
+      if (fin && ahora > fin) {
+        return null;
+      }
+      
+      // Curso en curso. Calcular próxima sesión basado en dias_clase
+      // Para Nivel 1 simplificamos: usamos hora_inicio + asumimos próximo día válido
+      const sesiones = generarSesiones();
+      const futuras = sesiones.filter(s => s.fecha >= ahora);
+      return futuras.length > 0 ? futuras[0] : null;
+    }
+
+    function generarSesiones(){
+      // Genera el array de sesiones en base a fecha_inicio, fecha_fin, dias_clase y hora
+      if (!estado.cohorte || !estado.cohorte.fecha_inicio) return [];
+      
+      const inicio = new Date(estado.cohorte.fecha_inicio);
+      const fin = estado.cohorte.fecha_fin 
+        ? new Date(estado.cohorte.fecha_fin)
+        : new Date(inicio.getTime() + (90 * 24 * 60 * 60 * 1000));  // 90 días default
+      
+      // Map de días en español → número (0=domingo)
+      const diasMap = {
+        'domingo': 0, 'lunes': 1, 'martes': 2, 'miercoles': 3, 'miércoles': 3,
+        'jueves': 4, 'viernes': 5, 'sabado': 6, 'sábado': 6
+      };
+      
+      // Parsear dias_clase
+      let diasValidos = [];
+      const diasStr = (estado.cohorte.dias_clase || '').toLowerCase();
+      
+      if (diasStr.includes('lunes a viernes') || diasStr.includes('lunes-viernes') || diasStr.includes('l a v')) {
+        diasValidos = [1, 2, 3, 4, 5];
+      } else if (diasStr.includes('sábados y domingos') || diasStr.includes('sabados y domingos') || diasStr.includes('sábado a domingo') || diasStr.includes('s y d') || diasStr.includes('s a d')) {
+        diasValidos = [6, 0];
+      } else {
+        // Parser palabra por palabra
+        Object.entries(diasMap).forEach(([nombre, num]) => {
+          if (diasStr.includes(nombre)) diasValidos.push(num);
+        });
+      }
+      
+      if (diasValidos.length === 0) {
+        // Fallback: solo la fecha de inicio como única sesión
+        return [{ fecha: inicio, numero: 1 }];
+      }
+      
+      // Generar sesiones día por día
+      const sesiones = [];
+      const cursor = new Date(inicio);
+      let nro = 1;
+      
+      while (cursor <= fin) {
+        if (diasValidos.includes(cursor.getDay())) {
+          const sesion = new Date(cursor);
+          sesiones.push({ fecha: sesion, numero: nro });
+          nro++;
+        }
+        cursor.setDate(cursor.getDate() + 1);
+      }
+      
+      return sesiones;
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // COUNTDOWN
+    // ═══════════════════════════════════════════════════════════════
+    function iniciarCountdown(){
+      if (estado.countdownTimer) clearInterval(estado.countdownTimer);
+      
+      const block = document.getElementById('countdownBlock');
+      
+      if (!estado.proximaClase) {
+        block.style.display = 'none';
+        return;
+      }
+      
+      // Determinar etiqueta según contexto
+      const ahora = new Date();
+      const inicio = estado.cohorte ? new Date(estado.cohorte.fecha_inicio) : null;
+      const label = document.getElementById('countdownLabel');
+      
+      if (inicio && ahora < inicio) {
+        label.textContent = 'Tu primera clase comienza en';
+      } else {
+        label.textContent = `Próxima clase (#${estado.proximaClase.numero}) en`;
+      }
+      
+      const tick = () => {
+        const ahora = new Date();
+        const diff = estado.proximaClase.fecha - ahora;
+        
+        if (diff <= 0) {
+          document.getElementById('cdDias').textContent = '00';
+          document.getElementById('cdHoras').textContent = '00';
+          document.getElementById('cdMin').textContent = '00';
+          document.getElementById('cdSeg').textContent = '00';
+          configurarBotonZoom();  // re-configurar para habilitar
+          return;
+        }
+        
+        const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const min = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seg = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        document.getElementById('cdDias').textContent = String(dias).padStart(2, '0');
+        document.getElementById('cdHoras').textContent = String(horas).padStart(2, '0');
+        document.getElementById('cdMin').textContent = String(min).padStart(2, '0');
+        document.getElementById('cdSeg').textContent = String(seg).padStart(2, '0');
+        
+        // Re-evaluar estado del botón cada minuto
+        if (seg === 0) configurarBotonZoom();
+      };
+      
+      tick();
+      estado.countdownTimer = setInterval(tick, 1000);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // RENDER INSTRUCTOR
+    // ═══════════════════════════════════════════════════════════════
+    function renderInstructor(){
+      if (!estado.instructor) {
+        document.getElementById('instrNombre').textContent = 'Instructor a confirmar';
+        document.getElementById('instrTitulo').textContent = '';
+        document.getElementById('instrBio').textContent = 'Karina te confirmará el instructor por WhatsApp.';
+        return;
+      }
+      
+      const i = estado.instructor;
+      document.getElementById('instrNombre').textContent = i.nombre_publico || '—';
+      document.getElementById('instrTitulo').textContent = i.titulo || '';
+      document.getElementById('instrBio').textContent = i.bio || 'Profesional con amplia experiencia en su área.';
+      
+      // Avatar: si hay URL, mostrar img. Si no, iniciales.
+      const fotoEl = document.getElementById('instrFoto');
+      if (i.avatar_url) {
+        fotoEl.outerHTML = `<img src="${i.avatar_url}" alt="${i.nombre_publico}" class="instr-foto">`;
+      } else {
+        const iniciales = (i.nombre_publico || 'C')
+          .split(' ')
+          .map(w => w[0])
+          .join('')
+          .substring(0, 2)
+          .toUpperCase();
+        fotoEl.textContent = iniciales;
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // RENDER MATERIALES
+    // ═══════════════════════════════════════════════════════════════
+    function renderMateriales(){
+      const container = document.getElementById('materialesContainer');
+      
+      if (!estado.materiales || estado.materiales.length === 0) {
+        container.innerHTML = `
+          <div class="mat-empty">
+            <span class="emoji">📚</span>
+            Los materiales del curso aparecerán acá a medida que el instructor los publique.
+          </div>`;
+        return;
+      }
+      
+      const items = estado.materiales.map(m => {
+        const iconClass = m.tipo;  // pdf, excel, word, video_url, enlace, otro
+        const iconChar = obtenerIconoTipo(m.tipo);
+        const tamano = m.tamano_bytes ? formatearTamano(m.tamano_bytes) : '';
+        const meta = [tamano, m.descripcion].filter(Boolean).join(' · ');
+        
+        const esExterno = m.tipo === 'video_url' || m.tipo === 'enlace';
+        const btnTxt = esExterno ? '🔗 Abrir' : '⬇ Descargar';
+        const dataAttr = esExterno 
+          ? `data-url="${escapar(m.url)}" data-externo="1"`
+          : `data-url="${escapar(m.url)}" data-id="${m.id}"`;
+        
+        return `
+          <div class="mat-item">
+            <div class="mat-icon ${iconClass === 'video_url' ? 'video' : iconClass}">${iconChar}</div>
+            <div class="mat-info">
+              <div class="mat-name">${escapar(m.nombre)}</div>
+              ${meta ? `<div class="mat-meta">${escapar(meta)}</div>` : ''}
+            </div>
+            <button class="mat-btn" ${dataAttr}>${btnTxt}</button>
+          </div>`;
+      }).join('');
+      
+      container.innerHTML = `<div class="mat-list">${items}</div>`;
+      
+      // Listeners de descarga
+      container.querySelectorAll('.mat-btn').forEach(btn => {
+        btn.onclick = () => abrirMaterial(btn);
+      });
+    }
+
+    async function abrirMaterial(btn){
+      const url = btn.dataset.url;
+      const esExterno = btn.dataset.externo === '1';
+      
+      if (esExterno) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+        return;
+      }
+      
+      // Storage privado: generar signed URL
+      btn.classList.add('loading');
+      const txtOriginal = btn.textContent;
+      btn.textContent = '⏳ Generando...';
+      
+      try {
+        const { data, error } = await sb.storage
+          .from('materiales-cursos')
+          .createSignedUrl(url, 600);  // 10 min de validez
+        
+        if (error || !data || !data.signedUrl) {
+          mostrarToast('No se pudo descargar el material', 'error');
+          btn.classList.remove('loading');
+          btn.textContent = txtOriginal;
+          return;
+        }
+        
+        window.open(data.signedUrl, '_blank', 'noopener,noreferrer');
+        btn.classList.remove('loading');
+        btn.textContent = txtOriginal;
+      } catch(err) {
+        console.error(err);
+        mostrarToast('Error de conexión', 'error');
+        btn.classList.remove('loading');
+        btn.textContent = txtOriginal;
+      }
+    }
+
+    function obtenerIconoTipo(tipo){
+      const map = {
+        'pdf': '📕', 'excel': '📊', 'word': '📄',
+        'imagen': '🖼️', 'video_url': '🎥', 'enlace': '🔗', 'otro': '📎'
+      };
+      return map[tipo] || '📎';
+    }
+
+    function formatearTamano(bytes){
+      if (!bytes) return '';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // RENDER CALENDARIO DE SESIONES
+    // ═══════════════════════════════════════════════════════════════
+    function renderCalendario(){
+      const list = document.getElementById('calList');
+      const sesiones = generarSesiones();
+      
+      if (sesiones.length === 0) {
+        list.innerHTML = `<div class="mat-empty">No hay clases programadas todavía.</div>`;
+        return;
+      }
+      
+      const ahora = new Date();
+      const hoy = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate());
+      
+      const html = sesiones.map(s => {
+        const f = s.fecha;
+        const fechaSesion = new Date(f.getFullYear(), f.getMonth(), f.getDate());
+        const esHoy = fechaSesion.getTime() === hoy.getTime();
+        const esPasada = f < ahora && !esHoy;
+        const cls = esHoy ? 'hoy' : (esPasada ? 'pasada' : '');
+        
+        const fechaStr = f.toLocaleDateString('es-BO', { 
+          day: 'numeric', month: 'short' 
+        });
+        const diaStr = f.toLocaleDateString('es-BO', { weekday: 'long' });
+        const horaStr = f.toLocaleTimeString('es-BO', { 
+          hour: '2-digit', minute: '2-digit', timeZone: 'America/La_Paz'
+        });
+        
+        return `
+          <div class="cal-row ${cls}">
+            <div class="cal-num">#${s.numero}</div>
+            <div class="cal-info">
+              <div class="cal-fecha">${fechaStr}</div>
+              <div class="cal-dia">${diaStr}</div>
+            </div>
+            <div class="cal-hora">${horaStr}</div>
+          </div>`;
+      }).join('');
+      
+      list.innerHTML = html;
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // HELPERS
+    // ═══════════════════════════════════════════════════════════════
+    function escapar(txt){
+      const div = document.createElement('div');
+      div.textContent = txt || '';
+      return div.innerHTML;
+    }
+
+    function mostrarToast(msg, tipo = ''){
+      const t = document.getElementById('toast');
+      t.querySelector('.msg').textContent = msg;
+      t.className = 'toast show ' + tipo;
+      setTimeout(() => t.className = 'toast ' + tipo, 4000);
+    }
+
+    function mostrarError(titulo, msg){
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('main').style.display = 'none';
+      document.getElementById('errTitle').textContent = titulo;
+      document.getElementById('errMsg').textContent = msg;
+      document.getElementById('errScreen').style.display = 'block';
+    }
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await sb.auth.signOut();
+      window.location.href = LOGIN_URL;
+    });
+  </script>
+
+</body>
+</html>
