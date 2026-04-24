@@ -7,7 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- applende-config.js ya carga el SDK de Supabase y crea el cliente global -->
+<script src="../applende-config.js"></script>
+<script src="../applende-auth.js"></script>
 <style>
   :root {
     --navy: #1A2744;
@@ -822,14 +824,22 @@
 
 <script>
 // ============================================
-// CONFIGURACIÓN SUPABASE
+// CONFIGURACIÓN
 // ============================================
-const SUPABASE_URL = 'https://wbaelievrwgynhvjhtxr.supabase.co';
-const SUPABASE_ANON_KEY = 'TU_ANON_KEY_AQUI'; // ⚠️ REEMPLAZAR
+// El cliente Supabase ya está creado globalmente por applende-config.js
+// Lo buscamos en los nombres comunes (compatible con cualquier versión del config)
+const _supa = window.supabaseClient
+           || window.supabase
+           || window.sb
+           || (window._supabaseClient);
+
+if (!_supa || typeof _supa.auth?.getSession !== 'function') {
+  document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#D9534F;text-align:center;"><h2>Error de configuración</h2><p>No se pudo cargar el cliente Supabase. Verifica que <code>applende-config.js</code> se cargue correctamente.</p></div>';
+  throw new Error('Supabase client not found');
+}
+
 const BUCKET = 'materiales-cursos';
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
-
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Estado global
 let currentUser = null;
@@ -843,17 +853,17 @@ let archivoSeleccionado = null;
 // AUTH GATE
 // ============================================
 async function checkAuth() {
-  const { data: { session }, error } = await supabase.auth.getSession();
+  const { data: { session }, error } = await _supa.auth.getSession();
 
   if (!session || error) {
-    window.location.href = '/login.html?redirect=/admin/materiales.html';
+    window.location.href = '/login.html?redirect=/coordinador/materiales.html';
     return;
   }
 
   currentUser = session.user;
 
   // Verificar rol (admin o coordinador)
-  const { data: profile, error: profErr } = await supabase
+  const { data: profile, error: profErr } = await _supa
     .from('profiles')
     .select('id, full_name, role, email')
     .eq('id', currentUser.id)
@@ -861,7 +871,7 @@ async function checkAuth() {
 
   if (profErr || !profile) {
     alert('No se pudo verificar tu perfil. Contacta al administrador.');
-    await supabase.auth.signOut();
+    await _supa.auth.signOut();
     window.location.href = '/login.html';
     return;
   }
@@ -885,7 +895,7 @@ async function checkAuth() {
 }
 
 async function logout() {
-  await supabase.auth.signOut();
+  await _supa.auth.signOut();
   window.location.href = '/login.html';
 }
 
@@ -893,7 +903,7 @@ async function logout() {
 // CARGAR CURSOS Y COHORTES
 // ============================================
 async function cargarCursos() {
-  const { data, error } = await supabase
+  const { data, error } = await _supa
     .from('courses')
     .select('id, nombre, slug, cohortes(id, nombre, fecha_inicio)')
     .order('nombre');
@@ -957,7 +967,7 @@ async function cargarMateriales() {
   const tbody = document.getElementById('materialesBody');
   tbody.innerHTML = '<tr><td colspan="7" class="loading-row">Cargando...</td></tr>';
 
-  let query = supabase
+  let query = _supa
     .from('materiales_curso')
     .select(`
       id, curso_id, cohorte_id, nombre, descripcion, tipo, url,
@@ -1071,7 +1081,7 @@ function renderTabla(items) {
 // CRUD: ACCIONES INDIVIDUALES
 // ============================================
 async function actualizarOrden(id, nuevoOrden) {
-  const { error } = await supabase
+  const { error } = await _supa
     .from('materiales_curso')
     .update({ orden: parseInt(nuevoOrden) || 0, actualizado_en: new Date().toISOString() })
     .eq('id', id);
@@ -1081,7 +1091,7 @@ async function actualizarOrden(id, nuevoOrden) {
 }
 
 async function togglePublicado(id, publicado) {
-  const { error } = await supabase
+  const { error } = await _supa
     .from('materiales_curso')
     .update({
       publicado,
@@ -1104,7 +1114,7 @@ async function verMaterial(id) {
   }
 
   // Generar signed URL temporal (30 min)
-  const { data, error } = await supabase.storage
+  const { data, error } = await _supa.storage
     .from(BUCKET)
     .createSignedUrl(m.url, 1800);
 
@@ -1124,7 +1134,7 @@ async function eliminarMaterial(id) {
 
   // 1. Borrar archivo del bucket (solo si no es link externo)
   if (m.tipo !== 'link' && m.url) {
-    const { error: errStorage } = await supabase.storage
+    const { error: errStorage } = await _supa.storage
       .from(BUCKET)
       .remove([m.url]);
     if (errStorage) {
@@ -1134,7 +1144,7 @@ async function eliminarMaterial(id) {
   }
 
   // 2. Borrar registro
-  const { error } = await supabase
+  const { error } = await _supa
     .from('materiales_curso')
     .delete()
     .eq('id', id);
@@ -1306,7 +1316,7 @@ async function guardarMaterial() {
       document.getElementById('progressBar').style.display = 'block';
       document.getElementById('progressFill').style.width = '30%';
 
-      const { data: upData, error: upErr } = await supabase.storage
+      const { data: upData, error: upErr } = await _supa.storage
         .from(BUCKET)
         .upload(path, archivoSeleccionado, {
           cacheControl: '3600',
@@ -1324,7 +1334,7 @@ async function guardarMaterial() {
       if (id) {
         const original = materialesActuales.find(m => m.id === id);
         if (original && original.tipo !== 'link' && original.url && original.url !== path) {
-          await supabase.storage.from(BUCKET).remove([original.url]);
+          await _supa.storage.from(BUCKET).remove([original.url]);
         }
       }
 
@@ -1348,10 +1358,10 @@ async function guardarMaterial() {
 
     let result;
     if (id) {
-      result = await supabase.from('materiales_curso').update(payload).eq('id', id);
+      result = await _supa.from('materiales_curso').update(payload).eq('id', id);
     } else {
       payload.creado_por = currentUser.id;
-      result = await supabase.from('materiales_curso').insert(payload);
+      result = await _supa.from('materiales_curso').insert(payload);
     }
 
     if (result.error) throw result.error;
