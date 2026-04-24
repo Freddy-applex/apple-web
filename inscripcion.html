@@ -190,6 +190,49 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 .carga-sp{width:48px;height:48px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px;}
 .carga-txt{font-size:14px;color:var(--muted);font-weight:600;}
 
+/* ═══ SELECTOR TIPO DE INSCRIPCIÓN ═══ */
+.tipo-block{margin-bottom:22px;padding:16px;background:linear-gradient(135deg,rgba(107,107,187,.05),rgba(141,198,63,.03));border:1px solid rgba(107,107,187,.18);border-radius:10px;display:none;}
+.tipo-block.show{display:block;}
+.tipo-tit{font-size:12px;font-weight:800;letter-spacing:.5px;color:var(--navy);margin-bottom:10px;text-transform:uppercase;}
+.tipo-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:420px){.tipo-opts{grid-template-columns:1fr;}}
+.tipo-opt{position:relative;cursor:pointer;}
+.tipo-opt input{position:absolute;opacity:0;pointer-events:none;}
+.tipo-card{display:flex;flex-direction:column;gap:4px;padding:14px 14px 14px 42px;border:1.5px solid var(--border);border-radius:9px;background:#fff;transition:all .2s;position:relative;}
+.tipo-card::before{content:'';position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;border:2px solid var(--border);border-radius:50%;background:#fff;transition:all .2s;}
+.tipo-card::after{content:'';position:absolute;left:19px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:var(--green);opacity:0;transition:opacity .2s;}
+.tipo-opt input:checked + .tipo-card{border-color:var(--green);background:rgba(141,198,63,.05);box-shadow:0 0 0 3px rgba(141,198,63,.08);}
+.tipo-opt input:checked + .tipo-card::before{border-color:var(--green);}
+.tipo-opt input:checked + .tipo-card::after{opacity:1;}
+.tipo-card-lbl{font-size:13.5px;font-weight:700;color:var(--navy);}
+.tipo-card-precio{font-family:'Josefin Sans',sans-serif;font-size:18px;font-weight:700;color:var(--green-dark);}
+.tipo-card-hint{font-size:10.5px;color:var(--muted);font-weight:500;}
+
+/* ═══ UPLOAD DE CARNET ═══ */
+.carnet-block{margin-bottom:18px;display:none;animation:fadeIn .25s ease;}
+.carnet-block.show{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+.carnet-drop{position:relative;border:2px dashed rgba(107,107,187,.4);border-radius:10px;padding:20px 16px;text-align:center;background:rgba(107,107,187,.03);cursor:pointer;transition:all .2s;}
+.carnet-drop:hover{border-color:var(--purple);background:rgba(107,107,187,.06);}
+.carnet-drop.has-file{border-style:solid;border-color:var(--green);background:rgba(141,198,63,.05);}
+.carnet-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.carnet-icon{font-size:30px;margin-bottom:6px;display:block;opacity:.7;}
+.carnet-txt{font-size:13px;color:var(--navy);font-weight:600;margin-bottom:3px;}
+.carnet-sub{font-size:11px;color:var(--muted);line-height:1.4;}
+.carnet-file-info{display:none;align-items:center;gap:10px;justify-content:center;padding:6px 0;}
+.carnet-drop.has-file .carnet-file-info{display:flex;}
+.carnet-drop.has-file .carnet-icon,
+.carnet-drop.has-file .carnet-txt,
+.carnet-drop.has-file .carnet-sub{display:none;}
+.carnet-file-name{font-size:13px;color:var(--navy);font-weight:700;}
+.carnet-file-remove{font-size:11px;color:#dc2626;font-weight:700;background:none;border:none;cursor:pointer;text-decoration:underline;}
+
+/* ═══ RESUMEN — precios duales ═══ */
+.resumen-tier-switch{display:none;background:var(--offwhite);border-radius:8px;padding:4px;gap:4px;margin-bottom:10px;font-size:11px;}
+.resumen-tier-switch.show{display:flex;}
+.resumen-tier-pill{flex:1;text-align:center;padding:6px;border-radius:6px;cursor:pointer;font-weight:700;color:var(--muted);transition:all .2s;}
+.resumen-tier-pill.active{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(0,0,0,.08);}
+
 /* ═══ FOOTER ═══ */
 .ft{background:var(--navy-dark);color:#fff;padding:24px 5%;margin-top:40px;}
 .ft-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12px;opacity:.75;}
@@ -296,6 +339,46 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
             </div>
             <div class="form-err" id="err-password2">Las contraseñas no coinciden</div>
           </div>
+        </div>
+
+        <!-- ═══ SELECTOR TIPO DE INSCRIPCIÓN (solo cursos con precio estudiante) ═══ -->
+        <div class="tipo-block" id="tipo-block">
+          <div class="tipo-tit">Tipo de inscripción</div>
+          <div class="tipo-opts">
+            <label class="tipo-opt">
+              <input type="radio" name="tipo-alumno" value="profesional" checked>
+              <div class="tipo-card">
+                <span class="tipo-card-lbl">Profesional</span>
+                <span class="tipo-card-precio" id="tipo-precio-prof">Bs 200</span>
+                <span class="tipo-card-hint">Precio regular</span>
+              </div>
+            </label>
+            <label class="tipo-opt">
+              <input type="radio" name="tipo-alumno" value="estudiante">
+              <div class="tipo-card">
+                <span class="tipo-card-lbl">Estudiante</span>
+                <span class="tipo-card-precio" id="tipo-precio-est">Bs 100</span>
+                <span class="tipo-card-hint">Requiere carnet universitario</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- ═══ UPLOAD CARNET (solo si elige estudiante) ═══ -->
+        <div class="carnet-block" id="carnet-block">
+          <label class="form-lbl form-lbl-req">Carnet universitario vigente</label>
+          <div class="carnet-drop" id="carnet-drop">
+            <input type="file" id="inp-carnet" accept="image/jpeg,image/png,image/webp,application/pdf">
+            <span class="carnet-icon">📎</span>
+            <div class="carnet-txt">Click para subir tu carnet</div>
+            <div class="carnet-sub">JPG, PNG, WEBP o PDF · máx 5 MB</div>
+            <div class="carnet-file-info">
+              <span class="carnet-file-name" id="carnet-name">—</span>
+              <button type="button" class="carnet-file-remove" id="btn-carnet-quitar">Quitar</button>
+            </div>
+          </div>
+          <div class="form-hint">Subí tu carnet universitario vigente. Karina lo revisará antes de aprobar tu inscripción con descuento estudiantil.</div>
+          <div class="form-err" id="err-carnet">Subí tu carnet para acceder al descuento estudiantil</div>
         </div>
 
         <div class="form-check">
@@ -458,7 +541,7 @@ async function cargarCurso() {
     // 1) Cargar datos del curso desde tabla base
     const { data: curso, error: errCurso } = await sb
       .from('cursos')
-      .select('id, slug, titulo, subtitulo, modalidad, duracion_horas, precio_bs, precio_original_bs, instructor_id, estado')
+      .select('id, slug, titulo, subtitulo, modalidad, duracion_horas, precio_bs, precio_estudiante_bs, precio_original_bs, instructor_id, estado')
       .eq('slug', slug)
       .eq('estado', 'publicado')
       .maybeSingle();
@@ -475,10 +558,10 @@ async function cargarCurso() {
       try {
         const { data: inst } = await sb
           .from('instructores')
-          .select('nombre')
+          .select('nombre_publico')
           .eq('id', curso.instructor_id)
           .maybeSingle();
-        if (inst) instructorNombre = inst.nombre;
+        if (inst) instructorNombre = inst.nombre_publico;
       } catch (e) { console.warn('[APPLENDE] No se pudo cargar instructor:', e); }
     }
     curso.instructor_nombre = instructorNombre;
@@ -554,6 +637,78 @@ function renderizarResumen(curso) {
     const disponibles = (cohorteActual.cupos_totales || 0) - (cohorteActual.cupos_ocupados || 0);
     document.getElementById('res-coh-cupos').textContent = '⚡ ' + disponibles + ' de ' + cohorteActual.cupos_totales + ' cupos disponibles';
   }
+
+  // ═══ Si el curso tiene precio estudiantil, mostrar el selector
+  if (curso.precio_estudiante_bs && Number(curso.precio_estudiante_bs) > 0) {
+    mostrarSelectorTipoAlumno(curso);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SELECTOR DE TIPO DE ALUMNO (Profesional vs Estudiante)
+   ════════════════════════════════════════════════════════════════ */
+function mostrarSelectorTipoAlumno(curso) {
+  const bloque = document.getElementById('tipo-block');
+  bloque.classList.add('show');
+
+  const precioProfFmt = formatearPrecio(curso.precio_bs).precio;
+  const precioEstFmt = formatearPrecio(curso.precio_estudiante_bs).precio;
+  document.getElementById('tipo-precio-prof').textContent = 'Bs ' + precioProfFmt;
+  document.getElementById('tipo-precio-est').textContent = 'Bs ' + precioEstFmt;
+
+  // Escuchar cambios y actualizar precio mostrado en resumen + pago
+  document.querySelectorAll('input[name="tipo-alumno"]').forEach(r => {
+    r.addEventListener('change', () => actualizarPrecioSegunTipo(curso));
+  });
+}
+
+function actualizarPrecioSegunTipo(curso) {
+  const tipo = obtenerTipoAlumno();
+  const precioAplicable = (tipo === 'estudiante') 
+    ? Number(curso.precio_estudiante_bs)
+    : Number(curso.precio_bs);
+
+  const precioFmt = formatearPrecio(precioAplicable).precio;
+  document.getElementById('res-precio').textContent = 'Bs ' + precioFmt;
+  document.getElementById('pago-monto').textContent = 'Bs ' + precioFmt;
+  document.getElementById('pago-monto-qr').textContent = 'Bs ' + precioFmt;
+  
+  const usd = Math.round(precioAplicable / TIPO_CAMBIO_USD);
+  document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
+
+  // Mostrar/ocultar precio original tachado (solo aplica al precio profesional)
+  const origEl = document.getElementById('res-porig');
+  if (tipo === 'profesional' && curso.precio_original_bs && Number(curso.precio_original_bs) > Number(curso.precio_bs)) {
+    origEl.textContent = 'Bs ' + formatearPrecio(curso.precio_original_bs).precio;
+    origEl.style.display = '';
+  } else {
+    origEl.style.display = 'none';
+  }
+
+  // Mostrar/ocultar bloque de upload de carnet
+  const carnetBlock = document.getElementById('carnet-block');
+  if (tipo === 'estudiante') {
+    carnetBlock.classList.add('show');
+  } else {
+    carnetBlock.classList.remove('show');
+    // Limpiar archivo si había uno
+    document.getElementById('inp-carnet').value = '';
+    document.getElementById('carnet-drop').classList.remove('has-file');
+    document.getElementById('err-carnet').classList.remove('show');
+  }
+}
+
+function obtenerTipoAlumno() {
+  const radio = document.querySelector('input[name="tipo-alumno"]:checked');
+  return radio ? radio.value : 'profesional';
+}
+
+function obtenerPrecioAplicable() {
+  const tipo = obtenerTipoAlumno();
+  if (tipo === 'estudiante' && cursoActual.precio_estudiante_bs) {
+    return Number(cursoActual.precio_estudiante_bs);
+  }
+  return Number(cursoActual.precio_bs);
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -613,6 +768,30 @@ function validarFormulario() {
     ok = false;
   }
 
+  // Validación extra: si es estudiante, debe haber subido carnet
+  const tipo = obtenerTipoAlumno();
+  if (tipo === 'estudiante') {
+    const carnetFile = document.getElementById('inp-carnet').files[0];
+    if (!carnetFile) {
+      document.getElementById('err-carnet').classList.add('show');
+      ok = false;
+    } else {
+      // Validar tipo y tamaño
+      const tiposValidos = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+      if (!tiposValidos.includes(carnetFile.type)) {
+        const errEl = document.getElementById('err-carnet');
+        errEl.textContent = 'Formato inválido. Subí JPG, PNG, WEBP o PDF.';
+        errEl.classList.add('show');
+        ok = false;
+      } else if (carnetFile.size > 5 * 1024 * 1024) {
+        const errEl = document.getElementById('err-carnet');
+        errEl.textContent = 'El archivo pesa más de 5 MB. Achicá la imagen.';
+        errEl.classList.add('show');
+        ok = false;
+      }
+    }
+  }
+
   return ok;
 }
 
@@ -655,11 +834,49 @@ async function procesarInscripcion(ev) {
     password: document.getElementById('inp-password').value
   };
 
+  const tipoAlumno = obtenerTipoAlumno();
+  const precioAplicable = obtenerPrecioAplicable();
+
   const sb = obtenerSupabase();
 
   try {
-    // ────── PASO 1: Crear cuenta en auth.users ──────
-    // Parseamos nombre y apellido para el trigger crear_perfil_al_registrarse
+    // ────── PASO 1 (opcional): Subir carnet si es estudiante ──────
+    let urlCarnet = null;
+    
+    if (tipoAlumno === 'estudiante') {
+      btn.innerHTML = '<span class="form-btn-loader"></span>Subiendo carnet...';
+      
+      const carnetFile = document.getElementById('inp-carnet').files[0];
+      const emailSanit = datosAlumno.email.replace(/[^a-z0-9]/g, '-');
+      const timestamp = Date.now();
+      const ext = carnetFile.name.split('.').pop().toLowerCase();
+      const nombreArchivo = `${emailSanit}-${timestamp}.${ext}`;
+
+      const { data: uploadData, error: errUpload } = await sb.storage
+        .from('carnets-estudiantes')
+        .upload(nombreArchivo, carnetFile, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (errUpload) {
+        console.error('[APPLENDE] Error al subir carnet:', errUpload);
+        mostrarErrorGeneral(
+          'No pudimos subir tu carnet. Verificá que sea una imagen o PDF válido y reintentá.',
+          '⚠️ Error al subir carnet'
+        );
+        btn.disabled = false;
+        btn.innerHTML = 'Crear cuenta y continuar al pago →';
+        return;
+      }
+
+      urlCarnet = uploadData.path;
+      console.log('[APPLENDE] Carnet subido:', urlCarnet);
+    }
+
+    // ────── PASO 2: Crear cuenta en auth.users ──────
+    btn.innerHTML = '<span class="form-btn-loader"></span>Creando cuenta...';
+    
     const partesNombre = datosAlumno.nombre.split(/\s+/).filter(p => p.length > 0);
     const nombre = partesNombre[0];
     const apellido = partesNombre.slice(1).join(' ');
@@ -699,23 +916,22 @@ async function procesarInscripcion(ev) {
       return;
     }
 
-    // ────── PASO 2: Crear inscripción pendiente vía RPC ──────
-    // Usamos una función SECURITY DEFINER para bypasear RLS.
-    // Esto garantiza que el INSERT funciona independientemente
-    // del contexto de autenticación del cliente.
+    // ────── PASO 3: Crear inscripción pendiente vía RPC ──────
     btn.innerHTML = '<span class="form-btn-loader"></span>Registrando inscripción...';
 
     const { data: inscripcionId, error: errInsc } = await sb.rpc(
       'crear_inscripcion_pendiente',
       {
-        p_curso_id:   cursoActual.id,
-        p_cohorte_id: cohorteActual ? cohorteActual.id : null,
-        p_nombre:     datosAlumno.nombre,
-        p_ci:         datosAlumno.ci,
-        p_email:      datosAlumno.email,
-        p_whatsapp:   datosAlumno.whatsapp,
-        p_ciudad:     datosAlumno.ciudad,
-        p_precio:     cursoActual.precio_bs
+        p_curso_id:                   cursoActual.id,
+        p_cohorte_id:                 cohorteActual ? cohorteActual.id : null,
+        p_nombre:                     datosAlumno.nombre,
+        p_ci:                         datosAlumno.ci,
+        p_email:                      datosAlumno.email,
+        p_whatsapp:                   datosAlumno.whatsapp,
+        p_ciudad:                     datosAlumno.ciudad,
+        p_precio:                     precioAplicable,
+        p_tipo_alumno:                tipoAlumno,
+        p_url_documento_validacion:   urlCarnet
       }
     );
 
@@ -794,7 +1010,9 @@ function avanzarAPago(datos) {
 }
 
 function construirMensajeWA(datos, curso) {
-  const precioFmt = formatearPrecio(curso.precio_bs, curso.precio_original_bs);
+  const precioAplicable = obtenerPrecioAplicable();
+  const precioFmt = formatearPrecio(precioAplicable).precio;
+  const tipoAlumno = obtenerTipoAlumno();
   const nombreFmt = capitalizarNombre(datos.nombre);
   const ciudadFmt = capitalizarNombre(datos.ciudad);
   const lineas = [];
@@ -807,7 +1025,12 @@ function construirMensajeWA(datos, curso) {
   lineas.push('- CI: ' + datos.ci);
   lineas.push('- Email: ' + datos.email);
   lineas.push('- Ciudad: ' + ciudadFmt);
-  lineas.push('- Monto a pagar: Bs ' + precioFmt.precio);
+  if (tipoAlumno === 'estudiante') {
+    lineas.push('- Tipo: *Estudiante* (ya adjunté carnet en la web)');
+  } else {
+    lineas.push('- Tipo: Profesional');
+  }
+  lineas.push('- Monto a pagar: *Bs ' + precioFmt + '*');
   if (curso.modalidad === 'en_vivo' && cohorteActual) {
     lineas.push('- Grupo: ' + formatearFecha(cohorteActual.fecha_inicio));
   }
@@ -836,9 +1059,36 @@ function setupTogglesPassword() {
   toggle('tog-pwd2', 'inp-password2');
 }
 
+function setupCarnetUpload() {
+  const input = document.getElementById('inp-carnet');
+  const drop = document.getElementById('carnet-drop');
+  const name = document.getElementById('carnet-name');
+  const btnQuitar = document.getElementById('btn-carnet-quitar');
+
+  if (!input || !drop) return;
+
+  input.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      drop.classList.remove('has-file');
+      return;
+    }
+    name.textContent = file.name;
+    drop.classList.add('has-file');
+    document.getElementById('err-carnet').classList.remove('show');
+  });
+
+  btnQuitar.addEventListener('click', (e) => {
+    e.stopPropagation();
+    input.value = '';
+    drop.classList.remove('has-file');
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   cargarCurso();
   setupTogglesPassword();
+  setupCarnetUpload();
   document.getElementById('form-inscripcion').addEventListener('submit', procesarInscripcion);
 });
 </script>
