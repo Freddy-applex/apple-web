@@ -7,9 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<!-- applende-config.js ya carga el SDK de Supabase y crea el cliente global -->
+<!-- ORDEN CRÍTICO: 1) SDK supabase-js, 2) applende-config.js que usa el SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="../applende-config.js"></script>
-<script src="../applende-auth.js"></script>
 <style>
   :root {
     --navy: #1A2744;
@@ -842,7 +842,18 @@ try {
 }
 
 if (!_supa || typeof _supa.auth?.getSession !== 'function') {
-  document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#D9534F;text-align:center;"><h2>Error de configuración</h2><p>No se pudo cargar el cliente Supabase. Verifica que <code>applende-config.js</code> se cargue correctamente.</p></div>';
+  document.body.innerHTML = `
+    <div style="padding:40px;font-family:sans-serif;color:#D9534F;text-align:center;max-width:600px;margin:60px auto;">
+      <h2>Error de configuración</h2>
+      <p>No se pudo cargar el cliente Supabase.</p>
+      <p style="font-size:13px;color:#666;margin-top:20px;">
+        Diagnóstico:<br>
+        • supabase SDK cargado: <strong>${typeof supabase !== 'undefined' ? 'SÍ' : 'NO'}</strong><br>
+        • obtenerSupabase disponible: <strong>${typeof window.obtenerSupabase === 'function' ? 'SÍ' : 'NO'}</strong><br>
+        • Cliente válido: <strong>${_supa ? 'SÍ pero sin auth' : 'NO'}</strong>
+      </p>
+      <p style="font-size:12px;color:#999;margin-top:20px;">Abre la consola (F12) para más detalles.</p>
+    </div>`;
   throw new Error('Supabase client not found');
 }
 
