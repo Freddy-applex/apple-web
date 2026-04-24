@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de Materiales | APPLENDE Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --navy: #1A2744;
+    --navy-light: #2A3A5A;
+    --violet: #6B6BBB;
+    --violet-light: #8A8ACC;
+    --violet-dark: #5555A0;
+    --lime: #8DC63F;
+    --lime-dark: #7AAE35;
+    --gray: #BFBFBF;
+    --gray-light: #F5F5F7;
+    --gray-medium: #E0E0E5;
+    --white: #FFFFFF;
+    --danger: #D9534F;
+    --warning: #F0AD4E;
+    --success: #5CB85C;
+    --text: #2C2C2C;
+    --text-muted: #6C6C6C;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--gray-light);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: 0.3px;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .logo-mini {
+    height: 40px;
+    width: auto;
+    background: var(--white);
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+
+  .header h1 {
+    color: var(--white);
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .badge-admin {
+    background: var(--lime);
+    color: var(--navy);
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-left: 8px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 14px;
+  }
+
+  .user-info {
+    text-align: right;
+  }
+
+  .user-info .name { font-weight: 600; }
+  .user-info .role { font-size: 12px; opacity: 0.8; text-transform: uppercase; }
+
+  .btn-logout {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+
+  .btn-logout:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: var(--white);
+  }
+
+  /* CONTAINER */
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 32px;
+  }
+
+  /* AUTH GATE */
+  .auth-gate {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  .auth-gate .spinner {
+    border: 4px solid rgba(255,255,255,0.2);
+    border-top: 4px solid var(--lime);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* FILTROS STICKY */
+  .filters-bar {
+    background: var(--white);
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    display: flex;
+    gap: 16px;
+    align-items: end;
+    flex-wrap: wrap;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .filter-group label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  select, input[type="text"], input[type="number"], textarea {
+    padding: 10px 12px;
+    border: 1px solid var(--gray-medium);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    background: var(--white);
+    transition: border-color 0.2s;
+  }
+
+  select:focus, input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--violet);
+    box-shadow: 0 0 0 3px rgba(107,107,187,0.15);
+  }
+
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background: var(--violet);
+    color: var(--white);
+  }
+
+  .btn-primary:hover {
+    background: var(--violet-dark);
+    transform: translateY(-1px);
+  }
+
+  .btn-success {
+    background: var(--lime);
+    color: var(--navy);
+  }
+
+  .btn-success:hover {
+    background: var(--lime-dark);
+  }
+
+  .btn-danger {
+    background: var(--danger);
+    color: var(--white);
+  }
+
+  .btn-secondary {
+    background: var(--gray-medium);
+    color: var(--text);
+  }
+
+  .btn-icon {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  /* STATS */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .stat-card {
+    background: var(--white);
+    padding: 16px 20px;
+    border-radius: 6px;
+    border-left: 4px solid var(--violet);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .stat-card .num {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--navy);
+    font-family: 'Barlow Condensed', sans-serif;
+    line-height: 1;
+  }
+
+  .stat-card .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-card.lime { border-left-color: var(--lime); }
+  .stat-card.gray { border-left-color: var(--gray); }
+
+  /* TABLA */
+  .table-wrapper {
+    background: var(--white);
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+
+  .table-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--gray-medium);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .table-header h2 {
+    font-size: 18px;
+    text-transform: uppercase;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead {
+    background: var(--gray-light);
+  }
+
+  th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--gray-medium);
+  }
+
+  td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--gray-medium);
+    font-size: 14px;
+    vertical-align: middle;
+  }
+
+  tbody tr:hover {
+    background: var(--gray-light);
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .tipo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .tipo-pdf { background: #FFE5E5; color: #C0392B; }
+  .tipo-excel { background: #E5F7E9; color: #1E8449; }
+  .tipo-zip { background: #FFF4E5; color: #B7791F; }
+  .tipo-video { background: #E5F0FF; color: #2563EB; }
+  .tipo-link { background: #F0E5FF; color: #6B6BBB; }
+  .tipo-imagen { background: #FFF0F5; color: #C026D3; }
+
+  .cohorte-badge {
+    background: var(--navy);
+    color: var(--white);
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .cohorte-badge.ambas { background: var(--lime); color: var(--navy); }
+
+  .input-orden {
+    width: 60px;
+    text-align: center;
+    padding: 4px 8px;
+    font-size: 13px;
+  }
+
+  /* TOGGLE */
+  .toggle {
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 22px;
+  }
+
+  .toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--gray);
+    transition: .3s;
+    border-radius: 22px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+  }
+
+  input:checked + .slider {
+    background-color: var(--lime);
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(20px);
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(26,39,68,0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    overflow-y: auto;
+  }
+
+  .modal-overlay.active {
+    display: flex;
+  }
+
+  .modal {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 28px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .modal h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+    text-transform: uppercase;
+    border-bottom: 3px solid var(--lime);
+    padding-bottom: 10px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .form-group label .req { color: var(--danger); }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 70px;
+    font-family: inherit;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* DROPZONE */
+  .dropzone {
+    border: 2px dashed var(--violet);
+    border-radius: 6px;
+    padding: 32px 20px;
+    text-align: center;
+    background: var(--gray-light);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .dropzone:hover, .dropzone.dragover {
+    background: rgba(107,107,187,0.08);
+    border-color: var(--violet-dark);
+  }
+
+  .dropzone-icon {
+    font-size: 36px;
+    color: var(--violet);
+    margin-bottom: 8px;
+  }
+
+  .dropzone-text {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .dropzone-hint {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  .file-selected {
+    background: var(--white);
+    border: 1px solid var(--lime);
+    padding: 12px 16px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .file-selected .name {
+    font-weight: 600;
+    color: var(--navy);
+    word-break: break-all;
+  }
+
+  .file-selected .size {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .progress-bar {
+    height: 8px;
+    background: var(--gray-medium);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--lime);
+    transition: width 0.3s;
+    width: 0%;
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--gray-medium);
+  }
+
+  /* TOASTS */
+  .toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .toast {
+    background: var(--navy);
+    color: var(--white);
+    padding: 14px 20px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    min-width: 280px;
+    animation: slideIn 0.3s ease-out;
+    border-left: 4px solid var(--violet);
+  }
+
+  .toast.success { border-left-color: var(--lime); }
+  .toast.error { border-left-color: var(--danger); }
+  .toast.warning { border-left-color: var(--warning); }
+
+  @keyframes slideIn {
+    from { transform: translateX(400px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  /* EMPTY STATE */
+  .empty-state {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--text-muted);
+  }
+
+  .empty-state .icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+
+  /* LOADING */
+  .loading-row {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .header { padding: 12px 16px; }
+    .header h1 { font-size: 16px; }
+    .container { padding: 16px; }
+    .filters-bar { flex-direction: column; align-items: stretch; }
+    .form-row { grid-template-columns: 1fr; }
+    table { font-size: 12px; }
+    th, td { padding: 8px; }
+    .user-info { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- AUTH GATE (visible al inicio) -->
+<div id="authGate" class="auth-gate">
+  <div class="spinner"></div>
+  <p>Verificando acceso...</p>
+</div>
+
+<!-- APP (oculto hasta auth OK) -->
+<div id="app" style="display:none;">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <h1>📚 Panel de Materiales <span class="badge-admin">Admin</span></h1>
+    </div>
+    <div class="header-right">
+      <div class="user-info">
+        <div class="name" id="userName">—</div>
+        <div class="role" id="userRole">—</div>
+      </div>
+      <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- FILTROS -->
+    <div class="filters-bar">
+      <div class="filter-group">
+        <label>Curso</label>
+        <select id="filterCurso" onchange="cargarMateriales()">
+          <option value="">Todos los cursos</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Cohorte</label>
+        <select id="filterCohorte" onchange="cargarMateriales()">
+          <option value="">Todas las cohortes</option>
+          <option value="null">Sin asignar (Ambas)</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Tipo</label>
+        <select id="filterTipo" onchange="cargarMateriales()">
+          <option value="">Todos los tipos</option>
+          <option value="pdf">PDF</option>
+          <option value="excel">Excel</option>
+          <option value="zip">ZIP</option>
+          <option value="video">Video</option>
+          <option value="link">Link externo</option>
+          <option value="imagen">Imagen</option>
+        </select>
+      </div>
+      <button class="btn btn-success" onclick="abrirModal()">
+        ➕ Subir Material
+      </button>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats" id="stats"></div>
+
+    <!-- TABLA -->
+    <div class="table-wrapper">
+      <div class="table-header">
+        <h2>Materiales del curso</h2>
+        <span id="totalMateriales" style="color:var(--text-muted);font-size:13px;"></span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:60px;">Orden</th>
+              <th>Material</th>
+              <th>Tipo</th>
+              <th>Cohorte</th>
+              <th>Tamaño</th>
+              <th>Publicado</th>
+              <th style="width:180px;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="materialesBody">
+            <tr><td colspan="7" class="loading-row">Cargando materiales...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL UPLOAD -->
+<div class="modal-overlay" id="modalUpload">
+  <div class="modal">
+    <h2 id="modalTitle">Subir Nuevo Material</h2>
+    <form id="formUpload" onsubmit="event.preventDefault(); guardarMaterial();">
+      <input type="hidden" id="materialId" value="">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Curso <span class="req">*</span></label>
+          <select id="modalCurso" required></select>
+        </div>
+        <div class="form-group">
+          <label>Cohorte</label>
+          <select id="modalCohorte">
+            <option value="">Ambas / Sin asignar</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Nombre del material <span class="req">*</span></label>
+        <input type="text" id="modalNombre" required maxlength="200"
+               placeholder="Ej: [Pre-curso] Setup Excel Avanzado">
+      </div>
+
+      <div class="form-group">
+        <label>Descripción (opcional)</label>
+        <textarea id="modalDescripcion" maxlength="500"
+                  placeholder="Breve descripción del contenido..."></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipo <span class="req">*</span></label>
+          <select id="modalTipo" required onchange="toggleUploadVsLink()">
+            <option value="pdf">📄 PDF</option>
+            <option value="excel">📊 Excel</option>
+            <option value="zip">🗜️ ZIP</option>
+            <option value="video">🎬 Video</option>
+            <option value="imagen">🖼️ Imagen</option>
+            <option value="link">🔗 Link externo</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Orden de visualización</label>
+          <input type="number" id="modalOrden" min="0" value="0">
+        </div>
+      </div>
+
+      <!-- Upload de archivo -->
+      <div class="form-group" id="uploadSection">
+        <label>Archivo <span class="req">*</span></label>
+        <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+          <div class="dropzone-icon">📎</div>
+          <div class="dropzone-text">Haz clic o arrastra un archivo aquí</div>
+          <div class="dropzone-hint">Máximo 50 MB</div>
+        </div>
+        <input type="file" id="fileInput" style="display:none;" onchange="onFileSelected(event)">
+        <div id="fileSelectedBox"></div>
+        <div class="progress-bar" id="progressBar" style="display:none;">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <!-- Link externo -->
+      <div class="form-group" id="linkSection" style="display:none;">
+        <label>URL del material <span class="req">*</span></label>
+        <input type="url" id="modalUrl" placeholder="https://...">
+      </div>
+
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+          <label class="toggle" style="margin:0;">
+            <input type="checkbox" id="modalPublicado" checked>
+            <span class="slider"></span>
+          </label>
+          Publicado (visible para alumnos)
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="btnGuardar">Guardar Material</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toasts"></div>
+
+<script>
+// ============================================
+// CONFIGURACIÓN SUPABASE
+// ============================================
+const SUPABASE_URL = 'https://wbaelievrwgynhvjhtxr.supabase.co';
+const SUPABASE_ANON_KEY = 'TU_ANON_KEY_AQUI'; // ⚠️ REEMPLAZAR
+const BUCKET = 'materiales-cursos';
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Estado global
+let currentUser = null;
+let currentProfile = null;
+let cursos = [];
+let cohortes = [];
+let materialesActuales = [];
+let archivoSeleccionado = null;
+
+// ============================================
+// AUTH GATE
+// ============================================
+async function checkAuth() {
+  const { data: { session }, error } = await supabase.auth.getSession();
+
+  if (!session || error) {
+    window.location.href = '/login.html?redirect=/admin/materiales.html';
+    return;
+  }
+
+  currentUser = session.user;
+
+  // Verificar rol (admin o coordinador)
+  const { data: profile, error: profErr } = await supabase
+    .from('profiles')
+    .select('id, full_name, role, email')
+    .eq('id', currentUser.id)
+    .single();
+
+  if (profErr || !profile) {
+    alert('No se pudo verificar tu perfil. Contacta al administrador.');
+    await supabase.auth.signOut();
+    window.location.href = '/login.html';
+    return;
+  }
+
+  if (!['admin', 'coordinador'].includes(profile.role)) {
+    alert('Acceso denegado. Solo administradores y coordinadores pueden acceder a este panel.');
+    window.location.href = '/alumno/dashboard.html';
+    return;
+  }
+
+  currentProfile = profile;
+
+  document.getElementById('userName').textContent = profile.full_name || profile.email;
+  document.getElementById('userRole').textContent = profile.role;
+
+  document.getElementById('authGate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+
+  await cargarCursos();
+  await cargarMateriales();
+}
+
+async function logout() {
+  await supabase.auth.signOut();
+  window.location.href = '/login.html';
+}
+
+// ============================================
+// CARGAR CURSOS Y COHORTES
+// ============================================
+async function cargarCursos() {
+  const { data, error } = await supabase
+    .from('courses')
+    .select('id, nombre, slug, cohortes(id, nombre, fecha_inicio)')
+    .order('nombre');
+
+  if (error) {
+    toast('Error al cargar cursos: ' + error.message, 'error');
+    return;
+  }
+
+  cursos = data || [];
+
+  const filterCurso = document.getElementById('filterCurso');
+  const modalCurso = document.getElementById('modalCurso');
+
+  cursos.forEach(c => {
+    const opt1 = new Option(c.nombre, c.id);
+    const opt2 = new Option(c.nombre, c.id);
+    filterCurso.add(opt1);
+    modalCurso.add(opt2);
+  });
+
+  // Cargar cohortes de TODOS los cursos para el filtro inicial
+  cohortes = cursos.flatMap(c =>
+    (c.cohortes || []).map(co => ({ ...co, curso_id: c.id, curso_nombre: c.nombre }))
+  );
+
+  actualizarSelectorCohortes();
+}
+
+function actualizarSelectorCohortes() {
+  const filterCohorte = document.getElementById('filterCohorte');
+  const modalCohorte = document.getElementById('modalCohorte');
+  const cursoFiltrado = document.getElementById('filterCurso').value;
+  const cursoModal = document.getElementById('modalCurso').value;
+
+  // Limpiar (mantener primeras opciones)
+  while (filterCohorte.options.length > 2) filterCohorte.remove(2);
+  while (modalCohorte.options.length > 1) modalCohorte.remove(1);
+
+  cohortes
+    .filter(co => !cursoFiltrado || co.curso_id === cursoFiltrado)
+    .forEach(co => filterCohorte.add(new Option(`${co.nombre} (${co.curso_nombre})`, co.id)));
+
+  cohortes
+    .filter(co => !cursoModal || co.curso_id === cursoModal)
+    .forEach(co => modalCohorte.add(new Option(co.nombre, co.id)));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Re-poblar cohortes al cambiar curso
+  setTimeout(() => {
+    document.getElementById('filterCurso').addEventListener('change', actualizarSelectorCohortes);
+    document.getElementById('modalCurso').addEventListener('change', actualizarSelectorCohortes);
+  }, 100);
+});
+
+// ============================================
+// CARGAR MATERIALES
+// ============================================
+async function cargarMateriales() {
+  const tbody = document.getElementById('materialesBody');
+  tbody.innerHTML = '<tr><td colspan="7" class="loading-row">Cargando...</td></tr>';
+
+  let query = supabase
+    .from('materiales_curso')
+    .select(`
+      id, curso_id, cohorte_id, nombre, descripcion, tipo, url,
+      tamano_bytes, orden, publicado, publicado_desde, creado_en
+    `)
+    .order('orden', { ascending: true })
+    .order('creado_en', { ascending: false });
+
+  const cursoF = document.getElementById('filterCurso').value;
+  const cohorteF = document.getElementById('filterCohorte').value;
+  const tipoF = document.getElementById('filterTipo').value;
+
+  if (cursoF) query = query.eq('curso_id', cursoF);
+  if (cohorteF === 'null') query = query.is('cohorte_id', null);
+  else if (cohorteF) query = query.eq('cohorte_id', cohorteF);
+  if (tipoF) query = query.eq('tipo', tipoF);
+
+  const { data, error } = await query;
+
+  if (error) {
+    toast('Error: ' + error.message, 'error');
+    tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Error al cargar</td></tr>';
+    return;
+  }
+
+  materialesActuales = data || [];
+  renderTabla(materialesActuales);
+  renderStats(materialesActuales);
+}
+
+function renderStats(items) {
+  const total = items.length;
+  const publicados = items.filter(m => m.publicado).length;
+  const ocultos = total - publicados;
+  const tamanoTotal = items.reduce((s, m) => s + (m.tamano_bytes || 0), 0);
+
+  document.getElementById('stats').innerHTML = `
+    <div class="stat-card">
+      <div class="num">${total}</div>
+      <div class="label">Materiales totales</div>
+    </div>
+    <div class="stat-card lime">
+      <div class="num">${publicados}</div>
+      <div class="label">Publicados</div>
+    </div>
+    <div class="stat-card gray">
+      <div class="num">${ocultos}</div>
+      <div class="label">Ocultos</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">${formatBytes(tamanoTotal)}</div>
+      <div class="label">Espacio usado</div>
+    </div>
+  `;
+
+  document.getElementById('totalMateriales').textContent = `${total} material${total !== 1 ? 'es' : ''}`;
+}
+
+function renderTabla(items) {
+  const tbody = document.getElementById('materialesBody');
+
+  if (items.length === 0) {
+    tbody.innerHTML = `
+      <tr><td colspan="7">
+        <div class="empty-state">
+          <div class="icon">📂</div>
+          <p>No hay materiales con estos filtros</p>
+          <p style="font-size:12px;margin-top:8px;">Sube el primero con el botón verde arriba</p>
+        </div>
+      </td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = items.map(m => {
+    const cohorteNombre = m.cohorte_id
+      ? (cohortes.find(c => c.id === m.cohorte_id)?.nombre || '?')
+      : 'Ambas';
+    const cohorteClass = m.cohorte_id ? '' : 'ambas';
+
+    return `
+      <tr data-id="${m.id}">
+        <td>
+          <input type="number" class="input-orden" value="${m.orden}" min="0"
+                 onchange="actualizarOrden('${m.id}', this.value)">
+        </td>
+        <td>
+          <strong>${escapeHtml(m.nombre)}</strong>
+          ${m.descripcion ? `<div style="font-size:12px;color:var(--text-muted);margin-top:2px;">${escapeHtml(m.descripcion)}</div>` : ''}
+        </td>
+        <td><span class="tipo-badge tipo-${m.tipo}">${m.tipo.toUpperCase()}</span></td>
+        <td><span class="cohorte-badge ${cohorteClass}">${escapeHtml(cohorteNombre)}</span></td>
+        <td>${m.tamano_bytes ? formatBytes(m.tamano_bytes) : '—'}</td>
+        <td>
+          <label class="toggle">
+            <input type="checkbox" ${m.publicado ? 'checked' : ''}
+                   onchange="togglePublicado('${m.id}', this.checked)">
+            <span class="slider"></span>
+          </label>
+        </td>
+        <td>
+          <button class="btn btn-secondary btn-icon" onclick="verMaterial('${m.id}')" title="Ver">👁️</button>
+          <button class="btn btn-primary btn-icon" onclick="editarMaterial('${m.id}')" title="Editar">✏️</button>
+          <button class="btn btn-danger btn-icon" onclick="eliminarMaterial('${m.id}')" title="Eliminar">🗑️</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// ============================================
+// CRUD: ACCIONES INDIVIDUALES
+// ============================================
+async function actualizarOrden(id, nuevoOrden) {
+  const { error } = await supabase
+    .from('materiales_curso')
+    .update({ orden: parseInt(nuevoOrden) || 0, actualizado_en: new Date().toISOString() })
+    .eq('id', id);
+
+  if (error) toast('Error al actualizar orden', 'error');
+  else toast('Orden actualizado', 'success');
+}
+
+async function togglePublicado(id, publicado) {
+  const { error } = await supabase
+    .from('materiales_curso')
+    .update({
+      publicado,
+      publicado_desde: publicado ? new Date().toISOString() : null,
+      actualizado_en: new Date().toISOString()
+    })
+    .eq('id', id);
+
+  if (error) toast('Error al cambiar visibilidad', 'error');
+  else toast(publicado ? 'Material publicado ✅' : 'Material oculto', 'success');
+}
+
+async function verMaterial(id) {
+  const m = materialesActuales.find(x => x.id === id);
+  if (!m) return;
+
+  if (m.tipo === 'link') {
+    window.open(m.url, '_blank');
+    return;
+  }
+
+  // Generar signed URL temporal (30 min)
+  const { data, error } = await supabase.storage
+    .from(BUCKET)
+    .createSignedUrl(m.url, 1800);
+
+  if (error) {
+    toast('Error al generar URL: ' + error.message, 'error');
+    return;
+  }
+
+  window.open(data.signedUrl, '_blank');
+}
+
+async function eliminarMaterial(id) {
+  const m = materialesActuales.find(x => x.id === id);
+  if (!m) return;
+
+  if (!confirm(`¿Eliminar "${m.nombre}"?\n\nEsta acción no se puede deshacer.`)) return;
+
+  // 1. Borrar archivo del bucket (solo si no es link externo)
+  if (m.tipo !== 'link' && m.url) {
+    const { error: errStorage } = await supabase.storage
+      .from(BUCKET)
+      .remove([m.url]);
+    if (errStorage) {
+      console.warn('Error borrando archivo:', errStorage);
+      // continuamos igual, el registro se borra
+    }
+  }
+
+  // 2. Borrar registro
+  const { error } = await supabase
+    .from('materiales_curso')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    toast('Error al eliminar: ' + error.message, 'error');
+    return;
+  }
+
+  toast('Material eliminado', 'success');
+  await cargarMateriales();
+}
+
+// ============================================
+// MODAL UPLOAD / EDIT
+// ============================================
+function abrirModal(material = null) {
+  document.getElementById('modalUpload').classList.add('active');
+  document.getElementById('formUpload').reset();
+  document.getElementById('fileSelectedBox').innerHTML = '';
+  document.getElementById('progressBar').style.display = 'none';
+  archivoSeleccionado = null;
+
+  if (material) {
+    document.getElementById('modalTitle').textContent = 'Editar Material';
+    document.getElementById('materialId').value = material.id;
+    document.getElementById('modalCurso').value = material.curso_id;
+    actualizarSelectorCohortes();
+    setTimeout(() => {
+      document.getElementById('modalCohorte').value = material.cohorte_id || '';
+    }, 50);
+    document.getElementById('modalNombre').value = material.nombre;
+    document.getElementById('modalDescripcion').value = material.descripcion || '';
+    document.getElementById('modalTipo').value = material.tipo;
+    document.getElementById('modalOrden').value = material.orden;
+    document.getElementById('modalPublicado').checked = material.publicado;
+    if (material.tipo === 'link') {
+      document.getElementById('modalUrl').value = material.url;
+    }
+    toggleUploadVsLink();
+  } else {
+    document.getElementById('modalTitle').textContent = 'Subir Nuevo Material';
+    document.getElementById('materialId').value = '';
+    document.getElementById('modalPublicado').checked = true;
+    toggleUploadVsLink();
+  }
+}
+
+function editarMaterial(id) {
+  const m = materialesActuales.find(x => x.id === id);
+  if (m) abrirModal(m);
+}
+
+function cerrarModal() {
+  document.getElementById('modalUpload').classList.remove('active');
+}
+
+function toggleUploadVsLink() {
+  const tipo = document.getElementById('modalTipo').value;
+  const uploadSec = document.getElementById('uploadSection');
+  const linkSec = document.getElementById('linkSection');
+
+  if (tipo === 'link') {
+    uploadSec.style.display = 'none';
+    linkSec.style.display = 'block';
+  } else {
+    uploadSec.style.display = 'block';
+    linkSec.style.display = 'none';
+  }
+}
+
+function onFileSelected(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  if (file.size > MAX_FILE_SIZE) {
+    toast(`Archivo muy grande (${formatBytes(file.size)}). Máximo 50 MB.`, 'error');
+    return;
+  }
+
+  archivoSeleccionado = file;
+  document.getElementById('fileSelectedBox').innerHTML = `
+    <div class="file-selected">
+      <div>
+        <div class="name">${escapeHtml(file.name)}</div>
+        <div class="size">${formatBytes(file.size)}</div>
+      </div>
+      <button type="button" class="btn btn-danger btn-icon" onclick="quitarArchivo()">✕</button>
+    </div>
+  `;
+}
+
+function quitarArchivo() {
+  archivoSeleccionado = null;
+  document.getElementById('fileInput').value = '';
+  document.getElementById('fileSelectedBox').innerHTML = '';
+}
+
+// Drag & drop
+const dropzone = document.getElementById('dropzone');
+['dragenter','dragover'].forEach(ev =>
+  dropzone.addEventListener(ev, e => { e.preventDefault(); dropzone.classList.add('dragover'); })
+);
+['dragleave','drop'].forEach(ev =>
+  dropzone.addEventListener(ev, e => { e.preventDefault(); dropzone.classList.remove('dragover'); })
+);
+dropzone.addEventListener('drop', e => {
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    document.getElementById('fileInput').files = e.dataTransfer.files;
+    onFileSelected({ target: { files: [file] } });
+  }
+});
+
+// ============================================
+// GUARDAR (CREATE / UPDATE)
+// ============================================
+async function guardarMaterial() {
+  const id = document.getElementById('materialId').value;
+  const cursoId = document.getElementById('modalCurso').value;
+  const cohorteId = document.getElementById('modalCohorte').value || null;
+  const nombre = document.getElementById('modalNombre').value.trim();
+  const descripcion = document.getElementById('modalDescripcion').value.trim() || null;
+  const tipo = document.getElementById('modalTipo').value;
+  const orden = parseInt(document.getElementById('modalOrden').value) || 0;
+  const publicado = document.getElementById('modalPublicado').checked;
+  const urlExterna = document.getElementById('modalUrl').value.trim();
+
+  if (!cursoId) { toast('Selecciona un curso', 'warning'); return; }
+  if (!nombre) { toast('Ingresa un nombre', 'warning'); return; }
+
+  const btn = document.getElementById('btnGuardar');
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+
+  try {
+    let url = '';
+    let tamanoBytes = null;
+
+    // CASO 1: Link externo (no upload)
+    if (tipo === 'link') {
+      if (!urlExterna) { toast('Ingresa una URL', 'warning'); btn.disabled = false; btn.textContent = 'Guardar Material'; return; }
+      url = urlExterna;
+    }
+    // CASO 2: Edición sin nuevo archivo
+    else if (id && !archivoSeleccionado) {
+      const original = materialesActuales.find(m => m.id === id);
+      url = original.url;
+      tamanoBytes = original.tamano_bytes;
+    }
+    // CASO 3: Upload nuevo
+    else {
+      if (!archivoSeleccionado) {
+        toast('Selecciona un archivo', 'warning');
+        btn.disabled = false; btn.textContent = 'Guardar Material';
+        return;
+      }
+
+      // Construir path: {curso_slug}/{cohorte_slug}/{timestamp}_{nombre}
+      const curso = cursos.find(c => c.id === cursoId);
+      const cohorte = cohorteId ? cohortes.find(c => c.id === cohorteId) : null;
+      const cursoSlug = curso?.slug || 'sin-slug';
+      const cohorteSlug = cohorte ? slugify(cohorte.nombre) : 'ambas';
+      const timestamp = Date.now();
+      const nombreLimpio = sanitizeFileName(archivoSeleccionado.name);
+      const path = `${cursoSlug}/${cohorteSlug}/${timestamp}_${nombreLimpio}`;
+
+      // Mostrar progress bar
+      document.getElementById('progressBar').style.display = 'block';
+      document.getElementById('progressFill').style.width = '30%';
+
+      const { data: upData, error: upErr } = await supabase.storage
+        .from(BUCKET)
+        .upload(path, archivoSeleccionado, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      document.getElementById('progressFill').style.width = '80%';
+
+      if (upErr) throw upErr;
+
+      url = path;
+      tamanoBytes = archivoSeleccionado.size;
+
+      // Si es edición y había archivo previo, borrar el viejo
+      if (id) {
+        const original = materialesActuales.find(m => m.id === id);
+        if (original && original.tipo !== 'link' && original.url && original.url !== path) {
+          await supabase.storage.from(BUCKET).remove([original.url]);
+        }
+      }
+
+      document.getElementById('progressFill').style.width = '100%';
+    }
+
+    // Insertar o actualizar registro
+    const payload = {
+      curso_id: cursoId,
+      cohorte_id: cohorteId,
+      nombre,
+      descripcion,
+      tipo,
+      url,
+      tamano_bytes: tamanoBytes,
+      orden,
+      publicado,
+      publicado_desde: publicado ? new Date().toISOString() : null,
+      actualizado_en: new Date().toISOString()
+    };
+
+    let result;
+    if (id) {
+      result = await supabase.from('materiales_curso').update(payload).eq('id', id);
+    } else {
+      payload.creado_por = currentUser.id;
+      result = await supabase.from('materiales_curso').insert(payload);
+    }
+
+    if (result.error) throw result.error;
+
+    toast(id ? 'Material actualizado ✅' : 'Material subido ✅', 'success');
+    cerrarModal();
+    await cargarMateriales();
+
+  } catch (err) {
+    console.error(err);
+    toast('Error: ' + (err.message || 'desconocido'), 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Guardar Material';
+  }
+}
+
+// ============================================
+// UTILS
+// ============================================
+function formatBytes(bytes) {
+  if (!bytes) return '0 B';
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let i = 0;
+  while (bytes >= 1024 && i < units.length - 1) { bytes /= 1024; i++; }
+  return bytes.toFixed(1) + ' ' + units[i];
+}
+
+function slugify(str) {
+  return str.toString().toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function sanitizeFileName(name) {
+  return name.replace(/[^a-zA-Z0-9._-]/g, '_');
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>"']/g, c => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+  }[c]));
+}
+
+function toast(msg, type = '') {
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  document.getElementById('toasts').appendChild(t);
+  setTimeout(() => {
+    t.style.opacity = '0';
+    setTimeout(() => t.remove(), 300);
+  }, 3500);
+}
+
+// ============================================
+// CERRAR MODAL CON ESC
+// ============================================
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') cerrarModal();
+});
+
+// ============================================
+// INIT
+// ============================================
+checkAuth();
+</script>
+</body>
+</html>
