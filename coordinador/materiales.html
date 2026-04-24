@@ -881,30 +881,33 @@ async function checkAuth() {
 
   currentUser = session.user;
 
-  // Verificar rol (admin o coordinador)
-  const { data: profile, error: profErr } = await _supa
-    .from('profiles')
-    .select('id, full_name, role, email')
+  // Verificar rol en tabla "perfiles" (schema en español)
+  const { data: perfil, error: profErr } = await _supa
+    .from('perfiles')
+    .select('id, nombre, apellido, rol')
     .eq('id', currentUser.id)
     .single();
 
-  if (profErr || !profile) {
+  if (profErr || !perfil) {
+    console.error('Error al cargar perfil:', profErr);
     alert('No se pudo verificar tu perfil. Contacta al administrador.');
     await _supa.auth.signOut();
     window.location.href = '/login.html';
     return;
   }
 
-  if (!['admin', 'coordinador'].includes(profile.role)) {
-    alert('Acceso denegado. Solo administradores y coordinadores pueden acceder a este panel.');
+  if (!['admin', 'coordinador'].includes(perfil.rol)) {
+    alert('Acceso denegado. Solo administradores y coordinadores pueden acceder a este panel.\n\nTu rol actual: ' + perfil.rol);
     window.location.href = '/alumno/dashboard.html';
     return;
   }
 
-  currentProfile = profile;
+  currentProfile = perfil;
 
-  document.getElementById('userName').textContent = profile.full_name || profile.email;
-  document.getElementById('userRole').textContent = profile.role;
+  // Nombre completo + email desde sesión Auth (perfiles no tiene columna email)
+  const nombreCompleto = [perfil.nombre, perfil.apellido].filter(Boolean).join(' ').trim();
+  document.getElementById('userName').textContent = nombreCompleto || currentUser.email;
+  document.getElementById('userRole').textContent = perfil.rol;
 
   document.getElementById('authGate').style.display = 'none';
   document.getElementById('app').style.display = 'block';
