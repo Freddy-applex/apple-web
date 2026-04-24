@@ -190,6 +190,26 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 .carga-sp{width:48px;height:48px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px;}
 .carga-txt{font-size:14px;color:var(--muted);font-weight:600;}
 
+/* ═══ SELECTOR DE COHORTE (cuando hay 2+ grupos disponibles) ═══ */
+.cohorte-block{margin-bottom:22px;padding:16px;background:linear-gradient(135deg,rgba(26,39,68,.04),rgba(141,198,63,.04));border:1.5px solid rgba(26,39,68,.12);border-radius:10px;display:none;}
+.cohorte-block.show{display:block;}
+.cohorte-tit{font-size:12px;font-weight:800;letter-spacing:.5px;color:var(--navy);margin-bottom:4px;text-transform:uppercase;}
+.cohorte-sub{font-size:12px;color:var(--muted);margin-bottom:14px;}
+.cohorte-opts{display:flex;flex-direction:column;gap:10px;}
+.cohorte-opt{position:relative;cursor:pointer;}
+.cohorte-opt input{position:absolute;opacity:0;pointer-events:none;}
+.cohorte-card{display:flex;flex-direction:column;gap:5px;padding:14px 16px 14px 44px;border:1.5px solid var(--border);border-radius:9px;background:#fff;transition:all .2s;position:relative;}
+.cohorte-card::before{content:'';position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;border:2px solid var(--border);border-radius:50%;background:#fff;transition:all .2s;}
+.cohorte-card::after{content:'';position:absolute;left:19px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:var(--green);opacity:0;transition:opacity .2s;}
+.cohorte-opt input:checked + .cohorte-card{border-color:var(--green);background:rgba(141,198,63,.05);box-shadow:0 0 0 3px rgba(141,198,63,.08);}
+.cohorte-opt input:checked + .cohorte-card::before{border-color:var(--green);}
+.cohorte-opt input:checked + .cohorte-card::after{opacity:1;}
+.cohorte-card-name{font-size:14px;font-weight:700;color:var(--navy);}
+.cohorte-card-meta{font-size:12px;color:var(--muted);font-weight:500;display:flex;flex-wrap:wrap;gap:10px;margin-top:2px;}
+.cohorte-card-meta span{display:inline-flex;align-items:center;gap:4px;}
+.cohorte-card-cupos{font-size:11px;font-weight:700;color:var(--green-dark);}
+.cohorte-card-cupos.bajo{color:#dc2626;}
+
 /* ═══ SELECTOR TIPO DE INSCRIPCIÓN ═══ */
 .tipo-block{margin-bottom:22px;padding:16px;background:linear-gradient(135deg,rgba(107,107,187,.05),rgba(141,198,63,.03));border:1px solid rgba(107,107,187,.18);border-radius:10px;display:none;}
 .tipo-block.show{display:block;}
@@ -339,6 +359,16 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
             </div>
             <div class="form-err" id="err-password2">Las contraseñas no coinciden</div>
           </div>
+        </div>
+
+        <!-- ═══ SELECTOR DE COHORTE (solo cursos en vivo con 2+ grupos abiertos) ═══ -->
+        <div class="cohorte-block" id="cohorte-block">
+          <div class="cohorte-tit">Elegí tu grupo</div>
+          <div class="cohorte-sub">Este curso tiene varios horarios disponibles. Seleccioná el que mejor se ajuste a tu agenda.</div>
+          <div class="cohorte-opts" id="cohorte-opts">
+            <!-- Las opciones se renderizan dinámicamente desde JS -->
+          </div>
+          <div class="form-err" id="err-cohorte">Tenés que elegir un grupo para continuar.</div>
         </div>
 
         <!-- ═══ SELECTOR TIPO DE INSCRIPCIÓN (solo cursos con precio estudiante) ═══ -->
@@ -566,24 +596,33 @@ async function cargarCurso() {
     }
     curso.instructor_nombre = instructorNombre;
 
-    // 3) Cargar cohorte próxima (solo si es curso en vivo)
+    // 3) Cargar cohortes abiertas (solo si es curso en vivo) — TODAS, no solo la próxima
+    let cohortesDisponibles = [];
     if (curso.modalidad === 'en_vivo') {
       try {
         const { data: cohortes } = await sb
           .from('cohortes')
-          .select('id, nombre, fecha_inicio, cupos_totales, cupos_ocupados')
+          .select('id, nombre, fecha_inicio, fecha_fin, dias_clase, hora_inicio_clase, cupos_totales, cupos_ocupados, estado')
           .eq('curso_id', curso.id)
+          .in('estado', ['inscripciones_abiertas', 'en_curso'])
           .gte('fecha_inicio', new Date().toISOString())
-          .order('fecha_inicio', { ascending: true })
-          .limit(1);
+          .order('fecha_inicio', { ascending: true });
         if (cohortes && cohortes.length > 0) {
+          cohortesDisponibles = cohortes;
+          // Default: la primera (más próxima). Si hay 2+, el usuario puede cambiar.
           cohorteActual = cohortes[0];
         }
-      } catch (e) { console.warn('[APPLENDE] No se pudo cargar cohorte:', e); }
+      } catch (e) { console.warn('[APPLENDE] No se pudo cargar cohortes:', e); }
     }
 
     cursoActual = curso;
     renderizarResumen(curso);
+    
+    // Si hay 2+ cohortes, mostrar el selector
+    if (cohortesDisponibles.length >= 2) {
+      mostrarSelectorCohortes(cohortesDisponibles);
+    }
+    
     document.getElementById('carga-inicial').style.display = 'none';
     document.getElementById('contenedor').style.display = 'grid';
 
@@ -712,6 +751,78 @@ function obtenerPrecioAplicable() {
 }
 
 /* ════════════════════════════════════════════════════════════════
+   SELECTOR DE COHORTES (cuando hay 2+ grupos disponibles)
+   ════════════════════════════════════════════════════════════════ */
+function mostrarSelectorCohortes(cohortes) {
+  const bloque = document.getElementById('cohorte-block');
+  const opts = document.getElementById('cohorte-opts');
+  
+  opts.innerHTML = '';
+  
+  cohortes.forEach((c, idx) => {
+    const fechaIni = c.fecha_inicio ? new Date(c.fecha_inicio) : null;
+    const fechaFin = c.fecha_fin ? new Date(c.fecha_fin) : null;
+    const cuposDisp = (c.cupos_totales || 0) - (c.cupos_ocupados || 0);
+    const cuposBajos = cuposDisp <= 10;
+    
+    const fechaIniStr = fechaIni 
+      ? fechaIni.toLocaleDateString('es-BO', { day: 'numeric', month: 'short' })
+      : '';
+    const fechaFinStr = fechaFin 
+      ? fechaFin.toLocaleDateString('es-BO', { day: 'numeric', month: 'short', year: 'numeric' })
+      : '';
+    const horario = c.hora_inicio_clase 
+      ? c.hora_inicio_clase.substring(0, 5)
+      : '';
+
+    const checked = idx === 0 ? 'checked' : '';
+    const label = document.createElement('label');
+    label.className = 'cohorte-opt';
+    label.innerHTML = `
+      <input type="radio" name="cohorte-elegida" value="${escapar(c.id)}" ${checked}>
+      <div class="cohorte-card">
+        <span class="cohorte-card-name">${escapar(c.nombre)}</span>
+        <div class="cohorte-card-meta">
+          ${c.dias_clase ? `<span>📅 ${escapar(c.dias_clase)}</span>` : ''}
+          ${horario ? `<span>🕒 ${horario} hs</span>` : ''}
+          ${fechaIniStr && fechaFinStr ? `<span>📆 ${fechaIniStr} → ${fechaFinStr}</span>` : ''}
+        </div>
+        <span class="cohorte-card-cupos ${cuposBajos ? 'bajo' : ''}">⚡ ${cuposDisp} cupos disponibles</span>
+      </div>
+    `;
+    opts.appendChild(label);
+  });
+  
+  bloque.classList.add('show');
+  
+  // Listener para cambios
+  document.querySelectorAll('input[name="cohorte-elegida"]').forEach(r => {
+    r.addEventListener('change', () => {
+      const cohorteId = r.value;
+      // Buscar la cohorte completa en el array
+      cohorteActual = cohortes.find(c => c.id === cohorteId);
+      actualizarResumenConCohorte(cohorteActual);
+      // Limpiar error si existe
+      document.getElementById('err-cohorte').classList.remove('show');
+    });
+  });
+}
+
+function actualizarResumenConCohorte(cohorte) {
+  if (!cohorte) return;
+  document.body.classList.add('modo-vivo');
+  document.getElementById('res-coh-fecha').textContent = '📅 Inicia ' + formatearFecha(cohorte.fecha_inicio);
+  const disponibles = (cohorte.cupos_totales || 0) - (cohorte.cupos_ocupados || 0);
+  document.getElementById('res-coh-cupos').textContent = '⚡ ' + disponibles + ' de ' + cohorte.cupos_totales + ' cupos disponibles';
+}
+
+function escapar(txt) {
+  const div = document.createElement('div');
+  div.textContent = txt;
+  return div.innerHTML;
+}
+
+/* ════════════════════════════════════════════════════════════════
    VALIDACIÓN DE FORMULARIO
    ════════════════════════════════════════════════════════════════ */
 function validarFormulario() {
@@ -766,6 +877,16 @@ function validarFormulario() {
   if (!terminos) {
     mostrarErrorGeneral('Debés aceptar los términos y condiciones para continuar.');
     ok = false;
+  }
+
+  // Validación de cohorte: si el bloque está visible, debe haber una elegida
+  const cohorteBlock = document.getElementById('cohorte-block');
+  if (cohorteBlock && cohorteBlock.classList.contains('show')) {
+    const cohorteRadio = document.querySelector('input[name="cohorte-elegida"]:checked');
+    if (!cohorteRadio) {
+      document.getElementById('err-cohorte').classList.add('show');
+      ok = false;
+    }
   }
 
   // Validación extra: si es estudiante, debe haber subido carnet
