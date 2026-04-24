@@ -474,6 +474,7 @@
       const fechaInicio = cohorte.fecha_inicio 
         ? new Date(cohorte.fecha_inicio).toLocaleDateString('es-BO', {day:'2-digit', month:'short', year:'numeric'}) 
         : '—';
+      const slug = curso.slug || '';
 
       return `
         <article class="course-card">
@@ -499,9 +500,9 @@
                 <span class="value">${curso.duracion_horas || '—'} horas</span>
               </div>
             </div>
-            <button class="course-cta" data-detail="${insc.id}">
+            <a href="/aula/curso.html?slug=${encodeURIComponent(slug)}" class="course-cta" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">
               Entrar al curso →
-            </button>
+            </a>
           </div>
         </article>`;
     }
