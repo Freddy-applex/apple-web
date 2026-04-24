@@ -826,12 +826,20 @@
 // ============================================
 // CONFIGURACIÓN
 // ============================================
-// El cliente Supabase ya está creado globalmente por applende-config.js
-// Lo buscamos en los nombres comunes (compatible con cualquier versión del config)
-const _supa = window.supabaseClient
-           || window.supabase
-           || window.sb
-           || (window._supabaseClient);
+// applende-config.js expone window.obtenerSupabase() (función lazy)
+// que retorna el cliente Supabase ya configurado.
+let _supa;
+try {
+  if (typeof window.obtenerSupabase === 'function') {
+    _supa = window.obtenerSupabase();
+  } else if (window.supabaseClient) {
+    _supa = window.supabaseClient;
+  } else if (window.sb) {
+    _supa = window.sb;
+  }
+} catch (e) {
+  console.error('Error al obtener cliente Supabase:', e);
+}
 
 if (!_supa || typeof _supa.auth?.getSession !== 'function') {
   document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#D9534F;text-align:center;"><h2>Error de configuración</h2><p>No se pudo cargar el cliente Supabase. Verifica que <code>applende-config.js</code> se cargue correctamente.</p></div>';
