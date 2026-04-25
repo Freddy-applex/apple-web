@@ -211,6 +211,29 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 .cohorte-card-cupos.bajo{color:#dc2626;}
 
 /* ═══ SELECTOR TIPO DE INSCRIPCIÓN ═══ */
+
+/* ═══ SELECTOR DE MODALIDAD (Virtual / Presencial) ═══ */
+.modalidad-block{margin-bottom:22px;padding:16px;background:linear-gradient(135deg,rgba(141,198,63,.05),rgba(107,107,187,.03));border:1px solid rgba(141,198,63,.22);border-radius:10px;display:none;}
+.modalidad-block.show{display:block;}
+.modalidad-tit{font-size:12px;font-weight:800;letter-spacing:.5px;color:var(--navy);margin-bottom:10px;text-transform:uppercase;}
+.modalidad-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:420px){.modalidad-opts{grid-template-columns:1fr;}}
+.modalidad-opt{position:relative;cursor:pointer;}
+.modalidad-opt input{position:absolute;opacity:0;pointer-events:none;}
+.modalidad-card{display:flex;flex-direction:column;gap:5px;padding:14px 14px 14px 42px;border:1.5px solid var(--border);border-radius:9px;background:#fff;transition:all .2s;position:relative;}
+.modalidad-card::before{content:'';position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;border:2px solid var(--border);border-radius:50%;background:#fff;transition:all .2s;}
+.modalidad-card::after{content:'';position:absolute;left:19px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:var(--green);opacity:0;transition:opacity .2s;}
+.modalidad-opt input:checked + .modalidad-card{border-color:var(--green);background:rgba(141,198,63,.05);box-shadow:0 0 0 3px rgba(141,198,63,.08);}
+.modalidad-opt input:checked + .modalidad-card::before{border-color:var(--green);}
+.modalidad-opt input:checked + .modalidad-card::after{opacity:1;}
+.modalidad-card-lbl{font-size:13.5px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:6px;}
+.modalidad-card-hint{font-size:10.5px;color:var(--muted);font-weight:500;line-height:1.4;}
+.modalidad-card-cupos{font-size:11px;color:var(--green-dark);font-weight:700;margin-top:2px;}
+.modalidad-card-cupos.bajo{color:#dc2626;}
+.modalidad-card-cupos.lleno{color:#999;text-decoration:line-through;}
+.modalidad-opt.disabled{opacity:.5;pointer-events:none;}
+.modalidad-opt.disabled .modalidad-card{background:#f5f5f5;}
+
 .tipo-block{margin-bottom:22px;padding:16px;background:linear-gradient(135deg,rgba(107,107,187,.05),rgba(141,198,63,.03));border:1px solid rgba(107,107,187,.18);border-radius:10px;display:none;}
 .tipo-block.show{display:block;}
 .tipo-tit{font-size:12px;font-weight:800;letter-spacing:.5px;color:var(--navy);margin-bottom:10px;text-transform:uppercase;}
@@ -369,6 +392,30 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
             <!-- Las opciones se renderizan dinámicamente desde JS -->
           </div>
           <div class="form-err" id="err-cohorte">Tenés que elegir un grupo para continuar.</div>
+        </div>
+
+        <!-- ═══ SELECTOR DE MODALIDAD (Virtual / Presencial) — solo si curso tiene cupos por modalidad ═══ -->
+        <div class="modalidad-block" id="modalidad-block">
+          <div class="modalidad-tit">¿Cómo querés cursar?</div>
+          <div class="modalidad-opts">
+            <label class="modalidad-opt" id="mod-virtual-opt">
+              <input type="radio" name="modalidad-elegida" value="virtual" checked>
+              <div class="modalidad-card">
+                <span class="modalidad-card-lbl">📺 Virtual (Zoom)</span>
+                <span class="modalidad-card-hint">Clases en vivo desde tu casa · grabaciones permanentes</span>
+                <span class="modalidad-card-cupos" id="mod-virtual-cupos">⚡ — cupos disponibles</span>
+              </div>
+            </label>
+            <label class="modalidad-opt" id="mod-presencial-opt">
+              <input type="radio" name="modalidad-elegida" value="presencial">
+              <div class="modalidad-card">
+                <span class="modalidad-card-lbl">🏛️ Presencial</span>
+                <span class="modalidad-card-hint">Aula en Santa Cruz · networking + atención directa</span>
+                <span class="modalidad-card-cupos" id="mod-presencial-cupos">⚡ — cupos disponibles</span>
+              </div>
+            </label>
+          </div>
+          <div class="form-err" id="err-modalidad">Tenés que elegir una modalidad para continuar.</div>
         </div>
 
         <!-- ═══ SELECTOR TIPO DE INSCRIPCIÓN (solo cursos con precio estudiante) ═══ -->
@@ -571,7 +618,7 @@ async function cargarCurso() {
     // 1) Cargar datos del curso desde tabla base
     const { data: curso, error: errCurso } = await sb
       .from('cursos')
-      .select('id, slug, titulo, subtitulo, modalidad, duracion_horas, precio_bs, precio_estudiante_bs, precio_original_bs, instructor_id, estado')
+      .select('id, slug, titulo, subtitulo, modalidad, duracion_horas, precio_bs, precio_estudiante_bs, precio_original_bs, precio_presencial_bs, precio_presencial_estudiante_bs, instructor_id, estado')
       .eq('slug', slug)
       .eq('estado', 'publicado')
       .maybeSingle();
@@ -602,7 +649,7 @@ async function cargarCurso() {
       try {
         const { data: cohortes } = await sb
           .from('cohortes')
-          .select('id, nombre, fecha_inicio, fecha_fin, dias_clase, hora_inicio_clase, cupos_totales, cupos_ocupados, estado')
+          .select('id, nombre, fecha_inicio, fecha_fin, dias_clase, hora_inicio_clase, cupos_totales, cupos_ocupados, cupos_virtuales, cupos_presenciales, ocupados_virtuales, ocupados_presenciales, estado')
           .eq('curso_id', curso.id)
           .in('estado', ['inscripciones_abiertas', 'en_curso'])
           .gte('fecha_inicio', new Date().toISOString())
@@ -681,6 +728,11 @@ function renderizarResumen(curso) {
   if (curso.precio_estudiante_bs && Number(curso.precio_estudiante_bs) > 0) {
     mostrarSelectorTipoAlumno(curso);
   }
+
+  // ═══ Si el curso tiene precio presencial diferenciado, mostrar selector de modalidad
+  if (curso.precio_presencial_bs && Number(curso.precio_presencial_bs) > 0) {
+    mostrarSelectorModalidad(curso);
+  }
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -702,11 +754,8 @@ function mostrarSelectorTipoAlumno(curso) {
 }
 
 function actualizarPrecioSegunTipo(curso) {
-  const tipo = obtenerTipoAlumno();
-  const precioAplicable = (tipo === 'estudiante') 
-    ? Number(curso.precio_estudiante_bs)
-    : Number(curso.precio_bs);
-
+  // Usar la función obtenerPrecioAplicable que ya considera modalidad + tipo
+  const precioAplicable = obtenerPrecioAplicable();
   const precioFmt = formatearPrecio(precioAplicable).precio;
   document.getElementById('res-precio').textContent = 'Bs ' + precioFmt;
   document.getElementById('pago-monto').textContent = 'Bs ' + precioFmt;
@@ -716,6 +765,7 @@ function actualizarPrecioSegunTipo(curso) {
   document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
 
   // Mostrar/ocultar precio original tachado (solo aplica al precio profesional)
+  const tipo = obtenerTipoAlumno();
   const origEl = document.getElementById('res-porig');
   if (tipo === 'profesional' && curso.precio_original_bs && Number(curso.precio_original_bs) > Number(curso.precio_bs)) {
     origEl.textContent = 'Bs ' + formatearPrecio(curso.precio_original_bs).precio;
@@ -744,11 +794,106 @@ function obtenerTipoAlumno() {
 
 function obtenerPrecioAplicable() {
   const tipo = obtenerTipoAlumno();
+  const modalidad = obtenerModalidadElegida();
+
+  // Si el curso tiene precios duales por modalidad
+  if (cursoActual.precio_presencial_bs && Number(cursoActual.precio_presencial_bs) > 0) {
+    if (modalidad === 'presencial') {
+      if (tipo === 'estudiante' && cursoActual.precio_presencial_estudiante_bs) {
+        return Number(cursoActual.precio_presencial_estudiante_bs);
+      }
+      return Number(cursoActual.precio_presencial_bs);
+    }
+  }
+
+  // Default: virtual (o curso sin presencial diferenciado)
   if (tipo === 'estudiante' && cursoActual.precio_estudiante_bs) {
     return Number(cursoActual.precio_estudiante_bs);
   }
   return Number(cursoActual.precio_bs);
 }
+
+/* ════════════════════════════════════════════════════════════════
+   SELECTOR DE MODALIDAD (Virtual vs Presencial)
+   ════════════════════════════════════════════════════════════════ */
+function mostrarSelectorModalidad(curso) {
+  const bloque = document.getElementById('modalidad-block');
+  bloque.classList.add('show');
+
+  // Listener para cambios
+  document.querySelectorAll('input[name="modalidad-elegida"]').forEach(r => {
+    r.addEventListener('change', () => {
+      actualizarPrecioSegunTipo(curso);
+      document.getElementById('err-modalidad').classList.remove('show');
+    });
+  });
+
+  // Actualizar cupos al renderizar (usa la cohorte actual si existe)
+  actualizarCuposPorModalidad();
+}
+
+function obtenerModalidadElegida() {
+  const radio = document.querySelector('input[name="modalidad-elegida"]:checked');
+  return radio ? radio.value : 'virtual';
+}
+
+function actualizarCuposPorModalidad() {
+  if (!cohorteActual) return;
+
+  const cupVirt = (cohorteActual.cupos_virtuales || 0) - (cohorteActual.ocupados_virtuales || 0);
+  const cupPres = (cohorteActual.cupos_presenciales || 0) - (cohorteActual.ocupados_presenciales || 0);
+
+  // Actualizar cupos virtuales
+  const elV = document.getElementById('mod-virtual-cupos');
+  const optV = document.getElementById('mod-virtual-opt');
+  if (elV && optV) {
+    if (cupVirt <= 0) {
+      elV.textContent = '🔒 Cupos agotados';
+      elV.classList.add('lleno');
+      optV.classList.add('disabled');
+      const inpV = optV.querySelector('input');
+      if (inpV) inpV.disabled = true;
+    } else {
+      elV.textContent = '⚡ ' + cupVirt + ' cupos disponibles';
+      elV.classList.toggle('bajo', cupVirt <= 5);
+      elV.classList.remove('lleno');
+      optV.classList.remove('disabled');
+      const inpV = optV.querySelector('input');
+      if (inpV) inpV.disabled = false;
+    }
+  }
+
+  // Actualizar cupos presenciales
+  const elP = document.getElementById('mod-presencial-cupos');
+  const optP = document.getElementById('mod-presencial-opt');
+  if (elP && optP) {
+    if (cupPres <= 0) {
+      elP.textContent = '🔒 Cupos agotados';
+      elP.classList.add('lleno');
+      optP.classList.add('disabled');
+      const inpP = optP.querySelector('input');
+      if (inpP) inpP.disabled = true;
+    } else {
+      elP.textContent = '⚡ ' + cupPres + ' cupos disponibles';
+      elP.classList.toggle('bajo', cupPres <= 3);
+      elP.classList.remove('lleno');
+      optP.classList.remove('disabled');
+      const inpP = optP.querySelector('input');
+      if (inpP) inpP.disabled = false;
+    }
+  }
+
+  // Si la modalidad elegida está agotada, cambiar automáticamente a la otra
+  const modActual = obtenerModalidadElegida();
+  if (modActual === 'virtual' && cupVirt <= 0 && cupPres > 0) {
+    document.querySelector('input[name="modalidad-elegida"][value="presencial"]').checked = true;
+    actualizarPrecioSegunTipo(cursoActual);
+  } else if (modActual === 'presencial' && cupPres <= 0 && cupVirt > 0) {
+    document.querySelector('input[name="modalidad-elegida"][value="virtual"]').checked = true;
+    actualizarPrecioSegunTipo(cursoActual);
+  }
+}
+
 
 /* ════════════════════════════════════════════════════════════════
    SELECTOR DE COHORTES (cuando hay 2+ grupos disponibles)
@@ -804,6 +949,8 @@ function mostrarSelectorCohortes(cohortes) {
       actualizarResumenConCohorte(cohorteActual);
       // Limpiar error si existe
       document.getElementById('err-cohorte').classList.remove('show');
+      // Actualizar cupos por modalidad para esta cohorte
+      actualizarCuposPorModalidad();
     });
   });
 }
@@ -885,6 +1032,16 @@ function validarFormulario() {
     const cohorteRadio = document.querySelector('input[name="cohorte-elegida"]:checked');
     if (!cohorteRadio) {
       document.getElementById('err-cohorte').classList.add('show');
+      ok = false;
+    }
+  }
+
+  // Validación de modalidad: si el bloque está visible, no debe estar agotada la elegida
+  const modalidadBlock = document.getElementById('modalidad-block');
+  if (modalidadBlock && modalidadBlock.classList.contains('show')) {
+    const modalidadRadio = document.querySelector('input[name="modalidad-elegida"]:checked');
+    if (!modalidadRadio || modalidadRadio.disabled) {
+      document.getElementById('err-modalidad').classList.add('show');
       ok = false;
     }
   }
@@ -1052,6 +1209,7 @@ async function procesarInscripcion(ev) {
         p_ciudad:                     datosAlumno.ciudad,
         p_precio:                     precioAplicable,
         p_tipo_alumno:                tipoAlumno,
+        p_modalidad:                  obtenerModalidadElegida(),
         p_url_documento_validacion:   urlCarnet
       }
     );
@@ -1150,6 +1308,16 @@ function construirMensajeWA(datos, curso) {
     lineas.push('- Tipo: *Estudiante* (ya adjunté carnet en la web)');
   } else {
     lineas.push('- Tipo: Profesional');
+  }
+  // Modalidad (solo si el curso tiene selector de modalidad activo)
+  const bloqueModalidad = document.getElementById('modalidad-block');
+  if (bloqueModalidad && bloqueModalidad.classList.contains('show')) {
+    const modalidadElegida = obtenerModalidadElegida();
+    if (modalidadElegida === 'presencial') {
+      lineas.push('- Modalidad: *🏛️ Presencial* (Santa Cruz)');
+    } else {
+      lineas.push('- Modalidad: 📺 Virtual (Zoom)');
+    }
   }
   lineas.push('- Monto pagado: *Bs ' + precioFmt + '*');
   if (curso.modalidad === 'en_vivo' && cohorteActual) {
