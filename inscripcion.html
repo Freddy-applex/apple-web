@@ -1139,7 +1139,7 @@ function construirMensajeWA(datos, curso) {
   const lineas = [];
   lineas.push('Hola APPLENDE, buenas!');
   lineas.push('');
-  lineas.push('Acabo de crear mi cuenta y me inscribí al curso *' + curso.titulo + '* desde la web.');
+  lineas.push('Acabo de inscribirme al curso *' + curso.titulo + '* y ya realicé el pago.');
   lineas.push('');
   lineas.push('*Mis datos:*');
   lineas.push('- Nombre: ' + nombreFmt);
@@ -1151,12 +1151,12 @@ function construirMensajeWA(datos, curso) {
   } else {
     lineas.push('- Tipo: Profesional');
   }
-  lineas.push('- Monto a pagar: *Bs ' + precioFmt + '*');
+  lineas.push('- Monto pagado: *Bs ' + precioFmt + '*');
   if (curso.modalidad === 'en_vivo' && cohorteActual) {
     lineas.push('- Grupo: ' + formatearFecha(cohorteActual.fecha_inicio));
   }
   lineas.push('');
-  lineas.push('¿Me confirman a qué cuenta realizar el pago? En cuanto pague les paso el comprobante por acá.');
+  lineas.push('Adjunto el comprobante de pago. ¿Me confirman cuando esté todo verificado para acceder al curso?');
   lineas.push('');
   lineas.push('Gracias!');
   return lineas.join(String.fromCharCode(10));
