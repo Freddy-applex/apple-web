@@ -764,10 +764,32 @@ function actualizarPrecioSegunTipo(curso) {
   const usd = Math.round(precioAplicable / TIPO_CAMBIO_USD);
   document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
 
-  // Mostrar/ocultar precio original tachado (solo aplica al precio profesional)
+  // ═══ FIX: Actualizar precios del cuadro TIPO DE INSCRIPCIÓN según modalidad elegida ═══
+  // El cuadro tipo de inscripción debe reflejar los precios correctos según virtual/presencial
+  const modalidad = obtenerModalidadElegida();
+  const tieneDualModalidad = curso.precio_presencial_bs && Number(curso.precio_presencial_bs) > 0;
+
+  let precioProfMostrar = Number(curso.precio_bs);
+  let precioEstMostrar = curso.precio_estudiante_bs ? Number(curso.precio_estudiante_bs) : null;
+
+  if (tieneDualModalidad && modalidad === 'presencial') {
+    precioProfMostrar = Number(curso.precio_presencial_bs);
+    if (curso.precio_presencial_estudiante_bs) {
+      precioEstMostrar = Number(curso.precio_presencial_estudiante_bs);
+    }
+  }
+
+  const profEl = document.getElementById('tipo-precio-prof');
+  const estEl = document.getElementById('tipo-precio-est');
+  if (profEl) profEl.textContent = 'Bs ' + formatearPrecio(precioProfMostrar).precio;
+  if (estEl && precioEstMostrar !== null) estEl.textContent = 'Bs ' + formatearPrecio(precioEstMostrar).precio;
+  // ═══ FIN FIX ═══
+
+  // Mostrar/ocultar precio original tachado (solo aplica al precio profesional virtual)
   const tipo = obtenerTipoAlumno();
   const origEl = document.getElementById('res-porig');
-  if (tipo === 'profesional' && curso.precio_original_bs && Number(curso.precio_original_bs) > Number(curso.precio_bs)) {
+  // Solo mostrar tachado en modalidad virtual profesional (precio_original_bs corresponde al virtual)
+  if (tipo === 'profesional' && modalidad === 'virtual' && curso.precio_original_bs && Number(curso.precio_original_bs) > Number(curso.precio_bs)) {
     origEl.textContent = 'Bs ' + formatearPrecio(curso.precio_original_bs).precio;
     origEl.style.display = '';
   } else {
