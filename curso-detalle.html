@@ -21,8 +21,8 @@ img{max-width:100%;display:block;}
 a{text-decoration:none;color:inherit;}
 
 /* NAV */
-.nav{position:sticky;top:0;z-index:200;background:var(--navy);height:60px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.3);}
-.nav-logo{height:40px;width:auto;display:block;}
+.nav{position:sticky;top:0;z-index:200;background:var(--navy);height:68px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.3);}
+.nav-logo{height:48px;width:auto;display:block;}
 .nav-links{display:flex;align-items:center;gap:10px;}
 .nav-link{color:rgba(255,255,255,0.7);font-size:13px;font-weight:600;padding:7px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);transition:all .2s;}
 .nav-link:hover{color:#fff;border-color:var(--green);}
@@ -30,33 +30,33 @@ a{text-decoration:none;color:inherit;}
 .nav-btn:hover{background:#9ed648;}
 
 /* HERO */
-.hero-foto-wrap{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy-dark),var(--navy),#3d2d6b);min-height:480px;}
-.hero-foto{width:100%;height:480px;object-fit:cover;object-position:center;display:block;opacity:0.35;}
-.hero-foto-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,39,68,0.4) 0%,rgba(26,39,68,0.92) 100%);display:flex;align-items:flex-end;padding:36px 5%;}
+.hero-foto-wrap{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy-dark),var(--navy),#3d2d6b);min-height:380px;}
+.hero-foto{width:100%;height:380px;object-fit:cover;object-position:center;display:block;opacity:0.35;}
+.hero-foto-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,39,68,0.4) 0%,rgba(26,39,68,0.92) 100%);display:flex;align-items:flex-end;padding:24px 5%;}
 .hero-foto-text{max-width:900px;}
 .hero-foto-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(220,38,38,0.9);color:#fff;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:14px;}
 .hero-dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:pulse 1.5s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
-.hero-foto-text h1{font-family:'Josefin Sans',sans-serif;font-size:clamp(28px,4.5vw,48px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:12px;}
+.hero-foto-text h1{font-family:'Josefin Sans',sans-serif;font-size:clamp(26px,4vw,42px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:10px;}
 .hero-foto-text h1 span{color:var(--green);}
-.hero-foto-text p{font-size:15px;color:rgba(255,255,255,0.85);max-width:720px;line-height:1.6;}
-.hero-mods{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.hero-foto-text p{font-size:14px;color:rgba(255,255,255,0.85);max-width:720px;line-height:1.55;}
+.hero-mods{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
 .hero-mod{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;}
 .hero-mod.virtual{background:rgba(46,74,142,.5);color:#fff;border:1px solid rgba(46,74,142,.8);}
 .hero-mod.presencial{background:rgba(141,198,63,.4);color:#fff;border:1px solid rgba(141,198,63,.6);}
 
 /* INFO BAR */
-.info-bar{background:var(--navy);padding:18px 5%;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;border-top:1px solid rgba(141,198,63,0.2);}
-.ibadge{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:7px 14px;font-size:12px;color:rgba(255,255,255,0.85);font-weight:500;}
+.info-bar{background:var(--navy);padding:12px 5%;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;border-top:1px solid rgba(141,198,63,0.2);}
+.ibadge{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:5px 11px;font-size:11.5px;color:rgba(255,255,255,0.85);font-weight:500;}
 .ibadge.highlight{background:rgba(141,198,63,0.18);color:#bce28a;border-color:rgba(141,198,63,0.35);font-weight:700;}
 
 /* COUNTDOWN */
-.countdown-bar{background:linear-gradient(135deg,var(--navy-dark),var(--blue));padding:18px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;border-bottom:2px solid var(--green);}
+.countdown-bar{background:linear-gradient(135deg,var(--navy-dark),var(--blue));padding:14px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;border-bottom:2px solid var(--green);}
 .cd-label{font-size:14px;font-weight:700;color:#fff;}
 .cd-sub{font-size:12px;color:rgba(255,255,255,0.6);margin-top:3px;}
 .cd-timer{display:flex;gap:8px;align-items:center;}
 .cd-unit{text-align:center;}
-.cd-num{font-family:'Josefin Sans',sans-serif;font-size:30px;font-weight:700;color:var(--green);display:block;line-height:1;background:rgba(141,198,63,0.1);border:1px solid rgba(141,198,63,0.2);border-radius:8px;padding:8px 12px;min-width:56px;}
+.cd-num{font-family:'Josefin Sans',sans-serif;font-size:26px;font-weight:700;color:var(--green);display:block;line-height:1;background:rgba(141,198,63,0.1);border:1px solid rgba(141,198,63,0.2);border-radius:8px;padding:7px 11px;min-width:52px;}
 .cd-sub-label{font-size:9px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-top:4px;display:block;}
 .cd-sep{font-size:22px;font-weight:700;color:rgba(141,198,63,0.4);margin-top:-6px;}
 
@@ -256,6 +256,7 @@ footer a{color:var(--green);}
     <h2>¿Qué aprenderás?</h2>
     <p>Este curso intensivo te enseña a construir <strong>modelos financieros profesionales</strong> que realmente se usan en la industria boliviana y latinoamericana. Vamos más allá de fórmulas básicas: aprenderás a estructurar modelos robustos para evaluación de proyectos, valoración de empresas, planificación presupuestaria y análisis de inversión.</p>
     <p>La diferencia de este programa es la integración de <strong>IA generativa</strong> como acelerador del trabajo del analista. Aprenderás a usar herramientas de IA para validar fórmulas, generar escenarios automáticamente y resolver bloqueos comunes en modelación. No reemplaza al analista — lo potencia.</p>
+    <p>Una parte central del curso es la <strong>proyección de Estados Financieros</strong>. Aprenderás a construir Estados de Resultados, Balances Generales y Flujos de Caja proyectados a 5+ años, con validación cruzada y supuestos coherentes. Esta es la base sobre la que se construye toda evaluación seria de inversión, valoración de empresas y planificación presupuestaria estratégica.</p>
     <p>Trabajarás con <strong>Crystal Ball</strong> para simulación Monte Carlo — la técnica que utilizan bancos, consultoras y fondos de inversión para cuantificar riesgo bajo incertidumbre. Al finalizar, podrás presentar análisis financieros con el rigor que se exige en posiciones senior de finanzas corporativas.</p>
 
     <!-- LO QUE VAS A APRENDER -->
@@ -422,12 +423,14 @@ footer a{color:var(--green);}
       <div class="inst-info">
         <div class="inst-nombre">Ing. Carlos Heredia Magno</div>
         <span class="inst-cargo">Ingeniero Financiero · Economista</span>
-        <p class="inst-bio">Profesional en Economía e Ingeniería Financiera, con trayectoria en gestión administrativa, control presupuestario y análisis financiero. Especializado en modelación financiera, proyecciones, flujo de caja, VAN, TIR y análisis de escenarios mediante Excel avanzado. Con experiencia en el sector servicios, enfocado en la optimización de procesos, control financiero y generación de valor para la toma de decisiones estratégicas.</p>
+        <p class="inst-bio">Profesional en Economía e Ingeniería Financiera, con trayectoria en gestión administrativa, control presupuestario y análisis financiero. Especializado en modelación financiera, proyecciones, flujo de caja, VAN, TIR y análisis de escenarios mediante Excel avanzado. Con experiencia en el sector servicios, enfocado en la optimización de procesos, control financiero y generación de valor para la toma de decisiones estratégicas. <strong>Pionero en la integración de IA generativa al análisis financiero, utilizando ChatGPT y Claude para acelerar la validación de fórmulas, la generación automática de escenarios y la redacción ejecutiva de informes. Experto en la construcción de dashboards profesionales y presentaciones ejecutivas para directorio.</strong></p>
         <div class="inst-tags">
           <span class="inst-tag">Excel Avanzado</span>
           <span class="inst-tag">Crystal Ball</span>
           <span class="inst-tag">VAN / TIR</span>
           <span class="inst-tag">Monte Carlo</span>
+          <span class="inst-tag">IA Generativa</span>
+          <span class="inst-tag">Dashboards Ejecutivos</span>
           <span class="inst-tag">Control Presupuestario</span>
         </div>
       </div>
