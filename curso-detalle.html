@@ -188,6 +188,26 @@ footer a{color:var(--green);}
   .cta-btns{flex-direction:column;align-items:center;}
   .btn-cta,.btn-cta-wa{width:100%;justify-content:center;}
 }
+
+/* CERTIFICADO destacado */
+.cert-bloque{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 50%,#3d2d6b 100%);border:1px solid rgba(141,198,63,0.3);border-radius:14px;padding:32px 28px;margin-top:18px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;position:relative;overflow:hidden;}
+.cert-bloque::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(141,198,63,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(141,198,63,.04) 1px,transparent 1px);background-size:30px 30px;pointer-events:none;}
+.cert-icon-wrap{position:relative;z-index:2;flex-shrink:0;}
+.cert-medalla{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-dark));display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 8px 28px rgba(141,198,63,0.4);border:3px solid rgba(255,255,255,0.15);}
+.cert-info{position:relative;z-index:2;}
+.cert-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);background:rgba(141,198,63,0.15);padding:5px 12px;border-radius:20px;margin-bottom:10px;border:1px solid rgba(141,198,63,0.3);}
+.cert-tit{font-family:'Josefin Sans',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:8px;line-height:1.2;}
+.cert-desc{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.6;margin-bottom:14px;}
+.cert-features{display:flex;flex-direction:column;gap:8px;}
+.cert-feat{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(255,255,255,0.85);line-height:1.5;}
+.cert-feat::before{content:'✓';color:var(--green);font-weight:800;font-size:14px;flex-shrink:0;background:rgba(141,198,63,0.18);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.cert-feat strong{color:#fff;font-weight:700;}
+@media(max-width:680px){
+  .cert-bloque{grid-template-columns:1fr;text-align:center;padding:26px 20px;}
+  .cert-medalla{margin:0 auto;width:80px;height:80px;font-size:36px;}
+  .cert-features{align-items:flex-start;text-align:left;}
+}
+
 </style>
 </head>
 <body>
@@ -432,6 +452,29 @@ footer a{color:var(--green);}
           <span class="inst-tag">IA Generativa</span>
           <span class="inst-tag">Dashboards Ejecutivos</span>
           <span class="inst-tag">Control Presupuestario</span>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="separador"></div>
+
+    <!-- CERTIFICADO DESTACADO -->
+    <span class="section-tag">Tu acreditación</span>
+    <h2>Certificado Oficial APPLENDE</h2>
+    <div class="cert-bloque">
+      <div class="cert-icon-wrap">
+        <div class="cert-medalla">📜</div>
+      </div>
+      <div class="cert-info">
+        <span class="cert-tag">Al finalizar el curso</span>
+        <div class="cert-tit">Recibirás tu Certificado Oficial</div>
+        <p class="cert-desc">Acreditación profesional de "Modelación Financiera + IA" emitida por la Academia APPLENDE, parte del ecosistema APPLE Construcciones &amp; Servicios.</p>
+        <div class="cert-features">
+          <div class="cert-feat"><span><strong>32 horas académicas</strong> de formación intensiva (1 HA = 45 minutos)</span></div>
+          <div class="cert-feat"><span>Avalado por <strong>APPLE Construcciones &amp; Servicios</strong></span></div>
+          <div class="cert-feat"><span>Suma a tu <strong>CV y perfil de LinkedIn</strong> como formación profesional certificada</span></div>
+          <div class="cert-feat"><span>Entrega en <strong>PDF con código QR verificable</strong></span></div>
         </div>
       </div>
     </div>
