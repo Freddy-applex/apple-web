@@ -267,8 +267,26 @@
 /* ═══ SECCIONES SEPARADAS (En vivo / Grabados) ═══ */
 .seccion-cursos{margin-top:32px;}
 
-/* Sub-secciones En Vivo y Grabados: fondo transparente, solo acento de color en titulo */
-#seccion-vivo,#seccion-grabado{margin-top:32px;}
+/* ═══ SUB-SECCIONES con GRADIENTES (estilo index.html) ═══ */
+/* En Vivo: gradiente navy-dark a blue (igual que Quienes somos / Obras del index) */
+#seccion-vivo{background:linear-gradient(135deg,var(--navy-dark) 0%,var(--blue) 100%);border-radius:16px;padding:32px 28px;margin-top:32px;position:relative;overflow:hidden;}
+#seccion-vivo>*{position:relative;z-index:2;}
+#seccion-vivo .sub-h3{color:#fff;}
+#seccion-vivo .sub-h3-meta{color:rgba(255,255,255,.6);}
+#seccion-vivo .sub-desc{color:rgba(255,255,255,.7);}
+#seccion-vivo .sub-head{border-bottom-color:rgba(255,68,68,.3);}
+
+/* Grabados: gradiente navy-dark a violeta (igual que APPLEX del index) */
+#seccion-grabado{background:linear-gradient(135deg,var(--navy-dark) 0%,#3d2d6b 100%);border-radius:16px;padding:32px 28px;margin-top:32px;position:relative;overflow:hidden;}
+#seccion-grabado>*{position:relative;z-index:2;}
+#seccion-grabado .sub-h3{color:#fff;}
+#seccion-grabado .sub-h3-meta{color:rgba(255,255,255,.6);}
+#seccion-grabado .sub-desc{color:rgba(255,255,255,.7);}
+#seccion-grabado .sub-head{border-bottom-color:rgba(141,198,63,.3);}
+
+@media(max-width:600px){
+  #seccion-vivo,#seccion-grabado{padding:22px 18px;}
+}
 
 .sub-head{display:flex;align-items:center;gap:12px;padding-bottom:12px;margin-bottom:8px;border-bottom:2px solid var(--border);flex-wrap:wrap;}
 #seccion-vivo .sub-head{border-bottom-color:rgba(255,68,68,0.2);}
