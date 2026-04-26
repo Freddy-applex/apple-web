@@ -300,9 +300,12 @@
 .sub-dot-grabado{background:var(--green);}
 .sub-h3{font-family:'Josefin Sans',sans-serif;font-size:22px;font-weight:600;color:var(--navy);margin:0;line-height:1.2;}
 .sub-h3-meta{font-size:14px;color:var(--muted);font-weight:400;}
-.sub-badge{font-size:11px;font-weight:700;padding:4px 12px;border-radius:12px;border:1px solid;}
-.sub-badge-vivo{background:rgba(255,68,68,0.08);color:#CC2222;border-color:rgba(255,68,68,0.3);}
-.sub-badge-grabado{background:rgba(141,198,63,0.1);color:#5A8A1F;border-color:rgba(141,198,63,0.4);}
+.sub-badge{font-size:11px;font-weight:800;padding:4px 12px 4px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:6px;letter-spacing:.3px;}
+.sub-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.sub-badge-vivo{background:#dc2626;color:#fff;}
+.sub-badge-vivo::before{background:#fff;animation:pulse-vivo 1.5s infinite;}
+.sub-badge-grabado{background:var(--green);color:var(--navy);}
+.sub-badge-grabado::before{background:var(--navy);}
 .sub-desc{font-size:14px;color:var(--muted);margin:0 0 20px;line-height:1.5;}
 @media(max-width:600px){.sub-h3{font-size:18px;}.sub-h3-meta{display:block;font-size:12px;margin-top:2px;}}
 
