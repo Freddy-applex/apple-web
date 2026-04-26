@@ -701,6 +701,18 @@ function cohorteInfoHTML(curso) {
   `;
 }
 
+function urlCurso(slug) {
+  // Routeo: cada curso con su archivo HTML estático.
+  // Matchea por substring para tolerar variantes del slug en Supabase
+  // (ej: "edificios-5-niveles" vs "construccion-edificios-5-niveles").
+  if (!slug) return 'curso-detalle.html';
+  const s = slug.toLowerCase();
+  if (s.includes('edificio'))     return 'curso-edificios.html';
+  if (s.includes('vectorworks'))  return 'curso-vectorworks.html';
+  // Modelación y cualquier otro curso usan el template (estático para Modelación)
+  return `curso-detalle.html?slug=${slug}`;
+}
+
 function cardCursoHTML(curso) {
   const precioFmt = APPLENDE_UI.formatearPrecio(curso.precio_bs, curso.precio_original_bs);
   const stars = APPLENDE_UI.estrellasRating(curso.rating_promedio);
@@ -717,7 +729,7 @@ function cardCursoHTML(curso) {
              data-cat="${curso.categoria_slug || 'tecnico'}" 
              data-titulo="${dataTitulo}" 
              data-modalidad="${esVivo ? 'vivo' : 'grabado'}"
-             onclick="window.location.href='curso-detalle.html?slug=${curso.slug}'">
+             onclick="window.location.href=urlCurso('${curso.slug}')">
       <div class="curso-thumb">
         <div class="curso-thumb-inner" style="background-image:url('${imagen}')"></div>
         ${badgeHTML(curso.badge, esVivo)}
