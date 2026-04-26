@@ -3,26 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Curso Vectorworks + Plugins — Arq. Pablo Aramayo · Academia APPLENDE · Mayo 2026">
-<meta property="og:title" content="Vectorworks + Plugins · Academia APPLENDE">
-<meta property="og:image" content="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1200&h=630&fit=crop">
-<title>Vectorworks + Plugins · Academia APPLENDE</title>
+<meta name="description" content="Curso Vectorworks Architect · Arq. Pablo Aramayo · Academia APPLENDE · Bolivia · Modalidad Virtual o Presencial">
+<title>Vectorworks Architect · Academia APPLENDE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#1A2744;
-  --navy-dark:#0E1A30;
-  --blue:#2E4A8E;
-  --green:#8DC63F;
-  --green-dark:#6aaa2a;
-  --purple:#6B6BBB;
-  --gray:#BFBFBF;
-  --white:#fff;
-  --offwhite:#F5F7FA;
-  --text:#2C3A52;
-  --muted:#6B7A90;
-  --border:#E2E8F0;
+  --navy:#1A2744; --navy-dark:#0E1A30; --blue:#2E4A8E;
+  --green:#8DC63F; --green-dark:#6aaa2a; --purple:#6B6BBB;
+  --gray:#BFBFBF; --white:#fff; --offwhite:#F5F7FA;
+  --text:#2C3A52; --muted:#6B7A90; --border:#E2E8F0;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -31,677 +21,623 @@ img{max-width:100%;display:block;}
 a{text-decoration:none;color:inherit;}
 
 /* NAV */
-.nav{
-  position:sticky;top:0;z-index:200;
-  background:var(--navy);
-  height:60px;padding:0 5%;
-  display:flex;align-items:center;justify-content:space-between;
-  box-shadow:0 2px 8px rgba(0,0,0,0.3);
-}
-.nav-logo-svg{height:32px;width:auto;}
+.nav{position:sticky;top:0;z-index:200;background:var(--navy);height:68px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.3);}
+/* logo usa nav-logo-svg con style inline */
 .nav-links{display:flex;align-items:center;gap:10px;}
 .nav-link{color:rgba(255,255,255,0.7);font-size:13px;font-weight:600;padding:7px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);transition:all .2s;}
 .nav-link:hover{color:#fff;border-color:var(--green);}
-.nav-btn{background:var(--green);color:var(--navy);padding:9px 20px;border-radius:20px;font-weight:800;font-size:13px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;}
+.nav-btn{background:var(--green);color:var(--navy);padding:9px 20px;border-radius:20px;font-weight:800;font-size:13px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;text-decoration:none;}
 .nav-btn:hover{background:#9ed648;}
 
-/* HERO FOTO */
-.hero-foto{
-  width:100%;
-  height:420px;
-  object-fit:cover;transform:scale(0.9);transform-origin:center top;
-  object-position:center 0%;
-  display:block;
-}
-.hero-foto-wrap{
-  position:relative;overflow:hidden;
-}
-.hero-foto-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(to bottom, rgba(26,39,68,0.3) 0%, rgba(26,39,68,0.85) 100%);
-  display:flex;align-items:flex-end;padding:32px 5%;
-}
-.hero-foto-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(220,38,38,0.9);
-  color:#fff;font-size:11px;font-weight:700;letter-spacing:2px;
-  text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:12px;
-}
+/* HERO */
+.hero-foto-wrap{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy-dark),var(--navy),#3d2d6b);min-height:380px;}
+.hero-foto{width:100%;height:380px;object-fit:cover;object-position:center;display:block;opacity:0.35;}
+.hero-foto-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,39,68,0.4) 0%,rgba(26,39,68,0.92) 100%);display:flex;align-items:flex-end;padding:24px 5%;}
+.hero-foto-text{max-width:900px;}
+.hero-foto-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(220,38,38,0.9);color:#fff;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:14px;}
 .hero-dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:pulse 1.5s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
-.hero-foto-text h1{
-  font-family:'Josefin Sans',sans-serif;
-  font-size:clamp(24px,4vw,42px);font-weight:700;
-  color:#fff;line-height:1.15;margin-bottom:10px;
-}
+.hero-foto-text h1{font-family:'Josefin Sans',sans-serif;font-size:clamp(26px,4vw,42px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:10px;}
 .hero-foto-text h1 span{color:var(--green);}
-.hero-foto-text p{font-size:15px;color:rgba(255,255,255,0.8);}
+.hero-foto-text p{font-size:14px;color:rgba(255,255,255,0.85);max-width:720px;line-height:1.55;}
+.hero-mods{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
+.hero-mod{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;}
+.hero-mod.virtual{background:rgba(46,74,142,.5);color:#fff;border:1px solid rgba(46,74,142,.8);}
+.hero-mod.presencial{background:rgba(141,198,63,.4);color:#fff;border:1px solid rgba(141,198,63,.6);}
 
 /* INFO BAR */
-.info-bar{
-  background:var(--navy);
-  padding:20px 5%;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:16px;
-}
-.info-badges{display:flex;gap:10px;flex-wrap:wrap;}
-.ibadge{
-  display:flex;align-items:center;gap:6px;
-  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
-  border-radius:20px;padding:6px 12px;font-size:12px;color:rgba(255,255,255,0.85);font-weight:500;
-}
-.rating-bar{display:flex;align-items:center;gap:8px;}
-.stars{color:#f59e0b;font-size:16px;}
-.rnum{font-size:16px;font-weight:800;color:var(--green);}
-.rinfo{font-size:12px;color:rgba(255,255,255,0.5);}
+.info-bar{background:var(--navy);padding:12px 5%;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;border-top:1px solid rgba(141,198,63,0.2);}
+.ibadge{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:5px 11px;font-size:11.5px;color:rgba(255,255,255,0.85);font-weight:500;}
+.ibadge.highlight{background:rgba(141,198,63,0.18);color:#bce28a;border-color:rgba(141,198,63,0.35);font-weight:700;}
 
-/* COUNTDOWN BAR */
-.countdown-bar{
-  background:linear-gradient(135deg,var(--navy-dark),var(--blue));
-  padding:16px 5%;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:16px;
-  border-bottom:2px solid var(--green);
-}
+/* COUNTDOWN */
+.countdown-bar{background:linear-gradient(135deg,var(--navy-dark),var(--blue));padding:14px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;border-bottom:2px solid var(--green);}
 .cd-label{font-size:14px;font-weight:700;color:#fff;}
-.cd-sub{font-size:12px;color:rgba(255,255,255,0.55);margin-top:2px;}
-.cd-timer{display:flex;gap:10px;align-items:center;}
+.cd-sub{font-size:12px;color:rgba(255,255,255,0.6);margin-top:3px;}
+.cd-timer{display:flex;gap:8px;align-items:center;}
 .cd-unit{text-align:center;}
-.cd-num{
-  font-family:'Josefin Sans',sans-serif;font-size:32px;font-weight:700;
-  color:var(--green);display:block;line-height:1;
-  background:rgba(141,198,63,0.1);border:1px solid rgba(141,198,63,0.2);
-  border-radius:8px;padding:8px 12px;min-width:58px;
-}
+.cd-num{font-family:'Josefin Sans',sans-serif;font-size:26px;font-weight:700;color:var(--green);display:block;line-height:1;background:rgba(141,198,63,0.1);border:1px solid rgba(141,198,63,0.2);border-radius:8px;padding:7px 11px;min-width:52px;}
 .cd-sub-label{font-size:9px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-top:4px;display:block;}
-.cd-sep{font-size:24px;font-weight:700;color:rgba(141,198,63,0.4);margin-top:-6px;}
+.cd-sep{font-size:22px;font-weight:700;color:rgba(141,198,63,0.4);margin-top:-6px;}
 
 /* MAIN LAYOUT */
-.main-layout{
-  max-width:1100px;margin:0 auto;
-  padding:40px 5%;
-  display:grid;grid-template-columns:1fr 340px;
-  gap:40px;align-items:start;
-}
+.main-layout{max-width:1180px;margin:0 auto;padding:44px 5%;display:grid;grid-template-columns:1fr 360px;gap:44px;align-items:start;}
 
-/* CARD INSCRIPCION */
-.inscripcion-card{
-  background:var(--white);
-  border:2px solid var(--border);
-  border-radius:14px;padding:24px;
-  position:sticky;top:80px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.1);
-}
-.ic-precio-num{
-  font-family:'Josefin Sans',sans-serif;
-  font-size:42px;font-weight:700;color:var(--navy);line-height:1;
-}
-.ic-precio-orig{font-size:16px;color:var(--muted);text-decoration:line-through;margin-left:8px;}
-.ic-descuento{
-  display:inline-block;background:rgba(141,198,63,0.15);
-  color:var(--green-dark);font-size:12px;font-weight:800;
-  padding:3px 8px;border-radius:4px;margin-left:6px;
-}
-.ic-usd{font-size:13px;color:var(--muted);margin:6px 0;}
-.ic-alerta{font-size:12px;color:#dc2626;font-weight:600;margin-bottom:16px;}
-.ic-btn-main{
-  width:100%;background:linear-gradient(135deg,var(--green),var(--green-dark));
-  color:var(--navy);padding:15px;border-radius:10px;
-  font-weight:800;font-size:15px;border:none;cursor:pointer;
-  font-family:'Barlow',sans-serif;transition:all .3s;margin-bottom:10px;
-  box-shadow:0 4px 16px rgba(141,198,63,0.3);
-}
+/* CARD INSCRIPCION (sticky bien calculado) */
+.inscripcion-card{background:var(--white);border:2px solid var(--border);border-radius:14px;padding:22px;position:sticky;top:80px;box-shadow:0 8px 32px rgba(0,0,0,0.1);}
+
+
+
+.precio-section-tit{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;text-align:center;}
+
+.modalidad-block{margin-bottom:14px;border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;}
+.modalidad-block.virtual{background:linear-gradient(135deg,rgba(46,74,142,.05),rgba(46,74,142,.02));border-color:rgba(46,74,142,.3);}
+.modalidad-block.presencial{background:linear-gradient(135deg,rgba(141,198,63,.07),rgba(141,198,63,.02));border-color:rgba(141,198,63,.4);}
+.mod-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed var(--border);}
+.mod-icon{font-size:16px;}
+.mod-titulo{font-family:'Josefin Sans',sans-serif;font-size:13px;font-weight:700;color:var(--navy);letter-spacing:.5px;text-transform:uppercase;}
+.mod-cupos{margin-left:auto;font-size:10.5px;color:var(--muted);font-weight:600;}
+.precio-fila{display:flex;align-items:center;justify-content:space-between;padding:6px 0;}
+.precio-fila + .precio-fila{border-top:1px dashed rgba(0,0,0,.04);}
+.precio-tipo{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text);}
+.precio-tipo-est{font-weight:600;color:var(--navy);}
+.precio-monto{display:flex;align-items:center;gap:8px;}
+.precio-bs{font-family:'Josefin Sans',sans-serif;font-size:18px;font-weight:700;color:var(--navy);line-height:1;}
+.precio-bs.estudiante{color:var(--green-dark);}
+.precio-badge{font-size:9.5px;font-weight:800;background:var(--green);color:var(--navy);padding:2px 6px;border-radius:4px;letter-spacing:.5px;}
+.precio-nota{font-size:10.5px;color:var(--muted);text-align:center;font-style:italic;margin:8px 0 14px;line-height:1.4;}
+
+.ic-btn-main{display:block;width:100%;background:linear-gradient(135deg,var(--green),var(--green-dark));color:var(--navy);padding:14px;border-radius:10px;font-weight:800;font-size:15px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .3s;margin-bottom:10px;box-shadow:0 4px 16px rgba(141,198,63,0.3);text-decoration:none;text-align:center;}
 .ic-btn-main:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(141,198,63,0.4);}
-.ic-btn-wa{
-  width:100%;background:#25D366;color:#fff;
-  padding:13px;border-radius:10px;font-weight:700;font-size:14px;
-  border:none;cursor:pointer;font-family:'Barlow',sans-serif;
-  transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;
-  margin-bottom:20px;text-decoration:none;
-}
+.ic-btn-wa{display:flex;width:100%;background:#25D366;color:#fff;padding:12px;border-radius:10px;font-weight:700;font-size:14px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;align-items:center;justify-content:center;gap:8px;margin-bottom:18px;text-decoration:none;}
 .ic-btn-wa:hover{background:#1ebe5a;}
-.ic-features{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--border);padding-top:16px;}
-.ic-feat{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text);}
-.ic-feat::before{content:'✓';color:var(--green);font-weight:800;font-size:14px;flex-shrink:0;}
-.ic-garantia{text-align:center;font-size:11px;color:var(--muted);margin-top:12px;}
+
+.ic-features{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--border);padding-top:14px;}
+.ic-feat{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;color:var(--text);line-height:1.4;}
+.ic-feat::before{content:'✓';color:var(--green);font-weight:800;font-size:13px;flex-shrink:0;}
+.ic-garantia{text-align:center;font-size:11px;color:var(--muted);margin-top:12px;padding-top:12px;border-top:1px solid var(--border);line-height:1.5;}
+.ic-garantia strong{color:var(--navy);}
 
 /* CONTENIDO */
 .section-tag{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--green);display:block;margin-bottom:10px;}
-.contenido h2{font-family:'Josefin Sans',sans-serif;font-size:clamp(20px,2.5vw,30px);font-weight:700;color:var(--navy);margin-bottom:12px;}
-.contenido p{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:20px;}
+.contenido h2{font-family:'Josefin Sans',sans-serif;font-size:clamp(22px,2.5vw,30px);font-weight:700;color:var(--navy);margin-bottom:14px;line-height:1.2;}
+.contenido > p{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:16px;}
+.contenido > p strong{color:var(--text);font-weight:700;}
 .separador{height:1px;background:var(--border);margin:36px 0;}
 
-/* VIDEO */
-.video-wrap{position:relative;padding-bottom:56.25%;border-radius:12px;overflow:hidden;background:var(--navy);border:1px solid var(--border);margin-top:20px;}
-.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
-.video-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:linear-gradient(135deg,var(--navy),var(--blue));}
-.video-placeholder .play-icon{font-size:56px;opacity:0.7;}
-.video-placeholder p{color:rgba(255,255,255,0.5);font-size:13px;}
+/* APRENDERAS grid */
+.aprenderas-box{background:var(--offwhite);border:1px solid var(--border);border-radius:12px;padding:24px 26px;margin-top:8px;}
+.aprenderas-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;}
+.aprenderas-item{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--text);line-height:1.55;}
+.aprenderas-item::before{content:'✓';color:var(--green);font-weight:800;font-size:13px;flex-shrink:0;margin-top:2px;}
 
-/* TEMARIO */
-.temario-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;}
-.t-item{display:flex;align-items:flex-start;gap:12px;background:var(--offwhite);border:1px solid var(--border);border-radius:8px;padding:14px;transition:all .2s;}
-.t-item:hover{border-color:var(--green);background:var(--white);box-shadow:0 4px 12px rgba(141,198,63,0.1);}
-.t-num{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
-.t-num.purple{background:var(--purple);}
-.t-texto{font-size:13px;color:var(--text);line-height:1.4;}
-.t-texto strong{color:var(--navy);display:block;margin-bottom:2px;font-size:13px;}
+/* GRUPOS */
+.grupos-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px;}
+.grupo-card{background:var(--offwhite);border:1.5px solid var(--border);border-radius:12px;padding:22px;}
+.grupo-card.b{border-color:rgba(107,107,187,0.4);background:rgba(107,107,187,0.04);}
+.gr-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;background:var(--green);padding:4px 10px;border-radius:4px;margin-bottom:10px;}
+.grupo-card.b .gr-tag{background:var(--purple);}
+.gr-tit{font-family:'Josefin Sans',sans-serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:12px;}
+.gr-info{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.gr-row{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);line-height:1.5;}
+.gr-row b{color:var(--navy);min-width:70px;display:inline-block;font-weight:700;}
+.gr-fechas{font-size:12.5px;color:var(--muted);background:#fff;border:1px dashed var(--border);border-radius:8px;padding:11px 13px;line-height:1.7;}
+.gr-fechas strong{color:var(--navy);}
 
-/* INSTRUCTOR */
-.inst-card{display:flex;gap:24px;align-items:flex-start;background:var(--offwhite);border:1px solid var(--border);border-radius:14px;padding:24px;margin-top:20px;}
-.inst-av{width:80px;height:80px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-size:32px;border:3px solid rgba(141,198,63,0.25);}
-.inst-nombre{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:4px;}
-.inst-cargo{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:10px;display:block;}
-.inst-bio{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:12px;}
+/* TEMARIO MÓDULOS */
+.temario-modulos{display:flex;flex-direction:column;gap:12px;margin-top:18px;}
+.tm-mod{background:var(--offwhite);border:1px solid var(--border);border-radius:10px;padding:18px 20px;transition:all .2s;}
+.tm-mod:hover{border-color:var(--green);background:var(--white);box-shadow:0 4px 12px rgba(141,198,63,0.1);}
+.tm-mod-head{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
+.tm-num{width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;}
+.tm-num.purple{background:var(--purple);}
+.tm-tit{font-family:'Josefin Sans',sans-serif;font-size:16px;font-weight:700;color:var(--navy);}
+.tm-list{padding-left:48px;display:flex;flex-direction:column;gap:6px;}
+.tm-item{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;color:var(--text);line-height:1.5;}
+.tm-item::before{content:'•';color:var(--green);font-weight:800;flex-shrink:0;}
+
+/* INSTRUCTOR (con <img> directo) */
+.inst-card{display:flex;gap:24px;align-items:flex-start;background:var(--offwhite);border:1px solid var(--border);border-radius:14px;padding:24px;margin-top:18px;}
+.inst-foto{width:140px;height:140px;border-radius:14px;flex-shrink:0;object-fit:cover;border:3px solid rgba(141,198,63,0.3);box-shadow:0 6px 20px rgba(26,39,68,0.15);display:block;}
+.inst-info{flex:1;min-width:0;}
+.inst-nombre{font-family:'Josefin Sans',sans-serif;font-size:20px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.inst-cargo{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:14px;display:block;}
+.inst-bio{font-size:13.5px;color:var(--muted);line-height:1.7;margin-bottom:14px;}
 .inst-tags{display:flex;gap:8px;flex-wrap:wrap;}
-.inst-tag{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px;}
-.inst-tag::before{content:'✓';color:var(--green);font-weight:800;}
+.inst-tag{font-size:12px;color:var(--text);background:#fff;border:1px solid var(--border);padding:5px 11px;border-radius:6px;font-weight:600;}
+
+/* PRIMER DICTADO */
+.primer-dictado{background:linear-gradient(135deg,rgba(141,198,63,0.1),rgba(46,74,142,0.05));border:1px dashed rgba(141,198,63,0.4);border-radius:14px;padding:32px 26px;text-align:center;margin-top:18px;}
+.pd-icon{font-size:42px;margin-bottom:10px;}
+.pd-tit{font-family:'Josefin Sans',sans-serif;font-size:20px;font-weight:700;color:var(--navy);margin-bottom:10px;}
+.pd-desc{font-size:13.5px;color:var(--muted);line-height:1.7;max-width:520px;margin:0 auto;}
 
 /* CTA FINAL */
-.cta-section{background:var(--navy);padding:56px 5%;text-align:center;}
-.cta-section h2{font-family:'Josefin Sans',sans-serif;font-size:clamp(20px,3vw,34px);font-weight:700;color:#fff;margin-bottom:12px;}
-.cta-section p{font-size:15px;color:rgba(255,255,255,0.65);max-width:460px;margin:0 auto 28px;}
+.cta-section{background:var(--navy);padding:60px 5%;text-align:center;}
+.cta-section h2{font-family:'Josefin Sans',sans-serif;font-size:clamp(22px,3vw,34px);font-weight:700;color:#fff;margin-bottom:14px;}
+.cta-section p{font-size:15px;color:rgba(255,255,255,0.7);max-width:540px;margin:0 auto 30px;line-height:1.6;}
 .cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
-.btn-cta{background:var(--green);color:var(--navy);padding:15px 36px;border-radius:10px;font-weight:800;font-size:15px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;}
+.btn-cta{background:var(--green);color:var(--navy);padding:15px 36px;border-radius:10px;font-weight:800;font-size:15px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;text-decoration:none;display:inline-block;}
 .btn-cta:hover{background:#9ed648;transform:translateY(-2px);}
 .btn-cta-wa{background:#25D366;color:#fff;padding:15px 36px;border-radius:10px;font-weight:800;font-size:15px;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
 .btn-cta-wa:hover{background:#1ebe5a;transform:translateY(-2px);}
 
 /* FOOTER */
 footer{background:var(--navy-dark);border-top:1px solid rgba(141,198,63,0.12);padding:24px 5%;text-align:center;}
-footer p{font-size:12px;color:rgba(255,255,255,0.35);}
+footer p{font-size:12px;color:rgba(255,255,255,0.4);margin:0;}
 footer a{color:var(--green);}
 
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(6px);}
-.modal-overlay.open{opacity:1;pointer-events:all;}
-.modal-box{background:var(--white);border-radius:16px;max-width:460px;width:100%;max-height:92vh;overflow-y:auto;}
-.modal-hd{background:var(--navy);padding:22px 24px;border-radius:16px 16px 0 0;position:relative;}
-.modal-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.1);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;}
-.modal-close:hover{background:rgba(255,255,255,0.2);}
-.modal-subtit{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:6px;}
-.modal-tit{font-size:16px;font-weight:700;color:#fff;line-height:1.3;padding-right:36px;}
-.modal-precio-display{font-family:'Josefin Sans',sans-serif;font-size:36px;font-weight:700;color:var(--green);margin-top:10px;display:block;}
-.modal-bd{padding:20px 24px;display:flex;flex-direction:column;gap:14px;}
-.m-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block;}
-.m-input{width:100%;background:var(--offwhite);border:1.5px solid var(--border);border-radius:8px;padding:11px 14px;font-size:14px;color:var(--text);outline:none;transition:border .2s;font-family:'Barlow',sans-serif;}
-.m-input:focus{border-color:var(--green);}
-.opciones{display:flex;flex-direction:column;gap:10px;}
-.opcion{display:flex;align-items:center;gap:14px;background:var(--offwhite);border:2px solid var(--border);border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;width:100%;text-align:left;font-family:'Barlow',sans-serif;}
-.opcion:hover{border-color:var(--green);background:#f0fff0;}
-.opcion.sel{border-color:var(--green);background:#f0fff0;}
-.opcion.opcion-purple:hover{border-color:var(--purple);background:rgba(107,107,187,0.06);}
-.opcion.opcion-purple.sel{border-color:var(--purple);background:rgba(107,107,187,0.06);}
-.opcion.opcion-wa:hover{border-color:#25D366;background:rgba(37,211,102,0.06);}
-.opcion.opcion-wa.sel{border-color:#25D366;background:rgba(37,211,102,0.06);}
-.opcion-icon{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
-.icon-green{background:rgba(141,198,63,0.12);}
-.icon-purple{background:rgba(107,107,187,0.12);}
-.icon-wa{background:rgba(37,211,102,0.12);}
-.opcion-nombre{font-size:14px;font-weight:700;color:var(--navy);display:block;margin-bottom:2px;}
-.opcion-desc{font-size:11px;color:var(--muted);}
-.opcion-arrow{font-size:18px;color:var(--muted);flex-shrink:0;margin-left:auto;}
-.modal-ft{padding:0 24px 24px;}
-.btn-confirmar{width:100%;background:var(--green);color:var(--navy);padding:14px;border-radius:10px;font-weight:800;font-size:14px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;margin-bottom:10px;}
-.btn-confirmar:hover{background:#9ed648;}
-.btn-confirmar:disabled{opacity:0.45;cursor:not-allowed;}
-.modal-nota{text-align:center;font-size:11px;color:var(--muted);background:var(--offwhite);padding:10px;border-radius:8px;}
-
 /* RESPONSIVE */
-@media(max-width:900px){
+@media(max-width:980px){
   .main-layout{grid-template-columns:1fr;}
-  .inscripcion-card{position:static;}
-  .temario-grid{grid-template-columns:1fr;}
-  .inst-card{flex-direction:column;}
+  .inscripcion-card{position:static;max-height:none;}
+  .grupos-grid,.aprenderas-grid{grid-template-columns:1fr;}
+  .countdown-bar{flex-direction:column;text-align:center;}
 }
-@media(max-width:600px){
-  .hero-foto{height:260px;}
+@media(max-width:680px){
   .nav-links .nav-link{display:none;}
+  .hero-foto{height:340px;}
+  .hero-foto-wrap{min-height:340px;}
+  .hero-foto-overlay{padding:24px 5%;}
   .cd-num{font-size:24px;padding:6px 10px;min-width:46px;}
+  .info-bar{padding:14px 5%;gap:8px;}
+  .ibadge{font-size:11px;padding:5px 10px;}
+  .inst-card{flex-direction:column;align-items:center;text-align:center;}
+  .inst-foto{width:120px;height:120px;}
+  .tm-list{padding-left:0;}
   .cta-btns{flex-direction:column;align-items:center;}
   .btn-cta,.btn-cta-wa{width:100%;justify-content:center;}
 }
 
-/* Vectorworks — acentos violeta */
-.section-tag { color: var(--purple) !important; }
-.inst-cargo { color: var(--purple) !important; }
-.t-num { background: var(--purple) !important; }
-.t-num.navy { background: var(--navy) !important; }
-.t-item:hover { border-color: var(--purple) !important; }
-.hero-foto-badge { background: rgba(107,107,187,0.92) !important; }
-.countdown-bar { background: linear-gradient(135deg,var(--navy-dark),var(--purple)) !important; }
-.modal-hd { background: linear-gradient(135deg,var(--navy),var(--purple)) !important; }
-.cta-section { background: linear-gradient(135deg,var(--navy),var(--purple)) !important; }
-.ibadge-purple { background: rgba(107,107,187,0.2); border-color: rgba(107,107,187,0.3); color: var(--purple); }
-
-/* Precio banner */
-.precio-banner {
-  background: linear-gradient(135deg,var(--purple),var(--blue));
-  padding: 16px 5%;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 16px;
-  border-bottom: 2px solid var(--green);
+/* CERTIFICADO destacado */
+.cert-bloque{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 50%,#3d2d6b 100%);border:1px solid rgba(141,198,63,0.3);border-radius:14px;padding:32px 28px;margin-top:18px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;position:relative;overflow:hidden;}
+.cert-bloque::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(141,198,63,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(141,198,63,.04) 1px,transparent 1px);background-size:30px 30px;pointer-events:none;}
+.cert-icon-wrap{position:relative;z-index:2;flex-shrink:0;}
+.cert-medalla{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-dark));display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 8px 28px rgba(141,198,63,0.4);border:3px solid rgba(255,255,255,0.15);}
+.cert-info{position:relative;z-index:2;}
+.cert-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);background:rgba(141,198,63,0.15);padding:5px 12px;border-radius:20px;margin-bottom:10px;border:1px solid rgba(141,198,63,0.3);}
+.cert-tit{font-family:'Josefin Sans',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:8px;line-height:1.2;}
+.cert-desc{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.6;margin-bottom:14px;}
+.cert-features{display:flex;flex-direction:column;gap:8px;}
+.cert-feat{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(255,255,255,0.85);line-height:1.5;}
+.cert-feat::before{content:'✓';color:var(--green);font-weight:800;font-size:14px;flex-shrink:0;background:rgba(141,198,63,0.18);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.cert-feat strong{color:#fff;font-weight:700;}
+@media(max-width:680px){
+  .cert-bloque{grid-template-columns:1fr;text-align:center;padding:26px 20px;}
+  .cert-medalla{margin:0 auto;width:80px;height:80px;font-size:36px;}
+  .cert-features{align-items:flex-start;text-align:left;}
 }
-.pb-left { display: flex; flex-direction: column; }
-.pb-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 4px; }
-.pb-precio { font-family: "Josefin Sans",sans-serif; font-size: 42px; font-weight: 700; color: #fff; line-height: 1; }
-.pb-precio-sub { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 4px; }
-.pb-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-.pb-pais { font-size: 13px; color: rgba(255,255,255,0.75); font-weight: 600; }
-.pb-btn { background: var(--green); color: var(--navy); padding: 12px 28px; border-radius: 10px; font-weight: 800; font-size: 14px; border: none; cursor: pointer; font-family: "Barlow",sans-serif; transition: all .2s; }
-.pb-btn:hover { background: #9ed648; }
 
-/* Precio card */
-.ic-pais-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; display: block; }
-.ic-pais-detected { font-size: 12px; color: var(--purple); font-weight: 600; margin-bottom: 16px; }
-.modal-pais-info { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 4px; }
-
-@media(max-width:600px) {
-  .precio-banner { flex-direction: column; }
-  .pb-right { align-items: flex-start; }
-}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav class="nav">
-  <a href="index.html">
-    <svg class="nav-logo-svg"   viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
-<defs>
-  <style>@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');</style>
-  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-    <stop offset="0%" style="stop-color:#8DC63F"/>
-    <stop offset="100%" style="stop-color:#6B6BBB"/>
-  </linearGradient>
-</defs>
-
-<!-- ── ÍCONO: Libro abierto con birrete ── -->
-<rect x="20" y="55" width="90" height="110" rx="10" fill="#6B6BBB"/>
-<rect x="25" y="62" width="38" height="96" rx="4" fill="#7B7BC8"/>
-<rect x="67" y="62" width="38" height="96" rx="4" fill="#8DC63F" opacity="0.9"/>
-<rect x="63" y="55" width="4" height="110" rx="2" fill="white" opacity="0.9"/>
-<!-- Líneas texto izquierda -->
-<rect x="30" y="78" width="28" height="3" rx="1.5" fill="white" opacity="0.5"/>
-<rect x="30" y="86" width="22" height="3" rx="1.5" fill="white" opacity="0.5"/>
-<rect x="30" y="94" width="26" height="3" rx="1.5" fill="white" opacity="0.5"/>
-<rect x="30" y="102" width="20" height="3" rx="1.5" fill="white" opacity="0.5"/>
-<rect x="30" y="110" width="28" height="3" rx="1.5" fill="white" opacity="0.5"/>
-<!-- Líneas texto derecha -->
-<rect x="72" y="78" width="28" height="3" rx="1.5" fill="white" opacity="0.6"/>
-<rect x="72" y="86" width="22" height="3" rx="1.5" fill="white" opacity="0.6"/>
-<rect x="72" y="94" width="26" height="3" rx="1.5" fill="white" opacity="0.6"/>
-<rect x="72" y="102" width="20" height="3" rx="1.5" fill="white" opacity="0.6"/>
-<rect x="72" y="110" width="28" height="3" rx="1.5" fill="white" opacity="0.6"/>
-<!-- Birrete -->
-<rect x="22" y="32" width="86" height="14" rx="4" fill="url(#grad1)"/>
-<path d="M42 46 L88 46 L88 58 Q88 65 65 65 Q42 65 42 58 Z" fill="#6B6BBB"/>
-<circle cx="88" cy="46" r="4" fill="#8DC63F"/>
-<line x1="88" y1="46" x2="100" y2="60" stroke="#8DC63F" stroke-width="2.5" stroke-linecap="round"/>
-<circle cx="100" cy="62" r="5" fill="#8DC63F"/>
-
-<!-- ── TEXTO APPLENDE ── -->
-<text font-family="'Josefin Sans','Century Gothic',sans-serif" font-weight="700" font-size="86" letter-spacing="-2">
-  <tspan x="128" y="140" fill="#6B6BBB">APP</tspan><tspan fill="#8DC63F">LENDE</tspan>
-</text>
-
-<!-- Subtítulo -->
-<text x="134" y="168"
-      font-family="'Josefin Sans','Century Gothic',sans-serif"
-      font-weight="400" font-size="17"
-      fill="#BFBFBF" letter-spacing="10">ACADEMIA</text>
-
-<!-- Línea decorativa -->
-<rect x="134" y="176" width="130" height="2.5" rx="1.5" fill="url(#grad1)"/>
-
-</svg>
-
-  </a>
+  <a href="index.html"><img src="data:image/png;base64,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" alt="APPLE Construcciones" class="nav-logo-svg" style="height:44px;width:auto;display:block"></a>
   <div class="nav-links">
-    <a href="index.html" class="nav-link">← Inicio</a>
-    <a href="cursos.html" class="nav-link">Todos los cursos</a>
-    <button onclick="abrirModal()" class="nav-btn">Inscribirme →</button>
+    <a href="cursos.html" class="nav-link">← Todos los cursos</a>
+    <a href="login.html" class="nav-link">Iniciar sesión</a>
+    <a href="inscripcion.html?slug=vectorworks-architect" class="nav-btn">🎓 Inscribirme</a>
   </div>
 </nav>
 
-<!-- HERO FOTO -->
+<!-- HERO -->
 <div class="hero-foto-wrap">
-  <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1400&h=500&fit=crop&q=85" class="hero-foto" alt="Vectorworks + Plugins" style="object-fit:cover;object-position:center 50%;transform:scale(1.4);transform-origin:center 50%;">
+  <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=80" class="hero-foto" alt="Vectorworks Architect">
   <div class="hero-foto-overlay">
     <div class="hero-foto-text">
-      <div class="hero-foto-badge"><div class="hero-dot"></div> En Vivo · 18 de Mayo, 2026 · Zoom</div>
-      <h1>Vectorworks <span>+ Plugins</span></h1>
-      <p>Diseño arquitectónico profesional · Arq. Pablo Aramayo · 7 clases · 10.5 horas académicas</p>
+      <div class="hero-foto-badge"><div class="hero-dot"></div> CURSO EN VIVO · INICIA 18 DE MAYO 2026 · 2 GRUPOS</div>
+      <h1>Vectorworks <span>Architect</span></h1>
+      <p>Curso completo de Vectorworks Architect con el Arq. Pablo Aramayo, basado en el programa oficial de D-PAR. 7 clases que te llevan desde la instalación hasta el cómputo métrico avanzado y la exportación profesional, con un proyecto real de vivienda como hilo conductor.</p>
+      <div class="hero-mods">
+        <span class="hero-mod virtual">📺 Modalidad Virtual</span>
+        <span class="hero-mod presencial">🏛️ Modalidad Presencial</span>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- INFO BAR -->
 <div class="info-bar">
-  <div class="info-badges">
-    <div class="ibadge">👤 Arq. Pablo Aramayo</div>
-    <div class="ibadge">⏱ 7 clases · 10.5 hrs</div>
-    <div class="ibadge">💻 Zoom en vivo</div>
-    <div class="ibadge">📅 18 Mayo 2026</div>
-    <div class="ibadge ibadge-purple">🌎 Internacional</div>
-    <div class="ibadge">👥 Máx. 70 alumnos</div>
-    <div class="ibadge">📜 Certificado</div>
-  </div>
-  <div class="rating-bar">
-    <span style="background:rgba(107,107,187,0.2);border:1px solid rgba(107,107,187,0.3);color:var(--purple);font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;">✨ Primera edición</span>
-  </div>
-</div>
-
-<!-- PRECIO BANNER AUTOMÁTICO -->
-<div class="precio-banner">
-  <div class="pb-left">
-    <span class="pb-label">INVERSIÓN PARA EL CURSO</span>
-    <span class="pb-precio" id="pb-precio">Bs 100</span>
-    <span class="pb-precio-sub" id="pb-sub">Bolivia · ≈ $14 USD</span>
-  </div>
-  <div class="pb-right">
-    <span class="pb-pais" id="pb-pais">🌎 Precio internacional disponible</span>
-    <button class="pb-btn" onclick="abrirModal()">🎓 Inscribirme ahora →</button>
-  </div>
-</div>
-
-
-<!-- Selector manual de país (aparece si la detección falla) -->
-<div id="selector-manual" style="display:none;background:rgba(107,107,187,0.1);border:1px solid rgba(107,107,187,0.3);padding:12px 5%;display:none;align-items:center;gap:12px;flex-wrap:wrap;">
-  <span style="font-size:13px;color:var(--navy);font-weight:600;">¿Desde qué país te conectas?</span>
-  <button onclick="cambiarPais('BO')" style="background:var(--navy);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-weight:700;cursor:pointer;font-family:'Barlow',sans-serif;">🇧🇴 Bolivia — Bs 100</button>
-  <button onclick="cambiarPais('PE')" style="background:var(--purple);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-weight:700;cursor:pointer;font-family:'Barlow',sans-serif;">🇵🇪 Perú — S/ 55</button>
-  <button onclick="cambiarPais('DEFAULT')" style="background:var(--muted);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-weight:700;cursor:pointer;font-family:'Barlow',sans-serif;">🌎 Otro país — $15</button>
+  <div class="ibadge">👨‍🏫 Arq. Pablo Aramayo</div>
+  <div class="ibadge">⏱ 14 horas en vivo</div>
+  <div class="ibadge">📊 Nivel Intermedio</div>
+  <div class="ibadge">📜 Certificado oficial</div>
+  <div class="ibadge">🇧🇴 Santa Cruz, Bolivia</div>
+  <div class="ibadge highlight">⚡ 60 cupos por grupo</div>
 </div>
 
 <!-- COUNTDOWN -->
 <div class="countdown-bar">
   <div>
     <div class="cd-label">⏳ El curso inicia en:</div>
-    <div class="cd-sub" style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:2px;">Vectorworks + Plugins · 18 Mayo 2026 · Horario a confirmar con el instructor</div>
+    <div class="cd-sub">Grupo A · Lunes 18 de Mayo 2026 · 19:00 Bolivia</div>
   </div>
   <div class="cd-timer">
-    <div class="cd-unit"><span class="cd-num" id="v-d">00</span><span class="cd-sub-label">Días</span></div>
+    <div class="cd-unit"><span class="cd-num" id="cd-d">00</span><span class="cd-sub-label">Días</span></div>
     <span class="cd-sep">:</span>
-    <div class="cd-unit"><span class="cd-num" id="v-h">00</span><span class="cd-sub-label">Horas</span></div>
+    <div class="cd-unit"><span class="cd-num" id="cd-h">00</span><span class="cd-sub-label">Horas</span></div>
     <span class="cd-sep">:</span>
-    <div class="cd-unit"><span class="cd-num" id="v-m">00</span><span class="cd-sub-label">Min</span></div>
+    <div class="cd-unit"><span class="cd-num" id="cd-m">00</span><span class="cd-sub-label">Min</span></div>
     <span class="cd-sep">:</span>
-    <div class="cd-unit"><span class="cd-num" id="v-s">00</span><span class="cd-sub-label">Seg</span></div>
+    <div class="cd-unit"><span class="cd-num" id="cd-s">00</span><span class="cd-sub-label">Seg</span></div>
   </div>
 </div>
 
-<!-- MAIN LAYOUT -->
+<!-- MAIN -->
 <div class="main-layout">
 
   <!-- CONTENIDO -->
   <div class="contenido">
 
+    <!-- DESCRIPCIÓN -->
     <span class="section-tag">Sobre el curso</span>
     <h2>¿Qué aprenderás?</h2>
-    <p>Domina Vectorworks y sus plugins especializados para el diseño arquitectónico profesional. Aprende desde la interfaz básica hasta documentación técnica completa: planos 2D, modelado 3D y presentaciones de alto nivel.</p>
-    <p>Clases en vivo por Zoom con el Arq. Pablo Aramayo, especialista en software arquitectónico. Acceso permanente a la grabación y materiales incluidos.</p>
+    <p>Curso intensivo de <strong>Vectorworks Architect</strong> dictado por el Arq. Pablo Aramayo, basado en el programa oficial de D-PAR. Te lleva desde la <strong>instalación del programa</strong> hasta dominar el cómputo métrico avanzado y la exportación profesional, trabajando con un proyecto real de vivienda como hilo conductor de las 7 clases.</p>
+    <p>Empezamos con la <strong>configuración inicial</strong>: instalación, interfaz, sistema de unidades, escalas, precisión de dibujo y configuración de hojas. Aprenderás a crear tu propia plantilla de trabajo y a personalizar la interfaz con paletas, barras de herramientas y comandos de teclado para trabajar a velocidad profesional.</p>
+    <p>El núcleo del curso es el <strong>modelado del proyecto de vivienda</strong>: muros (con tipos, atributos y estilos por clase), muros cortina, puertas, ventanas paramétricas, escaleras 2D, escaleras eléctricas, ascensores y archivos referenciados. Aprenderás a construir plantillas completas reutilizables con todos los recursos, capas, clases y estilos guardados.</p>
+    <p>Cerramos con <strong>cómputo métrico avanzado y exportación profesional</strong>: registro de datos en muros, puertas, ventanas, pisos y revestimientos; importación desde DWG, PDF, 3DS y SketchUp; viewports y hojas de impresión con carimbo; y exportación a DWG, imagen, 3D y PDF. Incluye trabajo colaborativo con archivo de proyecto compartido — la forma profesional de trabajar en estudios y oficinas técnicas.</p>
 
-    <div class="separador"></div>
-
-    <!-- Video -->
-    <span class="section-tag">Presentación</span>
-    <h2>Video de presentación</h2>
-    <div class="video-wrap">
-      <div class="video-placeholder">
-        <div class="play-icon">▶️</div>
-        <p>Video disponible próximamente</p>
+    <!-- LO QUE VAS A APRENDER -->
+    <div class="aprenderas-box">
+      <div class="aprenderas-grid">
+        <div class="aprenderas-item">Instalar y configurar Vectorworks desde cero (unidades, escalas, hojas)</div>
+        <div class="aprenderas-item">Dominar la interfaz, paletas y comandos de teclado personalizados</div>
+        <div class="aprenderas-item">Modelar muros, puertas, ventanas y muros cortina con estilos por clase</div>
+        <div class="aprenderas-item">Construir escaleras 2D, escaleras eléctricas y ascensores</div>
+        <div class="aprenderas-item">Crear plantillas reutilizables con capas, clases y recursos</div>
+        <div class="aprenderas-item">Configurar viewports, hojas de impresión y carimbos profesionales</div>
+        <div class="aprenderas-item">Realizar cómputo métrico con registro de datos automatizado</div>
+        <div class="aprenderas-item">Importar/exportar a DWG, PDF, 3DS, SketchUp y trabajar en proyectos compartidos</div>
       </div>
     </div>
 
     <div class="separador"></div>
 
-    <!-- Temario -->
-    <span class="section-tag">Contenido del curso</span>
-    <h2>Temario completo — 12 módulos · 7 clases · 10.5 horas académicas</h2>
-    <p>Contenido práctico con proyectos reales desde la interfaz básica hasta plugins avanzados.</p>
-    <div class="temario-grid">
-      <div class="t-item"><div class="t-num">1</div><div class="t-texto"><strong>Introducción a Vectorworks</strong>Interfaz, herramientas básicas y espacio de trabajo arquitectónico.</div></div>
-      <div class="t-item"><div class="t-num navy">2</div><div class="t-texto"><strong>Plantas arquitectónicas 2D</strong>Trazado de muros, puertas, ventanas y elementos de planta.</div></div>
-      <div class="t-item"><div class="t-num">3</div><div class="t-texto"><strong>Anotaciones y cotas</strong>Sistema de acotado, notas técnicas, escala y presentación.</div></div>
-      <div class="t-item"><div class="t-num navy">4</div><div class="t-texto"><strong>Elevaciones y cortes</strong>Generación automática desde la planta. Edición y personalización.</div></div>
-      <div class="t-item"><div class="t-num">5</div><div class="t-texto"><strong>Modelado 3D básico</strong>Extrusiones, techos, escaleras y elementos volumétricos.</div></div>
-      <div class="t-item"><div class="t-num navy">6</div><div class="t-texto"><strong>Materiales y texturas</strong>Asignación de materiales y colores a elementos en 3D.</div></div>
-      <div class="t-item"><div class="t-num">7</div><div class="t-texto"><strong>Iluminación básica</strong>Luces solares, artificiales y configuración de escenas.</div></div>
-      <div class="t-item"><div class="t-num navy">8</div><div class="t-texto"><strong>Renderizado Renderworks</strong>Calidad de render, materiales avanzados y exportación.</div></div>
-      <div class="t-item"><div class="t-num">9</div><div class="t-texto"><strong>Plugins arquitectónicos</strong>Ventanas paramétricas, escaleras y cubiertas avanzadas.</div></div>
-      <div class="t-item"><div class="t-num navy">10</div><div class="t-texto"><strong>Hojas de presentación</strong>Vistas en hojas de dibujo, carteles, escalas y PDF.</div></div>
-      <div class="t-item"><div class="t-num">11</div><div class="t-texto"><strong>Interoperabilidad</strong>Exportación a AutoCAD DWG, IFC y formatos de intercambio.</div></div>
-      <div class="t-item"><div class="t-num navy">12</div><div class="t-texto"><strong>Proyecto final integrador</strong>Vivienda completa: planos, cortes, 3D y presentación.</div></div>
-    </div>
+    <!-- GRUPOS -->
+    <span class="section-tag">Elegí tu grupo</span>
+    <h2>2 grupos disponibles</h2>
+    <p>Tenemos dos opciones de horario para que elijas el que mejor se adapte a vos. Ambos grupos cubren el mismo contenido completo en <strong>14 horas en vivo</strong>, dictadas por el Arq. Pablo Aramayo.</p>
 
-    <div class="separador"></div>
+    <div class="grupos-grid">
+      <div class="grupo-card">
+        <div class="gr-tag">Grupo A · Mañanas</div>
+        <div class="gr-tit">Lunes a Viernes</div>
+        <div class="gr-info">
+          <div class="gr-row"><b>Horario</b><span>19:00 a 21:00 (Bolivia)</span></div>
+          <div class="gr-row"><b>Sesiones</b><span>7 clases × 2 horas</span></div>
+          <div class="gr-row"><b>Duración</b><span>3 semanas</span></div>
+        </div>
+        <div class="gr-fechas">
+          <strong>📅 Inicia:</strong> Lunes 18 de mayo 2026<br>
+          <strong>🏁 Finaliza:</strong> Viernes 5 de junio 2026
+        </div>
+      </div>
 
-    <!-- Instructor -->
-    <span class="section-tag">Tu instructor</span>
-    <h2>Arq. Pablo Aramayo</h2>
-    <div class="inst-card">
-      <div class="inst-av" style="background:linear-gradient(135deg,var(--purple),var(--blue));border-color:rgba(107,107,187,0.25);">🖥️</div>
-      <div>
-        <div class="inst-nombre">Arq. Pablo Aramayo</div>
-        <span class="inst-cargo">Especialista en Software Arquitectónico · Academia APPLENDE</span>
-        <p class="inst-bio">Arquitecto especializado en software de diseño y visualización. Experto en Vectorworks, SketchUp+ENSCAPE y Revit. Amplia experiencia en docencia y aplicación de herramientas digitales para proyectos de arquitectura en Bolivia y Latinoamérica.</p>
-        <div class="inst-tags">
-          <span class="inst-tag">Vectorworks certificado</span>
-          <span class="inst-tag">SketchUp + ENSCAPE</span>
-          <span class="inst-tag">Revit BIM</span>
-          <span class="inst-tag">Docente especializado</span>
+      <div class="grupo-card b">
+        <div class="gr-tag">Grupo B · Fin de Semana</div>
+        <div class="gr-tit">Sábados y Domingos</div>
+        <div class="gr-info">
+          <div class="gr-row"><b>Horario</b><span>14:00 a 18:00 (Bolivia) con break</span></div>
+          <div class="gr-row"><b>Sesiones</b><span>4 clases × 3.5 horas</span></div>
+          <div class="gr-row"><b>Duración</b><span>3 semanas</span></div>
+        </div>
+        <div class="gr-fechas">
+          <strong>📅 Inicia:</strong> Sábado 23 de mayo 2026<br>
+          <strong>🏁 Finaliza:</strong> Domingo 14 de junio 2026
         </div>
       </div>
     </div>
 
-  </div>
+    <div class="separador"></div>
 
-  <!-- CARD INSCRIPCION -->
-  <div>
-    <div class="inscripcion-card">
-      <span class="ic-pais-label">INVERSIÓN PARA EL CURSO</span>
-      <div style="margin-bottom:4px;">
-        <span class="ic-precio-num" id="ic-precio">Bs 100</span>
+    <!-- TEMARIO -->
+    <span class="section-tag">Contenido del curso</span>
+    <h2>Temario completo — 7 clases · 14 horas en vivo</h2>
+    <p>Programa estructurado en 7 clases progresivas que te llevan desde la instalación e interfaz hasta el cómputo métrico avanzado y la exportación profesional. Incluye proyecto integrador de vivienda completa con planos, modelado 3D y láminas de presentación.</p>
+
+    <div class="temario-modulos">
+
+      <div class="tm-mod">
+        <div class="tm-mod-head">
+          <div class="tm-num">1</div>
+          <div class="tm-tit">Clase 1 — Introducción y configuración inicial</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">Introducción al curso e instalación del programa</div>
+          <div class="tm-item">Presentación e interfaz de Vectorworks</div>
+          <div class="tm-item">Configuración para diseñar: sistema de unidad, escala, precisión y hojas</div>
+          <div class="tm-item">Configuración de interfaz, paletas y barras de herramientas</div>
+          <div class="tm-item">Crear plantilla de trabajo</div>
+          <div class="tm-item">Paleta de herramientas básicas: navegación, texto y diseño 2D</div>
+        </div>
       </div>
-      <div class="ic-usd" id="ic-precio-sub">Bolivia · ≈ $14 USD</div>
-      <div class="ic-pais-detected" id="ic-pais-detected">🇧🇴 Bolivia — Bs 100</div>
-      <div class="ic-alerta">⚡ Solo 70 cupos disponibles</div>
 
-      <button class="ic-btn-main" onclick="abrirModal()">🎓 Quiero inscribirme →</button>
+      <div class="tm-mod">
+        <div class="tm-mod-head">
+          <div class="tm-num purple">2</div>
+          <div class="tm-tit">Clase 2 — Edición y proyecto de vivienda</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">Herramientas de edición: escalar, duplicar, rotar, simetría</div>
+          <div class="tm-item">Cotas y tipos de cotas</div>
+          <div class="tm-item">Comandos de teclado y guardado de comandos</div>
+          <div class="tm-item">Paleta de atributos: relleno, pluma, opacidad, grosor de línea</div>
+          <div class="tm-item">Capas (Layers) e importación de archivos</div>
+          <div class="tm-item">Modelado rápido de muros, puertas, ventanas y elementos constructivos</div>
+        </div>
+      </div>
 
-      <a href="https://wa.me/59173979066?text=Hola,%20quiero%20información%20sobre%20el%20curso%20de%20Vectorworks%20(18%20Mayo%202026)" target="_blank" class="ic-btn-wa">
-        💬 Consultar por WhatsApp
-      </a>
+      <div class="tm-mod">
+        <div class="tm-mod-head">
+          <div class="tm-num">3</div>
+          <div class="tm-tit">Clase 3 — Recursos y herramientas de construcción</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">Administrador de recursos, búsqueda y carpeta de favoritos</div>
+          <div class="tm-item">Clases y vistas en el proyecto</div>
+          <div class="tm-item">Muros: tipos, atributos y estilos por clase</div>
+          <div class="tm-item">Muros cortina</div>
+          <div class="tm-item">Puertas: atributos, clases y estilos</div>
+          <div class="tm-item">Ventanas: atributos, clases y estilos</div>
+        </div>
+      </div>
 
-      <ul class="ic-features">
-        <li class="ic-feat">7 clases en vivo por Zoom</li>
-        <li class="ic-feat">10.5 horas académicas</li>
-        <li class="ic-feat">Acceso permanente a la grabación</li>
-        <li class="ic-feat">Archivos de ejercicios descargables</li>
-        <li class="ic-feat">Certificado de participación</li>
-        <li class="ic-feat">Grupo WhatsApp exclusivo</li>
-      </ul>
+      <div class="tm-mod">
+        <div class="tm-mod-head">
+          <div class="tm-num purple">4</div>
+          <div class="tm-tit">Clase 4 — Plantillas, símbolos y circulación vertical</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">Crear plantilla completa con capas, clases, estilos y recursos</div>
+          <div class="tm-item">Crear símbolos 2D y mobiliario</div>
+          <div class="tm-item">Escalera 2D: tipos, configuración, tramos y dirección</div>
+          <div class="tm-item">Escalera eléctrica 2D y ascensor</div>
+          <div class="tm-item">Archivos referenciados (AR)</div>
+          <div class="tm-item">Modelado del proyecto: muros, ventanas, puertas, bloques 2D y ejes</div>
+        </div>
+      </div>
 
-      <div class="ic-garantia">🛡️ Garantía de satisfacción 24 horas</div>
+      <div class="tm-mod">
+        <div class="tm-mod-head">
+          <div class="tm-num">5</div>
+          <div class="tm-tit">Clase 5 — Presentación y configuración avanzada</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">Paneles de vista múltiples</div>
+          <div class="tm-item">Pisos: configuración avanzada de rellenos y líneas</div>
+          <div class="tm-item">Hojas de impresión, carimbo y viewports</div>
+          <div class="tm-item">Configuración de viewports: capas, clases, estilos y opciones avanzadas</div>
+          <div class="tm-item">Configuración de cotas</div>
+          <div class="tm-item">Configuraciones avanzadas: preferencias, fondo oscuro, espacio de trabajo</div>
+        </div>
+      </div>
+
+      <div class="tm-mod">
+        <div class="tm-mod-head">
+          <div class="tm-num purple">6</div>
+          <div class="tm-tit">Clase 6 — Cómputo métrico e importación</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">Cómputo métrico de muros, puertas, ventanas, pisos y revestimientos</div>
+          <div class="tm-item">Importación de DWG/DXF, imágenes, PDF, 3DS y SketchUp</div>
+          <div class="tm-item">Purgar archivo para optimización</div>
+          <div class="tm-item">Errores comunes en Vectorworks y cómo solucionarlos</div>
+        </div>
+      </div>
+
+      <div class="tm-mod">
+        <div class="tm-mod-head">
+          <div class="tm-num">7</div>
+          <div class="tm-tit">Clase 7 — Cómputo con datos y exportación profesional</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">Cómputo métrico con registro de datos</div>
+          <div class="tm-item">Herramientas avanzadas: data stamp, number stamp, duplicar armado</div>
+          <div class="tm-item">Crear muro desde polígonos y polígonos desde paredes</div>
+          <div class="tm-item">Exportaciones: DWG, imagen, 3D y PDF</div>
+          <div class="tm-item">Archivo de proyecto compartido y trabajo colaborativo</div>
+          <div class="tm-item">Recomendaciones finales y retroalimentación</div>
+        </div>
+      </div>
+
     </div>
+
+    <div class="separador"></div>
+
+    <!-- REQUISITOS -->
+    <span class="section-tag">Antes de empezar</span>
+    <h2>Requisitos previos</h2>
+    <p style="font-size:14px;line-height:1.8;color:var(--text);">
+      ✓ Conocimientos básicos de Excel (fórmulas, referencias, funciones simples)<br>
+      ✓ Nociones generales de contabilidad (estados financieros básicos)<br>
+      ✓ Computadora con Microsoft Excel 2016 o superior<br>
+      ✓ Conexión a internet estable para acceder a las clases en vivo
+    </p>
+
+    <div class="separador"></div>
+
+    <!-- PARA QUIÉN -->
+    <span class="section-tag">Audiencia</span>
+    <h2>¿Para quién es este curso?</h2>
+    <p style="font-size:14px;line-height:1.8;color:var(--text);">
+      • Profesionales de finanzas, contabilidad o administración que buscan especializarse<br>
+      • Analistas financieros que necesitan dominar la modelación profesional<br>
+      • Emprendedores que quieren evaluar la viabilidad de sus proyectos<br>
+      • Consultores que asesoran inversiones o valoración de empresas<br>
+      • Estudiantes avanzados de carreras financieras que se preparan al mercado laboral
+    </p>
+
+    <div class="separador"></div>
+
+    <!-- INSTRUCTOR (con <img> directo, no background) -->
+    <span class="section-tag">Tu instructor</span>
+    <h2>Arq. Pablo Aramayo</h2>
+    <div class="inst-card">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDAgMTQwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjOERDNjNGIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzFBMjc0NCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjE0MCIgaGVpZ2h0PSIxNDAiIHJ4PSIxNCIgZmlsbD0idXJsKCNnKSIvPgogIDx0ZXh0IHg9IjcwIiB5PSI5MiIgZm9udC1mYW1pbHk9Ikpvc2VmaW4gU2Fucywgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjcwMCIgZm9udC1zaXplPSI2MCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UEE8L3RleHQ+Cjwvc3ZnPg==" alt="Arq. Pablo Aramayo" class="inst-foto">
+      <div class="inst-info">
+        <div class="inst-nombre">Arq. Pablo Aramayo</div>
+        <span class="inst-cargo">Especialista en Software de Diseño Arquitectónico</span>
+        <p class="inst-bio">Arquitecto especializado en software de diseño y visualización arquitectónica, con amplia experiencia en docencia y aplicación de herramientas digitales en proyectos reales. <strong>Experto certificado en Vectorworks Architect</strong>, también domina SketchUp + ENSCAPE y Revit BIM. Ha capacitado a cientos de profesionales en Bolivia y Latinoamérica en el uso eficiente del CAD-BIM aplicado al diseño y la presentación de proyectos arquitectónicos. Su enfoque pedagógico combina la rigurosidad técnica con la aplicación inmediata a proyectos reales.</p>
+        <div class="inst-tags">
+          <span class="inst-tag">Vectorworks Architect</span>
+          <span class="inst-tag">SketchUp + ENSCAPE</span>
+          <span class="inst-tag">Revit BIM</span>
+          <span class="inst-tag">Cómputo Métrico</span>
+          <span class="inst-tag">Modelado de Vivienda</span>
+          <span class="inst-tag">Docente Especializado</span>
+          <span class="inst-tag">Programa Oficial D-PAR</span>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="separador"></div>
+
+    <!-- CERTIFICADO DESTACADO -->
+    <span class="section-tag">Tu acreditación</span>
+    <h2>Certificado Oficial APPLENDE</h2>
+    <div class="cert-bloque">
+      <div class="cert-icon-wrap">
+        <div class="cert-medalla">📜</div>
+      </div>
+      <div class="cert-info">
+        <span class="cert-tag">Al finalizar el curso</span>
+        <div class="cert-tit">Recibirás tu Certificado Oficial</div>
+        <p class="cert-desc">Acreditación profesional de "Vectorworks Architect" emitida por la Academia APPLENDE, parte del ecosistema APPLE Construcciones &amp; Servicios.</p>
+        <div class="cert-features">
+          <div class="cert-feat"><span><strong>19 horas académicas</strong> de formación intensiva (1 HA = 45 minutos)</span></div>
+          <div class="cert-feat"><span>Avalado por <strong>APPLE Construcciones &amp; Servicios</strong></span></div>
+          <div class="cert-feat"><span>Suma a tu <strong>CV y perfil de LinkedIn</strong> como formación profesional certificada</span></div>
+          <div class="cert-feat"><span>Entrega en <strong>PDF con código QR verificable</strong></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- PRIMER DICTADO -->
+    <span class="section-tag">Opiniones de estudiantes</span>
+    <h2>Sé uno de los primeros</h2>
+    <div class="primer-dictado">
+      <div class="pd-icon">📣</div>
+      <div class="pd-tit">Este es el primer dictado del curso</div>
+      <p class="pd-desc">Vectorworks Architect inicia el 18 de mayo. Tu opinión va a ayudar a futuros alumnos a decidirse. Las primeras reseñas se publicarán al cierre de este grupo.</p>
+    </div>
+
   </div>
+
+  <!-- TARJETA INSCRIPCION -->
+  <aside>
+    <div class="inscripcion-card">
+
+      <div class="precio-section-tit">💰 Inversión</div>
+
+      <div class="modalidad-block virtual">
+        <div class="mod-head">
+          <span class="mod-icon">📺</span>
+          <span class="mod-titulo">Virtual (Zoom)</span>
+          <span class="mod-cupos">40 cupos</span>
+        </div>
+        <div class="precio-fila">
+          <div class="precio-tipo">👔 Profesional</div>
+          <div class="precio-monto"><span class="precio-bs">Bs 180</span></div>
+        </div>
+        <div class="precio-fila">
+          <div class="precio-tipo precio-tipo-est">🎓 Estudiante</div>
+          <div class="precio-monto">
+            <span class="precio-bs estudiante">Bs 130</span>
+            <span class="precio-badge">28% OFF</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modalidad-block presencial">
+        <div class="mod-head">
+          <span class="mod-icon">🏛️</span>
+          <span class="mod-titulo">Presencial</span>
+          <span class="mod-cupos">20 cupos</span>
+        </div>
+        <div class="precio-fila">
+          <div class="precio-tipo">👔 Profesional</div>
+          <div class="precio-monto"><span class="precio-bs">Bs 250</span></div>
+        </div>
+        <div class="precio-fila">
+          <div class="precio-tipo precio-tipo-est">🎓 Estudiante</div>
+          <div class="precio-monto">
+            <span class="precio-bs estudiante">Bs 180</span>
+            <span class="precio-badge">28% OFF</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="precio-nota">Tarifa estudiantil con carnet vigente · Pago único · Coordinación presencial vía WhatsApp</p>
+
+      <a href="inscripcion.html?slug=vectorworks-architect" class="ic-btn-main">🎓 Inscribirme →</a>
+      <a href="https://wa.me/59164403290?text=Hola,%20quiero%20información%20sobre%20Vectorworks%20Architect" target="_blank" class="ic-btn-wa">💬 Consultar por WhatsApp</a>
+
+      <div class="ic-features">
+        <div class="ic-feat">7 o 4 clases en vivo (según grupo)</div>
+        <div class="ic-feat">Interacción directa con el instructor</div>
+        <div class="ic-feat">Grabación permanente de cada clase</div>
+        <div class="ic-feat">Archivos Vectorworks descargables</div>
+        <div class="ic-feat">Proyecto integrador completo</div>
+        <div class="ic-feat">Examen final + certificado oficial</div>
+        <div class="ic-feat">Soporte por WhatsApp durante el curso</div>
+      </div>
+
+      <div class="ic-garantia">
+        <strong>🛡️ Garantía 24h post-primera clase</strong><br>
+        Si no te convence, te devolvemos tu dinero
+      </div>
+    </div>
+  </aside>
 
 </div>
 
 <!-- CTA FINAL -->
 <section class="cta-section">
-  <h2>¿Listo para dominar Vectorworks?</h2>
-  <p>Solo 70 cupos disponibles para el curso en vivo del 18 de Mayo. Inscríbete ahora.</p>
+  <h2>¿Listo para diseñar como un profesional?</h2>
+  <p>Solo 60 cupos por grupo. Grupo A inicia 18 de mayo, Grupo B inicia 23 de mayo. Inscribite ahora.</p>
   <div class="cta-btns">
-    <button onclick="abrirModal()" class="btn-cta">🎓 Inscribirme →</button>
-    <a href="https://wa.me/59173979066?text=Hola,%20quiero%20inscribirme%20al%20curso%20de%20Vectorworks%20(18%20Mayo%202026)" target="_blank" class="btn-cta-wa">💬 Hablar con el Arq. Freddy</a>
+    <a href="inscripcion.html?slug=vectorworks-architect" class="btn-cta">🎓 Inscribirme →</a>
+    <a href="https://wa.me/59164403290?text=Hola,%20quiero%20inscribirme%20al%20curso%20Vectorworks%20Architect" target="_blank" class="btn-cta-wa">💬 Hablar por WhatsApp</a>
   </div>
-  <p style="color:rgba(255,255,255,0.4);font-size:12px;margin-top:20px;">🛡️ Garantía de satisfacción 24 horas · Acceso permanente a la grabación</p>
+  <p style="color:rgba(255,255,255,0.45);font-size:12px;margin-top:22px;">🛡️ Garantía 24h post-primera clase · Acceso permanente a la grabación</p>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 <a href="index.html">APPLE Construcciones & Servicios</a> · Academia APPLENDE · Santa Cruz, Bolivia</p>
-  <p style="margin-top:6px;"><a href="https://wa.me/59173979066" target="_blank">💬 +591 73979066</a></p>
+  <p>© 2026 <a href="index.html">APPLE Construcciones &amp; Servicios</a> · Academia APPLENDE · Santa Cruz, Bolivia · NIT 2989818012</p>
+  <p style="margin-top:6px;"><a href="https://wa.me/59164403290" target="_blank">💬 +591 64403290</a></p>
 </footer>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="modalOverlay" onclick="cerrarOverlay(event)">
-  <div class="modal-box">
-    <div class="modal-hd">
-      <button class="modal-close" onclick="cerrarModal()">✕</button>
-      <div class="modal-subtit">🔴 Curso En Vivo · 18 Mayo 2026 · Zoom</div>
-      <div class="modal-tit">Vectorworks + Plugins</div>
-      <span class="modal-precio-display" id="modal-precio-display">Bs 100</span>
-      <div class="modal-pais-info" id="modal-pais-info">🇧🇴 Bolivia — Bs 100</div>
-    </div>
-    <div class="modal-bd">
-      <div>
-        <span class="m-label">Tus datos de contacto</span>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <input class="m-input" id="m-nombre" type="text" placeholder="Nombre completo *">
-          <input class="m-input" id="m-email" type="email" placeholder="Correo electrónico *">
-          <input class="m-input" id="m-tel" type="tel" placeholder="WhatsApp * (incluye código de país)">
-        </div>
-      </div>
-      <div>
-        <span class="m-label">Elige cómo pagar</span>
-        <div class="opciones">
-          <button class="opcion" onclick="elegirOpcion(this,'tarjeta')">
-            <div class="opcion-icon icon-green">💳</div>
-            <div style="flex:1;">
-              <span class="opcion-nombre">Pagar con tarjeta</span>
-              <span class="opcion-desc">Visa / Mastercard · Red Enlace CyberSource · Válido internacionalmente</span>
-            </div>
-            <span class="opcion-arrow">›</span>
-          </button>
-          <button class="opcion opcion-purple" id="btn-qr" onclick="elegirOpcion(this,'qr')" style="display:none;">
-            <div class="opcion-icon icon-purple">📲</div>
-            <div style="flex:1;">
-              <span class="opcion-nombre">Pago QR Bolivia</span>
-              <span class="opcion-desc">QR bancario · Solo Bolivia · Envía comprobante por WhatsApp</span>
-            </div>
-            <span class="opcion-arrow">›</span>
-          </button>
-          <button class="opcion opcion-wa" onclick="elegirOpcion(this,'wa')">
-            <div class="opcion-icon icon-wa">💬</div>
-            <div style="flex:1;">
-              <span class="opcion-nombre">Contactar asesor</span>
-              <span class="opcion-desc">WhatsApp con el Arq. Freddy · Respuesta inmediata</span>
-            </div>
-            <span class="opcion-arrow">›</span>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="modal-ft">
-      <button class="btn-confirmar" id="btn-confirmar" onclick="confirmar()" disabled>
-        Selecciona una opción de pago
-      </button>
-      <div class="modal-nota">🛡️ Garantía 24h · Acceso permanente a grabación incluido</div>
-    </div>
-  </div>
-</div>
-
 <script>
-const precios = {
-  BO: { label:'Bs 100', sub:'Bolivia · ≈ $14 USD', pais:'🇧🇴 Bolivia — Bs 100', showQR:true },
-  PE: { label:'S/ 55',  sub:'Perú · ≈ $15 USD',   pais:'Perú — S/ 55',           showQR:false },
-  DEFAULT: { label:'$15 USD', sub:'Internacional', pais:'🌎 Internacional — $15 USD', showQR:false }
-};
+const FECHA_INICIO = new Date('2026-05-18T19:00:00-04:00');
 
-let paisActual = 'BO'; // Por defecto Bolivia
-let opcionActual = null;
-
-async function detectarPais() {
-  try {
-    const res = await fetch('https://ipapi.co/json/');
-    const data = await res.json();
-    const c = data.country_code;
-    if(c==='BO') paisActual='BO';
-    else if(c==='PE') paisActual='PE';
-    else paisActual='DEFAULT';
-  } catch(e) { paisActual='DEFAULT'; }
-  actualizarPrecio();
-}
-
-function actualizarPrecio() {
-  const p = precios[paisActual];
-  document.getElementById('pb-precio').textContent = p.label;
-  document.getElementById('pb-sub').textContent = p.sub;
-  document.getElementById('pb-pais').textContent = p.pais;
-  document.getElementById('ic-precio').textContent = p.label;
-  document.getElementById('ic-precio-sub').textContent = p.sub;
-  document.getElementById('ic-pais-detected').textContent = p.pais;
-  document.getElementById('modal-precio-display').textContent = p.label;
-  document.getElementById('modal-pais-info').textContent = p.pais;
-  document.getElementById('btn-qr').style.display = p.showQR ? 'flex' : 'none';
-}
-
-detectarPais();
-
-(function(){
-  const obj = new Date('2026-05-18T20:00:00-04:00');
-  function upd(){
-    const d=obj-new Date(); if(d<=0)return;
-    const p=n=>String(Math.floor(n)).padStart(2,'0');
-    document.getElementById('v-d').textContent=p(d/86400000);
-    document.getElementById('v-h').textContent=p((d%86400000)/3600000);
-    document.getElementById('v-m').textContent=p((d%3600000)/60000);
-    document.getElementById('v-s').textContent=p((d%60000)/1000);
+function actualizarCountdown(){
+  const ahora = new Date();
+  const diff = FECHA_INICIO - ahora;
+  if(diff <= 0){
+    ['cd-d','cd-h','cd-m','cd-s'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.textContent = '00';
+    });
+    return;
   }
-  upd(); setInterval(upd,1000);
-})();
-
-function abrirModal(){
-  document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
-  opcionActual=null;
-  document.querySelectorAll('.opcion').forEach(b=>b.classList.remove('sel'));
-  document.getElementById('btn-confirmar').disabled=true;
-  document.getElementById('btn-confirmar').textContent='Selecciona una opción de pago';
-  ['m-nombre','m-email','m-tel'].forEach(id=>document.getElementById(id).value='');
+  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const m = Math.floor((diff / (1000 * 60)) % 60);
+  const s = Math.floor((diff / 1000) % 60);
+  document.getElementById('cd-d').textContent = String(d).padStart(2,'0');
+  document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
 }
-
-function cerrarModal(){
-  document.getElementById('modalOverlay').classList.remove('open');
-  document.body.style.overflow='';
-}
-
-function cerrarOverlay(e){
-  if(e.target===document.getElementById('modalOverlay'))cerrarModal();
-}
-
-function elegirOpcion(btn,opcion){
-  document.querySelectorAll('.opcion').forEach(b=>b.classList.remove('sel'));
-  btn.classList.add('sel'); opcionActual=opcion;
-  const p=precios[paisActual];
-  const t={tarjeta:'Pagar con tarjeta — '+p.label, qr:'Ver QR de pago Bolivia', wa:'Contactar asesor por WhatsApp'};
-  document.getElementById('btn-confirmar').disabled=false;
-  document.getElementById('btn-confirmar').textContent=t[opcion];
-}
-
-function confirmar(){
-  const n=document.getElementById('m-nombre').value.trim();
-  const e=document.getElementById('m-email').value.trim();
-  const t=document.getElementById('m-tel').value.trim();
-  if(!n||!e||!t){alert('Por favor completa tu nombre, correo y WhatsApp.');return;}
-  const p=precios[paisActual];
-  const msg=encodeURIComponent('Hola Arq. Freddy, quiero inscribirme:\nCurso: Vectorworks + Plugins\nFecha: 18 Mayo 2026\nPrecio: '+p.label+'\nPaís: '+p.sub+'\nNombre: '+n+'\nEmail: '+e+'\nWA: '+t);
-  if(opcionActual==='tarjeta'){
-    alert('💳 Pago con tarjeta disponible muy pronto.\nTe conectamos con el Arq. Freddy por WhatsApp.');
-    window.open('https://wa.me/59173979066?text='+msg,'_blank');
-  } else if(opcionActual==='qr'){
-    alert('📲 QR Bolivia\n\nMonto: Bs 100\nEscanea el QR y envía tu comprobante por WhatsApp.');
-    window.open('https://wa.me/59173979066?text='+msg+'%0AOpci%C3%B3n%3A%20QR%20Bolivia','_blank');
-  } else if(opcionActual==='wa'){
-    window.open('https://wa.me/59173979066?text='+msg+'%0AQuiero%20m%C3%A1s%20informaci%C3%B3n.','_blank');
-  }
-  cerrarModal();
-}
-
-document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarModal();});
+actualizarCountdown();
+setInterval(actualizarCountdown, 1000);
 </script>
+
 </body>
 </html>
