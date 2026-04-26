@@ -106,6 +106,51 @@
       text-transform:uppercase;padding:4px 12px;border-radius:20px;
       margin-bottom:14px;border:1px solid rgba(141,198,63,0.3);
     }
+    .hero-tag.virtual{
+      background:rgba(107,107,187,0.22);color:#A8A6E6;
+      border-color:rgba(107,107,187,0.4);
+    }
+    .hero-tag.presencial{
+      background:rgba(141,198,63,0.22);color:var(--green);
+      border-color:rgba(141,198,63,0.4);
+    }
+
+    /* ═══ CARD PRESENCIAL · Info de aula física ═══ */
+    .card-presencial{
+      background:linear-gradient(135deg,rgba(141,198,63,0.10),rgba(141,198,63,0.04));
+      border:1.5px solid rgba(141,198,63,0.3);
+      border-radius:14px;padding:20px 22px;margin-bottom:16px;
+      max-width:560px;
+    }
+    .card-presencial-tit{
+      display:flex;align-items:center;gap:10px;
+      font-family:'Josefin Sans',sans-serif;font-size:18px;font-weight:700;
+      color:#fff;margin-bottom:8px;
+    }
+    .card-presencial-tit .icon{font-size:24px;}
+    .card-presencial-desc{
+      font-size:13.5px;color:rgba(255,255,255,0.85);line-height:1.6;
+      margin-bottom:14px;
+    }
+    .card-presencial-desc strong{color:var(--green);}
+    .btn-wa-coord{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#25D366;color:#fff;padding:11px 20px;border-radius:10px;
+      font-weight:700;font-size:13px;text-decoration:none;
+      transition:all .2s;box-shadow:0 4px 14px rgba(37,211,102,0.3);
+    }
+    .btn-wa-coord:hover{
+      background:#1DA851;transform:translateY(-2px);
+      box-shadow:0 8px 22px rgba(37,211,102,0.4);
+    }
+    .btn-wa-coord .icon{font-size:16px;}
+
+    /* ═══ Bloque "Zoom de respaldo" para presenciales ═══ */
+    .zoom-backup-label{
+      font-size:11px;font-weight:700;letter-spacing:1.5px;
+      text-transform:uppercase;color:rgba(255,255,255,0.5);
+      margin:8px 0 10px;
+    }
     .hero-title{
       font-family:'Josefin Sans',sans-serif;font-weight:700;
       font-size:clamp(24px,4vw,38px);letter-spacing:1px;
@@ -393,9 +438,29 @@
         <span id="heroFecha">—</span>
       </div>
 
+      <!-- Card presencial (oculto por defecto, se muestra solo si modalidad === 'presencial') -->
+      <div class="card-presencial" id="cardPresencial" style="display:none;">
+        <div class="card-presencial-tit">
+          <span class="icon">🏛️</span>
+          <span>Aula Presencial · Santa Cruz de la Sierra</span>
+        </div>
+        <div class="card-presencial-desc">
+          <strong>Karina te enviará la dirección por WhatsApp</strong> 48 horas antes de la primera clase. También podés escribirle ahora para coordinar cualquier consulta sobre la modalidad presencial.
+        </div>
+        <a href="#" class="btn-wa-coord" id="btnWaCoord" target="_blank" rel="noopener">
+          <span class="icon">💬</span>
+          <span>Coordinar con Karina por WhatsApp</span>
+        </a>
+      </div>
+
+      <!-- Label "Zoom de respaldo" (solo para presenciales) -->
+      <div class="zoom-backup-label" id="zoomBackupLabel" style="display:none;">
+        📺 Zoom de respaldo · Si no podés asistir presencial
+      </div>
+
       <button class="btn-zoom" id="btnZoom" disabled>
         <span class="icon">🎥</span>
-        <span id="zoomLabel">INGRESAR A ZOOM</span>
+        <span id="zoomLabel">INGRESAR A LA CLASE</span>
       </button>
       <p class="zoom-hint" id="zoomHint">El link estará disponible 1 hora antes de cada clase</p>
     </section>
@@ -541,7 +606,7 @@
       // Verificar inscripción ACTIVA del alumno en este curso
       const { data: inscripcion } = await sb
         .from('inscripciones')
-        .select('id, cohorte_id, acceso_activo, estado_pago')
+        .select('id, cohorte_id, acceso_activo, estado_pago, modalidad')
         .eq('alumno_id', session.user.id)
         .eq('curso_id', curso.id)
         .eq('acceso_activo', true)
@@ -621,8 +686,51 @@
         document.getElementById('heroFecha').textContent = 'Karina te confirmará la fecha por WhatsApp';
       }
 
+      // Configurar UI según modalidad de la inscripción
+      configurarUIModalidad();
+
       // Configurar botón Zoom
       configurarBotonZoom();
+    }
+
+    function configurarUIModalidad(){
+      const modalidad = (estado.inscripcion && estado.inscripcion.modalidad || '').toLowerCase();
+      const badge = document.getElementById('badgeModalidad');
+      const cardPresencial = document.getElementById('cardPresencial');
+      const zoomBackupLabel = document.getElementById('zoomBackupLabel');
+      const btnWaCoord = document.getElementById('btnWaCoord');
+
+      if (modalidad === 'presencial') {
+        // Modalidad PRESENCIAL: badge lima, card de info presencial visible, label "Zoom de respaldo"
+        badge.textContent = '🏛️ PRESENCIAL · SANTA CRUZ';
+        badge.classList.add('presencial');
+        badge.classList.remove('virtual');
+        cardPresencial.style.display = 'block';
+        zoomBackupLabel.style.display = 'block';
+
+        // Pre-rellenar mensaje WhatsApp para coordinar
+        const nombreCurso = (estado.curso && estado.curso.titulo) || 'mi curso';
+        const grupoNombre = (estado.cohorte && estado.cohorte.nombre) || '';
+        const lineas = [
+          'Hola Karina, buenas!',
+          '',
+          'Estoy inscripto al curso *' + nombreCurso + '*' + (grupoNombre ? ' (' + grupoNombre + ')' : '') + ' modalidad *🏛️ Presencial*.',
+          '',
+          'Quería coordinar con vos los detalles del aula presencial. ¿Me podés confirmar la dirección y cualquier info que necesite saber antes del primer día?',
+          '',
+          'Gracias!'
+        ];
+        const mensaje = encodeURIComponent(lineas.join('\n'));
+        btnWaCoord.href = 'https://wa.me/59164403290?text=' + mensaje;
+
+      } else {
+        // Modalidad VIRTUAL (default): badge violeta, card oculta
+        badge.textContent = '📺 EN VIVO · ZOOM';
+        badge.classList.add('virtual');
+        badge.classList.remove('presencial');
+        cardPresencial.style.display = 'none';
+        zoomBackupLabel.style.display = 'none';
+      }
     }
 
     function configurarBotonZoom(){
@@ -631,7 +739,7 @@
       
       if (!estado.cohorte) {
         btn.disabled = true;
-        hint.textContent = 'El link estará disponible cuando se asigne tu cohorte';
+        hint.textContent = 'El link estará disponible cuando se asigne tu grupo';
         return;
       }
 
@@ -657,6 +765,7 @@
       if (minutosHasta <= 60 && minutosHasta >= -120) {
         // Habilitar botón: 1h antes hasta 2h después de iniciar
         btn.disabled = false;
+        document.getElementById('zoomLabel').textContent = 'INGRESAR A ZOOM';
         hint.classList.add('alerta');
         if (minutosHasta > 0) {
           hint.innerHTML = `🟢 <strong>Tu clase comienza en ${Math.round(minutosHasta)} minutos.</strong> Ya podés ingresar.`;
