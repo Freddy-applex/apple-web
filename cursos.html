@@ -96,6 +96,19 @@
 .sec-white{background:#fff;}
 .sec-offwhite{background:var(--offwhite);}
 .sec-gradient{background:linear-gradient(135deg,var(--navy-dark) 0%,var(--blue) 100%);position:relative;overflow:hidden;}
+.sec-violeta{background:linear-gradient(135deg,var(--navy-dark) 0%,#3d2d6b 100%);position:relative;overflow:hidden;}
+.sec-violeta>*{position:relative;z-index:2;}
+.sec-violeta .sec-h2{color:#fff;}
+.sec-violeta .sec-p{color:rgba(255,255,255,.78);}
+.sec-violeta .sec-tag{color:var(--green);}
+.sec-violeta .why-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);}
+.sec-violeta .why-card:nth-child(1){border-left:4px solid var(--green);}
+.sec-violeta .why-card:nth-child(2){border-left:4px solid var(--purple);}
+.sec-violeta .why-card:nth-child(3){border-left:4px solid #ecb613;}
+.sec-violeta .why-card:nth-child(4){border-left:4px solid var(--blue);}
+.sec-violeta .why-card:hover{background:rgba(255,255,255,.08);box-shadow:0 8px 28px rgba(0,0,0,.3);}
+.sec-violeta .why-tit{color:#fff;}
+.sec-violeta .why-desc{color:rgba(255,255,255,.7);}
 .sec-gradient>*{position:relative;z-index:2;}
 .sec-gradient .sec-h2{color:#fff;}
 .sec-gradient .sec-p{color:rgba(255,255,255,.78);}
@@ -457,7 +470,7 @@
 <div class="max-w"><div class="empty" id="empty" style="display:none">No encontramos cursos con esos criterios. Probá con otra búsqueda o categoría.</div></div>
 
 <!-- POR QUÉ APPLENDE -->
-<section class="sec sec-gradient">
+<section class="sec sec-violeta">
   <div class="max-w">
     <div class="sec-head">
       <div class="sec-head-text">
