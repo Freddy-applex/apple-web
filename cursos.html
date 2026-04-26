@@ -250,6 +250,21 @@
 .nav-btn-icon{width:38px !important;height:38px !important;padding:0 !important;border-radius:50% !important;display:inline-flex !important;align-items:center;justify-content:center;line-height:1;}
 .nav-btn-icon svg{display:block;}
 
+
+/* ═══ SECCIONES SEPARADAS (En vivo / Grabados) ═══ */
+.seccion-cursos{margin-top:32px;}
+.sub-head{display:flex;align-items:center;gap:12px;padding-bottom:12px;margin-bottom:8px;border-bottom:2px solid var(--border);}
+.sub-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.sub-dot-vivo{background:#FF4444;animation:pulse-dot 2s infinite;}
+.sub-dot-grabado{background:var(--green);}
+.sub-h3{font-family:'Josefin Sans',sans-serif;font-size:22px;font-weight:600;color:var(--navy);margin:0;line-height:1.2;}
+.sub-h3-meta{font-size:14px;color:var(--muted);font-weight:400;}
+.sub-badge{font-size:11px;font-weight:700;padding:4px 12px;border-radius:12px;border:1px solid;}
+.sub-badge-vivo{background:rgba(255,68,68,0.08);color:#CC2222;border-color:rgba(255,68,68,0.3);}
+.sub-badge-grabado{background:rgba(141,198,63,0.1);color:#5A8A1F;border-color:rgba(141,198,63,0.4);}
+.sub-desc{font-size:14px;color:var(--muted);margin:0 0 20px;line-height:1.5;}
+@media(max-width:600px){.sub-h3{font-size:18px;}.sub-h3-meta{display:block;font-size:12px;margin-top:2px;}}
+
 </style>
 </head>
 <body>
@@ -357,49 +372,61 @@
   </div>
 </div>
 
-<!-- FILTROS DE MODALIDAD -->
-<div class="filtros-bar filtros-modalidad">
-  <div class="filtros-inner">
-    <span class="filtros-lbl">Modalidad:</span>
-    <button class="fbtn-mod active" data-mod="all" onclick="filtrarMod('all',this)">Todas</button>
-    <button class="fbtn-mod" data-mod="vivo" onclick="filtrarMod('vivo',this)"><span class="mod-dot mod-dot-vivo"></span>📺 En vivo · Grupos <span class="count">2</span></button>
-    <button class="fbtn-mod" data-mod="grabado" onclick="filtrarMod('grabado',this)"><span class="mod-dot mod-dot-grabado"></span>🎥 Grabado · A tu ritmo <span class="count">7</span></button>
-  </div>
-</div>
+<!-- FILTROS DE MODALIDAD ELIMINADOS - ahora hay secciones separadas -->
 
-<!-- GRID DE CURSOS -->
+<!-- CATALOGO DE CURSOS - 2 SECCIONES SEPARADAS -->
 <section class="sec sec-white">
   <div class="max-w">
+    
+    <!-- HEADER PRINCIPAL -->
     <div class="sec-head">
       <div class="sec-head-text">
         <span class="sec-tag">— Catálogo completo</span>
-        <h2 class="sec-h2">Nuestros 9 cursos</h2>
-        <p class="sec-p">Programas diseñados por profesionales en ejercicio activo de la construcción en Bolivia.</p>
+        <h2 class="sec-h2">Nuestros cursos</h2>
+        <p class="sec-p">Programas diseñados por profesionales en ejercicio activo del área de su profesión en Bolivia.</p>
       </div>
-      <div class="sec-counter" id="contador">Mostrando 9 cursos</div>
+      <div class="sec-counter" id="contador">Mostrando 0 cursos</div>
     </div>
 
-    <div class="cg" id="grid-cursos">
-
-
-      <!-- LOADER MIENTRAS CARGAN LOS CURSOS -->
-      <div class="cursos-loader" id="cursos-loader">
-        <div class="loader-spinner"></div>
-        <div class="loader-text">Cargando cursos...</div>
-      </div>
-
-      <!-- ERROR DE CARGA -->
-      <div class="cursos-error" id="cursos-error" style="display:none">
-        <div class="error-icon">⚠️</div>
-        <div class="error-titulo">No se pudieron cargar los cursos</div>
-        <div class="error-desc" id="error-detalle">Verificá tu conexión a internet e intentá nuevamente.</div>
-        <button class="error-btn" onclick="location.reload()">🔄 Reintentar</button>
-      </div>
-
-      <!-- ESTADO VACÍO (cuando filtros no encuentran resultados) -->
-      <div class="empty" id="empty" style="display:none">No encontramos cursos con esos criterios. Probá con otra búsqueda o categoría.</div>
-
+    <!-- LOADER GLOBAL -->
+    <div class="cursos-loader" id="cursos-loader">
+      <div class="loader-spinner"></div>
+      <div class="loader-text">Cargando cursos...</div>
     </div>
+
+    <!-- ERROR DE CARGA -->
+    <div class="cursos-error" id="cursos-error" style="display:none">
+      <div class="error-icon">⚠️</div>
+      <div class="error-titulo">No se pudieron cargar los cursos</div>
+      <div class="error-desc" id="error-detalle">Verificá tu conexión a internet e intentá nuevamente.</div>
+      <button class="error-btn" onclick="location.reload()">🔄 Reintentar</button>
+    </div>
+
+    <!-- SECCION EN VIVO -->
+    <div class="seccion-cursos" id="seccion-vivo" style="display:none">
+      <div class="sub-head sub-head-vivo">
+        <span class="sub-dot sub-dot-vivo"></span>
+        <h3 class="sub-h3">En vivo · Grupos en simultáneo <span class="sub-h3-meta">(Mes de Mayo - 2026)</span></h3>
+        <span class="sub-badge sub-badge-vivo"><span id="count-vivo">0</span> cursos</span>
+      </div>
+      <p class="sub-desc">Clases en vivo por Zoom con horarios fijos, en grupos reducidos.</p>
+      <div class="cg" id="grid-vivo"></div>
+    </div>
+
+    <!-- SECCION GRABADOS -->
+    <div class="seccion-cursos" id="seccion-grabado" style="display:none">
+      <div class="sub-head sub-head-grabado">
+        <span class="sub-dot sub-dot-grabado"></span>
+        <h3 class="sub-h3">Grabados · A tu propio ritmo</h3>
+        <span class="sub-badge sub-badge-grabado"><span id="count-grabado">0</span> cursos</span>
+      </div>
+      <p class="sub-desc">Acceso vitalicio. Estudiá cuándo y cómo quieras, sin horarios fijos.</p>
+      <div class="cg" id="grid-grabado"></div>
+    </div>
+
+    <!-- ESTADO VACIO GLOBAL -->
+    <div class="empty" id="empty" style="display:none">No encontramos cursos con esos criterios. Probá con otra búsqueda o categoría.</div>
+
   </div>
 </section>
 
@@ -699,12 +726,28 @@ async function cargarCursos() {
     
     if (loader) loader.style.display = 'none';
     
-    const empty = document.getElementById('empty');
-    const cardsHTML = data.map(cardCursoHTML).join('');
-    if (empty) {
-      empty.insertAdjacentHTML('beforebegin', cardsHTML);
-    } else {
-      grid.insertAdjacentHTML('beforeend', cardsHTML);
+    // Dividir cursos por modalidad
+    const cursosVivo = data.filter(c => c.modalidad === 'en_vivo');
+    const cursosGrabado = data.filter(c => c.modalidad !== 'en_vivo');
+    
+    // Pintar en cada grid
+    const gridVivo = document.getElementById('grid-vivo');
+    const gridGrabado = document.getElementById('grid-grabado');
+    const seccionVivo = document.getElementById('seccion-vivo');
+    const seccionGrabado = document.getElementById('seccion-grabado');
+    
+    if (cursosVivo.length > 0 && gridVivo && seccionVivo) {
+      gridVivo.innerHTML = cursosVivo.map(cardCursoHTML).join('');
+      seccionVivo.style.display = 'block';
+      const cv = document.getElementById('count-vivo');
+      if (cv) cv.textContent = cursosVivo.length;
+    }
+    
+    if (cursosGrabado.length > 0 && gridGrabado && seccionGrabado) {
+      gridGrabado.innerHTML = cursosGrabado.map(cardCursoHTML).join('');
+      seccionGrabado.style.display = 'block';
+      const cg = document.getElementById('count-grabado');
+      if (cg) cg.textContent = cursosGrabado.length;
     }
     
     actualizarContadoresFiltros(data);
