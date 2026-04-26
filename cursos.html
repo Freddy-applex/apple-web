@@ -352,6 +352,8 @@
     <button class="fbtn" data-cat="tecnico" onclick="filtrar('tecnico',this)">🏗️ Construcción y Técnico <span class="count">4</span></button>
     <button class="fbtn" data-cat="software" onclick="filtrar('software',this)">💻 Software de Diseño <span class="count">3</span></button>
     <button class="fbtn" data-cat="legal" onclick="filtrar('legal',this)">📋 Legal y Avalúos <span class="count">2</span></button>
+    <button class="fbtn" data-cat="finanzas" onclick="filtrar('finanzas',this)">💰 Economía y Finanzas <span class="count">0</span></button>
+    <button class="fbtn" data-cat="energia" onclick="filtrar('energia',this)">⚡ Hidrocarburos y Energías <span class="count">0</span></button>
   </div>
 </div>
 
@@ -660,7 +662,7 @@ function cardCursoHTML(curso) {
 }
 
 function actualizarContadoresFiltros(cursos) {
-  const totales = { all: cursos.length, tecnico: 0, software: 0, legal: 0, vivo: 0, grabado: 0 };
+  const totales = { all: cursos.length, tecnico: 0, software: 0, legal: 0, finanzas: 0, energia: 0, vivo: 0, grabado: 0 };
   cursos.forEach(c => {
     if (c.categoria_slug && totales[c.categoria_slug] !== undefined) totales[c.categoria_slug]++;
     if (c.modalidad === 'en_vivo') totales.vivo++;
