@@ -146,7 +146,7 @@
 .bd-new{background:var(--green);color:var(--navy);}
 .bd-prox{background:var(--purple);color:#fff;}
 .bd-vivo{background:#dc2626;color:#fff;animation:pulse-vivo 1.5s infinite;}
-@keyfra pulse-vivo{0%,100%{opacity:1;}50%{opacity:.7;}}
+@keyframes pulse-vivo{0%,100%{opacity:1;}50%{opacity:.7;}}
 .curso-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1;}
 .curso-cat{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);}
 .curso-tit{font-size:14px;font-weight:700;color:var(--navy);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:36px;}
@@ -225,7 +225,7 @@
 /* ═══ LOADER & ERROR STATES ═══ */
 .cursos-loader{grid-column:1/-1;text-align:center;padding:80px 20px;color:var(--muted);}
 .loader-spinner{width:48px;height:48px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px;}
-@keyfra spin{to{transform:rotate(360deg);}}
+@keyframes spin{to{transform:rotate(360deg);}}
 .loader-text{font-size:14px;font-weight:600;color:var(--muted);}
 .cursos-error{grid-column:1/-1;text-align:center;padding:60px 20px;background:rgba(220,38,38,.04);border:1px solid rgba(220,38,38,.15);border-radius:12px;}
 .error-icon{font-size:48px;margin-bottom:14px;}
@@ -451,7 +451,7 @@
   <div class="max-w">
     <div class="sub-head sub-head-vivo">
       <span class="sub-dot sub-dot-vivo"></span>
-      <h3 class="sub-h3">En vivo · Grupos en simultáneo <span class="sub-h3-meta">(Mes de Mayo y Junio - 2026)</span></h3>
+      <h3 class="sub-h3">En vivo · Grupos en simultáneo <span class="sub-h3-meta">(Mes de Mayo - 2026)</span></h3>
       <span class="sub-badge sub-badge-vivo"><span id="count-vivo">0</span> cursos</span>
     </div>
     <p class="sub-desc">Clases en vivo por Zoom con horarios fijos, en grupos reducidos.</p>
@@ -670,7 +670,7 @@ function badgeHTML(badge, esVivo) {
   const badges = {
     'mas_vendido': '<span class="curso-badge bd-best">⭐ Más vendido</span>',
     'nuevo':       '<span class="curso-badge bd-new">✨ Nuevo</span>',
-    'proximo':     '<span class="curso-badge bd-prox">🔜 Próximamente</span>',
+    'proximo':     '<span class="curso-badge bd-prox">🔜 Junio 2026</span>',
     'vivo':        '<span class="curso-badge bd-vivo">🔴 En vivo</span>'
   };
   const badgePrincipal = badges[badge] || '';
@@ -689,13 +689,28 @@ function badgeHTML(badge, esVivo) {
 }
 
 function cohorteInfoHTML(curso) {
-  if (curso.modalidad !== 'en_vivo' || !curso.cohorte_proxima_id) return '';
+  if (curso.modalidad !== 'en_vivo') return '';
+  
+  // Caso especial: curso marcado como "próximo" (Junio 2026) sin cohorte abierta aún.
+  // Mostramos un bloque sin cupos para no dejar la card vacía abajo del precio.
+  if (!curso.cohorte_proxima_id) {
+    if (curso.badge === 'proximo') {
+      return `
+    <div class="curso-cohorte-info">
+      <div class="cci-fecha">📅 Programado para junio 2026</div>
+      <div class="cci-cupos">⚡ Cupos limitados · Reservá con anticipación</div>
+    </div>
+  `;
+    }
+    return '';
+  }
+  
   const fechaFmt = APPLENDE_UI.formatearFechaCohorte(curso.cohorte_proxima_fecha);
   const cuposDisp = curso.cohorte_proxima_cupos_disponibles || 0;
   const cuposTot = curso.cohorte_proxima_cupos_totales || 0;
   return `
     <div class="curso-cohorte-info">
-      <div class="cci-fecha">📅 ${fechaFmt ? 'Inicia ' + fechaFmt.completo : 'Próximamente'}</div>
+      <div class="cci-fecha">📅 ${fechaFmt ? 'Inicia ' + fechaFmt.completo : 'Junio 2026 · Cupos limitados'}</div>
       <div class="cci-cupos">⚡ ${cuposDisp} de ${cuposTot} cupos disponibles</div>
     </div>
   `;
