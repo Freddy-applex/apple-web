@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "applende.com"
+        }
+      ],
+      "destination": "/cursos.html"
+    }
+  ]
+}
