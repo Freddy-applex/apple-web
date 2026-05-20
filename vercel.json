@@ -1,5 +1,5 @@
 {
-  "rewrites": [
+  "redirects": [
     {
       "source": "/",
       "has": [
@@ -8,7 +8,8 @@
           "value": "applende.com"
         }
       ],
-      "destination": "/cursos.html"
+      "destination": "/cursos.html",
+      "permanent": false
     }
   ]
 }
