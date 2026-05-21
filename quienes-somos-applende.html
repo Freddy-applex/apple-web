@@ -44,6 +44,20 @@
 .nav-auth-panel{background:linear-gradient(135deg,var(--green),#7AB232);color:var(--navy);border:1.5px solid var(--green);box-shadow:0 2px 10px rgba(141,198,63,.3);}
 .nav-auth-panel:hover{transform:translateY(-1px);box-shadow:0 4px 18px rgba(141,198,63,.5);}
 .nav-cta-wrap{margin-right:12px;flex-shrink:0;}
+.nav-search{position:relative;display:flex;align-items:center;margin-right:10px;}
+.nav-search-toggle{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s;flex-shrink:0;}
+.nav-search-toggle:hover{background:rgba(141,198,63,.2);border-color:var(--green);}
+.nav-search-box{position:absolute;top:50%;right:0;transform:translateY(-50%) scaleX(0);transform-origin:right;width:0;opacity:0;transition:all .28s ease;display:flex;align-items:center;background:#fff;border:2px solid var(--green);border-radius:22px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.25);z-index:60;}
+.nav-search.open .nav-search-box{transform:translateY(-50%) scaleX(1);width:300px;opacity:1;}
+.nav-search.open .nav-search-toggle{opacity:0;pointer-events:none;}
+.nav-search-box input{flex:1;width:100%;padding:9px 16px;border:none;outline:none;font-size:13.5px;font-family:'Barlow',sans-serif;color:var(--text);background:transparent;}
+.nav-search-box input::placeholder{color:var(--muted);}
+.nav-search-box button{background:var(--green);border:none;padding:9px 14px;cursor:pointer;font-size:14px;display:flex;align-items:center;flex-shrink:0;transition:background .2s;}
+.nav-search-box button:hover{background:#9ed648;}
+.nav-search-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0 10px;flex-shrink:0;}
+@media(max-width:900px){.nav-search.open .nav-search-box{width:220px;}}
+@media(max-width:600px){.nav-search{display:none;}}
+
 .nav-btn-icon{width:38px !important;height:38px !important;padding:0 !important;border-radius:50% !important;display:inline-flex !important;align-items:center;justify-content:center;line-height:1;}
 .nav-btn-icon svg{display:block;}
 .apl-logo-link{display:block;flex-shrink:0;}
@@ -178,6 +192,14 @@ footer{background:var(--navy-dark);color:rgba(255,255,255,.7);padding:48px 5% 28
     <a href="cursos.html" class="nav-link-main">Cursos</a>
     <a href="quienes-somos-applende.html" class="nav-link-main active">Quiénes Somos</a>
     <a href="cursos.html#categorias" class="nav-link-main">Categorías</a>
+  </div>
+  <div class="nav-search" id="navSearch">
+    <button class="nav-search-toggle" onclick="abrirBuscador()" aria-label="Buscar">🔍</button>
+    <div class="nav-search-box">
+      <input type="text" id="busqueda" placeholder="Busca un curso, instructor o tema..." oninput="buscarHeader(this.value)" onkeydown="if(event.key==='Enter')irABuscar()">
+      <button onclick="irABuscar()" aria-label="Buscar">🔍</button>
+      <button class="nav-search-close" onclick="cerrarBuscador()" aria-label="Cerrar">✕</button>
+    </div>
   </div>
   <div id="nav-auth" class="nav-auth-wrap"></div>
   <div class="nav-cta-wrap">
@@ -398,6 +420,35 @@ window.addEventListener('scroll',()=>{
 });
 function toggleMenu(){document.getElementById('mob').classList.toggle('open');}
 function openDoc(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+
+/* ─── Buscador compacto del header ─── */
+function abrirBuscador(){
+  const ns = document.getElementById('navSearch');
+  ns.classList.add('open');
+  setTimeout(()=>{ const i = document.getElementById('busqueda'); if(i) i.focus(); }, 150);
+}
+function cerrarBuscador(){
+  const ns = document.getElementById('navSearch');
+  ns.classList.remove('open');
+  const i = document.getElementById('busqueda');
+  if(i) i.value='';
+}
+function buscarHeader(query){
+  // Esta página no tiene grilla de cursos; la búsqueda se ejecuta al presionar Enter o la lupa.
+}
+function irABuscar(){
+  const i = document.getElementById('busqueda');
+  const q = i ? i.value.trim() : '';
+  window.location.href = 'cursos.html' + (q ? '?buscar=' + encodeURIComponent(q) : '');
+}
+// Cerrar al hacer click fuera (si el input está vacío)
+document.addEventListener('click', function(e){
+  const ns = document.getElementById('navSearch');
+  if(ns && ns.classList.contains('open') && !ns.contains(e.target)){
+    const i = document.getElementById('busqueda');
+    if(!i || !i.value.trim()) ns.classList.remove('open');
+  }
+});
 function closeDoc(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
 </script>
 </body>
