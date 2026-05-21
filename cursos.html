@@ -322,12 +322,13 @@
 /* ═══ HEADER PROPIO APPLENDE ═══ */
 .apl-logo-link{display:block;flex-shrink:0;}
 .apl-logo-img{height:46px;width:auto;display:block;}
-.nav-link-apple{display:inline-flex;align-items:center;gap:5px;color:rgba(255,255,255,.5);font-size:12px;font-weight:500;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.12);transition:all .2s;white-space:nowrap;margin-left:6px;}
-.nav-link-apple:hover{color:rgba(255,255,255,.85);border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04);}
-.apl-ext{font-size:11px;opacity:.7;}
 .mob-sep-apple{height:1px;background:rgba(255,255,255,.08);margin:8px 24px;}
 #mob .mob-apple{color:rgba(255,255,255,.55);font-size:13px;}
 @media(max-width:600px){.apl-logo-img{height:38px;}}
+
+.ft-apple-link{display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:var(--green);font-size:13px;font-weight:600;text-decoration:none;border:1px solid rgba(141,198,63,.3);border-radius:8px;padding:8px 14px;transition:all .2s;}
+.ft-apple-link:hover{background:rgba(141,198,63,.1);border-color:var(--green);transform:translateY(-1px);}
+.ft-apple-link span{font-size:12px;}
 </style>
 </head>
 <body>
@@ -342,7 +343,6 @@
       <span class="nl2-top">Software</span>
       <span class="nl2-bot">APPLEX Pro</span>
     </a>
-    <a href="index.html" class="nav-link-apple" title="Ir al portal corporativo de APPLE Construcciones">APPLE Construcciones <span class="apl-ext">↗</span></a>
   </div>
   <div id="nav-auth" class="nav-auth-wrap"></div>
   <div class="nav-cta-wrap">
@@ -356,8 +356,6 @@
   <a href="#categorias" onclick="toggleMenu()">Categorías</a>
   <a href="applex.html" onclick="toggleMenu()">Software APPLEX Pro</a>
   <a href="login.html" onclick="toggleMenu()">Iniciar sesión</a>
-  <div class="mob-sep-apple"></div>
-  <a href="index.html" class="mob-apple" onclick="toggleMenu()">APPLE Construcciones ↗</a>
   <a href="https://wa.me/59164403290" target="_blank" class="mob-cta" onclick="toggleMenu()">💬 Consultar por WhatsApp</a>
 </div>
 
@@ -579,6 +577,7 @@
       <div>
         <div class="ft-logo">APPLE <span>Construcciones</span></div>
         <p class="ft-desc">Academia APPLENDE forma parte del ecosistema APPLE Construcciones & Servicios. Santa Cruz de la Sierra, Bolivia.</p>
+        <a href="index.html" class="ft-apple-link">Visitá APPLE Construcciones <span>↗</span></a>
       </div>
       <div>
         <div class="ft-col-h">Empresa</div>
