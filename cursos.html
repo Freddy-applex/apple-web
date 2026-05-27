@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Academia APPLENDE — Cursos de Ingeniería Civil y Arquitectura | Bolivia</title>
-<meta name="description" content="Academia online de APPLE Construcciones. Cursos de ingeniería civil, arquitectura, software de diseño (Revit, SketchUp, Vectorworks), presupuestos y avalúos. Certificación oficial.">
+<meta name="description" content="Academia online de APPLE Construcciones. Cursos de ingeniería civil, arquitectura, software de diseño (Revit, SketchUp, Vectorworks), presupuestos y avalúos. Certificado de capacitación técnica.">
 <meta name="keywords" content="cursos ingeniería civil bolivia, academia arquitectura, revit, sketchup, presupuestos PRESCOM, avalúos">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -396,9 +396,9 @@
 <section class="ap-hero">
   <div class="ap-hero-inner">
     <div>
-      <div class="ap-badge"><span class="ap-dot"></span>ACADEMIA APPLENDE</div>
+      <div class="ap-badge"><span class="ap-dot"></span>CENTRO DE CAPACITACIÓN TÉCNICA PRIVADO</div>
       <h1 class="ap-h1">Aprendé del mundo real, <span class="g">no del aula</span></h1>
-      <p class="ap-sub">Cursos <strong>virtuales, presenciales y semipresenciales</strong> dictados por profesionales en ejercicio activo en ingeniería, construcción, finanzas y energía. Casos reales, herramientas profesionales, certificación oficial.</p>
+      <p class="ap-sub">Cursos <strong>virtuales, presenciales y semipresenciales</strong> dictados por profesionales en ejercicio activo en ingeniería, construcción, finanzas y energía. Casos reales, herramientas profesionales, certificado de capacitación.</p>
       <div class="ap-respaldo">
         <div class="ap-respaldo-ico">🏗️</div>
         <div class="ap-respaldo-txt">Academia técnica respaldada por <strong>APPLE Construcciones &amp; Servicios</strong> · +15 años de obra real <a href="index.html">Conocé la empresa →</a></div>
@@ -415,7 +415,7 @@
       <div class="ap-feat-list">
         <div class="ap-feat">Acceso vitalicio a las clases en video</div>
         <div class="ap-feat">Material descargable (PDFs, planos, ejemplos)</div>
-        <div class="ap-feat">Certificado oficial al aprobar el examen</div>
+        <div class="ap-feat">Certificado de capacitación al aprobar el examen</div>
         <div class="ap-feat">Soporte directo por WhatsApp</div>
         <div class="ap-feat">Pago seguro · Múltiples métodos disponibles</div>
       </div>
@@ -435,6 +435,7 @@
     <button class="fbtn" data-cat="legal" onclick="filtrar('legal',this)">📋 Legal y Avalúos <span class="count">2</span></button>
     <button class="fbtn" data-cat="economia-finanzas" onclick="filtrar('economia-finanzas',this)">💰 Economía y Finanzas <span class="count">0</span></button>
     <button class="fbtn" data-cat="hidrocarburos-energias" onclick="filtrar('hidrocarburos-energias',this)">⛽ Hidrocarburos y Energías <span class="count">0</span></button>
+    <button class="fbtn" data-cat="gestion-publica" onclick="filtrar('gestion-publica',this)">🏛️ Gestión Pública <span class="count">0</span></button>
   </div>
 </div>
 
@@ -473,10 +474,10 @@
   <div class="max-w">
     <div class="sub-head sub-head-vivo">
       <span class="sub-dot sub-dot-vivo"></span>
-      <h3 class="sub-h3">En vivo · Grupos en simultáneo <span class="sub-h3-meta">(Mes de Mayo - 2026)</span></h3>
+      <h3 class="sub-h3">Programados para junio 2026 · En vivo <span class="sub-h3-meta">(grupos en simultáneo)</span></h3>
       <span class="sub-badge sub-badge-vivo"><span id="count-vivo">0</span> cursos</span>
     </div>
-    <p class="sub-desc">Clases en vivo por Zoom con horarios fijos, en grupos reducidos.</p>
+    <p class="sub-desc">Clases en vivo por Zoom en horario noche, pensadas para profesionales en ejercicio. Grupos reducidos con horarios fijos.</p>
     <div class="cg" id="grid-vivo"></div>
   </div>
 </section>
@@ -520,7 +521,7 @@
       </div>
       <div class="why-card">
         <span class="why-icon">📜</span>
-        <h4 class="why-tit">Certificación oficial</h4>
+        <h4 class="why-tit">Certificado de capacitación</h4>
         <p class="why-desc">Al aprobar el examen final con 70% o más, recibís un certificado digital con código único de verificación.</p>
       </div>
       <div class="why-card">
@@ -851,7 +852,7 @@ function cardCursoHTML(curso) {
 }
 
 function actualizarContadoresFiltros(cursos) {
-  const totales = { all: cursos.length, tecnico: 0, software: 0, legal: 0, 'economia-finanzas': 0, 'hidrocarburos-energias': 0, vivo: 0, grabado: 0 };
+  const totales = { all: cursos.length, tecnico: 0, software: 0, legal: 0, 'economia-finanzas': 0, 'hidrocarburos-energias': 0, 'gestion-publica': 0, vivo: 0, grabado: 0 };
   cursos.forEach(c => {
     if (c.categoria_slug && totales[c.categoria_slug] !== undefined) totales[c.categoria_slug]++;
     if (c.modalidad === 'en_vivo') totales.vivo++;
