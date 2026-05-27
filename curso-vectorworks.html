@@ -73,6 +73,10 @@ a{text-decoration:none;color:inherit;}
 .modalidad-block{margin-bottom:14px;border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;}
 .modalidad-block.virtual{background:linear-gradient(135deg,rgba(46,74,142,.05),rgba(46,74,142,.02));border-color:rgba(46,74,142,.3);}
 .modalidad-block.presencial{background:linear-gradient(135deg,rgba(141,198,63,.07),rgba(141,198,63,.02));border-color:rgba(141,198,63,.4);}
+.modalidad-block.internacional{background:linear-gradient(135deg,rgba(107,104,184,.10),rgba(107,104,184,.03));border-color:rgba(107,104,184,.5);position:relative;}
+.intl-flag{font-size:12px;}
+.intl-launch{display:inline-block;background:#6B68B8;color:#fff;font-size:9px;font-weight:800;padding:2px 7px;border-radius:4px;letter-spacing:.5px;margin-left:6px;vertical-align:middle;}
+.precio-usd{font-family:'Josefin Sans',sans-serif;font-size:18px;font-weight:700;color:#6B68B8;line-height:1;}
 .mod-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed var(--border);}
 .mod-icon{font-size:16px;}
 .mod-titulo{font-family:'Josefin Sans',sans-serif;font-size:13px;font-weight:700;color:var(--navy);letter-spacing:.5px;text-transform:uppercase;}
@@ -521,6 +525,7 @@ footer a{color:var(--green);}
 
       <div class="precio-section-tit">💰 Inversión</div>
 
+      <div id="precios-bolivia">
       <div class="modalidad-block virtual">
         <div class="mod-head">
           <span class="mod-icon">📺</span>
@@ -560,6 +565,21 @@ footer a{color:var(--green);}
       </div>
 
       <p class="precio-nota">Tarifa estudiantil con carnet vigente · Pago único · Coordinación presencial vía WhatsApp</p>
+      </div><!-- /precios-bolivia -->
+
+      <div id="precios-internacional" style="display:none;">
+      <div class="modalidad-block internacional">
+        <div class="mod-head">
+          <span class="mod-icon">🌎</span>
+          <span class="mod-titulo">Inscripción Internacional <span class="intl-launch">PRECIO LANZAMIENTO</span></span>
+        </div>
+        <div class="precio-fila">
+          <div class="precio-tipo"><span class="intl-flag">🌎</span> Virtual en vivo (Zoom)</div>
+          <div class="precio-monto"><span class="precio-usd">USD 49</span></div>
+        </div>
+        <p class="precio-nota" style="margin:6px 0 0;text-align:left;">Clases en vivo por Zoom · Certificado oficial · Pago con tarjeta internacional · Horario: 19:00 Perú / 20:00 Paraguay / 20:00 Bolivia.</p>
+      </div>
+      </div><!-- /precios-internacional -->
 
       <a href="inscripcion.html?slug=vectorworks-plugins" class="ic-btn-main">🎓 Inscribirme →</a>
       <a href="https://wa.me/59164403290?text=Hola,%20quiero%20información%20sobre%20Vectorworks%20Architect" target="_blank" class="ic-btn-wa">💬 Consultar por WhatsApp</a>
@@ -624,6 +644,31 @@ function actualizarCountdown(){
 }
 actualizarCountdown();
 setInterval(actualizarCountdown, 1000);
+
+/* ============================================================
+   DETECCIÓN DE PAÍS POR IP — Precio diferenciado
+   Bolivia → precios en Bs (por defecto, defensivo)
+   Cualquier otro país → precio internacional USD 49
+   Si la detección falla → se queda en Bs (no revela el internacional)
+   ============================================================ */
+(async function detectarPais() {
+  try {
+    const resp = await fetch('https://ipapi.co/json/');
+    if (!resp.ok) return; // si falla, queda el precio boliviano por defecto
+    const data = await resp.json();
+    const pais = (data && data.country_code) ? data.country_code.toUpperCase() : null;
+    // Solo Bolivia (BO) ve precios en Bs. Todos los demás ven USD 49.
+    if (pais && pais !== 'BO') {
+      const bloqueBO = document.getElementById('precios-bolivia');
+      const bloqueINT = document.getElementById('precios-internacional');
+      if (bloqueBO) bloqueBO.style.display = 'none';
+      if (bloqueINT) bloqueINT.style.display = 'block';
+    }
+    // Si pais === 'BO' o null, no se hace nada: queda el precio boliviano (defensivo).
+  } catch (e) {
+    // Cualquier error: se mantiene el precio boliviano por defecto
+  }
+})();
 </script>
 
 </body>
