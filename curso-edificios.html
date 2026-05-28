@@ -85,6 +85,12 @@ a{text-decoration:none;color:inherit;}
 .precio-bs{font-family:'Josefin Sans',sans-serif;font-size:18px;font-weight:700;color:var(--navy);line-height:1;}
 .precio-bs.estudiante{color:var(--green-dark);}
 .precio-badge{font-size:9.5px;font-weight:800;background:var(--green);color:var(--navy);padding:2px 6px;border-radius:4px;letter-spacing:.5px;}
+.precio-tachado{font-family:'Josefin Sans',sans-serif;font-size:14px;font-weight:600;color:#999;text-decoration:line-through;margin-right:6px;}
+.precio-badge-promo{display:inline-block;font-size:9.5px;font-weight:800;background:#FF6B35;color:#fff;padding:2px 6px;border-radius:4px;letter-spacing:.5px;animation:pulse-promo 2s ease-in-out infinite;}
+@keyframes pulse-promo{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+.promo-banner{display:none;background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#fff;padding:8px 12px;border-radius:8px;font-size:11.5px;font-weight:700;text-align:center;margin-bottom:12px;letter-spacing:.3px;box-shadow:0 4px 12px rgba(255,107,53,0.3);}
+.promo-banner.activa{display:block;}
+.promo-banner .promo-countdown{display:block;font-size:10px;font-weight:600;opacity:.9;margin-top:2px;}
 .precio-nota{font-size:10.5px;color:var(--muted);text-align:center;font-style:italic;margin:8px 0 14px;line-height:1.4;}
 
 .ic-btn-main{display:block;width:100%;background:linear-gradient(135deg,var(--green),var(--green-dark));color:var(--navy);padding:14px;border-radius:10px;font-weight:800;font-size:15px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .3s;margin-bottom:10px;box-shadow:0 4px 16px rgba(141,198,63,0.3);text-decoration:none;text-align:center;}
@@ -477,6 +483,11 @@ footer a{color:var(--green);}
 
       <div class="precio-section-tit">💰 Inversión</div>
 
+      <div class="promo-banner" id="promoBanner">
+        🔥 EARLY BIRD · Bs 50 OFF en tarifa Profesional
+        <span class="promo-countdown" id="promoCountdown">Promoción válida hasta el 8 de junio</span>
+      </div>
+
       <div class="modalidad-block virtual">
         <div class="mod-head">
           <span class="mod-icon">📺</span>
@@ -485,7 +496,11 @@ footer a{color:var(--green);}
         </div>
         <div class="precio-fila">
           <div class="precio-tipo">👔 Profesional</div>
-          <div class="precio-monto"><span class="precio-bs">Bs 250</span></div>
+          <div class="precio-monto">
+            <span class="precio-tachado" id="precioProfTachado" style="display:none;">Bs 250</span>
+            <span class="precio-bs" id="precioProf">Bs 250</span>
+            <span class="precio-badge-promo" id="badgeProfPromo" style="display:none;">PROMO</span>
+          </div>
         </div>
         <div class="precio-fila">
           <div class="precio-tipo precio-tipo-est">🎓 Estudiante</div>
@@ -561,6 +576,53 @@ function actualizarCountdown(){
 }
 actualizarCountdown();
 setInterval(actualizarCountdown, 1000);
+
+// ============================================================
+// PROMO EARLY BIRD — Profesional Bs 250 → Bs 200 hasta 8/6/2026
+// ============================================================
+const PROMO_FECHA_LIMITE = new Date('2026-06-08T23:59:59-04:00');
+const PROMO_PRECIO_NORMAL = 250;
+const PROMO_PRECIO_OFERTA = 200;
+
+function aplicarPromoEarlyBird(){
+  const ahora = new Date();
+  const promoActiva = ahora <= PROMO_FECHA_LIMITE;
+
+  const elBanner   = document.getElementById('promoBanner');
+  const elCountdown= document.getElementById('promoCountdown');
+  const elTachado  = document.getElementById('precioProfTachado');
+  const elPrecio   = document.getElementById('precioProf');
+  const elBadge    = document.getElementById('badgeProfPromo');
+
+  if(promoActiva){
+    // Mostrar promo activa
+    if(elBanner)  elBanner.classList.add('activa');
+    if(elTachado) elTachado.style.display = 'inline-block';
+    if(elBadge)   elBadge.style.display   = 'inline-block';
+    if(elPrecio)  elPrecio.textContent    = 'Bs ' + PROMO_PRECIO_OFERTA;
+
+    // Countdown de días restantes
+    if(elCountdown){
+      const diff = PROMO_FECHA_LIMITE - ahora;
+      const dias = Math.ceil(diff / (1000 * 60 * 60 * 24));
+      if(dias > 1){
+        elCountdown.textContent = '⏰ Quedan ' + dias + ' días — termina el 8 de junio';
+      } else if(dias === 1){
+        elCountdown.textContent = '⏰ ¡Último día! Termina hoy a las 23:59';
+      } else {
+        elCountdown.textContent = '⏰ Últimas horas — termina el 8 de junio 23:59';
+      }
+    }
+  } else {
+    // Promo expirada: precio normal
+    if(elBanner)  elBanner.classList.remove('activa');
+    if(elTachado) elTachado.style.display = 'none';
+    if(elBadge)   elBadge.style.display   = 'none';
+    if(elPrecio)  elPrecio.textContent    = 'Bs ' + PROMO_PRECIO_NORMAL;
+  }
+}
+aplicarPromoEarlyBird();
+setInterval(aplicarPromoEarlyBird, 60000); // re-check cada minuto
 </script>
 
 </body>
