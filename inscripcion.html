@@ -594,6 +594,12 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 const WA_KARINA = '59164403290'; // WhatsApp corporativo APPLENDE (Karina)
 const TIPO_CAMBIO_USD = 6.96;    // Bolivianos por USD (ajustar si cambia)
 
+// [NUEVO 27/05/2026] Lista de cursos que son SOLO VIRTUAL (no muestran selector presencial)
+// Para agregar otro curso solo-virtual en el futuro, agregar su slug a este array.
+const CURSOS_SOLO_VIRTUAL = [
+  'construccion-edificios-5-niveles',
+];
+
 let cursoActual = null;
 let cohorteActual = null;
 let inscripcionCreada = null;
@@ -850,6 +856,19 @@ function obtenerPrecioAplicable() {
 function mostrarSelectorModalidad(curso) {
   const bloque = document.getElementById('modalidad-block');
   bloque.classList.add('show');
+
+  // [NUEVO 27/05/2026] Si el curso es SOLO VIRTUAL, ocultar opción Presencial y forzar Virtual
+  const esSoloVirtual = CURSOS_SOLO_VIRTUAL.includes(curso.slug);
+  if (esSoloVirtual) {
+    const presencialOpt = document.getElementById('mod-presencial-opt');
+    if (presencialOpt) presencialOpt.style.display = 'none';
+    // Forzar Virtual como única opción seleccionada
+    const radioVirtual = document.querySelector('input[name="modalidad-elegida"][value="virtual"]');
+    if (radioVirtual) radioVirtual.checked = true;
+    // Cambiar título del bloque para no confundir al usuario
+    const titulo = bloque.querySelector('.modalidad-tit');
+    if (titulo) titulo.textContent = 'Modalidad del curso';
+  }
 
   // Listener para cambios
   document.querySelectorAll('input[name="modalidad-elegida"]').forEach(r => {
