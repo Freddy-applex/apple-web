@@ -600,6 +600,50 @@ const CURSOS_SOLO_VIRTUAL = [
   'construccion-edificios-5-niveles',
 ];
 
+// ════════════════════════════════════════════════════════════════════
+// [NUEVO 27/05/2026] PROMOS DE INSCRIPCIÓN ANTICIPADA POR CURSO
+// ────────────────────────────────────────────────────────────────────
+// Cada entrada define el descuento de la tarifa PROFESIONAL (virtual)
+// hasta una fecha límite. La promo SE DESACTIVA SOLA al pasar la fecha.
+// La tarifa estudiantil NO cambia con la promo.
+//
+// Para activar promo en otro curso: agregar entrada con:
+//   precioNormal:   precio_bs original en Supabase
+//   precioPromo:    precio_bs durante la promo
+//   fechaLimite:    formato 'YYYY-MM-DDTHH:MM:SS-04:00' (Bolivia UTC-4)
+//
+// Para desactivar: simplemente borrar/comentar la línea del curso.
+// ════════════════════════════════════════════════════════════════════
+const PROMOS_INSCRIPCION_ANTICIPADA = {
+  'construccion-edificios-5-niveles': {
+    precioNormal: 250,
+    precioPromo:  200,
+    fechaLimite:  '2026-06-08T23:59:59-04:00'
+  }
+  // Ejemplo para futuras promos (descomentar y ajustar):
+  // 'modelacion-financiera-ia': { precioNormal: 200, precioPromo: 150, fechaLimite: '2026-06-XXT23:59:59-04:00' },
+  // 'vectorworks':              { precioNormal: 180, precioPromo: 130, fechaLimite: '2026-06-XXT23:59:59-04:00' }
+};
+
+// Devuelve el precio profesional aplicable según promo vigente.
+// Si no hay promo o ya expiró, devuelve el precio normal de Supabase.
+function aplicarPromoEnInscripcion(curso) {
+  if (!curso || !curso.slug) return curso;
+  const promo = PROMOS_INSCRIPCION_ANTICIPADA[curso.slug];
+  if (!promo) return curso;
+
+  const ahora = new Date();
+  const limite = new Date(promo.fechaLimite);
+  if (ahora > limite) return curso; // Promo expirada → precio normal
+
+  // Promo activa → sobreescribir precio_bs y guardar el original como tachado
+  curso.precio_bs = promo.precioPromo;
+  if (!curso.precio_original_bs || Number(curso.precio_original_bs) < promo.precioNormal) {
+    curso.precio_original_bs = promo.precioNormal;
+  }
+  return curso;
+}
+
 let cursoActual = null;
 let cohorteActual = null;
 let inscripcionCreada = null;
@@ -677,8 +721,8 @@ async function cargarCurso() {
       } catch (e) { console.warn('[APPLENDE] No se pudo cargar cohortes:', e); }
     }
 
-    cursoActual = curso;
-    renderizarResumen(curso);
+    cursoActual = aplicarPromoEnInscripcion(curso);
+    renderizarResumen(cursoActual);
     
     // Si hay 2+ cohortes, mostrar el selector
     if (cohortesDisponibles.length >= 2) {
