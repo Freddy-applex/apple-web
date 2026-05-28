@@ -484,7 +484,7 @@ footer a{color:var(--green);}
       <div class="precio-section-tit">💰 Inversión</div>
 
       <div class="promo-banner" id="promoBanner">
-        🔥 EARLY BIRD · Bs 50 OFF en tarifa Profesional
+        🔥 INSCRIPCIÓN ANTICIPADA · Bs 50 de descuento en tarifa Profesional
         <span class="promo-countdown" id="promoCountdown">Promoción válida hasta el 8 de junio</span>
       </div>
 
@@ -499,14 +499,14 @@ footer a{color:var(--green);}
           <div class="precio-monto">
             <span class="precio-tachado" id="precioProfTachado" style="display:none;">Bs 250</span>
             <span class="precio-bs" id="precioProf">Bs 250</span>
-            <span class="precio-badge-promo" id="badgeProfPromo" style="display:none;">PROMO</span>
+            <span class="precio-badge-promo" id="badgeProfPromo" style="display:none;">-Bs 50</span>
           </div>
         </div>
         <div class="precio-fila">
           <div class="precio-tipo precio-tipo-est">🎓 Estudiante</div>
           <div class="precio-monto">
             <span class="precio-bs estudiante">Bs 150</span>
-            <span class="precio-badge">40% OFF</span>
+            <span class="precio-badge">-40%</span>
           </div>
         </div>
       </div>
@@ -578,7 +578,7 @@ actualizarCountdown();
 setInterval(actualizarCountdown, 1000);
 
 // ============================================================
-// PROMO EARLY BIRD — Profesional Bs 250 → Bs 200 hasta 8/6/2026
+// PROMO INSCRIPCIÓN ANTICIPADA — Profesional Bs 250 → Bs 200 hasta 8/6/2026
 // ============================================================
 const PROMO_FECHA_LIMITE = new Date('2026-06-08T23:59:59-04:00');
 const PROMO_PRECIO_NORMAL = 250;
