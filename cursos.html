@@ -169,6 +169,13 @@
 .curso-btn:hover{background:#9ed648;}
 .curso-btn.prox{background:var(--purple);color:#fff;}
 .curso-btn.prox:hover{background:#5a5aaa;}
+/* [NUEVO 28/05/2026] Cursos grabados aún no disponibles */
+.curso-btn-disabled{display:block;width:100%;background:#d1d0d6;color:#7a7980;text-align:center;padding:10px;border-radius:8px;font-weight:800;font-size:12px;border:none;cursor:not-allowed;font-family:'Barlow',sans-serif;margin-top:10px;}
+.curso-btn-disabled:hover{background:#d1d0d6;}
+.curso-proximamente{cursor:default;opacity:.92;}
+.curso-proximamente:hover{transform:none;box-shadow:none;}
+.curso-proximamente .curso-thumb-inner{filter:grayscale(35%);}
+.curso-badge.bd-prox{background:var(--purple);color:#fff;}
 
 /* ═══ POR QUÉ APPLENDE ═══ */
 .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
@@ -846,19 +853,36 @@ function cardCursoHTML(curso) {
   const ratingNum = (curso.rating_promedio || 0).toFixed(1);
   const reviews = curso.cantidad_reviews || 0;
   const esVivo = curso.modalidad === 'en_vivo';
-  const textoBoton = esVivo ? '🎓 Reservar mi cupo →' : 'Ver curso →';
+
+  // ── [NUEVO 28/05/2026] Cursos GRABADOS aún no disponibles ──
+  // Mientras las páginas de los grabados no estén listas, se muestran
+  // como "PRÓXIMAMENTE" con el botón deshabilitado y la tarjeta no clickeable.
+  // Los cursos EN VIVO (Edificios, Modelación, Vectorworks) NO se ven afectados.
+  const grabadoProximamente = !esVivo;
+
+  const textoBoton = esVivo
+    ? '🎓 Reservar mi cupo →'
+    : (grabadoProximamente ? '🔒 Próximamente' : 'Ver curso →');
   const dataTitulo = (curso.titulo + ' ' + (curso.instructor_nombre||'')).toLowerCase();
   const tipoMetaIcono = esVivo ? '📺 Zoom en vivo' : '📜 Certificado';
-  
+
+  // onclick solo si NO es un grabado en estado "próximamente"
+  const onclickAttr = grabadoProximamente
+    ? ''
+    : `onclick="window.location.href=urlCurso('${curso.slug}')"`;
+  const claseProximo = grabadoProximamente ? ' curso-proximamente' : '';
+  const claseBtn = grabadoProximamente ? 'curso-btn curso-btn-disabled' : 'curso-btn';
+  const btnDisabled = grabadoProximamente ? 'disabled' : '';
+
   return `
-    <article class="curso" 
+    <article class="curso${claseProximo}" 
              data-cat="${curso.categoria_slug || 'tecnico'}" 
              data-titulo="${dataTitulo}" 
              data-modalidad="${esVivo ? 'vivo' : 'grabado'}"
-             onclick="window.location.href=urlCurso('${curso.slug}')">
+             ${onclickAttr}>
       <div class="curso-thumb">
         <div class="curso-thumb-inner" style="background-image:url('${imagen}')"></div>
-        ${badgeHTML(curso.badge, esVivo)}
+        ${grabadoProximamente ? '<span class="curso-badge bd-prox">🔒 PRÓXIMAMENTE</span>' : badgeHTML(curso.badge, esVivo)}
         <span class="curso-nivel">${curso.nivel || 'Básico'}</span>
       </div>
       <div class="curso-body">
@@ -877,7 +901,7 @@ function cardCursoHTML(curso) {
           ${precioFmt.original ? `<span class="curso-porig">Bs ${precioFmt.original}</span>` : ''}
           ${precioFmt.pctDescuento ? `<span class="curso-pdesc">-${precioFmt.pctDescuento}%</span>` : ''}
         </div>
-        <button class="curso-btn">${textoBoton}</button>
+        <button class="${claseBtn}" ${btnDisabled}>${textoBoton}</button>
       </div>
     </article>
   `;
