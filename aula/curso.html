@@ -555,6 +555,7 @@
       inscripcion: null,
       instructor: null,
       materiales: [],
+      clasesReales: [],
       proximaClase: null,
       countdownTimer: null
     };
@@ -626,6 +627,17 @@
           .eq('id', inscripcion.cohorte_id)
           .maybeSingle();
         if (cohorte) estado.cohorte = cohorte;
+
+        // [NUEVO 28/05/2026] Cargar las CLASES REALES de la tabla clases_vivo.
+        // Si existen, el aula las usa tal cual (respeta feriados, fechas exactas,
+        // links de Zoom por clase). Si no hay ninguna, generarSesiones() cae al
+        // cálculo automático por fecha_inicio/fecha_fin (compatibilidad hacia atrás).
+        const { data: clasesReales } = await sb
+          .from('clases_vivo')
+          .select('numero_clase, titulo, fecha_hora_inicio, duracion_minutos, link_zoom, password_zoom, estado')
+          .eq('cohorte_id', inscripcion.cohorte_id)
+          .order('numero_clase', { ascending: true });
+        estado.clasesReales = clasesReales || [];
       }
 
       // Cargar instructor
@@ -812,6 +824,20 @@
     }
 
     function generarSesiones(){
+      // [NUEVO 28/05/2026] PRIORIDAD: si la cohorte tiene clases reales cargadas
+      // en clases_vivo, usar ESAS (respeta feriados, fechas exactas y links por clase).
+      if (estado.clasesReales && estado.clasesReales.length > 0) {
+        return estado.clasesReales.map(c => ({
+          fecha:    new Date(c.fecha_hora_inicio),
+          numero:   c.numero_clase,
+          titulo:   c.titulo || '',
+          linkZoom: c.link_zoom || '',
+          password: c.password_zoom || '',
+          estado:   c.estado || 'programada'
+        }));
+      }
+
+      // FALLBACK (cursos sin clases cargadas): generar por fecha_inicio/fecha_fin.
       // Genera el array de sesiones en base a fecha_inicio, fecha_fin, dias_clase y hora
       if (!estado.cohorte || !estado.cohorte.fecha_inicio) return [];
       
