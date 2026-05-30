@@ -486,6 +486,17 @@
         : '—';
       const slug = curso.slug || '';
 
+      // [30/05/2026] Ruteo del aula: los cursos GRABADOS usan el aula con
+      // reproductor de video (aula/curso-grabado.html); los EN VIVO usan
+      // el aula de Zoom/cohorte (aula/curso.html). Se detecta por slug,
+      // igual que urlCurso() en cursos.html.
+      const aulaGrabados = ['computo'];
+      const sLow = slug.toLowerCase();
+      const esGrabado = aulaGrabados.some(k => sLow.includes(k));
+      const urlAula = esGrabado
+        ? `/aula/curso-grabado.html?slug=${encodeURIComponent(slug)}`
+        : `/aula/curso.html?slug=${encodeURIComponent(slug)}`;
+
       // Modalidad — solo aplica a cursos en vivo (los grabados no tienen distinción virtual/presencial)
       const modalidad = (insc.modalidad || '').toLowerCase();
       const esEnVivo = modalidad === 'virtual' || modalidad === 'presencial';
@@ -524,7 +535,7 @@
                 <span class="value">${curso.duracion_horas || '—'} horas</span>
               </div>
             </div>
-            <a href="/aula/curso.html?slug=${encodeURIComponent(slug)}" class="course-cta" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">
+            <a href="${urlAula}" class="course-cta" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">
               Entrar al curso →
             </a>
           </div>
