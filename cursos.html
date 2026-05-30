@@ -842,6 +842,7 @@ function urlCurso(slug) {
   const s = slug.toLowerCase();
   if (s.includes('edificio'))     return 'curso-edificios.html';
   if (s.includes('vectorworks'))  return 'curso-vectorworks.html';
+  if (s.includes('computo'))      return 'curso-computo-prescom-applex.html';
   // Modelación y cualquier otro curso usan el template (estático para Modelación)
   return `curso-detalle.html?slug=${slug}`;
 }
@@ -858,7 +859,8 @@ function cardCursoHTML(curso) {
   // Mientras las páginas de los grabados no estén listas, se muestran
   // como "PRÓXIMAMENTE" con el botón deshabilitado y la tarjeta no clickeable.
   // Los cursos EN VIVO (Edificios, Modelación, Vectorworks) NO se ven afectados.
-  const grabadoProximamente = !esVivo;
+  // [30/05/2026] Cómputo+PRESCOM+APPLEX ya tiene su página estática => habilitado.
+  const grabadoProximamente = !esVivo && !((curso.slug||'').toLowerCase().includes('computo'));
 
   const textoBoton = esVivo
     ? '🎓 Reservar mi cupo →'
