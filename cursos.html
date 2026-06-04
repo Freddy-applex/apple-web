@@ -478,7 +478,7 @@
   <div class="max-w">
     <div class="sub-head sub-head-vivo">
       <span class="sub-dot sub-dot-vivo"></span>
-      <h3 class="sub-h3">Programados para junio 2026 · En vivo <span class="sub-h3-meta">(grupos en simultáneo)</span></h3>
+      <h3 class="sub-h3">Programados para junio y julio 2026 · En vivo <span class="sub-h3-meta">(grupos en simultáneo)</span></h3>
       <span class="sub-badge sub-badge-vivo"><span id="count-vivo">0</span> cursos</span>
     </div>
     <p class="sub-desc">Clases en vivo por Zoom en horario noche, pensadas para profesionales en ejercicio. Grupos reducidos con horarios fijos.</p>
@@ -788,7 +788,7 @@ function badgeHTML(badge, esVivo) {
   const badges = {
     'mas_vendido': '<span class="curso-badge bd-best">⭐ Más vendido</span>',
     'nuevo':       '<span class="curso-badge bd-new">✨ Nuevo</span>',
-    'proximo':     '<span class="curso-badge bd-prox">🔜 Junio 2026</span>',
+    'proximo':     '<span class="curso-badge bd-prox">🔜 Próximamente</span>',
     'vivo':        '<span class="curso-badge bd-vivo">🔴 En vivo</span>'
   };
   const badgePrincipal = badges[badge] || '';
@@ -815,7 +815,7 @@ function cohorteInfoHTML(curso) {
     if (curso.badge === 'proximo') {
       return `
     <div class="curso-cohorte-info">
-      <div class="cci-fecha">📅 Programado para junio 2026</div>
+      <div class="cci-fecha">📅 Próxima edición · fecha por confirmar</div>
       <div class="cci-cupos">⚡ Cupos limitados · Reservá con anticipación</div>
     </div>
   `;
