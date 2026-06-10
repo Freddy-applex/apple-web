@@ -1383,23 +1383,53 @@
     function exportarEstudiantesCSV(){
       const filtrados = aplicarFiltrosEst();
       if(filtrados.length === 0){ showToast('No hay alumnos para exportar', 'error'); return; }
+
       const headers = ['Nombre','CI','Telefono','Ciudad','Profesion','Curso','Grupo','Modalidad','Tipo','Monto pagado','Moneda'];
-      const filas = filtrados.map(e => [
-        e.nombre, e.ci, e.telefono, e.ciudad, e.profesion,
-        e.curso_nombre, e.cohorte_nombre, e.modalidad, e.tipo_alumno,
-        (parseFloat(e.precio_pagado)||0).toFixed(2), e.moneda_pago||'BOB'
-      ]);
       const esc = v => {
         const s = (v==null?'':String(v));
-        return /[",\n;]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;
+        return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
       };
-      // BOM + separador ; para que Excel en español abra bien acentos y columnas
-      const csv = '\uFEFF' + [headers, ...filas].map(r => r.map(esc).join(';')).join('\r\n');
-      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+
+      // Totales para fila de resumen
+      const totalBs = filtrados.reduce((a,e)=>a+(parseFloat(e.precio_pagado)||0),0);
+
+      const filasHTML = filtrados.map(e => `
+        <tr>
+          <td>${esc(e.nombre)}</td>
+          <td style="mso-number-format:'\@'">${esc(e.ci)}</td>
+          <td style="mso-number-format:'\@'">${esc(e.telefono)}</td>
+          <td>${esc(e.ciudad)}</td>
+          <td>${esc(e.profesion)}</td>
+          <td>${esc(e.curso_nombre)}</td>
+          <td>${esc(e.cohorte_nombre)}</td>
+          <td>${esc(e.modalidad)}</td>
+          <td>${esc(e.tipo_alumno)}</td>
+          <td style="mso-number-format:'0.00'">${(parseFloat(e.precio_pagado)||0).toFixed(2)}</td>
+          <td>${esc(e.moneda_pago||'BOB')}</td>
+        </tr>`).join('');
+
+      const tabla = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+        <head><meta charset="utf-8"><style>
+          th{background:#1A2744;color:#fff;font-weight:bold;border:1px solid #888;padding:4px 8px;}
+          td{border:1px solid #ccc;padding:3px 8px;}
+          .tot td{font-weight:bold;background:#8DC63F;}
+        </style></head><body>
+        <table>
+          <tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr>
+          ${filasHTML}
+          <tr class="tot">
+            <td colspan="9">TOTAL · ${filtrados.length} alumnos</td>
+            <td style="mso-number-format:'0.00'">${totalBs.toFixed(2)}</td>
+            <td>BOB</td>
+          </tr>
+        </table></body></html>`;
+
+      const blob = new Blob(['\uFEFF'+tabla], {type:'application/vnd.ms-excel;charset=utf-8;'});
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       const hoy = new Date().toISOString().slice(0,10);
-      a.href = url; a.download = `alumnos_APPLENDE_${hoy}.csv`;
+      a.href = url; a.download = `alumnos_APPLENDE_${hoy}.xls`;
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
       URL.revokeObjectURL(url);
       showToast(`${filtrados.length} alumnos exportados`, 'success');
