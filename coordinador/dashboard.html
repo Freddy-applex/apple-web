@@ -532,44 +532,49 @@
     <!-- ─── TAB: ESTUDIANTES ─── -->
     <section class="tab-content" id="tab-estudiantes">
 
+      <!-- Métricas principales -->
       <div class="stats-row">
         <div class="stat-mini green">
           <div class="icon">🎓</div>
-          <div class="data">
-            <div class="num" id="estTotal">—</div>
-            <div class="label">Alumnos activos</div>
-          </div>
+          <div class="data"><div class="num" id="estTotal">—</div><div class="label">Alumnos activos</div></div>
         </div>
         <div class="stat-mini" style="border-left-color:var(--purple);">
-          <div class="icon">💻</div>
-          <div class="data">
-            <div class="num" id="estVirtual">—</div>
-            <div class="label">Virtuales</div>
-          </div>
+          <div class="icon">💼</div>
+          <div class="data"><div class="num" id="estProf">—</div><div class="label">Profesionales</div></div>
         </div>
         <div class="stat-mini amber">
-          <div class="icon">🏛️</div>
-          <div class="data">
-            <div class="num" id="estPresencial">—</div>
-            <div class="label">Presenciales</div>
-          </div>
+          <div class="icon">🎒</div>
+          <div class="data"><div class="num" id="estEst">—</div><div class="label">Estudiantes</div></div>
+        </div>
+        <div class="stat-mini green">
+          <div class="icon">💰</div>
+          <div class="data"><div class="num" id="estRecaudado" style="font-size:20px;">—</div><div class="label">Recaudado (Bs)</div></div>
         </div>
       </div>
 
+      <!-- Desglose recaudación por curso -->
+      <div class="cupos-panel" id="estRecaudoPanel" style="display:none;">
+        <div class="cupos-panel-tit">Recaudación y alumnos por curso</div>
+        <div id="estRecaudoCursos"></div>
+      </div>
+
+      <!-- Filtros + Exportar -->
       <div class="filters">
         <input type="text" class="filter-input" id="estSearch"
                placeholder="🔍 Buscar por nombre, CI o teléfono...">
-        <select class="filter-select" id="estCurso">
-          <option value="">Todos los cursos</option>
-        </select>
+        <select class="filter-select" id="estCurso"><option value="">Todos los cursos</option></select>
         <select class="filter-select" id="estModalidad">
           <option value="">Todas las modalidades</option>
           <option value="virtual">📺 Virtual</option>
           <option value="presencial">🏛️ Presencial</option>
         </select>
-        <button class="btn-refresh" id="estRefresh" title="Refrescar">
-          ↻ Refrescar
-        </button>
+        <select class="filter-select" id="estTipo">
+          <option value="">Todos los tipos</option>
+          <option value="profesional">💼 Profesional</option>
+          <option value="estudiante">🎓 Estudiante</option>
+        </select>
+        <button class="btn-refresh" id="estRefresh" title="Refrescar">↻ Refrescar</button>
+        <button class="btn-refresh" id="estExport" title="Exportar a Excel" style="background:var(--green-dark);color:#fff;">⬇ Exportar Excel</button>
       </div>
 
       <div id="estList" class="insc-list">
@@ -1151,10 +1156,7 @@
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         tab.classList.add('active');
         document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
-        // Carga diferida de estudiantes al abrir la pestaña por primera vez
-        if(tab.dataset.tab === 'estudiantes' && !estudiantesCargados){
-          cargarEstudiantes();
-        }
+        if(tab.dataset.tab === 'estudiantes' && !estudiantesCargados){ cargarEstudiantes(); }
       };
     });
 
@@ -1221,10 +1223,13 @@
     estado.estFiltroBusqueda = '';
     estado.estFiltroCurso = '';
     estado.estFiltroModalidad = '';
+    estado.estFiltroTipo = '';
     let estudiantesCargados = false;
 
     async function cargarEstudiantes(){
       const list = document.getElementById('estList');
+
+      // 1) Inscripciones activas + datos del alumno (perfiles)
       const { data, error } = await supabaseClient
         .from('inscripciones')
         .select(`
@@ -1242,29 +1247,34 @@
         return;
       }
 
+      // 2) Tipo de alumno (estudiante/profesional) vive en inscripciones_pendientes confirmadas
+      const tipoPorInscripcion = {};
+      const { data: pend } = await supabaseClient
+        .from('inscripciones_pendientes')
+        .select('inscripcion_id, tipo_alumno')
+        .eq('estado', 'confirmado')
+        .not('inscripcion_id', 'is', null);
+      (pend || []).forEach(p => { if(p.inscripcion_id) tipoPorInscripcion[p.inscripcion_id] = p.tipo_alumno; });
+
       estado.estudiantes = (data || []).map(i => ({
         ...i,
         modalidad: i.modalidad || 'virtual',
+        tipo_alumno: tipoPorInscripcion[i.id] || 'profesional',
         nombre: i.perfiles ? `${i.perfiles.nombre || ''} ${i.perfiles.apellido || ''}`.trim() : 'Sin nombre',
         ci: i.perfiles?.ci || '',
         telefono: i.perfiles?.telefono || '',
         ciudad: i.perfiles?.ciudad || '',
         profesion: i.perfiles?.profesion || '',
         curso_nombre: estado.cursos.find(c => c.id === i.curso_id)?.titulo || 'Curso desconocido',
-        cohorte_nombre: estado.cohortes.find(c => c.id === i.cohorte_id)?.nombre || null
+        cohorte_nombre: estado.cohortes.find(c => c.id === i.cohorte_id)?.nombre || 'Sin grupo'
       }));
 
       // Llenar filtro de cursos (solo los que tienen alumnos)
       const sel = document.getElementById('estCurso');
       if(sel && sel.options.length <= 1){
-        const cursosConAlumnos = [...new Set(estado.estudiantes.map(e => e.curso_id))];
-        cursosConAlumnos.forEach(cid => {
+        [...new Set(estado.estudiantes.map(e => e.curso_id))].forEach(cid => {
           const c = estado.cursos.find(x => x.id === cid);
-          if(c){
-            const opt = document.createElement('option');
-            opt.value = c.id; opt.textContent = c.titulo;
-            sel.appendChild(opt);
-          }
+          if(c){ const o = document.createElement('option'); o.value=c.id; o.textContent=c.titulo; sel.appendChild(o); }
         });
       }
 
@@ -1272,44 +1282,72 @@
       renderEstudiantes();
     }
 
+    function aplicarFiltrosEst(){
+      let f = estado.estudiantes;
+      const q = estado.estFiltroBusqueda.toLowerCase().trim();
+      if(q) f = f.filter(e => e.nombre.toLowerCase().includes(q) || (e.ci&&e.ci.toLowerCase().includes(q)) || (e.telefono&&e.telefono.toLowerCase().includes(q)));
+      if(estado.estFiltroCurso) f = f.filter(e => e.curso_id === estado.estFiltroCurso);
+      if(estado.estFiltroModalidad) f = f.filter(e => e.modalidad === estado.estFiltroModalidad);
+      if(estado.estFiltroTipo) f = f.filter(e => e.tipo_alumno === estado.estFiltroTipo);
+      return f;
+    }
+
     function renderEstudiantes(){
       const list = document.getElementById('estList');
       if(!list) return;
 
-      let filtrados = estado.estudiantes;
-      const q = estado.estFiltroBusqueda.toLowerCase().trim();
-      if(q){
-        filtrados = filtrados.filter(e =>
-          e.nombre.toLowerCase().includes(q) ||
-          (e.ci && e.ci.toLowerCase().includes(q)) ||
-          (e.telefono && e.telefono.toLowerCase().includes(q))
-        );
-      }
-      if(estado.estFiltroCurso) filtrados = filtrados.filter(e => e.curso_id === estado.estFiltroCurso);
-      if(estado.estFiltroModalidad) filtrados = filtrados.filter(e => e.modalidad === estado.estFiltroModalidad);
-
-      // Stats (sobre el total activo, no el filtrado)
-      const tot = estado.estudiantes.length;
-      const virt = estado.estudiantes.filter(e => e.modalidad === 'virtual').length;
-      const pres = estado.estudiantes.filter(e => e.modalidad === 'presencial').length;
+      const todos = estado.estudiantes;
+      // Métricas globales (no filtradas)
+      const tot = todos.length;
+      const prof = todos.filter(e => e.tipo_alumno === 'profesional').length;
+      const est = todos.filter(e => e.tipo_alumno === 'estudiante').length;
+      const recaudado = todos.reduce((s,e) => s + (parseFloat(e.precio_pagado)||0), 0);
       document.getElementById('estTotal').textContent = tot;
-      document.getElementById('estVirtual').textContent = virt;
-      document.getElementById('estPresencial').textContent = pres;
+      document.getElementById('estProf').textContent = prof;
+      document.getElementById('estEst').textContent = est;
+      document.getElementById('estRecaudado').textContent = recaudado.toLocaleString('es-BO',{minimumFractionDigits:2});
 
+      // Desglose por curso (recaudación + alumnos + grupos)
+      const panel = document.getElementById('estRecaudoPanel');
+      const cont = document.getElementById('estRecaudoCursos');
+      if(tot > 0){
+        const porCurso = {};
+        todos.forEach(e => {
+          if(!porCurso[e.curso_nombre]) porCurso[e.curso_nombre] = { n:0, bs:0, grupos:{} };
+          porCurso[e.curso_nombre].n++;
+          porCurso[e.curso_nombre].bs += (parseFloat(e.precio_pagado)||0);
+          const g = e.cohorte_nombre || 'Sin grupo';
+          porCurso[e.curso_nombre].grupos[g] = (porCurso[e.curso_nombre].grupos[g]||0)+1;
+        });
+        cont.innerHTML = Object.entries(porCurso).map(([curso,d]) => `
+          <div style="padding:10px 0;border-bottom:1px solid var(--border);">
+            <div style="font-weight:700;color:var(--purple);margin-bottom:4px;">${escapar(curso)}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--text);">
+              <span>👥 <strong>${d.n}</strong> alumnos</span>
+              <span>💰 <strong>Bs ${d.bs.toLocaleString('es-BO',{minimumFractionDigits:2})}</strong></span>
+              ${Object.entries(d.grupos).map(([g,c]) => `<span>📅 ${escapar(g)}: <strong>${c}</strong></span>`).join('')}
+            </div>
+          </div>`).join('');
+        panel.style.display = 'block';
+      } else {
+        panel.style.display = 'none';
+      }
+
+      // Lista filtrada
+      const filtrados = aplicarFiltrosEst();
       if(filtrados.length === 0){
         list.innerHTML = '<div class="cupos-empty">No hay alumnos que coincidan con el filtro.</div>';
         return;
       }
-
       list.innerHTML = filtrados.map(e => renderEstCard(e)).join('');
     }
 
     function renderEstCard(e){
       const modalidad = e.modalidad === 'presencial' ? 'presencial' : 'virtual';
       const modBadge = modalidad === 'presencial' ? '🏛️ PRESENCIAL' : '📺 VIRTUAL';
+      const esEst = e.tipo_alumno === 'estudiante';
       const precio = e.precio_pagado != null
-        ? `${e.moneda_pago || 'BOB'} ${parseFloat(e.precio_pagado).toLocaleString('es-BO',{minimumFractionDigits:2})}`
-        : '—';
+        ? `${e.moneda_pago||'BOB'} ${parseFloat(e.precio_pagado).toLocaleString('es-BO',{minimumFractionDigits:2})}` : '—';
       const wa = e.telefono ? e.telefono.replace(/[^0-9]/g,'') : '';
       return `
         <article class="insc-card" data-id="${e.id}">
@@ -1317,56 +1355,62 @@
             <div>
               <div class="insc-name">${escapar(e.nombre)}</div>
               <div class="insc-meta-top">
-                ${e.ci ? `<span>🪪 CI ${escapar(e.ci)}</span>` : ''}
-                ${e.telefono ? `<span>📱 ${escapar(e.telefono)}</span>` : ''}
-                ${e.ciudad ? `<span>📍 ${escapar(e.ciudad)}</span>` : ''}
-                ${e.profesion ? `<span>💼 ${escapar(e.profesion)}</span>` : ''}
+                ${e.ci?`<span>🪪 CI ${escapar(e.ci)}</span>`:''}
+                ${e.telefono?`<span>📱 ${escapar(e.telefono)}</span>`:''}
+                ${e.ciudad?`<span>📍 ${escapar(e.ciudad)}</span>`:''}
+                ${e.profesion?`<span>💼 ${escapar(e.profesion)}</span>`:''}
               </div>
-              ${e.cohorte_nombre ? `<div class="insc-grupo-line">Grupo: <strong>${escapar(e.cohorte_nombre)}</strong></div>` : ''}
+              <div class="insc-grupo-line">Grupo: <strong>${escapar(e.cohorte_nombre)}</strong></div>
             </div>
             <div class="insc-badges-row">
               <span class="insc-badge ${modalidad}">${modBadge}</span>
-              <span class="insc-badge green" style="background:rgba(141,198,63,0.15);color:var(--green-dark);">✓ ACTIVO</span>
+              <span class="insc-badge ${esEst?'estudiante':''}" ${esEst?'':'style="background:rgba(107,107,187,0.15);color:var(--purple);"'}>${esEst?'🎓 ESTUDIANTE':'💼 PROFESIONAL'}</span>
+              <span class="insc-badge" style="background:rgba(141,198,63,0.15);color:var(--green-dark);">✓ ACTIVO</span>
             </div>
           </div>
           <div class="insc-body">
-            <div class="insc-field">
-              <span class="label">Curso</span>
-              <span class="value highlight">${escapar(e.curso_nombre)}</span>
-            </div>
-            <div class="insc-field">
-              <span class="label">Pago</span>
-              <span class="value highlight">${precio}</span>
-            </div>
+            <div class="insc-field"><span class="label">Curso</span><span class="value highlight">${escapar(e.curso_nombre)}</span></div>
+            <div class="insc-field"><span class="label">Pago</span><span class="value highlight">${precio}</span></div>
           </div>
-          ${wa ? `
+          ${wa?`
           <div class="insc-carnet-row">
-            <div class="insc-carnet-info">
-              <span class="insc-carnet-icon">💬</span>
-              <div><div>Contactar al alumno por WhatsApp</div></div>
-            </div>
-            <a class="insc-carnet-btn" href="https://wa.me/${wa}" target="_blank" rel="noopener">
-              💬 Escribir
-            </a>
-          </div>` : ''}
+            <div class="insc-carnet-info"><span class="insc-carnet-icon">💬</span><div><div>Contactar por WhatsApp</div></div></div>
+            <a class="insc-carnet-btn" href="https://wa.me/${wa}" target="_blank" rel="noopener">💬 Escribir</a>
+          </div>`:''}
         </article>`;
     }
 
-    // Filtros de estudiantes
-    document.getElementById('estSearch').addEventListener('input', e => {
-      estado.estFiltroBusqueda = e.target.value; renderEstudiantes();
-    });
-    document.getElementById('estCurso').addEventListener('change', e => {
-      estado.estFiltroCurso = e.target.value; renderEstudiantes();
-    });
-    document.getElementById('estModalidad').addEventListener('change', e => {
-      estado.estFiltroModalidad = e.target.value; renderEstudiantes();
-    });
-    document.getElementById('estRefresh').onclick = async () => {
-      estudiantesCargados = false;
-      await cargarEstudiantes();
-      showToast('Alumnos actualizados', 'success');
-    };
+    function exportarEstudiantesCSV(){
+      const filtrados = aplicarFiltrosEst();
+      if(filtrados.length === 0){ showToast('No hay alumnos para exportar', 'error'); return; }
+      const headers = ['Nombre','CI','Telefono','Ciudad','Profesion','Curso','Grupo','Modalidad','Tipo','Monto pagado','Moneda'];
+      const filas = filtrados.map(e => [
+        e.nombre, e.ci, e.telefono, e.ciudad, e.profesion,
+        e.curso_nombre, e.cohorte_nombre, e.modalidad, e.tipo_alumno,
+        (parseFloat(e.precio_pagado)||0).toFixed(2), e.moneda_pago||'BOB'
+      ]);
+      const esc = v => {
+        const s = (v==null?'':String(v));
+        return /[",\n;]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;
+      };
+      // BOM + separador ; para que Excel en español abra bien acentos y columnas
+      const csv = '\uFEFF' + [headers, ...filas].map(r => r.map(esc).join(';')).join('\r\n');
+      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const hoy = new Date().toISOString().slice(0,10);
+      a.href = url; a.download = `alumnos_APPLENDE_${hoy}.csv`;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast(`${filtrados.length} alumnos exportados`, 'success');
+    }
+
+    document.getElementById('estSearch').addEventListener('input', e => { estado.estFiltroBusqueda = e.target.value; renderEstudiantes(); });
+    document.getElementById('estCurso').addEventListener('change', e => { estado.estFiltroCurso = e.target.value; renderEstudiantes(); });
+    document.getElementById('estModalidad').addEventListener('change', e => { estado.estFiltroModalidad = e.target.value; renderEstudiantes(); });
+    document.getElementById('estTipo').addEventListener('change', e => { estado.estFiltroTipo = e.target.value; renderEstudiantes(); });
+    document.getElementById('estRefresh').onclick = async () => { estudiantesCargados=false; await cargarEstudiantes(); showToast('Alumnos actualizados','success'); };
+    document.getElementById('estExport').onclick = exportarEstudiantesCSV;
 
   </script>
 
