@@ -44,6 +44,7 @@ a{text-decoration:none;color:inherit;}
 .hero-mod{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;}
 .hero-mod.virtual{background:rgba(46,74,142,.5);color:#fff;border:1px solid rgba(46,74,142,.8);}
 .hero-mod.presencial{background:rgba(141,198,63,.4);color:#fff;border:1px solid rgba(141,198,63,.6);}
+.hero-mod.bonus-ia{background:rgba(107,107,187,.45);color:#fff;border:1px solid rgba(107,107,187,.7);}
 
 /* INFO BAR */
 .info-bar{background:var(--navy);padding:12px 5%;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;border-top:1px solid rgba(141,198,63,0.2);}
@@ -141,6 +142,9 @@ a{text-decoration:none;color:inherit;}
 .tm-list{padding-left:48px;display:flex;flex-direction:column;gap:6px;}
 .tm-item{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;color:var(--text);line-height:1.5;}
 .tm-item::before{content:'•';color:var(--green);font-weight:800;flex-shrink:0;}
+.tm-mod.bonus{border:2px solid var(--green);background:rgba(141,198,63,.05);border-radius:12px;padding:18px 20px;}
+.tm-mod.bonus .tm-num{background:var(--green);}
+.tm-bonus-tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#fff;background:var(--purple);padding:3px 10px;border-radius:4px;margin-bottom:8px;}
 
 /* INSTRUCTOR (con <img> directo) */
 .inst-card{display:flex;gap:24px;align-items:flex-start;background:var(--offwhite);border:1px solid var(--border);border-radius:14px;padding:24px;margin-top:18px;}
@@ -308,6 +312,7 @@ img{max-width:100%;height:auto;}
       <p>Aprendé a formular el POA y articularlo con el presupuesto institucional dominando el modelo de planificación integral gubernamental aplicado en el sector público boliviano: cadena causal Insumo → Producto → Resultado → Impacto, marco legal competencial, objetivos, indicadores, ponderación y seguimiento. Anclado en la Ley N° 777, la Ley N° 1178 y las Normas Básicas del SPO.</p>
       <div class="hero-mods">
         <span class="hero-mod virtual">📺 100% Virtual · Clases en Vivo</span>
+        <span class="hero-mod bonus-ia">🤖 Bonus: IA aplicada al POA</span>
       </div>
     </div>
   </div>
@@ -365,6 +370,7 @@ img{max-width:100%;height:auto;}
         <div class="aprenderas-item">Medir el desempeño con eficacia, eficiencia, economía y efectividad</div>
         <div class="aprenderas-item">Aplicar el sistema de ponderación para obtener la tasa de eficacia real (no la simple)</div>
         <div class="aprenderas-item">Montar el seguimiento y evaluación del POA y articularlo con el Presupuesto Anual</div>
+        <div class="aprenderas-item">Usar Inteligencia Artificial como apoyo para formular el POA de forma responsable, con un pack de prompts listos para tu entidad</div>
       </div>
     </div>
 
@@ -484,6 +490,20 @@ img{max-width:100%;height:auto;}
           <div class="tm-item">Propósito, periodicidad y responsables (rol de la MAE y del Órgano Rector del SPIE)</div>
           <div class="tm-item">Marco legal: Ley N° 777, Ley N° 1178 y Normas Básicas del SPO (D.S. N° 3246)</div>
           <div class="tm-item">Articulación POA–Presupuesto Anual y medidas correctivas oportunas</div>
+        </div>
+      </div>
+
+      <!-- MÓDULO BONUS · IA -->
+      <div class="tm-mod bonus">
+        <span class="tm-bonus-tag">Bonus exclusivo</span>
+        <div class="tm-mod-head">
+          <div class="tm-num">🤖</div>
+          <div class="tm-tit">IA Aplicada a la Formulación del POA</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">Cómo usar IA para acelerar la redacción de objetivos, matriz de operaciones e indicadores del POA</div>
+          <div class="tm-item">Pack descargable de prompts plantilla adaptados al POA boliviano (Ley 777, Ley 1178, D.S. 3246)</div>
+          <div class="tm-item">Uso responsable en el sector público: qué información NUNCA cargar a una IA y cómo verificar citas normativas</div>
         </div>
       </div>
 
