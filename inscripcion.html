@@ -591,7 +591,7 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
    Consulta directa a tablas base (NO depende de v_catalogo_cursos)
    ════════════════════════════════════════════════════════════════ */
 
-const WA_KARINA = '59164403290'; // WhatsApp corporativo APPLENDE (Karina)
+const WA_KARINA = '59157388229'; // WhatsApp corporativo APPLENDE (Karina)
 const TIPO_CAMBIO_USD = 6.96;    // Bolivianos por USD (ajustar si cambia)
 
 // [NUEVO 27/05/2026] Lista de cursos que son SOLO VIRTUAL (no muestran selector presencial)
@@ -619,6 +619,11 @@ const PROMOS_INSCRIPCION_ANTICIPADA = {
     precioNormal: 250,
     precioPromo:  200,
     fechaLimite:  '2026-06-08T23:59:59-04:00'
+  },
+  'formulacion-poa': {
+    precioNormal: 200,
+    precioPromo:  150,
+    fechaLimite:  '2026-06-15T23:59:59-04:00'
   }
   // Ejemplo para futuras promos (descomentar y ajustar):
   // 'modelacion-financiera-ia': { precioNormal: 200, precioPromo: 150, fechaLimite: '2026-06-XXT23:59:59-04:00' },
@@ -634,7 +639,12 @@ function aplicarPromoEnInscripcion(curso) {
 
   const ahora = new Date();
   const limite = new Date(promo.fechaLimite);
-  if (ahora > limite) return curso; // Promo expirada → precio normal
+  if (ahora > limite) {
+    // Promo expirada → restaurar el precio normal definido en el cuadro.
+    // (Supabase puede tener grabado el precio promo, por eso forzamos aquí.)
+    curso.precio_bs = promo.precioNormal;
+    return curso;
+  }
 
   // Promo activa → sobreescribir precio_bs y guardar el original como tachado
   curso.precio_bs = promo.precioPromo;
@@ -1330,7 +1340,7 @@ async function procesarInscripcion(ev) {
 
       // Cualquier otro error: cuenta creada pero inscripción falló
       mostrarErrorGeneral(
-        `Tu cuenta se creó correctamente, pero tuvimos un problema al registrar la inscripción. Por favor escribinos por WhatsApp al <a href="https://wa.me/${WA_KARINA}" target="_blank" style="color:#991B1B;font-weight:700;text-decoration:underline;">+591 64403290</a> y te ayudamos a completar el proceso.`,
+        `Tu cuenta se creó correctamente, pero tuvimos un problema al registrar la inscripción. Por favor escribinos por WhatsApp al <a href="https://wa.me/${WA_KARINA}" target="_blank" style="color:#991B1B;font-weight:700;text-decoration:underline;">+591 57388229</a> y te ayudamos a completar el proceso.`,
         '⚠️ Inscripción incompleta'
       );
       btn.disabled = false;
