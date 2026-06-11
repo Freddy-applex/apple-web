@@ -221,6 +221,26 @@
       color:#FFD27A;font-weight:600;
     }
 
+    /* ─── CLASES GRABADAS / REPRODUCTOR ─── */
+    .player-wrap{background:#000;border-radius:14px;overflow:hidden;box-shadow:0 10px 36px rgba(0,0,0,0.18);position:relative;aspect-ratio:16/9;margin-bottom:16px;}
+    .player-wrap iframe{width:100%;height:100%;border:0;display:block;}
+    .player-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);text-align:center;padding:20px;gap:10px;}
+    .player-empty .big{font-size:46px;}
+    .player-empty .txt{font-size:14px;max-width:320px;line-height:1.5;}
+    .grab-info{background:#fff;border:1px solid #e8ebf0;border-radius:12px;padding:14px 16px;margin-bottom:16px;}
+    .grab-info-num{font-size:12px;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.5px;}
+    .grab-info-tit{font-size:17px;font-weight:700;color:var(--navy);margin:2px 0 4px;}
+    .grab-info-desc{font-size:14px;color:#5a6472;line-height:1.5;margin:0;}
+    .grab-list{display:flex;flex-direction:column;gap:8px;}
+    .grab-item{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #e8ebf0;border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .15s;}
+    .grab-item:hover{border-color:var(--green);box-shadow:0 4px 14px rgba(141,198,63,0.12);}
+    .grab-item.activa{border-color:var(--green);background:rgba(141,198,63,0.06);}
+    .grab-item-num{flex-shrink:0;width:34px;height:34px;border-radius:8px;background:rgba(141,198,63,0.12);color:var(--green-dark);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;}
+    .grab-item-info{flex:1;min-width:0;}
+    .grab-item-tit{font-size:14px;font-weight:600;color:var(--navy);}
+    .grab-item-meta{font-size:12px;color:#8a94a3;margin-top:2px;}
+    .grab-item-play{flex-shrink:0;color:var(--green-dark);font-size:18px;}
+
     /* ─── SECTION genérico ─── */
     .section{
       background:#fff;border-radius:14px;padding:28px;
@@ -483,6 +503,26 @@
       </div>
     </section>
 
+    <!-- CLASES GRABADAS -->
+    <section class="section" id="grabadasSection" style="display:none;">
+      <div class="section-head">
+        <span class="icon">🎬</span>
+        <h2>Clases grabadas</h2>
+      </div>
+      <div class="player-wrap" id="playerWrap">
+        <div class="player-empty" id="playerEmpty">
+          <span class="big">🎬</span>
+          <span class="txt">Elegí una clase de la lista para verla.</span>
+        </div>
+      </div>
+      <div class="grab-info" id="grabInfo" style="display:none;">
+        <div class="grab-info-num" id="grabInfoNum">Clase 1</div>
+        <div class="grab-info-tit" id="grabInfoTit">—</div>
+        <p class="grab-info-desc" id="grabInfoDesc">—</p>
+      </div>
+      <div class="grab-list" id="grabList"></div>
+    </section>
+
     <!-- MATERIALES -->
     <section class="section">
       <div class="section-head">
@@ -520,7 +560,7 @@
           <strong>Karina Campos</strong> · Coordinadora Académica<br>
           Te responde por WhatsApp para cualquier consulta sobre el curso, pagos o material.
         </div>
-        <a href="https://wa.me/59164403290" target="_blank" rel="noopener" class="btn-wa">
+        <a href="https://wa.me/59157388229" target="_blank" rel="noopener" class="btn-wa">
           📱 Escribir
         </a>
       </div>
@@ -539,6 +579,7 @@
   <div class="toast" id="toast"><span class="msg"></span></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://player.vimeo.com/api/player.js"></script>
   <script>
     // ═══════════════════════════════════════════════════════════════
     // CONFIG
@@ -546,7 +587,7 @@
     const SUPABASE_URL = 'https://wdoqzsmwuvozhkclqbjk.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_YsQshZ_X8aAYIgevuRXESg_al83VtZw';
     const LOGIN_URL = '/login.html';
-    const WA_KARINA = '59164403290';
+    const WA_KARINA = '59157388229';
 
     const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -557,6 +598,7 @@
       inscripcion: null,
       instructor: null,
       materiales: [],
+      grabadas: [],
       clasesReales: [],
       proximaClase: null,
       countdownTimer: null
@@ -662,9 +704,19 @@
         .order('creado_en', { ascending: true });
       estado.materiales = materiales || [];
 
+      // Cargar clases grabadas (si las hay)
+      const { data: grabadas } = await sb
+        .from('clases_grabadas')
+        .select('id, numero, titulo, descripcion, vimeo_id, vimeo_hash, duracion_min, orden')
+        .eq('curso_id', curso.id)
+        .eq('publicado', true)
+        .order('orden', { ascending: true });
+      estado.grabadas = grabadas || [];
+
       // Renderizar todo
       renderHero();
       renderInstructor();
+      renderGrabadas();
       renderMateriales();
       renderCalendario();
 
@@ -675,6 +727,65 @@
       // Iniciar countdown
       iniciarCountdown();
     })();
+
+    // ═══════════════════════════════════════════════════════════════
+    // CLASES GRABADAS (Vimeo embebido)
+    // ═══════════════════════════════════════════════════════════════
+    function vimeoSrc(c){
+      if(!c.vimeo_id) return null;
+      let src = 'https://player.vimeo.com/video/' + c.vimeo_id;
+      const qs = [];
+      if(c.vimeo_hash) qs.push('h=' + c.vimeo_hash);
+      qs.push('title=0','byline=0','portrait=0');
+      return src + '?' + qs.join('&');
+    }
+
+    function renderGrabadas(){
+      const sec = document.getElementById('grabadasSection');
+      const list = document.getElementById('grabList');
+      if(!estado.grabadas || !estado.grabadas.length){
+        sec.style.display = 'none';
+        return;
+      }
+      sec.style.display = 'block';
+      list.innerHTML = estado.grabadas.map((c, i) => {
+        const dur = c.duracion_min ? c.duracion_min + ' min' : '';
+        return `
+          <div class="grab-item" data-idx="${i}">
+            <div class="grab-item-num">${c.numero || (i+1)}</div>
+            <div class="grab-item-info">
+              <div class="grab-item-tit">${escapar(c.titulo || ('Clase ' + (c.numero||(i+1))))}</div>
+              ${dur ? `<div class="grab-item-meta">${dur}</div>` : ''}
+            </div>
+            <div class="grab-item-play">▶</div>
+          </div>`;
+      }).join('');
+      list.querySelectorAll('.grab-item').forEach(el => {
+        el.onclick = () => abrirGrabada(parseInt(el.dataset.idx));
+      });
+      // Abrir la primera automáticamente
+      abrirGrabada(0);
+    }
+
+    function abrirGrabada(idx){
+      const c = estado.grabadas[idx];
+      if(!c) return;
+      const wrap = document.getElementById('playerWrap');
+      const src = vimeoSrc(c);
+      if(src){
+        wrap.innerHTML = '<iframe src="'+src+'" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';
+      } else {
+        wrap.innerHTML = '<div class="player-empty"><span class="big">🎬</span><span class="txt">El video de esta clase todavía no está disponible.</span></div>';
+      }
+      document.getElementById('grabInfo').style.display = 'block';
+      document.getElementById('grabInfoNum').textContent = 'Clase ' + (c.numero || (idx+1));
+      document.getElementById('grabInfoTit').textContent = c.titulo || '';
+      document.getElementById('grabInfoDesc').textContent = c.descripcion || '';
+      // Marcar activa
+      document.querySelectorAll('.grab-item').forEach((el,i) => {
+        el.classList.toggle('activa', i === idx);
+      });
+    }
 
     // ═══════════════════════════════════════════════════════════════
     // RENDER HERO
@@ -735,7 +846,7 @@
           'Gracias!'
         ];
         const mensaje = encodeURIComponent(lineas.join('\n'));
-        btnWaCoord.href = 'https://wa.me/59164403290?text=' + mensaje;
+        btnWaCoord.href = 'https://wa.me/59157388229?text=' + mensaje;
 
       } else {
         // Modalidad VIRTUAL (default): badge violeta, card oculta
