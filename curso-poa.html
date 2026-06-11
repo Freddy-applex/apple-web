@@ -621,8 +621,8 @@ img{max-width:100%;height:auto;}
       <div class="precio-section-tit">💰 Inversión</div>
 
       <div class="promo-banner" id="promoBanner">
-        🔥 INSCRIPCIÓN ANTICIPADA · Bs 30 de descuento en tarifa Profesional
-        <span class="promo-countdown" id="promoCountdown">Promoción válida hasta el 16 de junio</span>
+        🔥 INSCRIPCIÓN ANTICIPADA · Bs 50 de descuento en tarifa Profesional
+        <span class="promo-countdown" id="promoCountdown">Promoción válida hasta el 15 de junio</span>
       </div>
 
       <div class="modalidad-block virtual">
@@ -634,16 +634,16 @@ img{max-width:100%;height:auto;}
         <div class="precio-fila">
           <div class="precio-tipo">👔 Profesional</div>
           <div class="precio-monto">
-            <span class="precio-tachado" id="precioProfTachado" style="display:none;">Bs 150</span>
-            <span class="precio-bs" id="precioProf">Bs 150</span>
-            <span class="precio-badge-promo" id="badgeProfPromo" style="display:none;">-Bs 30</span>
+            <span class="precio-tachado" id="precioProfTachado" style="display:none;">Bs 200</span>
+            <span class="precio-bs" id="precioProf">Bs 200</span>
+            <span class="precio-badge-promo" id="badgeProfPromo" style="display:none;">-Bs 50</span>
           </div>
         </div>
         <div class="precio-fila">
           <div class="precio-tipo precio-tipo-est">🎓 Estudiante</div>
           <div class="precio-monto">
             <span class="precio-bs estudiante">Bs 100</span>
-            <span class="precio-badge">-33%</span>
+            <span class="precio-badge">-50%</span>
           </div>
         </div>
       </div>
@@ -651,7 +651,7 @@ img{max-width:100%;height:auto;}
       <p class="precio-nota">Tarifa estudiantil con carnet vigente · Pago único · Clases en vivo por Zoom con grabaciones permanentes</p>
 
       <a href="inscripcion.html?slug=formulacion-poa" class="ic-btn-main">🎓 Inscribirme →</a>
-      <a href="https://wa.me/59164403290?text=Hola,%20quiero%20información%20sobre%20el%20curso%20de%20Formulación%20del%20POA" target="_blank" class="ic-btn-wa">💬 Consultar por WhatsApp</a>
+      <a href="https://wa.me/59157388229?text=Hola,%20quiero%20información%20sobre%20el%20curso%20de%20Formulación%20del%20POA" target="_blank" class="ic-btn-wa">💬 Consultar por WhatsApp</a>
 
       <div class="ic-features">
         <div class="ic-feat">7 clases en vivo de 2 horas cada una</div>
@@ -678,7 +678,7 @@ img{max-width:100%;height:auto;}
   <p>Cupos limitados. El curso inicia el 17 de junio · De lunes a viernes de 19:30 a 21:30. Inscribite ahora.</p>
   <div class="cta-btns">
     <a href="inscripcion.html?slug=formulacion-poa" class="btn-cta">🎓 Inscribirme →</a>
-    <a href="https://wa.me/59164403290?text=Hola,%20quiero%20inscribirme%20al%20curso%20de%20Formulación%20del%20POA" target="_blank" class="btn-cta-wa">💬 Hablar por WhatsApp</a>
+    <a href="https://wa.me/59157388229?text=Hola,%20quiero%20inscribirme%20al%20curso%20de%20Formulación%20del%20POA" target="_blank" class="btn-cta-wa">💬 Hablar por WhatsApp</a>
   </div>
   <p style="color:rgba(255,255,255,0.45);font-size:12px;margin-top:22px;">🛡️ Garantía 24h post-primera clase · Acceso permanente a la grabación</p>
 </section>
@@ -686,7 +686,7 @@ img{max-width:100%;height:auto;}
 <!-- FOOTER -->
 <footer>
   <p>© 2026 <a href="index.html">APPLE Construcciones &amp; Servicios</a> · Academia APPLENDE · Bolivia · NIT 2989818012</p>
-  <p style="margin-top:6px;"><a href="https://wa.me/59164403290" target="_blank">💬 +591 64403290</a></p>
+  <p style="margin-top:6px;"><a href="https://wa.me/59157388229" target="_blank">💬 +591 57388229</a></p>
 </footer>
 
 <script>
@@ -715,11 +715,11 @@ actualizarCountdown();
 setInterval(actualizarCountdown, 1000);
 
 // ============================================================
-// PROMO INSCRIPCIÓN ANTICIPADA — Profesional Bs 150 → Bs 120 hasta 16/6/2026
+// PROMO INSCRIPCIÓN ANTICIPADA — Profesional Bs 200 → Bs 150 hasta 15/6/2026
 // ============================================================
-const PROMO_FECHA_LIMITE = new Date('2026-06-16T23:59:59-04:00');
-const PROMO_PRECIO_NORMAL = 150;
-const PROMO_PRECIO_OFERTA = 120;
+const PROMO_FECHA_LIMITE = new Date('2026-06-15T23:59:59-04:00');
+const PROMO_PRECIO_NORMAL = 200;
+const PROMO_PRECIO_OFERTA = 150;
 
 function aplicarPromoEarlyBird(){
   const ahora = new Date();
@@ -743,11 +743,11 @@ function aplicarPromoEarlyBird(){
       const diff = PROMO_FECHA_LIMITE - ahora;
       const dias = Math.ceil(diff / (1000 * 60 * 60 * 24));
       if(dias > 1){
-        elCountdown.textContent = '⏰ Quedan ' + dias + ' días — termina el 16 de junio';
+        elCountdown.textContent = '⏰ Quedan ' + dias + ' días — termina el 15 de junio';
       } else if(dias === 1){
         elCountdown.textContent = '⏰ ¡Último día! Termina hoy a las 23:59';
       } else {
-        elCountdown.textContent = '⏰ Últimas horas — termina el 16 de junio 23:59';
+        elCountdown.textContent = '⏰ Últimas horas — termina el 15 de junio 23:59';
       }
     }
   } else {
