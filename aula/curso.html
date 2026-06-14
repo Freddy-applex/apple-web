@@ -591,8 +591,8 @@
       <div class="grab-list" id="grabList"></div>
     </section>
 
-    <!-- MATERIALES -->
-    <section class="section">
+    <!-- MATERIALES (sección clásica, se oculta en formato integrado) -->
+    <section class="section" id="materialesSection">
       <div class="section-head">
         <span class="icon">📁</span>
         <h2>Materiales del curso</h2>
@@ -840,6 +840,12 @@
       const sec = document.getElementById('integradoSection');
       const cont = document.getElementById('integradoContainer');
       sec.style.display = 'block';
+      // Ocultar las secciones clásicas (grabadas separada y materiales separada),
+      // porque en el formato integrado todo va junto dentro de cada clase.
+      const secMatViejo = document.getElementById('materialesSection');
+      if (secMatViejo) secMatViejo.style.display = 'none';
+      const secGrabViejo = document.getElementById('grabadasSection');
+      if (secGrabViejo) secGrabViejo.style.display = 'none';
 
       const grabadas = (estado.grabadas || []).slice().sort((a,b) => (a.numero||0) - (b.numero||0));
 
