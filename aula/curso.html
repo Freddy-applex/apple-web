@@ -299,6 +299,12 @@
     .int-clase-body{padding:12px 16px;}
     .int-clase-mats{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
     .int-mat-vacio{font-size:12px;color:var(--muted);font-style:italic;padding:4px 0;}
+    /* ─── MATERIALES DE LA CLASE ACTIVA (arriba) ─── */
+    .mat-clase-activa{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-top:12px;}
+    .mat-clase-activa-head{display:flex;align-items:center;gap:8px;font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:13px;color:#185FA5;margin-bottom:10px;letter-spacing:0.3px;}
+    .mca-icon{font-size:16px;}
+    .mat-clase-activa-list{display:flex;flex-direction:column;gap:8px;}
+    .mat-clase-activa-vacio{font-size:12.5px;color:var(--muted);font-style:italic;}
     /* ─── PANEL LATERAL DE RESUMEN ─── */
     .int-top{display:flex;gap:18px;align-items:flex-start;margin-bottom:18px;}
     .int-video-col{flex:1.7;min-width:0;}
@@ -558,6 +564,10 @@
             <div class="grab-info-num" id="grabInfoNumInt">Clase 1</div>
             <div class="grab-info-tit" id="grabInfoTitInt">—</div>
             <p class="grab-info-desc" id="grabInfoDescInt">—</p>
+          </div>
+          <div class="mat-clase-activa" id="matClaseActiva" style="display:none;">
+            <div class="mat-clase-activa-head"><span class="mca-icon">📁</span> Materiales de esta clase</div>
+            <div class="mat-clase-activa-list" id="matClaseActivaList"></div>
           </div>
         </div>
         <div class="int-resumen-col" id="resumenPanel" style="display:none;">
@@ -887,13 +897,13 @@
           </div>`;
       };
 
-      // Construir un bloque por cada clase
+      // Guardar referencias para usarlas al abrir cada clase
+      estado._matsPorClase = matsPorClase;
+      estado._matHTML = matHTML;
+
+      // Construir la lista de clases (solo títulos, SIN materiales dentro)
       cont.innerHTML = grabadas.map((c, i) => {
         const num = c.numero || (i+1);
-        const mats = matsPorClase[num] || [];
-        const matsHTML = mats.length
-          ? `<div class="int-clase-mats">${mats.map(matHTML).join('')}</div>`
-          : '<div class="int-mat-vacio">Sin material adicional para esta clase.</div>';
         return `
           <div class="int-clase">
             <div class="int-clase-head" data-idx="${i}">
@@ -901,35 +911,28 @@
               <div class="int-clase-tit">${escapar(c.titulo || ('Clase ' + num))}</div>
               <div class="int-clase-play">▶</div>
             </div>
-            <div class="int-clase-body">
-              ${matsHTML}
-            </div>
           </div>`;
       }).join('');
 
-      // Materiales SIN prefijo de clase → bloque "Material general" al final
+      // Material SIN prefijo de clase → item extra "Material de apoyo general" que lo muestra arriba
       const matsSinClase = (estado.materiales || []).filter(m => !(m.nombre || '').match(/CLASE\s*\d+\s*[·\-:]/i));
+      estado._matsSinClase = matsSinClase;
       if (matsSinClase.length) {
-        const bloqueGeneral = document.createElement('div');
-        bloqueGeneral.className = 'int-clase';
-        bloqueGeneral.innerHTML = `
-          <div class="int-clase-head" style="cursor:default;background:rgba(107,107,187,0.07);">
+        const extra = document.createElement('div');
+        extra.className = 'int-clase';
+        extra.innerHTML = `
+          <div class="int-clase-head" data-general="1">
             <div class="int-clase-num" style="background:var(--purple);">★</div>
             <div class="int-clase-tit">Material de apoyo general</div>
-          </div>
-          <div class="int-clase-body">
-            <div class="int-clase-mats">${matsSinClase.map(matHTML).join('')}</div>
+            <div class="int-clase-play">▶</div>
           </div>`;
-        cont.appendChild(bloqueGeneral);
+        cont.appendChild(extra);
+        extra.querySelector('.int-clase-head').onclick = () => mostrarMaterialGeneral();
       }
 
       // Listeners: click en cabecera → reproducir esa clase arriba
       cont.querySelectorAll('.int-clase-head[data-idx]').forEach(el => {
         el.onclick = () => abrirGrabadaInt(parseInt(el.dataset.idx));
-      });
-      // Listeners de materiales
-      cont.querySelectorAll('.mat-btn').forEach(btn => {
-        btn.onclick = () => abrirMaterial(btn);
       });
 
       // Abrir la primera clase automáticamente
@@ -937,6 +940,24 @@
     }
 
     // Reproductor del formato integrado
+    // Muestra el material de apoyo general arriba (sin video ni resumen específico)
+    function mostrarMaterialGeneral(){
+      const wrap = document.getElementById('playerWrapInt');
+      wrap.innerHTML = '<div class="player-empty"><span class="big">📁</span><span class="txt">Material de apoyo general del curso</span></div>';
+      document.getElementById('grabInfoInt').style.display = 'none';
+      document.getElementById('resumenPanel').style.display = 'none';
+      const matBox = document.getElementById('matClaseActiva');
+      const matList = document.getElementById('matClaseActivaList');
+      const mats = estado._matsSinClase || [];
+      matList.innerHTML = mats.map(estado._matHTML).join('');
+      matBox.style.display = 'block';
+      matList.querySelectorAll('.mat-btn').forEach(btn => { btn.onclick = () => abrirMaterial(btn); });
+      document.querySelectorAll('.int-clase-head').forEach(el => {
+        el.classList.toggle('activa', el.dataset.general === '1');
+      });
+      document.getElementById('playerWrapInt').scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+
     // Convierte el texto del resumen (con ## subtítulos) en HTML formateado
     function formatearResumen(texto){
       const bloques = texto.split(/\n\s*\n/);
@@ -973,6 +994,22 @@
         panel.style.display = 'block';
       } else {
         panel.style.display = 'none';
+      }
+
+      // Materiales de esta clase (arriba, debajo del video)
+      const matBox = document.getElementById('matClaseActiva');
+      const matList = document.getElementById('matClaseActivaList');
+      const num = c.numero || (idx+1);
+      const mats = (estado._matsPorClase && estado._matsPorClase[num]) || [];
+      if (mats.length && estado._matHTML) {
+        matList.innerHTML = mats.map(estado._matHTML).join('');
+        matBox.style.display = 'block';
+        matList.querySelectorAll('.mat-btn').forEach(btn => {
+          btn.onclick = () => abrirMaterial(btn);
+        });
+      } else {
+        matList.innerHTML = '<div class="mat-clase-activa-vacio">Esta clase no tiene material adicional.</div>';
+        matBox.style.display = 'block';
       }
 
       document.querySelectorAll('.int-clase-head').forEach((el,i) => {
