@@ -1263,6 +1263,7 @@ async function procesarInscripcion(ev) {
     const nombre = partesNombre[0];
     const apellido = partesNombre.slice(1).join(' ');
 
+    let alumnoExistenteOk = false;
     const { data: authData, error: errAuth } = await sb.auth.signUp({
       email: datosAlumno.email,
       password: datosAlumno.password,
@@ -1282,10 +1283,26 @@ async function procesarInscripcion(ev) {
       console.error('[APPLENDE] Error en signUp:', errAuth);
       const msg = (errAuth.message || '').toLowerCase();
       if (msg.includes('already') || msg.includes('registered') || msg.includes('duplicate')) {
-        mostrarErrorGeneral(
-          `Este email ya tiene una cuenta en APPLENDE. Si es tuya, <a href="login.html" style="color:#991B1B;text-decoration:underline;font-weight:700;">iniciá sesión acá</a> y registrate desde tu dashboard, o escribinos por WhatsApp al ${WA_KARINA.replace('591','+591 ')}.`,
-          'Email ya registrado'
-        );
+        // El email ya tiene cuenta (alumno existente que se inscribe a OTRO curso).
+        // Intentamos iniciar sesión con la contraseña ingresada para continuar la inscripción.
+        btn.innerHTML = '<span class="form-btn-loader"></span>Verificando tu cuenta...';
+        const { data: loginData, error: errLogin } = await sb.auth.signInWithPassword({
+          email: datosAlumno.email,
+          password: datosAlumno.password
+        });
+        if (errLogin || !loginData || !loginData.user) {
+          // La contraseña no coincide con la cuenta existente
+          mostrarErrorGeneral(
+            `Este email ya tiene una cuenta en APPLENDE. Si es tuya, ingresá la <strong>misma contraseña</strong> que usás para entrar. Si la olvidaste, <a href="login.html" style="color:#991B1B;text-decoration:underline;font-weight:700;">recuperala acá</a> o escribinos por WhatsApp al ${WA_KARINA.replace('591','+591 ')}.`,
+            'Ya tenés una cuenta'
+          );
+          btn.disabled = false;
+          btn.innerHTML = 'Inscribirme a este curso →';
+          return;
+        }
+        // Login correcto: el alumno existente queda autenticado y seguimos con la inscripción al nuevo curso.
+        console.log('[APPLENDE] Alumno existente autenticado, continuando inscripción al nuevo curso');
+        alumnoExistenteOk = true;
       } else if (msg.includes('password') || msg.includes('weak')) {
         marcarError('password', 'La contraseña es muy débil. Usá al menos 6 caracteres.');
       } else if (msg.includes('invalid') && msg.includes('email')) {
@@ -1293,9 +1310,12 @@ async function procesarInscripcion(ev) {
       } else {
         mostrarErrorGeneral('No pudimos crear tu cuenta. Probá nuevamente o escribinos por WhatsApp.');
       }
-      btn.disabled = false;
-      btn.innerHTML = 'Crear cuenta y continuar al pago →';
-      return;
+      // Si el alumno existente se autenticó correctamente, NO cortamos: seguimos a la inscripción.
+      if (!alumnoExistenteOk) {
+        btn.disabled = false;
+        btn.innerHTML = 'Crear cuenta y continuar al pago →';
+        return;
+      }
     }
 
     // ────── PASO 3: Crear inscripción pendiente vía RPC ──────
