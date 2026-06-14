@@ -299,6 +299,22 @@
     .int-clase-body{padding:12px 16px;}
     .int-clase-mats{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
     .int-mat-vacio{font-size:12px;color:var(--muted);font-style:italic;padding:4px 0;}
+    /* ─── PANEL LATERAL DE RESUMEN ─── */
+    .int-top{display:flex;gap:18px;align-items:flex-start;margin-bottom:18px;}
+    .int-video-col{flex:1.7;min-width:0;}
+    .int-resumen-col{flex:1;min-width:0;background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:16px;max-height:480px;overflow-y:auto;}
+    .resumen-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid var(--offwhite);}
+    .resumen-icon{font-size:18px;}
+    .resumen-titulo{font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:14px;color:var(--navy);letter-spacing:0.5px;}
+    .resumen-body{font-size:13.5px;line-height:1.7;color:var(--text);}
+    .resumen-body h4{font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:13.5px;color:var(--navy);margin:16px 0 6px;}
+    .resumen-body p{margin:0 0 12px;}
+    .resumen-body p:first-child{margin-top:0;}
+    @media(max-width:760px){
+      .int-top{flex-direction:column;}
+      .int-video-col,.int-resumen-col{flex:none;width:100%;}
+      .int-resumen-col{max-height:none;}
+    }
     .mat-empty{
       text-align:center;padding:30px 16px;color:var(--muted);
       background:var(--offwhite);border-radius:10px;font-size:14px;
@@ -530,16 +546,27 @@
         <span class="icon">📚</span>
         <h2>Contenido del curso</h2>
       </div>
-      <div class="player-wrap" id="playerWrapInt">
-        <div class="player-empty">
-          <span class="big">🎬</span>
-          <span class="txt">Elegí una clase para ver el video.</span>
+      <div class="int-top">
+        <div class="int-video-col">
+          <div class="player-wrap" id="playerWrapInt">
+            <div class="player-empty">
+              <span class="big">🎬</span>
+              <span class="txt">Elegí una clase para ver el video.</span>
+            </div>
+          </div>
+          <div class="grab-info" id="grabInfoInt" style="display:none;">
+            <div class="grab-info-num" id="grabInfoNumInt">Clase 1</div>
+            <div class="grab-info-tit" id="grabInfoTitInt">—</div>
+            <p class="grab-info-desc" id="grabInfoDescInt">—</p>
+          </div>
         </div>
-      </div>
-      <div class="grab-info" id="grabInfoInt" style="display:none;">
-        <div class="grab-info-num" id="grabInfoNumInt">Clase 1</div>
-        <div class="grab-info-tit" id="grabInfoTitInt">—</div>
-        <p class="grab-info-desc" id="grabInfoDescInt">—</p>
+        <div class="int-resumen-col" id="resumenPanel" style="display:none;">
+          <div class="resumen-head">
+            <span class="resumen-icon">📖</span>
+            <span class="resumen-titulo">Resumen de la clase</span>
+          </div>
+          <div class="resumen-body" id="resumenBody"></div>
+        </div>
       </div>
       <div id="integradoContainer"></div>
     </section>
@@ -748,7 +775,7 @@
       // Cargar clases grabadas (si las hay)
       const { data: grabadas } = await sb
         .from('clases_grabadas')
-        .select('id, numero, titulo, descripcion, vimeo_id, vimeo_hash, duracion_min, orden')
+        .select('id, numero, titulo, descripcion, vimeo_id, vimeo_hash, duracion_min, orden, resumen_largo')
         .eq('curso_id', curso.id)
         .eq('publicado', true)
         .order('orden', { ascending: true });
@@ -904,6 +931,18 @@
     }
 
     // Reproductor del formato integrado
+    // Convierte el texto del resumen (con ## subtítulos) en HTML formateado
+    function formatearResumen(texto){
+      const bloques = texto.split(/\n\s*\n/);
+      return bloques.map(b => {
+        b = b.trim();
+        if (!b) return '';
+        const h = b.match(/^##\s*(.+)$/);
+        if (h) return '<h4>' + escapar(h[1].trim()) + '</h4>';
+        return '<p>' + escapar(b).replace(/\n/g, '<br>') + '</p>';
+      }).join('');
+    }
+
     function abrirGrabadaInt(idx){
       const grabadas = (estado.grabadas || []).slice().sort((a,b) => (a.numero||0) - (b.numero||0));
       const c = grabadas[idx];
@@ -919,6 +958,17 @@
       document.getElementById('grabInfoNumInt').textContent = 'Clase ' + (c.numero || (idx+1));
       document.getElementById('grabInfoTitInt').textContent = c.titulo || '';
       document.getElementById('grabInfoDescInt').textContent = c.descripcion || '';
+
+      // Panel lateral de resumen largo
+      const panel = document.getElementById('resumenPanel');
+      const body = document.getElementById('resumenBody');
+      if (c.resumen_largo && c.resumen_largo.trim()) {
+        body.innerHTML = formatearResumen(c.resumen_largo);
+        panel.style.display = 'block';
+      } else {
+        panel.style.display = 'none';
+      }
+
       document.querySelectorAll('.int-clase-head').forEach((el,i) => {
         el.classList.toggle('activa', i === idx);
       });
