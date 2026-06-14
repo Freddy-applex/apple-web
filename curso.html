@@ -288,6 +288,17 @@
     .clase-grupo-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:8px;border-bottom:1.5px solid var(--offwhite);}
     .clase-grupo-num{flex-shrink:0;width:30px;height:30px;border-radius:8px;background:rgba(141,198,63,0.14);color:var(--green-dark);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;}
     .clase-grupo-tit{font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:15px;color:var(--navy);letter-spacing:0.5px;}
+    /* ─── CONTENIDO INTEGRADO POR CLASE (Licitaciones) ─── */
+    .int-clase{border:1.5px solid var(--border);border-radius:12px;margin-bottom:16px;overflow:hidden;}
+    .int-clase-head{display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(141,198,63,0.07);cursor:pointer;transition:background .15s;}
+    .int-clase-head:hover{background:rgba(141,198,63,0.13);}
+    .int-clase-head.activa{background:rgba(141,198,63,0.18);}
+    .int-clase-num{flex-shrink:0;width:32px;height:32px;border-radius:8px;background:var(--green);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;}
+    .int-clase-tit{flex:1;font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:14px;color:var(--navy);}
+    .int-clase-play{flex-shrink:0;color:var(--green-dark);font-size:18px;}
+    .int-clase-body{padding:12px 16px;}
+    .int-clase-mats{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+    .int-mat-vacio{font-size:12px;color:var(--muted);font-style:italic;padding:4px 0;}
     .mat-empty{
       text-align:center;padding:30px 16px;color:var(--muted);
       background:var(--offwhite);border-radius:10px;font-size:14px;
@@ -513,6 +524,26 @@
       </div>
     </section>
 
+    <!-- CONTENIDO POR CLASE (integrado, solo Licitaciones) -->
+    <section class="section" id="integradoSection" style="display:none;">
+      <div class="section-head">
+        <span class="icon">📚</span>
+        <h2>Contenido del curso</h2>
+      </div>
+      <div class="player-wrap" id="playerWrapInt">
+        <div class="player-empty">
+          <span class="big">🎬</span>
+          <span class="txt">Elegí una clase para ver el video.</span>
+        </div>
+      </div>
+      <div class="grab-info" id="grabInfoInt" style="display:none;">
+        <div class="grab-info-num" id="grabInfoNumInt">Clase 1</div>
+        <div class="grab-info-tit" id="grabInfoTitInt">—</div>
+        <p class="grab-info-desc" id="grabInfoDescInt">—</p>
+      </div>
+      <div id="integradoContainer"></div>
+    </section>
+
     <!-- CLASES GRABADAS -->
     <section class="section" id="grabadasSection" style="display:none;">
       <div class="section-head">
@@ -726,8 +757,8 @@
       // Renderizar todo
       renderHero();
       renderInstructor();
-      renderGrabadas();
-      renderMateriales();
+      // TODOS los cursos usan el formato INTEGRADO (video + material juntos por clase).
+      renderIntegrado();
       renderCalendario();
 
       // Mostrar contenido y ocultar loading
@@ -775,6 +806,124 @@
       });
       // Abrir la primera automáticamente
       abrirGrabada(0);
+    }
+
+    // ── RENDER INTEGRADO (solo Licitaciones): video + material juntos por clase ──
+    function renderIntegrado(){
+      const sec = document.getElementById('integradoSection');
+      const cont = document.getElementById('integradoContainer');
+      sec.style.display = 'block';
+
+      const grabadas = (estado.grabadas || []).slice().sort((a,b) => (a.numero||0) - (b.numero||0));
+
+      if (!grabadas.length) {
+        cont.innerHTML = '<div class="mat-empty"><span class="emoji">🎬</span>Las clases aparecerán acá a medida que se publiquen.</div>';
+        return;
+      }
+
+      // Agrupar materiales por número de clase (prefijo "CLASE X ·")
+      const matsPorClase = {};
+      (estado.materiales || []).forEach(m => {
+        const match = (m.nombre || '').match(/CLASE\s*(\d+)\s*[·\-:]/i);
+        if (match) {
+          const num = parseInt(match[1]);
+          if (!matsPorClase[num]) matsPorClase[num] = [];
+          matsPorClase[num].push(m);
+        }
+      });
+
+      // Render de un material individual
+      const matHTML = (m) => {
+        const iconChar = obtenerIconoTipo(m.tipo);
+        const iconCls = m.tipo === 'video_url' ? 'video' : m.tipo;
+        const tamano = m.tamano_bytes ? formatearTamano(m.tamano_bytes) : '';
+        const esExterno = m.tipo === 'video_url' || m.tipo === 'enlace';
+        const btnTxt = esExterno ? '🔗 Abrir' : '⬇ Descargar';
+        const dataAttr = esExterno
+          ? `data-url="${escapar(m.url)}" data-externo="1"`
+          : `data-url="${escapar(m.url)}" data-id="${m.id}"`;
+        const nombreLimpio = (m.nombre || '').replace(/^CLASE\s*\d+\s*[·\-:]\s*/i, '');
+        return `
+          <div class="mat-item">
+            <div class="mat-icon ${iconCls}">${iconChar}</div>
+            <div class="mat-info">
+              <div class="mat-name">${escapar(nombreLimpio || m.nombre)}</div>
+              ${tamano ? `<div class="mat-meta">${escapar(tamano)}</div>` : ''}
+            </div>
+            <button class="mat-btn" ${dataAttr}>${btnTxt}</button>
+          </div>`;
+      };
+
+      // Construir un bloque por cada clase
+      cont.innerHTML = grabadas.map((c, i) => {
+        const num = c.numero || (i+1);
+        const mats = matsPorClase[num] || [];
+        const matsHTML = mats.length
+          ? `<div class="int-clase-mats">${mats.map(matHTML).join('')}</div>`
+          : '<div class="int-mat-vacio">Sin material adicional para esta clase.</div>';
+        return `
+          <div class="int-clase">
+            <div class="int-clase-head" data-idx="${i}">
+              <div class="int-clase-num">${num}</div>
+              <div class="int-clase-tit">${escapar(c.titulo || ('Clase ' + num))}</div>
+              <div class="int-clase-play">▶</div>
+            </div>
+            <div class="int-clase-body">
+              ${matsHTML}
+            </div>
+          </div>`;
+      }).join('');
+
+      // Materiales SIN prefijo de clase → bloque "Material general" al final
+      const matsSinClase = (estado.materiales || []).filter(m => !(m.nombre || '').match(/CLASE\s*\d+\s*[·\-:]/i));
+      if (matsSinClase.length) {
+        const bloqueGeneral = document.createElement('div');
+        bloqueGeneral.className = 'int-clase';
+        bloqueGeneral.innerHTML = `
+          <div class="int-clase-head" style="cursor:default;background:rgba(107,107,187,0.07);">
+            <div class="int-clase-num" style="background:var(--purple);">★</div>
+            <div class="int-clase-tit">Material de apoyo general</div>
+          </div>
+          <div class="int-clase-body">
+            <div class="int-clase-mats">${matsSinClase.map(matHTML).join('')}</div>
+          </div>`;
+        cont.appendChild(bloqueGeneral);
+      }
+
+      // Listeners: click en cabecera → reproducir esa clase arriba
+      cont.querySelectorAll('.int-clase-head[data-idx]').forEach(el => {
+        el.onclick = () => abrirGrabadaInt(parseInt(el.dataset.idx));
+      });
+      // Listeners de materiales
+      cont.querySelectorAll('.mat-btn').forEach(btn => {
+        btn.onclick = () => abrirMaterial(btn);
+      });
+
+      // Abrir la primera clase automáticamente
+      abrirGrabadaInt(0);
+    }
+
+    // Reproductor del formato integrado
+    function abrirGrabadaInt(idx){
+      const grabadas = (estado.grabadas || []).slice().sort((a,b) => (a.numero||0) - (b.numero||0));
+      const c = grabadas[idx];
+      if(!c) return;
+      const wrap = document.getElementById('playerWrapInt');
+      const src = vimeoSrc(c);
+      if(src){
+        wrap.innerHTML = '<iframe src="'+src+'" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';
+      } else {
+        wrap.innerHTML = '<div class="player-empty"><span class="big">🎬</span><span class="txt">El video de esta clase todavía no está disponible.</span></div>';
+      }
+      document.getElementById('grabInfoInt').style.display = 'block';
+      document.getElementById('grabInfoNumInt').textContent = 'Clase ' + (c.numero || (idx+1));
+      document.getElementById('grabInfoTitInt').textContent = c.titulo || '';
+      document.getElementById('grabInfoDescInt').textContent = c.descripcion || '';
+      document.querySelectorAll('.int-clase-head').forEach((el,i) => {
+        el.classList.toggle('activa', i === idx);
+      });
+      // Scroll al reproductor
+      document.getElementById('playerWrapInt').scrollIntoView({ behavior:'smooth', block:'start' });
     }
 
     function abrirGrabada(idx){
