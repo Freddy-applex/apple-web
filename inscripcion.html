@@ -291,6 +291,39 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 /* ═══ FOOTER ═══ */
 .ft{background:var(--navy-dark);color:#fff;padding:24px 5%;margin-top:40px;}
 .ft-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12px;opacity:.75;}
+
+/* ══ PAGO CON QR (Red Enlace) ══ */
+.pago-qr-card{background:#fff;border:2px solid var(--lime,#8DC63F);border-radius:16px;padding:22px;margin-bottom:18px;}
+.pago-qr-head{text-align:center;margin-bottom:18px;}
+.pago-qr-badge{display:inline-block;background:var(--lime,#8DC63F);color:var(--navy,#1A2744);font-weight:800;font-size:12px;padding:5px 14px;border-radius:20px;letter-spacing:.3px;margin-bottom:10px;}
+.pago-qr-tit{font-size:19px;font-weight:800;color:var(--navy,#1A2744);margin-bottom:6px;line-height:1.25;}
+.pago-qr-desc{font-size:14px;color:#555;line-height:1.5;}
+.pago-qr-btn{width:100%;background:var(--navy,#1A2744);color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s;}
+.pago-qr-btn:hover{background:#0E1A30;}
+.pago-qr-btn-alt{background:#888;}
+.pago-qr-btn-alt:hover{background:#666;}
+.pago-qr-loader{display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px;color:#555;font-size:15px;}
+.pago-qr-spin{width:40px;height:40px;border:4px solid #e5e7eb;border-top-color:var(--lime,#8DC63F);border-radius:50%;animation:qrspin .8s linear infinite;}
+.pago-qr-spin-sm{width:22px;height:22px;border-width:3px;}
+@keyframes qrspin{to{transform:rotate(360deg);}}
+.pago-qr-img-wrap{text-align:center;margin-bottom:14px;}
+.pago-qr-img{width:230px;height:230px;border:1px solid #e5e7eb;border-radius:12px;padding:8px;background:#fff;}
+.pago-qr-monto{text-align:center;font-size:17px;color:var(--navy,#1A2744);margin-bottom:10px;}
+.pago-qr-monto strong{font-size:22px;}
+.pago-qr-timer{text-align:center;background:#FEF3C7;color:#92400E;font-weight:700;font-size:14px;padding:8px 14px;border-radius:10px;display:inline-block;width:auto;margin:0 auto 16px;left:50%;position:relative;transform:translateX(-50%);}
+.pago-qr-waiting{display:flex;align-items:center;justify-content:center;gap:10px;color:#555;font-size:15px;margin-bottom:6px;}
+.pago-qr-hint{text-align:center;font-size:12px;color:#999;}
+.pago-qr-ok{text-align:center;padding:14px;}
+.pago-qr-ok-icon{font-size:48px;margin-bottom:8px;}
+.pago-qr-ok-tit{font-size:22px;font-weight:800;color:#15803D;margin-bottom:6px;}
+.pago-qr-ok-desc{font-size:14px;color:#555;margin-bottom:16px;line-height:1.5;}
+.pago-qr-ok-btn{display:inline-block;background:var(--lime,#8DC63F);color:var(--navy,#1A2744);font-weight:800;font-size:16px;padding:13px 28px;border-radius:12px;text-decoration:none;}
+.pago-qr-err{background:#FEE2E2;color:#991B1B;font-size:14px;padding:12px 16px;border-radius:10px;margin-bottom:12px;text-align:center;line-height:1.5;}
+.pago-o-separador{text-align:center;margin:18px 0;position:relative;}
+.pago-o-separador span{background:var(--bg,#F8FAFC);padding:0 14px;color:#999;font-size:13px;position:relative;z-index:1;}
+.pago-o-separador::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#e5e7eb;}
+@media(max-width:480px){.pago-qr-img{width:190px;height:190px;}.pago-qr-tit{font-size:17px;}}
+
 </style>
 </head>
 <body>
@@ -494,6 +527,62 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
         <div class="pago-confirm-tit">📋 Cuenta creada · Inscripción registrada</div>
         <div class="pago-confirm-desc">Tu cupo se confirma automáticamente cuando verificamos tu pago. Tenés 48 horas para realizar la transferencia. Después del pago, vas a poder acceder al aula virtual con tu email y contraseña.</div>
       </div>
+
+      <!-- ══ PAGO CON QR (Red Enlace) ══ -->
+      <div class="pago-qr-card" id="pago-qr-card">
+        <div class="pago-qr-head">
+          <span class="pago-qr-badge">⚡ Pago instantáneo</span>
+          <div class="pago-qr-tit">Pagá con QR y activá tu curso al instante</div>
+          <div class="pago-qr-desc">Escaneá el QR con la app de tu banco. Tu acceso se activa <strong>automáticamente</strong> al confirmarse el pago, sin esperar.</div>
+        </div>
+
+        <!-- Estado A: botón inicial -->
+        <div id="qr-estado-inicial">
+          <button type="button" class="pago-qr-btn" id="btn-generar-qr">
+            <span>📲</span> Generar QR de pago
+          </button>
+        </div>
+
+        <!-- Estado B: cargando -->
+        <div id="qr-estado-cargando" style="display:none;">
+          <div class="pago-qr-loader">
+            <div class="pago-qr-spin"></div>
+            <span>Generando tu QR seguro…</span>
+          </div>
+        </div>
+
+        <!-- Estado C: QR listo, esperando pago -->
+        <div id="qr-estado-listo" style="display:none;">
+          <div class="pago-qr-img-wrap">
+            <img id="qr-imagen" alt="Código QR de pago" class="pago-qr-img" />
+          </div>
+          <div class="pago-qr-monto">Monto: <strong id="qr-monto">Bs 0</strong></div>
+          <div class="pago-qr-timer" id="qr-timer">⏱️ El QR vence en 15:00</div>
+          <div class="pago-qr-waiting">
+            <div class="pago-qr-spin pago-qr-spin-sm"></div>
+            <span>Esperando confirmación del pago…</span>
+          </div>
+          <div class="pago-qr-hint">No cierres esta ventana. Se activará solo al pagar.</div>
+        </div>
+
+        <!-- Estado D: pago confirmado -->
+        <div id="qr-estado-exito" style="display:none;">
+          <div class="pago-qr-ok">
+            <div class="pago-qr-ok-icon">✅</div>
+            <div class="pago-qr-ok-tit">¡Pago confirmado!</div>
+            <div class="pago-qr-ok-desc">Tu curso ya está activo. Ya podés entrar al aula virtual.</div>
+            <a href="alumno/dashboard.html" class="pago-qr-ok-btn">Ir a mi curso →</a>
+          </div>
+        </div>
+
+        <!-- Estado E: error -->
+        <div id="qr-estado-error" style="display:none;">
+          <div class="pago-qr-err" id="qr-err-msg">No pudimos generar el QR. Probá de nuevo o usá WhatsApp.</div>
+          <button type="button" class="pago-qr-btn pago-qr-btn-alt" id="btn-reintentar-qr">Reintentar</button>
+        </div>
+      </div>
+
+      <div class="pago-o-separador"><span>o coordiná el pago manualmente</span></div>
 
       <div class="pago-wa-card">
         <div class="pago-wa-icon-big">💬</div>
@@ -1545,7 +1634,122 @@ document.addEventListener('DOMContentLoaded', function() {
   setupTogglesPassword();
   setupCarnetUpload();
   document.getElementById('form-inscripcion').addEventListener('submit', procesarInscripcion);
+  _qrWiring();
 });
+
+
+/* ════════════════════════════════════════════════════════════════
+   PAGO CON QR — Red Enlace (llama a Edge Functions)
+   ════════════════════════════════════════════════════════════════ */
+const QR_FUNCS_BASE = (typeof APPLENDE !== 'undefined' && APPLENDE.SUPABASE_URL)
+  ? APPLENDE.SUPABASE_URL + '/functions/v1'
+  : 'https://wdoqzsmwuvozhkclqbjk.supabase.co/functions/v1';
+
+let _qrPollTimer = null;
+let _qrCountdownTimer = null;
+
+function _qrMostrarEstado(id) {
+  ['inicial','cargando','listo','exito','error'].forEach(function(e){
+    var el = document.getElementById('qr-estado-' + e);
+    if (el) el.style.display = (e === id) ? 'block' : 'none';
+  });
+}
+
+async function generarQRPago() {
+  var pendienteId = (inscripcionCreada && inscripcionCreada.id) ? inscripcionCreada.id : null;
+  if (!pendienteId) {
+    document.getElementById('qr-err-msg').textContent =
+      'No encontramos tu inscripción. Recargá la página o usá WhatsApp.';
+    _qrMostrarEstado('error');
+    return;
+  }
+
+  _qrMostrarEstado('cargando');
+
+  try {
+    var resp = await fetch(QR_FUNCS_BASE + '/generar-qr', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': (typeof APPLENDE !== 'undefined' ? APPLENDE.SUPABASE_KEY : '')
+      },
+      body: JSON.stringify({ pendienteId: pendienteId })
+    });
+
+    var data = await resp.json();
+    if (!resp.ok || !data.ok) {
+      throw new Error(data.error || 'Error al generar QR');
+    }
+
+    // Mostrar el QR (imagen base64 de Red Enlace)
+    var img = document.getElementById('qr-imagen');
+    var src = String(data.imagen || '');
+    img.src = src.startsWith('data:') ? src : ('data:image/png;base64,' + src);
+
+    document.getElementById('qr-monto').textContent =
+      (data.moneda || 'Bs') + ' ' + Math.round(Number(data.monto || 0));
+
+    _qrMostrarEstado('listo');
+    _qrIniciarCuentaRegresiva(15 * 60);   // 15 min visual
+    _qrIniciarPolling(pendienteId);
+
+  } catch (err) {
+    console.error('[QR] Error:', err);
+    document.getElementById('qr-err-msg').textContent =
+      'No pudimos generar el QR en este momento. Probá de nuevo o coordiná por WhatsApp.';
+    _qrMostrarEstado('error');
+  }
+}
+
+function _qrIniciarCuentaRegresiva(segundos) {
+  clearInterval(_qrCountdownTimer);
+  var restante = segundos;
+  var el = document.getElementById('qr-timer');
+  function tick() {
+    var m = Math.floor(restante / 60);
+    var s = restante % 60;
+    el.textContent = '⏱️ El QR vence en ' + m + ':' + (s < 10 ? '0' : '') + s;
+    if (restante <= 0) {
+      clearInterval(_qrCountdownTimer);
+      el.textContent = '⌛ El QR venció. Generá uno nuevo.';
+    }
+    restante--;
+  }
+  tick();
+  _qrCountdownTimer = setInterval(tick, 1000);
+}
+
+function _qrIniciarPolling(pendienteId) {
+  clearInterval(_qrPollTimer);
+  _qrPollTimer = setInterval(async function() {
+    try {
+      var resp = await fetch(QR_FUNCS_BASE + '/verificar-pago', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': (typeof APPLENDE !== 'undefined' ? APPLENDE.SUPABASE_KEY : '')
+        },
+        body: JSON.stringify({ pendienteId: pendienteId })
+      });
+      var data = await resp.json();
+      if (data.listo) {
+        clearInterval(_qrPollTimer);
+        clearInterval(_qrCountdownTimer);
+        _qrMostrarEstado('exito');
+      }
+    } catch (e) {
+      // silencioso: el polling reintenta solo
+    }
+  }, 5000);  // cada 5 segundos
+}
+
+function _qrWiring() {
+  var btnGen = document.getElementById('btn-generar-qr');
+  var btnRe  = document.getElementById('btn-reintentar-qr');
+  if (btnGen) btnGen.addEventListener('click', generarQRPago);
+  if (btnRe)  btnRe.addEventListener('click', generarQRPago);
+}
+
 </script>
 
 </body>
