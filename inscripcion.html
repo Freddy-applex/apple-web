@@ -332,6 +332,9 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 .pago-wa-btn-comprobante{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#fff;color:#25D366;border:2px solid #25D366;border-radius:12px;padding:13px;font-size:15px;font-weight:700;text-decoration:none;margin-top:10px;box-sizing:border-box;}
 .pago-wa-btn-comprobante:hover{background:rgba(37,211,102,0.08);}
 
+
+.pago-wa-opcion{margin-top:14px;}
+.pago-wa-sub{font-size:12px;color:#6B7A90;line-height:1.5;text-align:center;margin-top:6px;padding:0 8px;}
 </style>
 </head>
 <body>
@@ -607,19 +610,19 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
           </div>
         </div>
 
-        <div class="pago-wa-pasos">
-          <div class="pago-wa-paso"><span class="pago-wa-num">1</span> Escribinos por WhatsApp y te enviamos los datos de pago.</div>
-          <div class="pago-wa-paso"><span class="pago-wa-num">2</span> Realizá el pago por el medio que prefieras.</div>
-          <div class="pago-wa-paso"><span class="pago-wa-num">3</span> Envianos el comprobante por el mismo chat y activamos tu acceso.</div>
+        <div class="pago-wa-opcion">
+          <a href="#" class="pago-wa-btn-big" id="btn-whatsapp-pago" target="_blank">
+            <span>💬</span> Coordinar pago por WhatsApp
+          </a>
+          <div class="pago-wa-sub">¿Tenés dudas o querés otro medio de pago? Escribinos y te pasamos los datos.</div>
         </div>
 
-        <a href="#" class="pago-wa-btn-big" id="btn-whatsapp-pago" target="_blank">
-          <span>💬</span> Escribir por WhatsApp
-        </a>
-
-        <a href="#" class="pago-wa-btn-comprobante" id="btn-whatsapp" target="_blank">
-          <span>📎</span> Ya pagué · Enviar comprobante
-        </a>
+        <div class="pago-wa-opcion">
+          <a href="#" class="pago-wa-btn-comprobante" id="btn-whatsapp" target="_blank">
+            <span>📎</span> Ya pagué · Enviar comprobante
+          </a>
+          <div class="pago-wa-sub">Si ya realizaste el pago, mandanos el comprobante para activar tu acceso al curso.</div>
+        </div>
 
         <div class="pago-horarios" style="margin-top:16px;">
           <div class="pago-horario-item">
