@@ -324,6 +324,14 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 .pago-o-separador::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#e5e7eb;}
 @media(max-width:480px){.pago-qr-img{width:190px;height:190px;}.pago-qr-tit{font-size:17px;}}
 
+
+/* Pasos del flujo WhatsApp unificado */
+.pago-wa-pasos{margin:16px 0;text-align:left;}
+.pago-wa-paso{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:#1A2744;line-height:1.5;margin-bottom:10px;}
+.pago-wa-num{flex-shrink:0;width:22px;height:22px;background:var(--lime,#8DC63F);color:var(--navy,#1A2744);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;}
+.pago-wa-btn-comprobante{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#fff;color:#25D366;border:2px solid #25D366;border-radius:12px;padding:13px;font-size:15px;font-weight:700;text-decoration:none;margin-top:10px;box-sizing:border-box;}
+.pago-wa-btn-comprobante:hover{background:rgba(37,211,102,0.08);}
+
 </style>
 </head>
 <body>
@@ -586,10 +594,34 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 
       <div class="pago-wa-card">
         <div class="pago-wa-icon-big">💬</div>
-        <div class="pago-wa-card-tit">Pagá vía WhatsApp</div>
-        <div class="pago-wa-card-desc">Para reservar tu cupo, escribinos por WhatsApp y te enviamos los datos de pago de forma segura. <span class="hl-monto">Monto a pagar: <strong id="pago-monto-card">Bs 200</strong></span></div>
-        
-        <div class="pago-horarios">
+        <div class="pago-wa-card-tit">Coordiná tu pago por WhatsApp</div>
+        <div class="pago-wa-card-desc">Si preferís pagar por transferencia, QR del banco, Tigo Money o efectivo, escribinos por WhatsApp. <span class="hl-monto">Monto a pagar: <strong id="pago-monto-card">Bs 200</strong></span></div>
+
+        <div class="pago-medios-info">
+          <div class="pago-medios-info-tit">Métodos de pago disponibles</div>
+          <div class="pago-medios-list">
+            <span class="pago-medio-pill">📱 QR Banco Unión</span>
+            <span class="pago-medio-pill">🏦 Transferencia bancaria</span>
+            <span class="pago-medio-pill">💰 Tigo Money</span>
+            <span class="pago-medio-pill">💵 Efectivo (Santa Cruz)</span>
+          </div>
+        </div>
+
+        <div class="pago-wa-pasos">
+          <div class="pago-wa-paso"><span class="pago-wa-num">1</span> Escribinos por WhatsApp y te enviamos los datos de pago.</div>
+          <div class="pago-wa-paso"><span class="pago-wa-num">2</span> Realizá el pago por el medio que prefieras.</div>
+          <div class="pago-wa-paso"><span class="pago-wa-num">3</span> Envianos el comprobante por el mismo chat y activamos tu acceso.</div>
+        </div>
+
+        <a href="#" class="pago-wa-btn-big" id="btn-whatsapp-pago" target="_blank">
+          <span>💬</span> Escribir por WhatsApp
+        </a>
+
+        <a href="#" class="pago-wa-btn-comprobante" id="btn-whatsapp" target="_blank">
+          <span>📎</span> Ya pagué · Enviar comprobante
+        </a>
+
+        <div class="pago-horarios" style="margin-top:16px;">
           <div class="pago-horario-item">
             <span class="pago-horario-icon">📱</span>
             <div class="pago-horario-texto">
@@ -605,34 +637,6 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
             </div>
           </div>
         </div>
-
-        <a href="#" class="pago-wa-btn-big" id="btn-whatsapp-pago" target="_blank">
-          <span>💬</span> Coordinar pago por WhatsApp
-        </a>
-
-        <div class="pago-medios-info">
-          <div class="pago-medios-info-tit">Métodos de pago disponibles</div>
-          <div class="pago-medios-list">
-            <span class="pago-medio-pill">📱 QR Banco Unión</span>
-            <span class="pago-medio-pill">🏦 Transferencia bancaria</span>
-            <span class="pago-medio-pill">💰 Tigo Money</span>
-            <span class="pago-medio-pill">💵 Efectivo (Santa Cruz)</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="pago-separator">
-        <div class="pago-sep-line"></div>
-        <div class="pago-sep-txt">Después de pagar</div>
-        <div class="pago-sep-line"></div>
-      </div>
-
-      <div class="pago-wa-block">
-        <div class="pago-wa-tit">📱 Enviá tu comprobante por WhatsApp</div>
-        <div class="pago-wa-desc">Una vez realizado el pago, envianos el comprobante para activar tu acceso al curso. Te respondemos en menos de 2 horas en horario laboral.</div>
-        <a href="#" class="pago-wa-btn" id="btn-whatsapp" target="_blank">
-          <span>💬</span> Enviar comprobante por WhatsApp
-        </a>
       </div>
 
       <a href="cursos.html" class="pago-back">← Volver al catálogo de cursos</a>
