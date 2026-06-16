@@ -295,10 +295,13 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 /* ══ PAGO CON QR (Red Enlace) ══ */
 
 /* ══ PAGO · diseño limpio APPLENDE ══ */
-.pago-qr-card{background:#fff;border:1.5px solid var(--green);border-radius:18px;padding:24px 22px;margin-bottom:20px;box-shadow:0 6px 24px rgba(141,198,63,.10);}
+.pago-qr-card{background:#fff;border:2.5px solid var(--green);border-radius:18px;padding:0;margin-bottom:20px;box-shadow:0 8px 28px rgba(141,198,63,.18);overflow:hidden;}
+.pago-qr-franja{background:var(--green);color:var(--navy);text-align:center;padding:10px;font-weight:800;font-size:12px;letter-spacing:.6px;text-transform:uppercase;}
+.pago-qr-body{padding:24px 22px;}
+.pago-qr-seguro{text-align:center;margin-top:12px;font-size:12px;color:#8a96a6;}
 .pago-qr-head{text-align:center;margin-bottom:20px;}
 .pago-qr-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green);color:var(--navy);font-weight:800;font-size:11.5px;padding:6px 14px;border-radius:30px;letter-spacing:.4px;margin-bottom:12px;text-transform:uppercase;}
-.pago-qr-tit{font-family:'Josefin Sans',sans-serif;font-size:21px;font-weight:700;color:var(--navy);margin-bottom:7px;line-height:1.2;}
+.pago-qr-tit{font-family:'Josefin Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);margin-bottom:8px;line-height:1.2;}
 .pago-qr-desc{font-size:13.5px;color:var(--muted);line-height:1.55;max-width:360px;margin:0 auto;}
 .pago-qr-btn{width:100%;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:17px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:transform .15s,background .2s;}
 .pago-qr-btn:hover{background:var(--navy-dark);transform:translateY(-1px);}
@@ -350,6 +353,8 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 
 .pago-alt-ico-wa{background:rgba(37,211,102,.12)!important;}
 .pago-alt-ico-wa svg{display:block;}
+.pago-alt-ico-check{position:relative;}
+.pago-alt-checkbadge{position:absolute;bottom:-2px;right:-2px;width:18px;height:18px;background:var(--green);color:var(--navy);border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;}
 </style>
 </head>
 <body>
@@ -556,10 +561,11 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 
       <!-- ══ PAGO CON QR (Red Enlace) ══ -->
       <div class="pago-qr-card" id="pago-qr-card">
+        <div class="pago-qr-franja">⚡ Recomendado · Activación al instante</div>
+        <div class="pago-qr-body">
         <div class="pago-qr-head">
-          <span class="pago-qr-badge">⚡ Pago instantáneo</span>
-          <div class="pago-qr-tit">Pagá con QR y activá tu curso al instante</div>
-          <div class="pago-qr-desc">Escaneá el QR con la app de tu banco. Tu acceso se activa <strong>automáticamente</strong> al confirmarse el pago, sin esperar.</div>
+          <div class="pago-qr-tit">Pagá con QR y entrá al curso ya</div>
+          <div class="pago-qr-desc">Escaneá con la app de cualquier banco. Tu acceso se activa <strong>solo</strong>, sin esperar verificación.</div>
         </div>
 
         <!-- Estado A: botón inicial -->
@@ -567,6 +573,7 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
           <button type="button" class="pago-qr-btn" id="btn-generar-qr">
             <span>📲</span> Generar QR de pago
           </button>
+          <div class="pago-qr-seguro">🔒 Pago seguro · Procesado por Red Enlace</div>
         </div>
 
         <!-- Estado B: cargando -->
@@ -606,6 +613,7 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
           <div class="pago-qr-err" id="qr-err-msg">No pudimos generar el QR. Probá de nuevo o usá WhatsApp.</div>
           <button type="button" class="pago-qr-btn pago-qr-btn-alt" id="btn-reintentar-qr">Reintentar</button>
         </div>
+        </div>
       </div>
 
       <div class="pago-alt-sep"><span>o si preferís otro medio de pago</span></div>
@@ -615,16 +623,16 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
           <span class="pago-alt-ico pago-alt-ico-wa"><svg viewBox="0 0 24 24" width="24" height="24" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24.044 12.045.044 5.463.044.104 5.403.101 11.986c0 2.096.549 4.14 1.595 5.945L0 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.582 0 11.94-5.359 11.944-11.945a11.864 11.864 0 00-3.477-8.401"/></svg></span>
           <span class="pago-alt-txt">
             <strong>Coordinar pago por WhatsApp</strong>
-            <small>Transferencia, Tigo Money o efectivo. Te pasamos los datos.</small>
+            <small>QR Simple, Transferencia, Tigo Money o efectivo.</small>
           </span>
           <span class="pago-alt-arrow">›</span>
         </a>
 
         <a href="#" class="pago-alt-opt" id="btn-whatsapp" target="_blank">
-          <span class="pago-alt-ico">✅</span>
+          <span class="pago-alt-ico pago-alt-ico-wa pago-alt-ico-check"><svg viewBox="0 0 24 24" width="24" height="24" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24.044 12.045.044 5.463.044.104 5.403.101 11.986c0 2.096.549 4.14 1.595 5.945L0 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.582 0 11.94-5.359 11.944-11.945a11.864 11.864 0 00-3.477-8.401"/></svg><span class="pago-alt-checkbadge">✓</span></span>
           <span class="pago-alt-txt">
             <strong>Ya pagué · Enviar comprobante</strong>
-            <small>Mandá tu comprobante y activamos tu acceso.</small>
+            <small>Mandá tu comprobante por WhatsApp y activamos tu acceso.</small>
           </span>
           <span class="pago-alt-arrow">›</span>
         </a>
@@ -632,7 +640,7 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
         <div class="pago-alt-medios">
           <span class="pago-alt-monto">Monto: <strong id="pago-monto-card">Bs 200</strong></span>
           <div class="pago-alt-pills">
-            <span class="pago-alt-pill">QR Banco Unión</span>
+            <span class="pago-alt-pill">QR Simple (todos los bancos)</span>
             <span class="pago-alt-pill">Transferencia</span>
             <span class="pago-alt-pill">Tigo Money</span>
             <span class="pago-alt-pill">Efectivo</span>
