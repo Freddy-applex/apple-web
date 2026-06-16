@@ -293,48 +293,63 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 .ft-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12px;opacity:.75;}
 
 /* ══ PAGO CON QR (Red Enlace) ══ */
-.pago-qr-card{background:#fff;border:2px solid var(--lime,#8DC63F);border-radius:16px;padding:22px;margin-bottom:18px;}
-.pago-qr-head{text-align:center;margin-bottom:18px;}
-.pago-qr-badge{display:inline-block;background:var(--lime,#8DC63F);color:var(--navy,#1A2744);font-weight:800;font-size:12px;padding:5px 14px;border-radius:20px;letter-spacing:.3px;margin-bottom:10px;}
-.pago-qr-tit{font-size:19px;font-weight:800;color:var(--navy,#1A2744);margin-bottom:6px;line-height:1.25;}
-.pago-qr-desc{font-size:14px;color:#555;line-height:1.5;}
-.pago-qr-btn{width:100%;background:var(--navy,#1A2744);color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s;}
-.pago-qr-btn:hover{background:#0E1A30;}
-.pago-qr-btn-alt{background:#888;}
-.pago-qr-btn-alt:hover{background:#666;}
-.pago-qr-loader{display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px;color:#555;font-size:15px;}
-.pago-qr-spin{width:40px;height:40px;border:4px solid #e5e7eb;border-top-color:var(--lime,#8DC63F);border-radius:50%;animation:qrspin .8s linear infinite;}
-.pago-qr-spin-sm{width:22px;height:22px;border-width:3px;}
+
+/* ══ PAGO · diseño limpio APPLENDE ══ */
+.pago-qr-card{background:#fff;border:1.5px solid var(--green);border-radius:18px;padding:24px 22px;margin-bottom:20px;box-shadow:0 6px 24px rgba(141,198,63,.10);}
+.pago-qr-head{text-align:center;margin-bottom:20px;}
+.pago-qr-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green);color:var(--navy);font-weight:800;font-size:11.5px;padding:6px 14px;border-radius:30px;letter-spacing:.4px;margin-bottom:12px;text-transform:uppercase;}
+.pago-qr-tit{font-family:'Josefin Sans',sans-serif;font-size:21px;font-weight:700;color:var(--navy);margin-bottom:7px;line-height:1.2;}
+.pago-qr-desc{font-size:13.5px;color:var(--muted);line-height:1.55;max-width:360px;margin:0 auto;}
+.pago-qr-btn{width:100%;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:17px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:transform .15s,background .2s;}
+.pago-qr-btn:hover{background:var(--navy-dark);transform:translateY(-1px);}
+.pago-qr-btn-alt{background:#94a3b8;}
+.pago-qr-btn-alt:hover{background:#64748b;}
+.pago-qr-loader{display:flex;flex-direction:column;align-items:center;gap:14px;padding:28px;color:var(--muted);font-size:14px;}
+.pago-qr-spin{width:38px;height:38px;border:4px solid #eef0f3;border-top-color:var(--green);border-radius:50%;animation:qrspin .8s linear infinite;}
+.pago-qr-spin-sm{width:20px;height:20px;border-width:3px;}
 @keyframes qrspin{to{transform:rotate(360deg);}}
-.pago-qr-img-wrap{text-align:center;margin-bottom:14px;}
-.pago-qr-img{width:230px;height:230px;border:1px solid #e5e7eb;border-radius:12px;padding:8px;background:#fff;}
-.pago-qr-monto{text-align:center;font-size:17px;color:var(--navy,#1A2744);margin-bottom:10px;}
-.pago-qr-monto strong{font-size:22px;}
-.pago-qr-timer{text-align:center;background:#FEF3C7;color:#92400E;font-weight:700;font-size:14px;padding:8px 14px;border-radius:10px;display:inline-block;width:auto;margin:0 auto 16px;left:50%;position:relative;transform:translateX(-50%);}
-.pago-qr-waiting{display:flex;align-items:center;justify-content:center;gap:10px;color:#555;font-size:15px;margin-bottom:6px;}
-.pago-qr-hint{text-align:center;font-size:12px;color:#999;}
-.pago-qr-ok{text-align:center;padding:14px;}
-.pago-qr-ok-icon{font-size:48px;margin-bottom:8px;}
-.pago-qr-ok-tit{font-size:22px;font-weight:800;color:#15803D;margin-bottom:6px;}
-.pago-qr-ok-desc{font-size:14px;color:#555;margin-bottom:16px;line-height:1.5;}
-.pago-qr-ok-btn{display:inline-block;background:var(--lime,#8DC63F);color:var(--navy,#1A2744);font-weight:800;font-size:16px;padding:13px 28px;border-radius:12px;text-decoration:none;}
-.pago-qr-err{background:#FEE2E2;color:#991B1B;font-size:14px;padding:12px 16px;border-radius:10px;margin-bottom:12px;text-align:center;line-height:1.5;}
-.pago-o-separador{text-align:center;margin:18px 0;position:relative;}
-.pago-o-separador span{background:var(--bg,#F8FAFC);padding:0 14px;color:#999;font-size:13px;position:relative;z-index:1;}
-.pago-o-separador::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#e5e7eb;}
-@media(max-width:480px){.pago-qr-img{width:190px;height:190px;}.pago-qr-tit{font-size:17px;}}
+.pago-qr-img-wrap{text-align:center;margin-bottom:16px;}
+.pago-qr-img{width:230px;height:230px;border:1px solid var(--border);border-radius:14px;padding:10px;background:#fff;}
+.pago-qr-monto{text-align:center;font-size:15px;color:var(--muted);margin-bottom:12px;}
+.pago-qr-monto strong{font-family:'Josefin Sans',sans-serif;font-size:26px;color:var(--navy);display:block;margin-top:2px;}
+.pago-qr-timer{text-align:center;background:#FEF3C7;color:#92400E;font-weight:700;font-size:13.5px;padding:8px 16px;border-radius:30px;display:table;margin:0 auto 16px;}
+.pago-qr-waiting{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--muted);font-size:14px;margin-bottom:6px;}
+.pago-qr-hint{text-align:center;font-size:12px;color:#aab2bd;}
+.pago-qr-ok{text-align:center;padding:16px;}
+.pago-qr-ok-icon{font-size:50px;margin-bottom:10px;}
+.pago-qr-ok-tit{font-family:'Josefin Sans',sans-serif;font-size:23px;font-weight:700;color:#15803D;margin-bottom:7px;}
+.pago-qr-ok-desc{font-size:14px;color:var(--muted);margin-bottom:18px;line-height:1.5;}
+.pago-qr-ok-btn{display:inline-block;background:var(--green);color:var(--navy);font-weight:800;font-size:16px;padding:14px 30px;border-radius:13px;text-decoration:none;transition:transform .15s;}
+.pago-qr-ok-btn:hover{transform:translateY(-1px);}
+.pago-qr-err{background:#FEE2E2;color:#991B1B;font-size:14px;padding:12px 16px;border-radius:12px;margin-bottom:12px;text-align:center;line-height:1.5;}
 
+/* Separador alternativo */
+.pago-alt-sep{text-align:center;margin:22px 0 16px;position:relative;}
+.pago-alt-sep span{background:var(--offwhite);padding:0 14px;color:#aab2bd;font-size:12.5px;position:relative;z-index:1;}
+.pago-alt-sep::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border);}
 
-/* Pasos del flujo WhatsApp unificado */
-.pago-wa-pasos{margin:16px 0;text-align:left;}
-.pago-wa-paso{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:#1A2744;line-height:1.5;margin-bottom:10px;}
-.pago-wa-num{flex-shrink:0;width:22px;height:22px;background:var(--lime,#8DC63F);color:var(--navy,#1A2744);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;}
-.pago-wa-btn-comprobante{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#fff;color:#25D366;border:2px solid #25D366;border-radius:12px;padding:13px;font-size:15px;font-weight:700;text-decoration:none;margin-top:10px;box-sizing:border-box;}
-.pago-wa-btn-comprobante:hover{background:rgba(37,211,102,0.08);}
+/* Opciones alternativas — filas limpias tipo lista */
+.pago-alt{display:flex;flex-direction:column;gap:10px;}
+.pago-alt-opt{display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:15px 16px;text-decoration:none;transition:border-color .2s,transform .15s,box-shadow .2s;}
+.pago-alt-opt:hover{border-color:var(--green);transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.06);}
+.pago-alt-ico{font-size:24px;flex-shrink:0;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--offwhite);border-radius:11px;}
+.pago-alt-txt{flex:1;display:flex;flex-direction:column;gap:2px;}
+.pago-alt-txt strong{font-size:14.5px;color:var(--navy);font-weight:700;}
+.pago-alt-txt small{font-size:12px;color:var(--muted);line-height:1.4;}
+.pago-alt-arrow{font-size:22px;color:#cbd2db;font-weight:700;flex-shrink:0;}
+.pago-alt-opt:hover .pago-alt-arrow{color:var(--green);}
 
+/* Monto + medios disponibles */
+.pago-alt-medios{margin-top:14px;text-align:center;padding-top:16px;border-top:1px solid var(--border);}
+.pago-alt-monto{font-size:13px;color:var(--muted);display:block;margin-bottom:10px;}
+.pago-alt-monto strong{font-family:'Josefin Sans',sans-serif;font-size:18px;color:var(--navy);}
+.pago-alt-pills{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+.pago-alt-pill{font-size:11.5px;color:var(--muted);background:var(--offwhite);border:1px solid var(--border);padding:5px 11px;border-radius:30px;}
 
-.pago-wa-opcion{margin-top:14px;}
-.pago-wa-sub{font-size:12px;color:#6B7A90;line-height:1.5;text-align:center;margin-top:6px;padding:0 8px;}
+@media(max-width:480px){.pago-qr-img{width:200px;height:200px;}.pago-qr-tit{font-size:19px;}.pago-alt-txt strong{font-size:13.5px;}}
+
+.pago-alt-ico-wa{background:rgba(37,211,102,.12)!important;}
+.pago-alt-ico-wa svg{display:block;}
 </style>
 </head>
 <body>
@@ -593,51 +608,34 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
         </div>
       </div>
 
-      <div class="pago-o-separador"><span>o coordiná el pago manualmente</span></div>
+      <div class="pago-alt-sep"><span>o si preferís otro medio de pago</span></div>
 
-      <div class="pago-wa-card">
-        <div class="pago-wa-icon-big">💬</div>
-        <div class="pago-wa-card-tit">Coordiná tu pago por WhatsApp</div>
-        <div class="pago-wa-card-desc">Si preferís pagar por transferencia, QR del banco, Tigo Money o efectivo, escribinos por WhatsApp. <span class="hl-monto">Monto a pagar: <strong id="pago-monto-card">Bs 200</strong></span></div>
+      <div class="pago-alt">
+        <a href="#" class="pago-alt-opt" id="btn-whatsapp-pago" target="_blank">
+          <span class="pago-alt-ico pago-alt-ico-wa"><svg viewBox="0 0 24 24" width="24" height="24" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24.044 12.045.044 5.463.044.104 5.403.101 11.986c0 2.096.549 4.14 1.595 5.945L0 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.582 0 11.94-5.359 11.944-11.945a11.864 11.864 0 00-3.477-8.401"/></svg></span>
+          <span class="pago-alt-txt">
+            <strong>Coordinar pago por WhatsApp</strong>
+            <small>Transferencia, Tigo Money o efectivo. Te pasamos los datos.</small>
+          </span>
+          <span class="pago-alt-arrow">›</span>
+        </a>
 
-        <div class="pago-medios-info">
-          <div class="pago-medios-info-tit">Métodos de pago disponibles</div>
-          <div class="pago-medios-list">
-            <span class="pago-medio-pill">📱 QR Banco Unión</span>
-            <span class="pago-medio-pill">🏦 Transferencia bancaria</span>
-            <span class="pago-medio-pill">💰 Tigo Money</span>
-            <span class="pago-medio-pill">💵 Efectivo (Santa Cruz)</span>
-          </div>
-        </div>
+        <a href="#" class="pago-alt-opt" id="btn-whatsapp" target="_blank">
+          <span class="pago-alt-ico">✅</span>
+          <span class="pago-alt-txt">
+            <strong>Ya pagué · Enviar comprobante</strong>
+            <small>Mandá tu comprobante y activamos tu acceso.</small>
+          </span>
+          <span class="pago-alt-arrow">›</span>
+        </a>
 
-        <div class="pago-wa-opcion">
-          <a href="#" class="pago-wa-btn-big" id="btn-whatsapp-pago" target="_blank">
-            <span>💬</span> Coordinar pago por WhatsApp
-          </a>
-          <div class="pago-wa-sub">¿Tenés dudas o querés otro medio de pago? Escribinos y te pasamos los datos.</div>
-        </div>
-
-        <div class="pago-wa-opcion">
-          <a href="#" class="pago-wa-btn-comprobante" id="btn-whatsapp" target="_blank">
-            <span>📎</span> Ya pagué · Enviar comprobante
-          </a>
-          <div class="pago-wa-sub">Si ya realizaste el pago, mandanos el comprobante para activar tu acceso al curso.</div>
-        </div>
-
-        <div class="pago-horarios" style="margin-top:16px;">
-          <div class="pago-horario-item">
-            <span class="pago-horario-icon">📱</span>
-            <div class="pago-horario-texto">
-              <strong>WhatsApp 24/7</strong>
-              <small>Respondemos cualquier hora del día</small>
-            </div>
-          </div>
-          <div class="pago-horario-item">
-            <span class="pago-horario-icon">🏛️</span>
-            <div class="pago-horario-texto">
-              <strong>Atención presencial</strong>
-              <small>Lunes a sábado · 8:00 — 22:00 hs</small>
-            </div>
+        <div class="pago-alt-medios">
+          <span class="pago-alt-monto">Monto: <strong id="pago-monto-card">Bs 200</strong></span>
+          <div class="pago-alt-pills">
+            <span class="pago-alt-pill">QR Banco Unión</span>
+            <span class="pago-alt-pill">Transferencia</span>
+            <span class="pago-alt-pill">Tigo Money</span>
+            <span class="pago-alt-pill">Efectivo</span>
           </div>
         </div>
       </div>
