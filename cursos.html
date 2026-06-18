@@ -142,6 +142,11 @@
 .curso-badge-vivo-auto{position:absolute;top:10px;right:10px;left:auto;}
 .curso-badges-stack{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:6px;z-index:2;align-items:flex-start;}
 .curso-badges-stack .curso-badge{position:static;}
+/* ═══ CINTA DIAGONAL "YA INICIADO" (curso en vivo cuya fecha ya pasó) ═══ */
+.curso-iniciado-wrap{position:absolute;top:0;right:0;width:150px;height:150px;overflow:hidden;z-index:3;pointer-events:none;}
+.curso-iniciado-cinta{position:absolute;top:26px;right:-42px;transform:rotate(45deg);background:linear-gradient(135deg,#dc2626,#b01818);color:#fff;font-size:11px;font-weight:800;letter-spacing:.6px;text-align:center;width:190px;padding:7px 0;box-shadow:0 3px 10px rgba(0,0,0,.35);text-transform:uppercase;border-top:1px solid rgba(255,255,255,.25);border-bottom:1px solid rgba(0,0,0,.2);}
+.curso-iniciado-cinta .ci-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#fff;margin-right:5px;vertical-align:middle;animation:pulse-vivo 1.5s infinite;}
+
 .bd-best{background:#ecb613;color:#fff;}
 .bd-new{background:var(--green);color:var(--navy);}
 .bd-prox{background:var(--purple);color:#fff;}
@@ -849,6 +854,20 @@ function urlCurso(slug) {
   return `curso-detalle.html?slug=${slug}`;
 }
 
+function cursoYaIniciado(curso) {
+  // Cinta "YA INICIADO": solo cursos en vivo cuya fecha de inicio ya pasó.
+  if (curso.modalidad !== 'en_vivo') return false;
+  if (!curso.cohorte_proxima_fecha) return false;
+  const inicio = new Date(curso.cohorte_proxima_fecha);
+  if (isNaN(inicio.getTime())) return false;
+  return inicio.getTime() <= Date.now();
+}
+
+function cintaIniciadoHTML(curso) {
+  if (!cursoYaIniciado(curso)) return '';
+  return '<div class="curso-iniciado-wrap"><div class="curso-iniciado-cinta"><span class="ci-dot"></span>EN VIVO · YA INICIADO</div></div>';
+}
+
 function cardCursoHTML(curso) {
   const precioFmt = APPLENDE_UI.formatearPrecio(curso.precio_bs, curso.precio_original_bs);
   const stars = APPLENDE_UI.estrellasRating(curso.rating_promedio);
@@ -887,6 +906,7 @@ function cardCursoHTML(curso) {
       <div class="curso-thumb">
         <div class="curso-thumb-inner" style="background-image:url('${imagen}')"></div>
         ${grabadoProximamente ? '<span class="curso-badge bd-prox">🔒 PRÓXIMAMENTE</span>' : badgeHTML(curso.badge, esVivo)}
+        ${cintaIniciadoHTML(curso)}
         <span class="curso-nivel">${curso.nivel || 'Básico'}</span>
       </div>
       <div class="curso-body">
