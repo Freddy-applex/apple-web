@@ -24,8 +24,8 @@ a{text-decoration:none;color:inherit;}
 .nav{position:sticky;top:0;z-index:200;background:var(--navy);height:68px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.3);}
 /* logo usa nav-logo-svg con style inline */
 .nav-links{display:flex;align-items:center;gap:10px;}
-.nav-link{color:rgba(255,255,255,0.7);font-size:13px;font-weight:600;padding:7px 6px;border:none;border-bottom:2px solid transparent;transition:all .2s;}
-.nav-link:hover{color:#fff;border-bottom-color:var(--green);}
+.nav-link{color:rgba(255,255,255,.72);font-size:13px;font-weight:500;padding:8px 14px;border-radius:0;border:none;background:transparent;transition:all .2s;white-space:nowrap;position:relative;}.nav-link::after{content:'';position:absolute;bottom:0;left:14px;right:14px;height:2px;background:var(--green);transform:scaleX(0);transition:transform .2s;}.nav-link:hover::after{transform:scaleX(1);}
+.nav-link:hover{color:#fff;}
 .nav-btn{background:var(--green);color:var(--navy);padding:9px 20px;border-radius:20px;font-weight:800;font-size:13px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;text-decoration:none;}
 .nav-btn:hover{background:#9ed648;}
 
