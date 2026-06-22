@@ -851,6 +851,7 @@ function urlCurso(slug) {
   if (s.includes('poa'))          return 'curso-poa.html';
   if (s.includes('licitacion'))   return 'curso-licitacion-obras.html';
   if (s.includes('vivienda'))     return 'curso-vivienda.html';
+  if (s.includes('legislativa'))  return 'curso-asesoria-legislativa.html';
   // Modelación y cualquier otro curso usan el template (estático para Modelación)
   return `curso-detalle.html?slug=${slug}`;
 }
