@@ -833,7 +833,7 @@ function cohorteInfoHTML(curso) {
   const cuposTot = curso.cohorte_proxima_cupos_totales || 0;
   return `
     <div class="curso-cohorte-info">
-      <div class="cci-fecha">📅 ${fechaFmt ? 'Inicia ' + fechaFmt.completo : 'Junio 2026 · Cupos limitados'}</div>
+      <div class="cci-fecha">📅 ${fechaFmt ? 'Inicia ' + fechaFmt.completo : 'Fecha de inicio por confirmar'}</div>
       <div class="cci-cupos">⚡ ${cuposDisp} de ${cuposTot} cupos disponibles</div>
     </div>
   `;
