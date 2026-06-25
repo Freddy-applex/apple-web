@@ -1517,8 +1517,24 @@ async function procesarInscripcion(ev) {
 
       // Caso: duplicado (inscripción pendiente ya existe)
       if (errInsc.code === '23505' || msgLower.includes('duplicate') || msgLower.includes('unique')) {
-        console.warn('[APPLENDE] Ya existe inscripción pendiente, continuando al pago...');
-        inscripcionCreada = { email_alumno: datosAlumno.email };
+        console.warn('[APPLENDE] Ya existe inscripción pendiente, buscando su ID...');
+        // Buscar la inscripción pendiente existente para recuperar su ID (necesario para activar tras el pago)
+        let idExistente = null;
+        try {
+          const { data: pendExist } = await sb
+            .from('inscripciones_pendientes')
+            .select('id')
+            .eq('email_alumno', datosAlumno.email)
+            .eq('curso_id', cursoActual.id)
+            .eq('estado', 'pendiente_pago')
+            .order('creado_en', { ascending: false })
+            .limit(1)
+            .maybeSingle();
+          if (pendExist && pendExist.id) idExistente = pendExist.id;
+        } catch (e) {
+          console.warn('[APPLENDE] No se pudo recuperar el ID de la pendiente:', e);
+        }
+        inscripcionCreada = { id: idExistente, email_alumno: datosAlumno.email };
         avanzarAPago(datosAlumno);
         return;
       }
