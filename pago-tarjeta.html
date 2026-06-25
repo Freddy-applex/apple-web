@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pago con tarjeta · APPLENDE</title>
+<style>
+  :root{
+    --navy:#0a2540; --navy2:#123a5e; --lime:#c8f560; --lime2:#b3e84d;
+    --gris:#f4f6f9; --texto:#1a2b3c; --borde:#d8e0ea; --error:#e0413b; --ok:#1faa59;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,sans-serif}
+  body{background:var(--gris);color:var(--texto);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+  .card{background:#fff;border-radius:18px;box-shadow:0 10px 40px rgba(10,37,64,.12);max-width:440px;width:100%;overflow:hidden}
+  .head{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:26px 28px}
+  .head h1{font-size:19px;font-weight:700;display:flex;align-items:center;gap:9px}
+  .head p{font-size:13px;opacity:.85;margin-top:5px}
+  .resumen{background:rgba(200,245,96,.12);border:1px solid rgba(200,245,96,.4);margin:0;padding:14px 28px;display:flex;justify-content:space-between;align-items:center}
+  .resumen .lbl{font-size:13px;color:var(--navy2)}
+  .resumen .monto{font-size:22px;font-weight:800;color:var(--navy)}
+  .body{padding:24px 28px}
+  .campo{margin-bottom:15px}
+  .campo label{display:block;font-size:12px;font-weight:600;color:var(--navy2);margin-bottom:6px}
+  .campo input{width:100%;padding:12px 14px;border:1.5px solid var(--borde);border-radius:10px;font-size:15px;transition:border .2s}
+  .campo input:focus{outline:none;border-color:var(--navy)}
+  .fila{display:flex;gap:12px}
+  .fila .campo{flex:1}
+  .btn{width:100%;background:var(--lime);color:var(--navy);border:none;padding:15px;border-radius:11px;font-size:16px;font-weight:800;cursor:pointer;margin-top:8px;transition:background .2s}
+  .btn:hover:not(:disabled){background:var(--lime2)}
+  .btn:disabled{opacity:.55;cursor:not-allowed}
+  .nota{font-size:11px;color:#7a8a9a;text-align:center;margin-top:14px;line-height:1.5}
+  .estado{padding:14px;border-radius:10px;margin-top:16px;font-size:14px;display:none}
+  .estado.ok{background:#e8f8ef;color:var(--ok);border:1px solid #a9e3c2;display:block}
+  .estado.err{background:#fdeceb;color:var(--error);border:1px solid #f3bcb9;display:block}
+  .estado.info{background:#eef4fb;color:var(--navy2);border:1px solid #c5d9ef;display:block}
+  .cargando{display:inline-block;width:15px;height:15px;border:2.5px solid rgba(10,37,64,.25);border-top-color:var(--navy);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:7px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .secure{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:#8a98a8;margin-top:10px}
+  #dfp-iframe{display:none}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="head">
+    <h1>🔒 Pago seguro con tarjeta</h1>
+    <p>Visa · Mastercard · Procesado por CyberSource</p>
+  </div>
+  <div class="resumen">
+    <span class="lbl">Total a pagar</span>
+    <span class="monto" id="monto-display">Bs 1.00</span>
+  </div>
+  <div class="body">
+    <div class="campo">
+      <label>Número de tarjeta</label>
+      <input type="text" id="cardNumber" placeholder="4000 0000 0000 1000" maxlength="19" inputmode="numeric">
+    </div>
+    <div class="campo">
+      <label>Nombre en la tarjeta</label>
+      <input type="text" id="cardName" placeholder="ROBERTO JIMENEZ">
+    </div>
+    <div class="fila">
+      <div class="campo">
+        <label>Mes</label>
+        <input type="text" id="expMonth" placeholder="12" maxlength="2" inputmode="numeric">
+      </div>
+      <div class="campo">
+        <label>Año</label>
+        <input type="text" id="expYear" placeholder="2028" maxlength="4" inputmode="numeric">
+      </div>
+      <div class="campo">
+        <label>CVV</label>
+        <input type="text" id="cvv" placeholder="123" maxlength="4" inputmode="numeric">
+      </div>
+    </div>
+    <button class="btn" id="btnPagar" onclick="iniciarPago()">Pagar Bs 1.00</button>
+    <div class="estado" id="estado"></div>
+    <div class="secure">🔐 Tus datos viajan cifrados. No almacenamos tu tarjeta.</div>
+  </div>
+</div>
+
+<!-- iframe oculto para el device fingerprint -->
+<iframe id="dfp-iframe"></iframe>
+
+<script>
+// ════════ CONFIGURACIÓN ════════
+const SUPABASE_URL = "https://wdoqzsmwuvozhkclqbjk.supabase.co";
+const ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indkb3F6c213dXZvemhrY2xxYmprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTI0NzQsImV4cCI6MjA5MjI4ODQ3NH0.qlfh1Qz695Kg_hH5n-LbtAw6r-1gzpkCe5NOznxNSnM"; // ⚠️ reemplazar por la anon key real
+const ORG_ID_FINGERPRINT = "1snn5n9w"; // test (producción: k8vif92e)
+const MERCHANT_ID = "redenlace_000009";
+
+// Datos del cobro (en producción vienen del curso/inscripción)
+const COBRO = {
+  amount: "1",
+  currency: "BOB",
+  referenceCode: "APPLENDE-" + Date.now(),
+};
+
+// ════════ DEVICE FINGERPRINT ════════
+// Genera un session_id único y carga el script de perfilado
+function generarSessionId(){
+  const rnd = Math.random().toString(36).substring(2,12);
+  return (MERCHANT_ID + rnd).substring(0,88).replace(/[^A-Za-z0-9_-]/g,'');
+}
+const SESSION_ID = generarSessionId();
+
+function cargarFingerprint(){
+  return new Promise((resolve)=>{
+    const s = document.createElement('script');
+    s.type='text/javascript';
+    s.src = `https://h.online-metrix.net/fp/tags.js?org_id=${ORG_ID_FINGERPRINT}&session_id=${SESSION_ID}`;
+    s.onload = ()=> setTimeout(resolve, 3500); // esperar 3.5s a que perfile
+    s.onerror = ()=> resolve(); // si falla, seguimos igual
+    document.head.appendChild(s);
+  });
+}
+
+// ════════ DATOS DEL NAVEGADOR (para generar el cavv) ════════
+function obtenerBrowserInfo(){
+  return {
+    acceptHeader: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    language: navigator.language || "es-BO",
+    colorDepth: String(screen.colorDepth || 24),
+    screenHeight: String(screen.height || 0),
+    screenWidth: String(screen.width || 0),
+    timeZoneOffset: String(new Date().getTimezoneOffset()),
+    userAgent: navigator.userAgent,
+    javaEnabled: "false",
+  };
+}
+
+// ════════ HELPERS UI ════════
+function mostrarEstado(tipo, html){
+  const e = document.getElementById('estado');
+  e.className = 'estado ' + tipo;
+  e.innerHTML = html;
+}
+function setCargando(cargando, texto){
+  const btn = document.getElementById('btnPagar');
+  btn.disabled = cargando;
+  if(cargando) mostrarEstado('info', `<span class="cargando"></span>${texto}`);
+}
+
+// ════════ LLAMADAS AL BACKEND ════════
+async function llamarFuncion(nombre, payload){
+  const r = await fetch(`${SUPABASE_URL}/functions/v1/${nombre}`,{
+    method:'POST',
+    headers:{
+      'Authorization':`Bearer ${ANON_KEY}`,
+      'Content-Type':'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+  return await r.json();
+}
+
+// ════════ FLUJO DE PAGO ════════
+async function iniciarPago(){
+  // Validación mínima
+  const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g,'');
+  const cardName = document.getElementById('cardName').value.trim();
+  const expMonth = document.getElementById('expMonth').value.trim();
+  const expYear = document.getElementById('expYear').value.trim();
+  const cvv = document.getElementById('cvv').value.trim();
+
+  if(cardNumber.length < 13 || !expMonth || !expYear || !cvv){
+    mostrarEstado('err','⚠️ Completá todos los datos de la tarjeta.');
+    return;
+  }
+
+  const [firstName, ...rest] = cardName.split(' ');
+  const lastName = rest.join(' ') || 'APPLENDE';
+
+  try{
+    setCargando(true,'Verificando tu tarjeta de forma segura…');
+
+    // PASO 1: iniciar (Setup + Enrollment)
+    const ini = await llamarFuncion('pago-iniciar',{
+      cardNumber, expMonth, expYear, cardType:'001',
+      amount: COBRO.amount, currency: COBRO.currency,
+      firstName: firstName || 'Cliente', lastName,
+      email:'cliente@applende.com', phone:'00000000',
+      address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
+      referenceCode: COBRO.referenceCode,
+      browserInfo: obtenerBrowserInfo(),
+      returnUrl: window.location.origin + '/pago-retorno',
+    });
+
+    if(!ini.ok){
+      mostrarEstado('err','❌ No se pudo validar la tarjeta. '+(ini.error||''));
+      setCargando(false);
+      return;
+    }
+
+    // ¿Requiere challenge? (etapa 2 - por ahora avisamos)
+    if(ini.requiereChallenge){
+      mostrarEstado('info','🔐 Tu banco requiere verificación adicional. (El challenge se implementa en la etapa 2.)');
+      setCargando(false);
+      return;
+    }
+
+    // PASO 2: finalizar (cobro)
+    setCargando(true,'Procesando el pago…');
+    const fin = await llamarFuncion('pago-finalizar',{
+      cardNumber, expMonth, expYear, cardType:'001', cvv,
+      amount: COBRO.amount, currency: COBRO.currency,
+      firstName: firstName || 'Cliente', lastName,
+      email:'cliente@applende.com', phone:'00000000',
+      address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
+      refCode: COBRO.referenceCode,
+      hadChallenge:false,
+      cavv: ini.cavv, xid: ini.xid, eci: ini.eci,
+      directoryServerTransactionId: ini.directoryServerTransactionId,
+      paSpecificationVersion: ini.paSpecificationVersion,
+    });
+
+    if(fin.ok && fin.status === 'AUTHORIZED'){
+      mostrarEstado('ok',`✅ <b>¡Pago aprobado!</b><br>Código de autorización: ${fin.approvalCode}<br>Transacción: ${fin.transactionId}`);
+      document.getElementById('btnPagar').textContent = 'Pago completado ✓';
+    }else{
+      mostrarEstado('err','❌ El pago no fue aprobado. '+(fin.mensaje||fin.status||''));
+      setCargando(false);
+    }
+  }catch(err){
+    mostrarEstado('err','❌ Error de conexión: '+err.message);
+    setCargando(false);
+  }
+}
+
+// ════════ INICIO: cargar fingerprint al abrir ════════
+window.addEventListener('load', ()=>{
+  document.getElementById('monto-display').textContent = 'Bs ' + parseFloat(COBRO.amount).toFixed(2);
+  document.getElementById('btnPagar').textContent = 'Pagar Bs ' + parseFloat(COBRO.amount).toFixed(2);
+  cargarFingerprint(); // corre en segundo plano
+});
+</script>
+</body>
+</html>
