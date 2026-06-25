@@ -78,6 +78,15 @@
   </div>
 </div>
 
+<!-- Modal del challenge (ventana del banco) -->
+<div id="challenge-modal" style="display:none;position:fixed;inset:0;background:rgba(10,37,64,.7);z-index:9999;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:16px;padding:20px;max-width:480px;width:92%">
+    <h3 style="color:#0a2540;font-size:16px;margin-bottom:6px">🔐 Verificación de tu banco</h3>
+    <p style="font-size:13px;color:#6a7a8a;margin-bottom:12px">Ingresá el código que te envió tu banco para confirmar el pago.</p>
+    <iframe id="challenge-iframe" name="challenge-iframe" style="width:100%;height:420px;border:1px solid #d8e0ea;border-radius:10px"></iframe>
+  </div>
+</div>
+
 <!-- iframe oculto para el device fingerprint -->
 <iframe id="dfp-iframe"></iframe>
 
@@ -102,6 +111,7 @@ function generarSessionId(){
   return (MERCHANT_ID + rnd).substring(0,88).replace(/[^A-Za-z0-9_-]/g,'');
 }
 const SESSION_ID = generarSessionId();
+let DATOS_PAGO = null; // se llena al iniciar el pago (para usar tras el challenge)
 
 function cargarFingerprint(){
   return new Promise((resolve)=>{
@@ -153,6 +163,62 @@ async function llamarFuncion(nombre, payload){
   return await r.json();
 }
 
+// ════════ CHALLENGE (Step-Up del banco) ════════
+function mostrarChallenge(stepUpUrl, accessToken, txId){
+  // Mostrar el modal
+  const modal = document.getElementById('challenge-modal');
+  modal.style.display = 'flex';
+
+  // Armar el formulario que postea al banco dentro del iframe
+  const iframe = document.getElementById('challenge-iframe');
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = stepUpUrl;
+  form.target = 'challenge-iframe';
+  const input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = 'JWT';
+  input.value = accessToken;
+  form.appendChild(input);
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
+
+  // Guardar el txId para validar después
+  window.__challengeTxId = txId;
+}
+
+// Cuando el banco termina el challenge, avisa por postMessage
+window.addEventListener('message', async function(ev){
+  // El mensaje del challenge viene de cardinalcommerce
+  if(typeof ev.data === 'string' && ev.data.indexOf('stepUp') === -1 && ev.data.length < 5) return;
+  // Cerrar el modal y finalizar
+  if(ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('cardinal') !== -1){
+    cerrarChallengeYFinalizar();
+  }
+});
+
+async function cerrarChallengeYFinalizar(){
+  document.getElementById('challenge-modal').style.display = 'none';
+  setCargando(true,'Confirmando tu pago…');
+  const fin = await llamarFuncion('pago-finalizar',{
+    ...DATOS_PAGO, cardType:'001',
+    amount: COBRO.amount, currency: COBRO.currency,
+    email:'cliente@applende.com', phone:'00000000',
+    address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
+    refCode: COBRO.referenceCode,
+    hadChallenge:true,
+    authenticationTransactionId: window.__challengeTxId,
+  });
+  if(fin.ok && fin.status === 'AUTHORIZED'){
+    mostrarEstado('ok',`✅ <b>¡Pago aprobado!</b><br>Código de autorización: ${fin.approvalCode}<br>Transacción: ${fin.transactionId}`);
+    document.getElementById('btnPagar').textContent = 'Pago completado ✓';
+  }else{
+    mostrarEstado('err','❌ El pago no fue aprobado. '+(fin.mensaje||fin.status||''));
+    setCargando(false);
+  }
+}
+
 // ════════ FLUJO DE PAGO ════════
 async function iniciarPago(){
   // Validación mínima
@@ -191,19 +257,24 @@ async function iniciarPago(){
       return;
     }
 
-    // ¿Requiere challenge? (etapa 2 - por ahora avisamos)
+    // Guardar datos de la tarjeta para usar después del challenge
+    DATOS_PAGO = {
+      cardNumber, expMonth, expYear, cvv,
+      firstName: firstName || 'Cliente', lastName,
+    };
+
+    // ¿Requiere challenge? → mostrar la ventana del banco (step-up)
     if(ini.requiereChallenge){
-      mostrarEstado('info','🔐 Tu banco requiere verificación adicional. (El challenge se implementa en la etapa 2.)');
-      setCargando(false);
-      return;
+      mostrarEstado('info','🔐 Tu banco requiere verificación. Seguí los pasos en la ventana.');
+      mostrarChallenge(ini.stepUpUrl, ini.accessToken, ini.authenticationTransactionId);
+      return; // el flujo continúa cuando el cliente termina el challenge
     }
 
-    // PASO 2: finalizar (cobro)
+    // Sin challenge → cobrar directo
     setCargando(true,'Procesando el pago…');
     const fin = await llamarFuncion('pago-finalizar',{
-      cardNumber, expMonth, expYear, cardType:'001', cvv,
+      ...DATOS_PAGO, cardType:'001',
       amount: COBRO.amount, currency: COBRO.currency,
-      firstName: firstName || 'Cliente', lastName,
       email:'cliente@applende.com', phone:'00000000',
       address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
       refCode: COBRO.referenceCode,
