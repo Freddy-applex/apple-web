@@ -355,6 +355,32 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 .pago-alt-ico-wa svg{display:block;}
 .pago-alt-ico-check{position:relative;}
 .pago-alt-checkbadge{position:absolute;bottom:-2px;right:-2px;width:18px;height:18px;background:var(--green);color:var(--navy);border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;}
+
+/* ══ PAGO CON TARJETA (CyberSource) ══ */
+.pago-tarjeta-card{border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:16px;background:#fff;}
+.pago-tarjeta-franja{background:var(--navy);color:#fff;font-size:13px;font-weight:700;padding:10px 16px;text-align:center;}
+.pago-tarjeta-body{padding:16px;}
+.pago-tarjeta-btn{width:100%;background:var(--navy);color:#fff;border:none;padding:14px;border-radius:11px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s;}
+.pago-tarjeta-btn:hover{opacity:.9;}
+.tj-campo{margin-bottom:12px;}
+.tj-campo label{display:block;font-size:12px;font-weight:600;color:var(--navy);margin-bottom:5px;}
+.tj-campo input{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:9px;font-size:15px;box-sizing:border-box;}
+.tj-campo input:focus{outline:none;border-color:var(--navy);}
+.tj-fila{display:flex;gap:10px;}
+.tj-fila .tj-campo{flex:1;}
+.pago-tarjeta-pagar{width:100%;background:var(--green);color:var(--navy);border:none;padding:14px;border-radius:11px;font-size:16px;font-weight:800;cursor:pointer;margin-top:6px;transition:opacity .2s;}
+.pago-tarjeta-pagar:hover:not(:disabled){opacity:.9;}
+.pago-tarjeta-pagar:disabled{opacity:.55;cursor:not-allowed;}
+.tj-estado{padding:12px;border-radius:9px;margin-top:12px;font-size:13.5px;display:none;}
+.tj-estado.ok{background:#e8f8ef;color:#1faa59;border:1px solid #a9e3c2;display:block;}
+.tj-estado.err{background:#fdeceb;color:#e0413b;border:1px solid #f3bcb9;display:block;}
+.tj-estado.info{background:#eef4fb;color:var(--navy);border:1px solid #c5d9ef;display:block;}
+.tj-seguro{font-size:11px;color:var(--muted);text-align:center;margin-top:10px;}
+.tj-spin{display:inline-block;width:14px;height:14px;border:2.5px solid rgba(10,37,64,.25);border-top-color:var(--navy);border-radius:50%;animation:tjspin .7s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes tjspin{to{transform:rotate(360deg)}}
+#challenge-modal-insc{display:none;position:fixed;inset:0;background:rgba(14,26,48,.7);z-index:9999;align-items:center;justify-content:center;}
+#challenge-modal-insc>div{background:#fff;border-radius:16px;padding:20px;max-width:480px;width:92%;}
+#challenge-iframe-insc{width:100%;height:420px;border:1px solid var(--border);border-radius:10px;}
 </style>
 </head>
 <body>
@@ -618,6 +644,37 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
           <div class="pago-qr-err" id="qr-err-msg">No pudimos generar el QR. Probá de nuevo o usá WhatsApp.</div>
           <button type="button" class="pago-qr-btn pago-qr-btn-alt" id="btn-reintentar-qr">Reintentar</button>
         </div>
+        </div>
+      </div>
+
+      <!-- ══ PAGO CON TARJETA (CyberSource / Red Enlace) ══ -->
+      <div class="pago-tarjeta-card" id="pago-tarjeta-card">
+        <div class="pago-tarjeta-franja">💳 Pagá con tarjeta · Visa o Mastercard</div>
+        <div class="pago-tarjeta-body">
+          <!-- Botón inicial que despliega el formulario -->
+          <button type="button" class="pago-tarjeta-btn" id="btn-mostrar-tarjeta">
+            <span>💳</span> Pagar con tarjeta de crédito o débito
+          </button>
+
+          <!-- Formulario (oculto hasta que tocan el botón) -->
+          <div id="tarjeta-form" style="display:none;">
+            <div class="tj-campo">
+              <label>Número de tarjeta</label>
+              <input type="text" id="tj-numero" placeholder="4000 0000 0000 1000" maxlength="19" inputmode="numeric" autocomplete="cc-number">
+            </div>
+            <div class="tj-campo">
+              <label>Nombre en la tarjeta</label>
+              <input type="text" id="tj-nombre" placeholder="Como figura en la tarjeta" autocomplete="cc-name">
+            </div>
+            <div class="tj-fila">
+              <div class="tj-campo"><label>Mes</label><input type="text" id="tj-mes" placeholder="12" maxlength="2" inputmode="numeric"></div>
+              <div class="tj-campo"><label>Año</label><input type="text" id="tj-anio" placeholder="2028" maxlength="4" inputmode="numeric"></div>
+              <div class="tj-campo"><label>CVV</label><input type="text" id="tj-cvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc"></div>
+            </div>
+            <button type="button" class="pago-tarjeta-pagar" id="btn-pagar-tarjeta">Pagar <span id="tj-monto-btn">Bs 0</span></button>
+            <div class="tj-estado" id="tj-estado"></div>
+            <div class="tj-seguro">🔒 Pago seguro procesado por CyberSource · No almacenamos tu tarjeta</div>
+          </div>
         </div>
       </div>
 
@@ -1769,7 +1826,197 @@ function _qrWiring() {
   if (btnRe)  btnRe.addEventListener('click', generarQRPago);
 }
 
+
+/* ════════════════════════════════════════════════════════════════
+   PAGO CON TARJETA — CyberSource (llama a pago-iniciar / pago-finalizar)
+   ════════════════════════════════════════════════════════════════ */
+const TJ_FUNCS_BASE = (typeof APPLENDE !== 'undefined' && APPLENDE.SUPABASE_URL)
+  ? APPLENDE.SUPABASE_URL + '/functions/v1'
+  : 'https://wdoqzsmwuvozhkclqbjk.supabase.co/functions/v1';
+const TJ_KEY = (typeof APPLENDE !== 'undefined' && APPLENDE.SUPABASE_KEY) ? APPLENDE.SUPABASE_KEY : '';
+const TJ_ORG_FP = '1snn5n9w'; // org_id device fingerprint (test)
+let TJ_DATOS = null;
+let TJ_CHALLENGE_TX = null;
+
+// Generar session_id y cargar device fingerprint
+const TJ_SESSION = ('redenlace_' + Math.random().toString(36).substring(2,12)).substring(0,88);
+function tjCargarFingerprint(){
+  const s = document.createElement('script');
+  s.src = 'https://h.online-metrix.net/fp/tags.js?org_id=' + TJ_ORG_FP + '&session_id=' + TJ_SESSION;
+  document.head.appendChild(s);
+}
+
+function tjBrowserInfo(){
+  return {
+    acceptHeader: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    language: navigator.language || 'es-BO',
+    colorDepth: String(screen.colorDepth || 24),
+    screenHeight: String(screen.height || 0),
+    screenWidth: String(screen.width || 0),
+    timeZoneOffset: String(new Date().getTimezoneOffset()),
+    userAgent: navigator.userAgent,
+    javaEnabled: 'false',
+  };
+}
+
+function tjEstado(tipo, htmlMsg){
+  const e = document.getElementById('tj-estado');
+  e.className = 'tj-estado ' + tipo;
+  e.innerHTML = htmlMsg;
+}
+function tjCargando(cargando, texto){
+  const btn = document.getElementById('btn-pagar-tarjeta');
+  if(btn) btn.disabled = cargando;
+  if(cargando) tjEstado('info', '<span class="tj-spin"></span>' + texto);
+}
+
+async function tjLlamar(fn, payload){
+  const r = await fetch(TJ_FUNCS_BASE + '/' + fn, {
+    method:'POST',
+    headers:{ 'Authorization':'Bearer ' + TJ_KEY, 'apikey': TJ_KEY, 'Content-Type':'application/json' },
+    body: JSON.stringify(payload),
+  });
+  return await r.json();
+}
+
+async function tjPagar(){
+  const numero = document.getElementById('tj-numero').value.replace(/\s/g,'');
+  const nombre = document.getElementById('tj-nombre').value.trim();
+  const mes = document.getElementById('tj-mes').value.trim();
+  const anio = document.getElementById('tj-anio').value.trim();
+  const cvv = document.getElementById('tj-cvv').value.trim();
+
+  if(numero.length < 13 || !mes || !anio || !cvv){
+    tjEstado('err','⚠️ Completá todos los datos de la tarjeta.');
+    return;
+  }
+  // pendienteId: el ID de la inscripción pendiente creada al registrarse
+  const pendienteId = (typeof inscripcionCreada !== 'undefined' && inscripcionCreada) ? inscripcionCreada.id : null;
+  if(!pendienteId){
+    tjEstado('err','⚠️ No se encontró tu inscripción. Recargá la página e intentá de nuevo.');
+    return;
+  }
+
+  const precio = obtenerPrecioAplicable();
+  const moneda = (cursoActual && cursoActual.moneda) ? cursoActual.moneda : 'BOB';
+  const partes = nombre.split(' ');
+  const firstName = partes[0] || 'Cliente';
+  const lastName = partes.slice(1).join(' ') || 'APPLENDE';
+  const emailAlumno = (inscripcionCreada && inscripcionCreada.email_alumno) ? inscripcionCreada.email_alumno : 'cliente@applende.com';
+
+  TJ_DATOS = { numero, mes, anio, cvv, firstName, lastName, pendienteId, precio, moneda, emailAlumno };
+
+  try{
+    tjCargando(true,'Verificando tu tarjeta…');
+    const ini = await tjLlamar('pago-iniciar',{
+      cardNumber:numero, expMonth:mes, expYear:anio, cardType:'001',
+      amount:String(precio), currency:moneda,
+      firstName, lastName, email:emailAlumno, phone:'00000000',
+      address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
+      referenceCode:'INSC-' + pendienteId,
+      browserInfo: tjBrowserInfo(),
+      returnUrl: window.location.origin + '/inscripcion.html',
+    });
+
+    if(!ini.ok){ tjEstado('err','❌ No se pudo validar la tarjeta. ' + (ini.error||'')); tjCargando(false); return; }
+
+    if(ini.requiereChallenge){
+      tjEstado('info','🔐 Tu banco requiere verificación. Seguí los pasos en la ventana.');
+      tjMostrarChallenge(ini.stepUpUrl, ini.accessToken, ini.authenticationTransactionId);
+      return;
+    }
+
+    tjCargando(true,'Procesando el pago…');
+    const fin = await tjLlamar('pago-finalizar',{
+      cardNumber:numero, expMonth:mes, expYear:anio, cardType:'001', cvv,
+      amount:String(precio), currency:moneda,
+      firstName, lastName, email:emailAlumno, phone:'00000000',
+      address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
+      refCode:'INSC-' + pendienteId,
+      pendienteId,
+      hadChallenge:false,
+      cavv:ini.cavv, xid:ini.xid, eci:ini.eci,
+      directoryServerTransactionId:ini.directoryServerTransactionId,
+      paSpecificationVersion:ini.paSpecificationVersion,
+    });
+    tjFinalizar(fin);
+  }catch(err){
+    tjEstado('err','❌ Error de conexión: ' + err.message);
+    tjCargando(false);
+  }
+}
+
+function tjMostrarChallenge(stepUpUrl, accessToken, txId){
+  document.getElementById('challenge-modal-insc').style.display = 'flex';
+  const form = document.createElement('form');
+  form.method='POST'; form.action=stepUpUrl; form.target='challenge-iframe-insc';
+  const inp = document.createElement('input');
+  inp.type='hidden'; inp.name='JWT'; inp.value=accessToken;
+  form.appendChild(inp); document.body.appendChild(form); form.submit(); document.body.removeChild(form);
+  TJ_CHALLENGE_TX = txId;
+}
+
+window.addEventListener('message', async function(ev){
+  if(ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('cardinal') !== -1){
+    document.getElementById('challenge-modal-insc').style.display = 'none';
+    tjCargando(true,'Confirmando tu pago…');
+    const d = TJ_DATOS;
+    const fin = await tjLlamar('pago-finalizar',{
+      cardNumber:d.numero, expMonth:d.mes, expYear:d.anio, cardType:'001', cvv:d.cvv,
+      amount:String(d.precio), currency:d.moneda,
+      firstName:d.firstName, lastName:d.lastName, email:d.emailAlumno, phone:'00000000',
+      address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
+      refCode:'INSC-' + d.pendienteId,
+      pendienteId:d.pendienteId,
+      hadChallenge:true,
+      authenticationTransactionId: TJ_CHALLENGE_TX,
+    });
+    tjFinalizar(fin);
+  }
+});
+
+function tjFinalizar(fin){
+  if(fin.ok && fin.status === 'AUTHORIZED'){
+    let extra = fin.inscripcionActivada ? 'Tu curso ya está activo.' : 'Tu pago fue aprobado. Si no ves el curso en un minuto, escribinos por WhatsApp.';
+    tjEstado('ok','✅ <b>¡Pago aprobado!</b> ' + extra + '<br><a href="alumno/dashboard.html" style="color:#1faa59;font-weight:700;text-decoration:underline;">Ir a mi curso →</a>');
+    const btn = document.getElementById('btn-pagar-tarjeta');
+    if(btn) btn.textContent = 'Pago completado ✓';
+  }else{
+    tjEstado('err','❌ El pago no fue aprobado. ' + (fin.mensaje || fin.status || '') + ' Probá otra tarjeta o usá WhatsApp.');
+    tjCargando(false);
+  }
+}
+
+// Wiring de los botones de tarjeta
+function tjWiring(){
+  const btnMostrar = document.getElementById('btn-mostrar-tarjeta');
+  const btnPagar = document.getElementById('btn-pagar-tarjeta');
+  if(btnMostrar){
+    btnMostrar.addEventListener('click', function(){
+      document.getElementById('tarjeta-form').style.display = 'block';
+      btnMostrar.style.display = 'none';
+      // poner el monto en el botón de pagar
+      const precio = obtenerPrecioAplicable();
+      const moneda = (cursoActual && cursoActual.moneda) ? cursoActual.moneda : 'Bs';
+      const simbolo = moneda === 'USD' ? '$' : 'Bs';
+      document.getElementById('tj-monto-btn').textContent = simbolo + ' ' + Math.round(Number(precio));
+      tjCargarFingerprint(); // arranca el fingerprint al abrir el form
+    });
+  }
+  if(btnPagar) btnPagar.addEventListener('click', tjPagar);
+}
+document.addEventListener('DOMContentLoaded', tjWiring);
+
 </script>
+
+<!-- Modal del challenge de la tarjeta (step-up del banco) -->
+<div id="challenge-modal-insc">
+  <div>
+    <h3 style="color:var(--navy);font-size:16px;margin:0 0 6px;">🔐 Verificación de tu banco</h3>
+    <p style="font-size:13px;color:var(--muted);margin:0 0 12px;">Ingresá el código que te envió tu banco para confirmar el pago.</p>
+    <iframe id="challenge-iframe-insc" name="challenge-iframe-insc"></iframe>
+  </div>
+</div>
 
 </body>
 </html>
