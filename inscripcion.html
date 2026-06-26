@@ -1993,10 +1993,16 @@ window.addEventListener('message', async function(ev){
 
 function tjFinalizar(fin){
   if(fin.ok && fin.status === 'AUTHORIZED'){
-    let extra = fin.inscripcionActivada ? 'Tu curso ya está activo.' : 'Tu pago fue aprobado. Si no ves el curso en un minuto, escribinos por WhatsApp.';
-    tjEstado('ok','✅ <b>¡Pago aprobado!</b> ' + extra + '<br><a href="alumno/dashboard.html" style="color:#1faa59;font-weight:700;text-decoration:underline;">Ir a mi curso →</a>');
     const btn = document.getElementById('btn-pagar-tarjeta');
     if(btn) btn.textContent = 'Pago completado ✓';
+    if(fin.inscripcionActivada){
+      // Pago + inscripción OK → mostrar éxito y redirigir solo al dashboard
+      tjEstado('ok','✅ <b>¡Pago aprobado!</b> Tu curso ya está activo. Te llevamos a tu dashboard…');
+      setTimeout(function(){ window.location.href = 'alumno/dashboard.html'; }, 2000);
+    }else{
+      // Pago OK pero la inscripción no se activó automáticamente → no redirigir, mostrar ayuda
+      tjEstado('ok','✅ <b>¡Pago aprobado!</b> Tu pago fue aprobado. Si no ves el curso en un minuto, escribinos por WhatsApp.<br><a href="alumno/dashboard.html" style="color:#1faa59;font-weight:700;text-decoration:underline;">Ir a mi curso →</a>');
+    }
   }else{
     tjEstado('err','❌ El pago no fue aprobado. ' + (fin.mensaje || fin.status || '') + ' Probá otra tarjeta o usá WhatsApp.');
     tjCargando(false);
