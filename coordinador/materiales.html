@@ -687,11 +687,13 @@
         <select id="filterTipo" onchange="cargarMateriales()">
           <option value="">Todos los tipos</option>
           <option value="pdf">PDF</option>
+          <option value="word">Word</option>
           <option value="excel">Excel</option>
-          <option value="zip">ZIP</option>
-          <option value="video">Video</option>
-          <option value="link">Link externo</option>
+          <option value="ppt">PowerPoint</option>
           <option value="imagen">Imagen</option>
+          <option value="video_url">Video</option>
+          <option value="zip">ZIP</option>
+          <option value="enlace">Link externo</option>
         </select>
       </div>
       <button class="btn btn-success" onclick="abrirModal()">
@@ -767,11 +769,13 @@
           <label>Tipo <span class="req">*</span></label>
           <select id="modalTipo" required onchange="toggleUploadVsLink()">
             <option value="pdf">📄 PDF</option>
+            <option value="word">📝 Word (.doc/.docx)</option>
             <option value="excel">📊 Excel</option>
-            <option value="zip">🗜️ ZIP</option>
-            <option value="video">🎬 Video</option>
+            <option value="ppt">📊 PowerPoint (.ppt/.pptx)</option>
             <option value="imagen">🖼️ Imagen</option>
-            <option value="link">🔗 Link externo</option>
+            <option value="video_url">🎬 Video</option>
+            <option value="zip">🗜️ ZIP</option>
+            <option value="enlace">🔗 Link externo</option>
           </select>
         </div>
         <div class="form-group">
@@ -1136,7 +1140,7 @@ async function verMaterial(id) {
   const m = materialesActuales.find(x => x.id === id);
   if (!m) return;
 
-  if (m.tipo === 'link') {
+  if (m.tipo === 'enlace') {
     window.open(m.url, '_blank');
     return;
   }
@@ -1209,7 +1213,7 @@ function abrirModal(material = null) {
     document.getElementById('modalTipo').value = material.tipo;
     document.getElementById('modalOrden').value = material.orden;
     document.getElementById('modalPublicado').checked = material.publicado;
-    if (material.tipo === 'link') {
+    if (material.tipo === 'enlace') {
       document.getElementById('modalUrl').value = material.url;
     }
     toggleUploadVsLink();
@@ -1235,7 +1239,7 @@ function toggleUploadVsLink() {
   const uploadSec = document.getElementById('uploadSection');
   const linkSec = document.getElementById('linkSection');
 
-  if (tipo === 'link') {
+  if (tipo === 'enlace') {
     uploadSec.style.display = 'none';
     linkSec.style.display = 'block';
   } else {
@@ -1313,7 +1317,7 @@ async function guardarMaterial() {
     let tamanoBytes = null;
 
     // CASO 1: Link externo (no upload)
-    if (tipo === 'link') {
+    if (tipo === 'enlace') {
       if (!urlExterna) { toast('Ingresa una URL', 'warning'); btn.disabled = false; btn.textContent = 'Guardar Material'; return; }
       url = urlExterna;
     }
