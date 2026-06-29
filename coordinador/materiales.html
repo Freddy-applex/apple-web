@@ -670,6 +670,20 @@
     <!-- FILTROS -->
     <div class="filters-bar">
       <div class="filter-group">
+        <label>Categoría</label>
+        <select id="filterCategoria" onchange="aplicarFiltrosCascada()">
+          <option value="">Todas las categorías</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Modalidad</label>
+        <select id="filterModalidad" onchange="aplicarFiltrosCascada()">
+          <option value="">En Vivo y Grabados</option>
+          <option value="en_vivo">🔴 En Vivo</option>
+          <option value="grabado">▶️ Grabados</option>
+        </select>
+      </div>
+      <div class="filter-group">
         <label>Curso</label>
         <select id="filterCurso" onchange="cargarMateriales()">
           <option value="">Todos los cursos</option>
@@ -932,7 +946,7 @@ async function cargarCursos() {
   // cursos.titulo (no .nombre), cohortes.nombre
   const { data, error } = await _supa
     .from('cursos')
-    .select('id, titulo, slug, cohortes(id, nombre, fecha_inicio)')
+    .select('id, titulo, slug, categoria_id, modalidad, categorias(nombre), cohortes(id, nombre, fecha_inicio)')
     .order('titulo');
 
   if (error) {
@@ -944,18 +958,24 @@ async function cargarCursos() {
   // Normalizar: mapear "titulo" -> "nombre" para que el resto del código funcione
   cursos = (data || []).map(c => ({
     ...c,
-    nombre: c.titulo
+    nombre: c.titulo,
+    categoria_nombre: c.categorias ? c.categorias.nombre : null
   }));
 
-  const filterCurso = document.getElementById('filterCurso');
   const modalCurso = document.getElementById('modalCurso');
 
+  // El modal (subir material) muestra TODOS los cursos
   cursos.forEach(c => {
-    const opt1 = new Option(c.nombre, c.id);
-    const opt2 = new Option(c.nombre, c.id);
-    filterCurso.add(opt1);
-    modalCurso.add(opt2);
+    modalCurso.add(new Option(c.nombre, c.id));
   });
+
+  // Poblar filtro de CATEGORÍAS (solo las que tienen cursos, sin repetir)
+  const filterCategoria = document.getElementById('filterCategoria');
+  const catsUnicas = [...new Set(cursos.map(c => c.categoria_nombre).filter(Boolean))].sort();
+  catsUnicas.forEach(cat => filterCategoria.add(new Option(cat, cat)));
+
+  // Poblar filtro de CURSOS (inicialmente todos)
+  poblarFiltroCursos();
 
   // Cargar cohortes de TODOS los cursos para el filtro inicial
   cohortes = cursos.flatMap(c =>
@@ -963,6 +983,29 @@ async function cargarCursos() {
   );
 
   actualizarSelectorCohortes();
+}
+
+// Llena el desplegable de cursos respetando Categoría + Modalidad seleccionadas
+function poblarFiltroCursos() {
+  const filterCurso = document.getElementById('filterCurso');
+  const catSel = document.getElementById('filterCategoria').value;
+  const modSel = document.getElementById('filterModalidad').value;
+
+  // Limpiar (mantener "Todos los cursos")
+  while (filterCurso.options.length > 1) filterCurso.remove(1);
+
+  cursos
+    .filter(c => !catSel || c.categoria_nombre === catSel)
+    .filter(c => !modSel || c.modalidad === modSel)
+    .forEach(c => filterCurso.add(new Option(c.nombre, c.id)));
+}
+
+// Se dispara al cambiar Categoría o Modalidad: re-filtra cursos y recarga
+function aplicarFiltrosCascada() {
+  document.getElementById('filterCurso').value = '';   // resetear curso
+  poblarFiltroCursos();
+  actualizarSelectorCohortes();
+  cargarMateriales();
 }
 
 function actualizarSelectorCohortes() {
@@ -1011,8 +1054,19 @@ async function cargarMateriales() {
   const cursoF = document.getElementById('filterCurso').value;
   const cohorteF = document.getElementById('filterCohorte').value;
   const tipoF = document.getElementById('filterTipo').value;
+  const catF = document.getElementById('filterCategoria').value;
+  const modF = document.getElementById('filterModalidad').value;
 
-  if (cursoF) query = query.eq('curso_id', cursoF);
+  if (cursoF) {
+    query = query.eq('curso_id', cursoF);
+  } else if (catF || modF) {
+    // Sin curso específico: limitar a los cursos que cumplen categoría/modalidad
+    const idsValidos = cursos
+      .filter(c => !catF || c.categoria_nombre === catF)
+      .filter(c => !modF || c.modalidad === modF)
+      .map(c => c.id);
+    query = query.in('curso_id', idsValidos.length ? idsValidos : ['00000000-0000-0000-0000-000000000000']);
+  }
   if (cohorteF === 'null') query = query.is('cohorte_id', null);
   else if (cohorteF) query = query.eq('cohorte_id', cohorteF);
   if (tipoF) query = query.eq('tipo', tipoF);
