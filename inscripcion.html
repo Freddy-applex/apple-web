@@ -679,7 +679,7 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
       </div>
 
       <!-- Separador oculto junto con el QR. Para reactivar: quitá style="display:none;" -->
-      <div class="pago-alt-sep"><span>o si preferís otro medio de pago</span></div>
+      <div class="pago-alt-sep" id="pago-alt-sep"><span>o si preferís otro medio de pago</span></div>
 
       <div class="pago-alt">
         <a href="#" class="pago-alt-opt" id="btn-whatsapp-pago" target="_blank">
@@ -1587,9 +1587,62 @@ function extraerPrimerNombre(nombreCompleto) {
   return primero.charAt(0).toUpperCase() + primero.slice(1).toLowerCase();
 }
 
+// ════════════════════════════════════════════════════════════════════
+// CONTROL DE MÉTODOS DE PAGO POR PAÍS (geolocalización por IP)
+// ════════════════════════════════════════════════════════════════════
+// Regla:
+//   • Bolivia  → SOLO QR (nunca tarjeta)
+//   • Extranjero → tarjeta SOLO si CyberSource está certificado
+//   • Si la IP falla → se asume Bolivia (solo QR) por seguridad
+//
+// 👉 Cuando Red Enlace certifique CyberSource, cambiar a true:
+const CYBERSOURCE_ACTIVO = false;
+// ════════════════════════════════════════════════════════════════════
+
+// Detecta el país por IP. Devuelve 'BO' (Bolivia) o 'EXT' (extranjero).
+// Si algo falla, devuelve 'BO' (lo más seguro para el público mayoritario).
+async function detectarPaisUsuario() {
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 3000); // máx 3s de espera
+    const r = await fetch('https://ipapi.co/json/', { signal: ctrl.signal });
+    clearTimeout(t);
+    if (!r.ok) return 'BO';
+    const data = await r.json();
+    return (data && data.country_code === 'BO') ? 'BO' : 'EXT';
+  } catch (e) {
+    return 'BO'; // ante cualquier error, asumimos Bolivia → solo QR
+  }
+}
+
+// Muestra/oculta los métodos de pago según el país detectado.
+async function configurarMetodosPagoPorPais() {
+  const cardQR      = document.getElementById('pago-qr-card');
+  const cardTarjeta = document.getElementById('pago-tarjeta-card');
+  const sepAlt      = document.getElementById('pago-alt-sep');
+
+  // Por defecto: QR visible, tarjeta y separador ocultos (estado seguro).
+  if (cardQR)      cardQR.style.display = '';
+  if (cardTarjeta) cardTarjeta.style.display = 'none';
+  if (sepAlt)      sepAlt.style.display = 'none';
+
+  const pais = await detectarPaisUsuario();
+
+  // La tarjeta SOLO se muestra a extranjeros y SOLO si CyberSource está activo.
+  if (pais === 'EXT' && CYBERSOURCE_ACTIVO) {
+    if (cardTarjeta) cardTarjeta.style.display = '';
+    if (sepAlt)      sepAlt.style.display = '';
+    // (opcional) si en el futuro quieres ocultar QR a extranjeros, hazlo aquí.
+  }
+  // En cualquier otro caso (Bolivia, o CyberSource inactivo) → solo QR.
+}
+
 function avanzarAPago(datos) {
   document.body.classList.add('pantalla-pago');
   document.getElementById('pago-nombre').textContent = extraerPrimerNombre(datos.nombre);
+
+  // Decide qué método de pago mostrar según el país del visitante.
+  configurarMetodosPagoPorPais();
 
   // Mensaje para el botón "Enviar comprobante" (post-pago)
   const mensajeWA = construirMensajeWA(datos, cursoActual);
