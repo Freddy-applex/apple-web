@@ -654,7 +654,7 @@ img{max-width:100%;height:auto;}
 
       <div class="promo-banner" id="promoBanner">
         🔥 INSCRIPCIÓN ANTICIPADA · Bs 50 de descuento en tarifa Profesional
-        <span class="promo-countdown" id="promoCountdown">Promoción válida hasta el lunes 6 de julio</span>
+        <span class="promo-countdown" id="promoCountdown">Promoción válida hasta el miércoles 8 de julio</span>
       </div>
 
       <div class="modalidad-block virtual">
@@ -749,7 +749,7 @@ setInterval(actualizarCountdown, 1000);
 // ============================================================
 // PROMO INSCRIPCIÓN ANTICIPADA — Profesional Bs 250 → Bs 200 hasta lunes 6/7/2026
 // ============================================================
-const PROMO_FECHA_LIMITE = new Date('2026-07-06T23:59:59-04:00');
+const PROMO_FECHA_LIMITE = new Date('2026-07-08T23:59:59-04:00');
 const PROMO_PRECIO_NORMAL = 250;
 const PROMO_PRECIO_OFERTA = 200;
 
@@ -775,11 +775,11 @@ function aplicarPromoEarlyBird(){
       const diff = PROMO_FECHA_LIMITE - ahora;
       const dias = Math.ceil(diff / (1000 * 60 * 60 * 24));
       if(dias > 1){
-        elCountdown.textContent = '⏰ Quedan ' + dias + ' días — termina el lunes 6 de julio';
+        elCountdown.textContent = '⏰ Quedan ' + dias + ' días — termina el miércoles 8 de julio';
       } else if(dias === 1){
         elCountdown.textContent = '⏰ ¡Último día! Termina hoy a las 23:59';
       } else {
-        elCountdown.textContent = '⏰ Últimas horas — termina el lunes 6 de julio 23:59';
+        elCountdown.textContent = '⏰ Últimas horas — termina el miércoles 8 de julio 23:59';
       }
     }
   } else {
