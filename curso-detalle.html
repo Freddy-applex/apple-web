@@ -85,6 +85,12 @@ a{text-decoration:none;color:inherit;}
 .precio-bs{font-family:'Josefin Sans',sans-serif;font-size:18px;font-weight:700;color:var(--navy);line-height:1;}
 .precio-bs.estudiante{color:var(--green-dark);}
 .precio-badge{font-size:9.5px;font-weight:800;background:var(--green);color:var(--navy);padding:2px 6px;border-radius:4px;letter-spacing:.5px;}
+.precio-tachado{font-family:'Josefin Sans',sans-serif;font-size:14px;font-weight:600;color:#999;text-decoration:line-through;margin-right:6px;}
+.precio-badge-promo{display:inline-block;font-size:9.5px;font-weight:800;background:#FF6B35;color:#fff;padding:2px 6px;border-radius:4px;letter-spacing:.5px;animation:pulse-promo 2s ease-in-out infinite;}
+@keyframes pulse-promo{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+.promo-banner{display:none;background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#fff;padding:8px 12px;border-radius:8px;font-size:11.5px;font-weight:700;text-align:center;margin-bottom:12px;letter-spacing:.3px;box-shadow:0 4px 12px rgba(255,107,53,0.3);}
+.promo-banner.activa{display:block;}
+.promo-banner .promo-countdown{display:block;font-size:10px;font-weight:600;opacity:.9;margin-top:2px;}
 .precio-nota{font-size:10.5px;color:var(--muted);text-align:center;font-style:italic;margin:8px 0 14px;line-height:1.4;}
 
 .ic-btn-main{display:block;width:100%;background:linear-gradient(135deg,var(--green),var(--green-dark));color:var(--navy);padding:14px;border-radius:10px;font-weight:800;font-size:15px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .3s;margin-bottom:10px;box-shadow:0 4px 16px rgba(141,198,63,0.3);text-decoration:none;text-align:center;}
@@ -112,7 +118,7 @@ a{text-decoration:none;color:inherit;}
 .aprenderas-item::before{content:'✓';color:var(--green);font-weight:800;font-size:13px;flex-shrink:0;margin-top:2px;}
 
 /* GRUPOS */
-.grupos-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px;}
+.grupos-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:18px;max-width:520px;}
 .grupo-card{background:var(--offwhite);border:1.5px solid var(--border);border-radius:12px;padding:22px;}
 .grupo-card.b{border-color:rgba(107,107,187,0.4);background:rgba(107,107,187,0.04);}
 .gr-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;background:var(--green);padding:4px 10px;border-radius:4px;margin-bottom:10px;}
@@ -227,7 +233,7 @@ footer a{color:var(--green);}
   <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80" class="hero-foto" alt="Modelación Financiera">
   <div class="hero-foto-overlay">
     <div class="hero-foto-text">
-      <div class="hero-foto-badge"><div class="hero-dot"></div> CURSO EN VIVO · INICIA 15 DE JUNIO 2026 · 2 GRUPOS</div>
+      <div class="hero-foto-badge"><div class="hero-dot"></div> CURSO EN VIVO · INICIA 21 DE JULIO 2026</div>
       <h1>Modelación Financiera <span>+ IA</span></h1>
       <p>Proyecciones, rentabilidad y toma de decisiones. Aprendé a construir modelos financieros profesionales en Excel: interpretar estados financieros, proyectar resultados y evaluar proyectos con criterio gerencial. Por el Ing. Carlos Heredia Magno.</p>
       <div class="hero-mods">
@@ -245,14 +251,14 @@ footer a{color:var(--green);}
   <div class="ibadge">📊 Nivel Intermedio</div>
   <div class="ibadge">📜 Certificado oficial</div>
   <div class="ibadge">🇧🇴 Santa Cruz, Bolivia</div>
-  <div class="ibadge highlight">⚡ 60 cupos por grupo</div>
+  <div class="ibadge highlight">⚡ Cupos limitados</div>
 </div>
 
 <!-- COUNTDOWN -->
 <div class="countdown-bar">
   <div>
     <div class="cd-label">⏳ El curso inicia en:</div>
-    <div class="cd-sub">Nueva edición · Julio 2026 · Fechas por confirmar</div>
+    <div class="cd-sub">Martes 21 de Julio 2026 · 19:30 Bolivia</div>
   </div>
   <div class="cd-timer">
     <div class="cd-unit"><span class="cd-num" id="cd-d">00</span><span class="cd-sub-label">Días</span></div>
@@ -295,36 +301,22 @@ footer a{color:var(--green);}
     <div class="separador"></div>
 
     <!-- GRUPOS -->
-    <span class="section-tag">Elegí tu grupo</span>
-    <h2>2 grupos disponibles</h2>
-    <p>Tenemos dos opciones de horario para que elijas el que mejor se adapte a vos. Ambos grupos cubren el mismo contenido completo en <strong>15 horas en vivo</strong>, dictadas por el Ing. Carlos Heredia Magno.</p>
+    <span class="section-tag">Horarios</span>
+    <h2>Cronograma del curso</h2>
+    <p>El curso se dicta <strong>martes, jueves y sábado</strong>, con <strong>15 horas en vivo</strong> distribuidas en 6 clases, dictadas por el Ing. Carlos Heredia Magno.</p>
 
     <div class="grupos-grid">
-      <div class="grupo-card">
-        <div class="gr-tag">Grupo A · Entre semana</div>
-        <div class="gr-tit">Lunes, Miércoles y Viernes</div>
-        <div class="gr-info">
-          <div class="gr-row"><b>Horario</b><span>19:30 a 22:00 (Bolivia)</span></div>
-          <div class="gr-row"><b>Sesiones</b><span>6 clases × 2,5 horas</span></div>
-          <div class="gr-row"><b>Duración</b><span>2 semanas</span></div>
-        </div>
-        <div class="gr-fechas">
-          <strong>📅 Inicia:</strong> Julio 2026 (fecha por confirmar)<br>
-          <strong>🏁 Finaliza:</strong> Por definir según fecha de inicio
-        </div>
-      </div>
-
       <div class="grupo-card b">
-        <div class="gr-tag">Grupo B · Mixto</div>
+        <div class="gr-tag">Grupo Julio 2026 · En vivo por Zoom</div>
         <div class="gr-tit">Martes, Jueves y Sábado</div>
         <div class="gr-info">
           <div class="gr-row"><b>Horario</b><span>Ma/Ju 19:30-22:00 · Sáb 10:00-12:30</span></div>
           <div class="gr-row"><b>Sesiones</b><span>6 clases × 2,5 horas</span></div>
-          <div class="gr-row"><b>Duración</b><span>2 semanas</span></div>
+          <div class="gr-row"><b>Duración</b><span>2 semanas · 15 horas en vivo</span></div>
         </div>
         <div class="gr-fechas">
-          <strong>📅 Inicia:</strong> Julio 2026 (fecha por confirmar)<br>
-          <strong>🏁 Finaliza:</strong> Por definir según fecha de inicio
+          <strong>📅 Inicia:</strong> Martes 21 de julio 2026<br>
+          <strong>🏁 Finaliza:</strong> Sábado 1 de agosto 2026
         </div>
       </div>
     </div>
@@ -466,7 +458,7 @@ footer a{color:var(--green);}
     <div class="primer-dictado">
       <div class="pd-icon">📣</div>
       <div class="pd-tit">Este es el primer dictado del curso</div>
-      <p class="pd-desc">Modelación Financiera + IA inicia en julio 2026. Tu opinión va a ayudar a futuros alumnos a decidirse. Las primeras reseñas se publicarán al cierre de este grupo.</p>
+      <p class="pd-desc">Modelación Financiera + IA inicia el 21 de julio 2026. Tu opinión va a ayudar a futuros alumnos a decidirse. Las primeras reseñas se publicarán al cierre de este grupo.</p>
     </div>
 
   </div>
@@ -477,6 +469,11 @@ footer a{color:var(--green);}
 
       <div class="precio-section-tit">💰 Inversión</div>
 
+      <div class="promo-banner" id="promoBanner">
+        🔥 INSCRIPCIÓN ANTICIPADA · Hasta Bs 50 de descuento
+        <span class="promo-countdown" id="promoCountdown">Promoción válida hasta el lunes 20 de julio</span>
+      </div>
+
       <div class="modalidad-block virtual">
         <div class="mod-head">
           <span class="mod-icon">📺</span>
@@ -485,13 +482,18 @@ footer a{color:var(--green);}
         </div>
         <div class="precio-fila">
           <div class="precio-tipo">👔 Profesional</div>
-          <div class="precio-monto"><span class="precio-bs">Bs 200</span></div>
+          <div class="precio-monto">
+            <span class="precio-tachado" id="tachVirtProf" style="display:none;">Bs 200</span>
+            <span class="precio-bs" id="precioVirtProf">Bs 200</span>
+            <span class="precio-badge-promo" id="badgeVirtProf" style="display:none;">-Bs 50</span>
+          </div>
         </div>
         <div class="precio-fila">
           <div class="precio-tipo precio-tipo-est">🎓 Estudiante</div>
           <div class="precio-monto">
-            <span class="precio-bs estudiante">Bs 100</span>
-            <span class="precio-badge">50% OFF</span>
+            <span class="precio-tachado" id="tachVirtEst" style="display:none;">Bs 100</span>
+            <span class="precio-bs estudiante" id="precioVirtEst">Bs 100</span>
+            <span class="precio-badge-promo" id="badgeVirtEst" style="display:none;">-Bs 50</span>
           </div>
         </div>
       </div>
@@ -504,13 +506,18 @@ footer a{color:var(--green);}
         </div>
         <div class="precio-fila">
           <div class="precio-tipo">👔 Profesional</div>
-          <div class="precio-monto"><span class="precio-bs">Bs 350</span></div>
+          <div class="precio-monto">
+            <span class="precio-tachado" id="tachPresProf" style="display:none;">Bs 300</span>
+            <span class="precio-bs" id="precioPresProf">Bs 300</span>
+            <span class="precio-badge-promo" id="badgePresProf" style="display:none;">-Bs 50</span>
+          </div>
         </div>
         <div class="precio-fila">
           <div class="precio-tipo precio-tipo-est">🎓 Estudiante</div>
           <div class="precio-monto">
-            <span class="precio-bs estudiante">Bs 200</span>
-            <span class="precio-badge">43% OFF</span>
+            <span class="precio-tachado" id="tachPresEst" style="display:none;">Bs 250</span>
+            <span class="precio-bs estudiante" id="precioPresEst">Bs 250</span>
+            <span class="precio-badge-promo" id="badgePresEst" style="display:none;">-Bs 50</span>
           </div>
         </div>
       </div>
@@ -542,7 +549,7 @@ footer a{color:var(--green);}
 <!-- CTA FINAL -->
 <section class="cta-section">
   <h2>¿Listo para dominar la modelación financiera?</h2>
-  <p>Solo 60 cupos por grupo. Nueva edición en julio 2026. Pre-inscribite ahora y asegurá tu cupo.</p>
+  <p>Cupos limitados. Inicia el martes 21 de julio 2026. Inscribite ahora y asegurá tu cupo.</p>
   <div class="cta-btns">
     <a href="inscripcion.html?slug=modelacion-financiera-ia" class="btn-cta">🎓 Inscribirme →</a>
     <a href="https://wa.me/59157388229?text=Hola,%20quiero%20inscribirme%20al%20curso%20Modelación%20Financiera%20+%20IA" target="_blank" class="btn-cta-wa">💬 Hablar por WhatsApp</a>
@@ -557,7 +564,7 @@ footer a{color:var(--green);}
 </footer>
 
 <script>
-const FECHA_INICIO = new Date('2026-07-06T19:30:00-04:00');
+const FECHA_INICIO = new Date('2026-07-21T19:30:00-04:00');
 
 function actualizarCountdown(){
   const ahora = new Date();
@@ -580,6 +587,63 @@ function actualizarCountdown(){
 }
 actualizarCountdown();
 setInterval(actualizarCountdown, 1000);
+
+// ============================================================
+// PROMO INSCRIPCIÓN ANTICIPADA — hasta lunes 20/07/2026
+// Virtual:    Prof Bs 200→150 · Est Bs 100→50
+// Presencial: Prof Bs 300→250 · Est Bs 250→200
+// ============================================================
+const PROMO_FECHA_LIMITE = new Date('2026-07-20T23:59:59-04:00');
+
+const PROMO_TARIFAS = [
+  { tach:'tachVirtProf', precio:'precioVirtProf', badge:'badgeVirtProf', normal:200, oferta:150 },
+  { tach:'tachVirtEst',  precio:'precioVirtEst',  badge:'badgeVirtEst',  normal:100, oferta:50  },
+  { tach:'tachPresProf', precio:'precioPresProf', badge:'badgePresProf', normal:300, oferta:250 },
+  { tach:'tachPresEst',  precio:'precioPresEst',  badge:'badgePresEst',  normal:250, oferta:200 }
+];
+
+function aplicarPromoEarlyBird(){
+  const ahora = new Date();
+  const promoActiva = ahora <= PROMO_FECHA_LIMITE;
+
+  const elBanner    = document.getElementById('promoBanner');
+  const elCountdown = document.getElementById('promoCountdown');
+
+  PROMO_TARIFAS.forEach(function(t){
+    const elTach   = document.getElementById(t.tach);
+    const elPrecio = document.getElementById(t.precio);
+    const elBadge  = document.getElementById(t.badge);
+
+    if(promoActiva){
+      if(elTach)   elTach.style.display   = 'inline-block';
+      if(elBadge)  elBadge.style.display  = 'inline-block';
+      if(elPrecio) elPrecio.textContent   = 'Bs ' + t.oferta;
+    } else {
+      if(elTach)   elTach.style.display   = 'none';
+      if(elBadge)  elBadge.style.display  = 'none';
+      if(elPrecio) elPrecio.textContent   = 'Bs ' + t.normal;
+    }
+  });
+
+  if(promoActiva){
+    if(elBanner) elBanner.classList.add('activa');
+    if(elCountdown){
+      const diff = PROMO_FECHA_LIMITE - ahora;
+      const dias = Math.ceil(diff / (1000 * 60 * 60 * 24));
+      if(dias > 1){
+        elCountdown.textContent = '⏰ Quedan ' + dias + ' días — termina el lunes 20 de julio';
+      } else if(dias === 1){
+        elCountdown.textContent = '⏰ ¡Último día! Termina hoy a las 23:59';
+      } else {
+        elCountdown.textContent = '⏰ Últimas horas — termina el lunes 20 de julio 23:59';
+      }
+    }
+  } else {
+    if(elBanner) elBanner.classList.remove('activa');
+  }
+}
+aplicarPromoEarlyBird();
+setInterval(aplicarPromoEarlyBird, 60000);
 </script>
 
 </body>
