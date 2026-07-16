@@ -980,7 +980,7 @@ async function cargarCursos() {
     if (loader) loader.style.display = 'none';
     
     // Dividir cursos por modalidad
-    const cursosVivo = data.filter(c => c.modalidad === 'en_vivo');
+    const cursosVivo = data.filter(c => c.modalidad === 'en_vivo' && c.cohorte_proxima_id);
     const cursosGrabado = data.filter(c => c.modalidad !== 'en_vivo');
     
     // Pintar en cada grid

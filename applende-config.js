@@ -10,7 +10,7 @@ const APPLENDE = {
   SUPABASE_URL: 'https://wdoqzsmwuvozhkclqbjk.supabase.co',
   SUPABASE_KEY: 'sb_publishable_YsQshZ_X8aAYIgevuRXESg_al83VtZw',
   
-  WHATSAPP_NUMERO: '59164403290',
+  WHATSAPP_NUMERO: '59157388229',
   WHATSAPP_NOMBRE: 'Arq. Freddy',
   EMAIL_CONTACTO: 'appleconstrucciones.c@gmail.com',
   
