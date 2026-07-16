@@ -891,7 +891,7 @@ function cardCursoHTML(curso) {
   // como "PRÓXIMAMENTE" con el botón deshabilitado y la tarjeta no clickeable.
   // Los cursos EN VIVO (Edificios, Modelación, Vectorworks) NO se ven afectados.
   // [30/05/2026] Cómputo+PRESCOM+APPLEX ya tiene su página estática => habilitado.
-  const grabadoProximamente = !esVivo && !((curso.slug||'').toLowerCase().includes('computo')) && !((curso.slug||'').toLowerCase().includes('licitacion'));
+  const grabadoProximamente = !esVivo && !((curso.slug||'').toLowerCase().includes('computo')) && !((curso.slug||'').toLowerCase().includes('licitacion')) && !((curso.slug||'').toLowerCase().includes('edificios'));
 
   const textoBoton = esVivo
     ? '🎓 Reservar mi cupo →'
