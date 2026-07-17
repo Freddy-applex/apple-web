@@ -1606,6 +1606,9 @@ function extraerPrimerNombre(nombreCompleto) {
 //
 // 👉 Cuando Red Enlace certifique CyberSource, cambiar a true:
 const CYBERSOURCE_ACTIVO = true;
+// ⚠️ SOLO PRUEBAS: muestra el botón de tarjeta también en Bolivia (para probar sin VPN).
+// Poné en false antes de producción pública. Cuando es true, Bolivia ve tarjeta.
+const MODO_PRUEBA_TARJETA_BOLIVIA = true;
 // ════════════════════════════════════════════════════════════════════
 
 // Detecta el país por IP. Devuelve 'BO' (Bolivia) o 'EXT' (extranjero).
@@ -1637,13 +1640,17 @@ async function configurarMetodosPagoPorPais() {
 
   const pais = await detectarPaisUsuario();
 
-  // La tarjeta SOLO se muestra a extranjeros y SOLO si CyberSource está activo.
-  if (pais === 'EXT' && CYBERSOURCE_ACTIVO) {
+  // La tarjeta se muestra a extranjeros si CyberSource está activo,
+  // O en modo prueba desde Bolivia (para testear sin VPN).
+  const mostrarTarjeta =
+    (pais === 'EXT' && CYBERSOURCE_ACTIVO) ||
+    (MODO_PRUEBA_TARJETA_BOLIVIA && CYBERSOURCE_ACTIVO);
+
+  if (mostrarTarjeta) {
     if (cardTarjeta) cardTarjeta.style.display = '';
     if (sepAlt)      sepAlt.style.display = '';
-    // (opcional) si en el futuro quieres ocultar QR a extranjeros, hazlo aquí.
   }
-  // En cualquier otro caso (Bolivia, o CyberSource inactivo) → solo QR.
+  // En cualquier otro caso (Bolivia sin modo prueba, o CyberSource inactivo) → solo QR.
 }
 
 function avanzarAPago(datos) {
