@@ -794,6 +794,16 @@ const PROMOS_INSCRIPCION_ANTICIPADA = {
     precioNormal: 200,
     precioPromo:  150,
     fechaLimite:  '2026-07-20T23:59:59-04:00'
+  },
+  'formulacion-poa-julio': {
+    precioNormal: 200,
+    precioPromo:  150,
+    fechaLimite:  '2026-07-21T23:59:59-04:00'
+  },
+  'asesoria-tecnica-legislativa': {
+    precioNormal: 300,
+    precioPromo:  200,
+    fechaLimite:  '2026-07-21T23:59:59-04:00'
   }
   // Ejemplo para futuras promos (descomentar y ajustar):
   // 'vectorworks':              { precioNormal: 180, precioPromo: 130, fechaLimite: '2026-06-XXT23:59:59-04:00' }
@@ -1595,7 +1605,7 @@ function extraerPrimerNombre(nombreCompleto) {
 //   • Si la IP falla → se asume Bolivia (solo QR) por seguridad
 //
 // 👉 Cuando Red Enlace certifique CyberSource, cambiar a true:
-const CYBERSOURCE_ACTIVO = false;
+const CYBERSOURCE_ACTIVO = true;
 // ════════════════════════════════════════════════════════════════════
 
 // Detecta el país por IP. Devuelve 'BO' (Bolivia) o 'EXT' (extranjero).
