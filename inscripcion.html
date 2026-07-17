@@ -1972,12 +1972,22 @@ async function tjLlamar(fn, payload){
   return await r.json();
 }
 
+// Detecta el cardType de CyberSource según el número: 001=VISA, 002=Mastercard, 003=AMEX
+function tjDetectarMarca(numero){
+  const n = String(numero).replace(/\s/g,'');
+  if(/^4/.test(n)) return '001';            // VISA
+  if(/^5[1-5]/.test(n) || /^2[2-7]/.test(n)) return '002'; // Mastercard
+  if(/^3[47]/.test(n)) return '003';        // AMEX
+  return '001'; // por defecto VISA
+}
+
 async function tjPagar(){
   const numero = document.getElementById('tj-numero').value.replace(/\s/g,'');
   const nombre = document.getElementById('tj-nombre').value.trim();
   const mes = document.getElementById('tj-mes').value.trim();
   const anio = document.getElementById('tj-anio').value.trim();
   const cvv = document.getElementById('tj-cvv').value.trim();
+  const marca = tjDetectarMarca(numero); // ← cardType correcto según la tarjeta
 
   if(numero.length < 13 || !mes || !anio || !cvv){
     tjEstado('err','⚠️ Completá todos los datos de la tarjeta.');
@@ -2008,7 +2018,7 @@ async function tjPagar(){
       tjCargando(true,'Verificando tu tarjeta…');
     }
     const ini = await tjLlamar('pago-iniciar',{
-      cardNumber:numero, expMonth:mes, expYear:anio, cardType:'001',
+      cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
       amount:String(precio), currency:moneda,
       firstName, lastName, email:emailAlumno, phone:'00000000',
       address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
@@ -2028,7 +2038,7 @@ async function tjPagar(){
 
     tjCargando(true,'Procesando el pago…');
     const fin = await tjLlamar('pago-finalizar',{
-      cardNumber:numero, expMonth:mes, expYear:anio, cardType:'001', cvv,
+      cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca, cvv,
       amount:String(precio), currency:moneda,
       firstName, lastName, email:emailAlumno, phone:'00000000',
       address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
@@ -2064,7 +2074,7 @@ window.addEventListener('message', async function(ev){
     tjCargando(true,'Confirmando tu pago…');
     const d = TJ_DATOS;
     const fin = await tjLlamar('pago-finalizar',{
-      cardNumber:d.numero, expMonth:d.mes, expYear:d.anio, cardType:'001', cvv:d.cvv,
+      cardNumber:d.numero, expMonth:d.mes, expYear:d.anio, cardType:tjDetectarMarca(d.numero), cvv:d.cvv,
       amount:String(d.precio), currency:d.moneda,
       firstName:d.firstName, lastName:d.lastName, email:d.emailAlumno, phone:'00000000',
       address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
