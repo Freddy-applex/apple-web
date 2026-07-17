@@ -1913,10 +1913,13 @@ let TJ_CHALLENGE_TX = null;
 
 // Generar session_id y cargar device fingerprint
 const TJ_SESSION = ('redenlace_' + Math.random().toString(36).substring(2,12)).substring(0,88);
+let TJ_FP_LISTO = null; // promesa que se resuelve tras 11s (Data Collector)
 function tjCargarFingerprint(){
   const s = document.createElement('script');
   s.src = 'https://h.online-metrix.net/fp/tags.js?org_id=' + TJ_ORG_FP + '&session_id=' + TJ_SESSION;
   document.head.appendChild(s);
+  // OBS.5: esperar 11 segundos a que el Data Collector termine de perfilar el dispositivo.
+  TJ_FP_LISTO = new Promise(function(resolve){ setTimeout(resolve, 11000); });
 }
 
 function tjBrowserInfo(){
@@ -1981,6 +1984,12 @@ async function tjPagar(){
 
   try{
     tjCargando(true,'Verificando tu tarjeta…');
+    // OBS.5: esperar a que el Data Collector (device fingerprint) termine sus 11 seg.
+    if(TJ_FP_LISTO){
+      tjCargando(true,'Verificando la seguridad de tu dispositivo…');
+      await TJ_FP_LISTO;
+      tjCargando(true,'Verificando tu tarjeta…');
+    }
     const ini = await tjLlamar('pago-iniciar',{
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:'001',
       amount:String(precio), currency:moneda,
@@ -1988,6 +1997,7 @@ async function tjPagar(){
       address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
       referenceCode:'INSC-' + pendienteId,
       browserInfo: tjBrowserInfo(),
+      fingerprintSessionId: TJ_SESSION,
       returnUrl: window.location.origin + '/inscripcion.html',
     });
 
@@ -2007,8 +2017,10 @@ async function tjPagar(){
       address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
       refCode:'INSC-' + pendienteId,
       pendienteId,
+      cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
       hadChallenge:false,
       cavv:ini.cavv, xid:ini.xid, eci:ini.eci,
+      commerceIndicator: ini.commerceIndicator,
       directoryServerTransactionId:ini.directoryServerTransactionId,
       paSpecificationVersion:ini.paSpecificationVersion,
     });
@@ -2041,6 +2053,7 @@ window.addEventListener('message', async function(ev){
       address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
       refCode:'INSC-' + d.pendienteId,
       pendienteId:d.pendienteId,
+      cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
       hadChallenge:true,
       authenticationTransactionId: TJ_CHALLENGE_TX,
     });
