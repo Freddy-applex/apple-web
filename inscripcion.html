@@ -798,11 +798,15 @@ const PROMOS_INSCRIPCION_ANTICIPADA = {
   'formulacion-poa-julio': {
     precioNormal: 200,
     precioPromo:  150,
+    precioEstudianteNormal: 150,
+    precioEstudiantePromo:  100,
     fechaLimite:  '2026-07-21T23:59:59-04:00'
   },
   'asesoria-tecnica-legislativa': {
     precioNormal: 300,
     precioPromo:  200,
+    precioEstudianteNormal: 200,
+    precioEstudiantePromo:  150,
     fechaLimite:  '2026-07-21T23:59:59-04:00'
   }
   // Ejemplo para futuras promos (descomentar y ajustar):
@@ -822,6 +826,9 @@ function aplicarPromoEnInscripcion(curso) {
     // Promo expirada → restaurar el precio normal definido en el cuadro.
     // (Supabase puede tener grabado el precio promo, por eso forzamos aquí.)
     curso.precio_bs = promo.precioNormal;
+    if (promo.precioEstudianteNormal) {
+      curso.precio_estudiante_bs = promo.precioEstudianteNormal;
+    }
     return curso;
   }
 
@@ -829,6 +836,10 @@ function aplicarPromoEnInscripcion(curso) {
   curso.precio_bs = promo.precioPromo;
   if (!curso.precio_original_bs || Number(curso.precio_original_bs) < promo.precioNormal) {
     curso.precio_original_bs = promo.precioNormal;
+  }
+  // Precio de estudiante durante la promo
+  if (promo.precioEstudiantePromo) {
+    curso.precio_estudiante_bs = promo.precioEstudiantePromo;
   }
   return curso;
 }
