@@ -2088,7 +2088,9 @@ async function tjPagar(){
       address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
       referenceCode:'INSC-' + pendienteId,
     };
-    await tjEjecutarDDC(datosBase);
+    // FIX v11: capturamos el referenceId que genera el DDC.
+    const ddc = await tjEjecutarDDC(datosBase);
+    const refIdDDC = (ddc && ddc.referenceId) ? ddc.referenceId : null;
     tjCargando(true,'Verificando tu tarjeta…');
     const ini = await tjLlamar('pago-iniciar',{
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
@@ -2098,6 +2100,7 @@ async function tjPagar(){
       referenceCode:'INSC-' + pendienteId,
       browserInfo: tjBrowserInfo(),
       fingerprintSessionId: TJ_SESSION,
+      referenceId: refIdDDC,                 // ← EL MISMO referenceId del DDC (clave del fix)
       returnUrl: window.location.origin + '/inscripcion.html',
     });
 
