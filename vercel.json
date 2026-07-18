@@ -1,1 +1,15 @@
-{}
+{
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "applende.com"
+        }
+      ],
+      "destination": "/cursos.html",
+      "permanent": false
+    }
+  ]
+}
