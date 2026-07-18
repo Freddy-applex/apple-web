@@ -2006,22 +2006,36 @@ async function tjEjecutarDDC(datosTarjeta){
   // 2) iframe oculto + form POST del JWT
   return await new Promise(function(resolve){
     let resuelto = false;
+    let profileCompleto = false;     // FIX Kenneth: marca si Cardinal confirmó TRUE
+    const T_INICIO = Date.now();
+    const PISO_MS = 6000;            // espera mínima para que Cardinal procese en su servidor
+    const TECHO_MS = 11000;          // cronómetro de 11s (recomendación Kenneth)
+
     const finalizar = function(){
       if(resuelto) return;
       resuelto = true;
       window.removeEventListener('message', onMsg);
+      console.log('[DIAG] DDC finalizado. profile.completed recibido:', profileCompleto, '· tiempo:', (Date.now()-T_INICIO)+'ms');
       resolve({ referenceId: referenceId });
     };
 
-    // 3) Listener del postMessage de Cardinal (respuesta del Data Collector)
+    // 3) Listener del postMessage de Cardinal (respuesta del Data Collector).
+    //    FIX Kenneth: NO resolvemos al instante. Marcamos el TRUE y esperamos
+    //    el PISO mínimo, para que Cardinal termine de procesar del lado servidor.
     function onMsg(ev){
       if(typeof ev.origin === 'string' &&
-         (ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('centinelapistag') !== -1 || ev.origin.indexOf('centinelapi') !== -1)){
+         (ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('cardinaltrusted') !== -1 || ev.origin.indexOf('centinelapistag') !== -1 || ev.origin.indexOf('centinelapi') !== -1)){
         try{
           const data = typeof ev.data === 'string' ? JSON.parse(ev.data) : ev.data;
-          // Cardinal responde con MessageType "profile.completed"
           if(data && (data.Status === true || data.MessageType === 'profile.completed')){
-            finalizar();
+            profileCompleto = true;
+            // Si ya pasó el piso, cerramos; si no, esperamos a completarlo.
+            const transcurrido = Date.now() - T_INICIO;
+            if(transcurrido >= PISO_MS){
+              finalizar();
+            }else{
+              setTimeout(finalizar, PISO_MS - transcurrido);
+            }
           }
         }catch(e){ /* mensajes no-JSON de otros orígenes, ignorar */ }
       }
@@ -2045,8 +2059,9 @@ async function tjEjecutarDDC(datosTarjeta){
     document.body.appendChild(form);
     form.submit();
 
-    // 4) Respaldo: si Cardinal no responde, resolvemos a los 11s (cronómetro).
-    setTimeout(finalizar, 11000);
+    // 4) Cronómetro de 11s (techo): si Cardinal nunca manda el TRUE,
+    //    igual cerramos a los 11s para no colgar el flujo.
+    setTimeout(finalizar, TECHO_MS);
   });
 }
 
