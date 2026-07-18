@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificación de Certificado — APPLENDE Academia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1A2744;
+    --lima:#8DC63F;
+    --violeta:#6B6BBB;
+    --gris:#F4F5F7;
+    --texto:#2B3448;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Poppins',sans-serif;
+    background:var(--gris);
+    color:var(--texto);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+
+  header{
+    background:var(--navy);
+    padding:18px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  header .marca{
+    color:#fff;
+    font-weight:600;
+    font-size:1.05rem;
+    letter-spacing:.3px;
+  }
+  header .marca span{color:var(--lima)}
+  header a{
+    color:#cfd6e4;
+    text-decoration:none;
+    font-size:.88rem;
+  }
+  header a:hover{color:#fff}
+
+  main{
+    flex:1;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:40px 20px 60px;
+  }
+  .card{
+    background:#fff;
+    width:100%;
+    max-width:620px;
+    border-radius:16px;
+    box-shadow:0 6px 28px rgba(26,39,68,.10);
+    overflow:hidden;
+  }
+
+  .card-top{
+    padding:28px 30px 22px;
+    border-bottom:1px solid #EAECF0;
+    text-align:center;
+  }
+  .card-top h1{
+    font-size:1.22rem;
+    font-weight:600;
+    color:var(--navy);
+  }
+  .card-top p{
+    margin-top:6px;
+    font-size:.88rem;
+    color:#78829A;
+  }
+
+  .cuerpo{padding:26px 30px 32px}
+
+  /* Estado */
+  .estado{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 16px;
+    border-radius:10px;
+    margin-bottom:24px;
+    font-weight:500;
+    font-size:.95rem;
+  }
+  .estado.ok{background:#EAF7E1;color:#3B6E1B;border:1px solid #C8E6AC}
+  .estado.err{background:#FDECEC;color:#9B1C1C;border:1px solid #F5C2C2}
+  .estado.info{background:#EEF1FA;color:#3A4A73;border:1px solid #CBD5EC}
+  .estado .ico{font-size:1.35rem;line-height:1}
+
+  /* Datos */
+  .dato{
+    padding:13px 0;
+    border-bottom:1px solid #F0F1F4;
+  }
+  .dato:last-child{border-bottom:none}
+  .dato .et{
+    font-size:.72rem;
+    text-transform:uppercase;
+    letter-spacing:.9px;
+    color:#8A93A6;
+    font-weight:500;
+  }
+  .dato .val{
+    margin-top:4px;
+    font-size:1.02rem;
+    font-weight:500;
+    color:var(--navy);
+    word-break:break-word;
+  }
+  .dato .val.grande{font-size:1.18rem;font-weight:600}
+
+  /* Buscador */
+  .buscador{margin-top:8px}
+  .buscador label{
+    display:block;
+    font-size:.85rem;
+    color:#5A6478;
+    margin-bottom:8px;
+  }
+  .fila{display:flex;gap:10px;flex-wrap:wrap}
+  .fila input{
+    flex:1;
+    min-width:200px;
+    padding:12px 14px;
+    border:1.5px solid #D6DAE3;
+    border-radius:9px;
+    font-family:inherit;
+    font-size:.95rem;
+    text-transform:uppercase;
+  }
+  .fila input:focus{outline:none;border-color:var(--violeta)}
+  .fila button{
+    padding:12px 26px;
+    background:var(--lima);
+    color:var(--navy);
+    border:none;
+    border-radius:9px;
+    font-family:inherit;
+    font-weight:600;
+    font-size:.95rem;
+    cursor:pointer;
+  }
+  .fila button:hover{filter:brightness(.95)}
+  .fila button:disabled{opacity:.6;cursor:not-allowed}
+
+  .cargando{
+    text-align:center;
+    padding:34px 0;
+    color:#78829A;
+    font-size:.92rem;
+  }
+
+  footer{
+    background:var(--navy);
+    color:#9BA6BC;
+    text-align:center;
+    padding:18px;
+    font-size:.8rem;
+  }
+  footer b{color:#fff;font-weight:500}
+
+  @media(max-width:520px){
+    .cuerpo{padding:22px 20px 28px}
+    .card-top{padding:24px 20px 18px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="marca">APPLENDE <span>Academia</span></div>
+  <a href="https://applende.com/cursos.html">← Ver cursos</a>
+</header>
+
+<main>
+  <div class="card">
+    <div class="card-top">
+      <h1>Verificación de Certificado</h1>
+      <p>Consultá la autenticidad de un certificado emitido por APPLENDE Academia</p>
+    </div>
+
+    <div class="cuerpo">
+      <div id="zona-resultado"></div>
+
+      <div class="buscador" id="buscador">
+        <label for="inp-codigo">Código del certificado</label>
+        <div class="fila">
+          <input type="text" id="inp-codigo" placeholder="APL-POA-JUN26-0001" autocomplete="off">
+          <button id="btn-verificar">Verificar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <b>APPLENDE Academia</b> · APPLE Construcciones &amp; Servicios · Santa Cruz de la Sierra, Bolivia
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="applende-config.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  const zona   = document.getElementById('zona-resultado');
+  const inp    = document.getElementById('inp-codigo');
+  const btn    = document.getElementById('btn-verificar');
+
+  function esc(t){
+    const d = document.createElement('div');
+    d.textContent = t == null ? '' : String(t);
+    return d.innerHTML;
+  }
+
+  function fechaLarga(iso){
+    if(!iso) return '—';
+    const meses = ['enero','febrero','marzo','abril','mayo','junio','julio',
+                   'agosto','septiembre','octubre','noviembre','diciembre'];
+    const f = new Date(iso);
+    if(isNaN(f)) return '—';
+    return f.getDate() + ' de ' + meses[f.getMonth()] + ' de ' + f.getFullYear();
+  }
+
+  function mostrarCargando(){
+    zona.innerHTML = '<div class="cargando">Consultando el registro…</div>';
+  }
+
+  function mostrarError(msg){
+    zona.innerHTML =
+      '<div class="estado err">' +
+        '<span class="ico">✕</span>' +
+        '<span>' + esc(msg) + '</span>' +
+      '</div>';
+  }
+
+  function mostrarCertificado(c){
+    zona.innerHTML =
+      '<div class="estado ok">' +
+        '<span class="ico">✓</span>' +
+        '<span>Certificado válido y registrado</span>' +
+      '</div>' +
+      '<div class="dato">' +
+        '<div class="et">Otorgado a</div>' +
+        '<div class="val grande">' + esc(c.nombre_alumno) + '</div>' +
+      '</div>' +
+      '<div class="dato">' +
+        '<div class="et">Curso</div>' +
+        '<div class="val">' + esc(c.titulo_curso) + '</div>' +
+      '</div>' +
+      '<div class="dato">' +
+        '<div class="et">Carga horaria</div>' +
+        '<div class="val">' + esc(c.duracion_horas) + ' horas académicas</div>' +
+      '</div>' +
+      '<div class="dato">' +
+        '<div class="et">Fecha de emisión</div>' +
+        '<div class="val">' + esc(fechaLarga(c.emitido_en)) + '</div>' +
+      '</div>' +
+      '<div class="dato">' +
+        '<div class="et">Código de verificación</div>' +
+        '<div class="val">' + esc(c.codigo_unico) + '</div>' +
+      '</div>';
+  }
+
+  async function verificar(codigo){
+    const cod = (codigo || '').trim().toUpperCase();
+    if(!cod){
+      mostrarError('Ingresá un código de certificado.');
+      return;
+    }
+
+    mostrarCargando();
+    btn.disabled = true;
+
+    try{
+      const sb = window.obtenerSupabase();
+      if(!sb){
+        mostrarError('No se pudo conectar con el servidor. Intentá de nuevo en unos minutos.');
+        return;
+      }
+
+      const { data, error } = await sb
+        .from('certificados')
+        .select('codigo_unico, nombre_alumno, titulo_curso, duracion_horas, emitido_en')
+        .eq('codigo_unico', cod)
+        .maybeSingle();
+
+      if(error){
+        console.error('[APPLENDE] Error al verificar:', error);
+        mostrarError('Ocurrió un problema al consultar el registro. Intentá nuevamente.');
+        return;
+      }
+
+      if(!data){
+        zona.innerHTML =
+          '<div class="estado err">' +
+            '<span class="ico">✕</span>' +
+            '<span>No se encontró ningún certificado con el código <b>' + esc(cod) + '</b></span>' +
+          '</div>' +
+          '<div class="estado info" style="margin-top:-8px">' +
+            '<span class="ico">ℹ</span>' +
+            '<span>Revisá que el código esté escrito correctamente. Si el problema persiste, escribinos por WhatsApp.</span>' +
+          '</div>';
+        return;
+      }
+
+      mostrarCertificado(data);
+
+    }catch(e){
+      console.error('[APPLENDE] Excepción:', e);
+      mostrarError('Ocurrió un problema inesperado. Intentá nuevamente.');
+    }finally{
+      btn.disabled = false;
+    }
+  }
+
+  btn.addEventListener('click', function(){ verificar(inp.value); });
+  inp.addEventListener('keydown', function(e){
+    if(e.key === 'Enter') verificar(inp.value);
+  });
+
+  // Si viene ?codigo= en la URL (desde el QR), verificar automáticamente
+  const params = new URLSearchParams(window.location.search);
+  const codURL = params.get('codigo');
+  if(codURL){
+    inp.value = codURL.trim().toUpperCase();
+    verificar(codURL);
+  }
+})();
+</script>
+</body>
+</html>
