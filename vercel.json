@@ -1,15 +1,46 @@
+═══════════════════════════════════════════════════════════════════════════
+  CSP CORREGIDO PARA CARDINAL / CYBERSOURCE 3DS
+  Reemplazá SOLO el valor de "Content-Security-Policy" en tu vercel.json
+═══════════════════════════════════════════════════════════════════════════
+
+VALOR COMPLETO (todo en una línea, así lo espera vercel.json):
+
+default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.cardinalcommerce.com https://*.cardinaltrusted.com https://h.online-metrix.net https://cdn.jsdelivr.net; connect-src 'self' https://*.cardinalcommerce.com https://*.cardinaltrusted.com https://*.visa.com https://*.online-metrix.net https://*.supabase.co wss://*.supabase.co; frame-src 'self' https://*.cardinalcommerce.com https://*.cardinaltrusted.com https://*.visa.com; form-action 'self' https://*.cardinalcommerce.com https://*.cardinaltrusted.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:;
+
+═══════════════════════════════════════════════════════════════════════════
+  QUÉ HACE CADA DIRECTIVA (por qué está cada dominio)
+═══════════════════════════════════════════════════════════════════════════
+
+connect-src → Aquí estaba el bloqueo (los 6 errores del log).
+  *.cardinalcommerce.com / *.cardinaltrusted.com → SaveBrowserData
+  *.visa.com → secure-devicefp-cte.visa.com (fingerprint VISA de tu log)
+  *.online-metrix.net → tags.js (todavía referenciado en L1936)
+  *.supabase.co + wss → tus Edge Functions y realtime (NO borrar)
+
+frame-src → El iframe oculto del DDC + el iframe del challenge OTP.
+form-action → El POST del JWT a deviceDataCollectionUrl.
+script-src → tags.js de online-metrix + jsdelivr (supabase CDN). Ajustá jsdelivr
+             al CDN real que uses para supabase-js si es otro.
+
+═══════════════════════════════════════════════════════════════════════════
+  ESTRUCTURA EN vercel.json (referencia — NO reemplaces headers que ya tengas)
+═══════════════════════════════════════════════════════════════════════════
+
 {
-  "redirects": [
+  "headers": [
     {
-      "source": "/",
-      "has": [
+      "source": "/(.*)",
+      "headers": [
         {
-          "type": "host",
-          "value": "applende.com"
+          "key": "Content-Security-Policy",
+          "value": "  ⟵ PEGÁ AQUÍ EL VALOR DE ARRIBA, EN UNA SOLA LÍNEA  "
         }
-      ],
-      "destination": "/cursos.html",
-      "permanent": false
+      ]
     }
   ]
 }
+
+⚠️ Si tu vercel.json YA tiene un bloque "headers" con otras reglas
+   (X-Frame-Options, etc.), NO lo reemplaces entero: sustituí únicamente
+   el "value" del Content-Security-Policy existente. Pasame el archivo
+   completo si querés que te lo edite quirúrgicamente sin tocar lo demás.
