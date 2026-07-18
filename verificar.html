@@ -41,6 +41,13 @@
     letter-spacing:.3px;
   }
   header .marca span{color:var(--lima)}
+  header .marca-sub{
+    color:#9BA6BC;
+    font-size:.74rem;
+    font-weight:300;
+    letter-spacing:.4px;
+    margin-top:2px;
+  }
   header a{
     color:#cfd6e4;
     text-decoration:none;
@@ -121,6 +128,47 @@
   .dato .val.grande{font-size:1.18rem;font-weight:600}
 
   /* Buscador */
+  .respaldo{
+    margin-top:22px;
+    padding:18px 16px;
+    background:#F7F8FA;
+    border:1px solid #E6E9EF;
+    border-radius:11px;
+    text-align:center;
+  }
+  .respaldo-t{
+    font-size:.7rem;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:#8A93A6;
+    font-weight:500;
+  }
+  .respaldo-org{
+    margin-top:7px;
+    font-size:1rem;
+    font-weight:600;
+    color:var(--navy);
+  }
+  .respaldo-org2{
+    font-size:.9rem;
+    font-weight:500;
+    color:var(--violeta);
+    margin-top:2px;
+  }
+  .respaldo-nit{
+    margin-top:6px;
+    font-size:.76rem;
+    color:#78829A;
+  }
+  .respaldo-firma{
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px solid #E6E9EF;
+    font-size:.76rem;
+    color:#5A6478;
+    line-height:1.55;
+  }
+
   .buscador{margin-top:8px}
   .buscador label{
     display:block;
@@ -179,7 +227,10 @@
 <body>
 
 <header>
-  <div class="marca">APPLENDE <span>Academia</span></div>
+  <div class="marca-bloque">
+    <div class="marca">APPLENDE <span>Academia</span></div>
+    <div class="marca-sub">APPLE Construcciones &amp; Servicios</div>
+  </div>
   <a href="https://applende.com/cursos.html">← Ver cursos</a>
 </header>
 
@@ -187,7 +238,8 @@
   <div class="card">
     <div class="card-top">
       <h1>Verificación de Certificado</h1>
-      <p>Consultá la autenticidad de un certificado emitido por APPLENDE Academia</p>
+      <p>Consultá la autenticidad de un certificado emitido por <b>APPLENDE Academia</b>,
+         brazo de capacitación de <b>APPLE Construcciones &amp; Servicios</b></p>
     </div>
 
     <div class="cuerpo">
@@ -205,7 +257,8 @@
 </main>
 
 <footer>
-  <b>APPLENDE Academia</b> · APPLE Construcciones &amp; Servicios · Santa Cruz de la Sierra, Bolivia
+  <b>APPLENDE Academia</b> — Brazo de capacitación de <b>APPLE Construcciones &amp; Servicios</b><br>
+  NIT 2989818012 · Santa Cruz de la Sierra, Bolivia · applende.com
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -270,6 +323,14 @@
       '<div class="dato">' +
         '<div class="et">Código de verificación</div>' +
         '<div class="val">' + esc(c.codigo_unico) + '</div>' +
+      '</div>' +
+      '<div class="respaldo">' +
+        '<div class="respaldo-t">Emitido y respaldado por</div>' +
+        '<div class="respaldo-org">APPLENDE Academia</div>' +
+        '<div class="respaldo-org2">APPLE Construcciones &amp; Servicios</div>' +
+        '<div class="respaldo-nit">NIT 2989818012 · Santa Cruz de la Sierra, Bolivia</div>' +
+        '<div class="respaldo-firma">Dirección General: Arq. Freddy Velásquez Reinaga<br>' +
+        'Colegio de Arquitectos de Bolivia · Registro Nacional N° 12304</div>' +
       '</div>';
   }
 
