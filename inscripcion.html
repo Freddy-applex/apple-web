@@ -2091,6 +2091,7 @@ async function tjPagar(){
     // FIX v11: capturamos el referenceId que genera el DDC.
     const ddc = await tjEjecutarDDC(datosBase);
     const refIdDDC = (ddc && ddc.referenceId) ? ddc.referenceId : null;
+    console.log('[DIAG] referenceId del DDC que se reenvía al enrollment:', refIdDDC);
     tjCargando(true,'Verificando tu tarjeta…');
     const ini = await tjLlamar('pago-iniciar',{
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
@@ -2103,6 +2104,7 @@ async function tjPagar(){
       referenceId: refIdDDC,                 // ← EL MISMO referenceId del DDC (clave del fix)
       returnUrl: window.location.origin + '/inscripcion.html',
     });
+    console.log('[DIAG] Respuesta del enrollment (pago-iniciar):', JSON.stringify(ini));
 
     if(!ini.ok){ tjEstado('err','❌ No se pudo validar la tarjeta. ' + (ini.error||'')); tjCargando(false); return; }
 
