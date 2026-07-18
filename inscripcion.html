@@ -1982,6 +1982,74 @@ function tjDetectarMarca(numero){
   return '001'; // por defecto VISA
 }
 
+// ═══════════════════════════════════════════════════════════════
+// DEVICE DATA COLLECTION (DDC) — flujo oficial CyberSource 3DS 2.x
+// 1) Llama al setup → obtiene accessToken (JWT) + deviceDataCollectionUrl
+// 2) Crea un iframe oculto y le hace POST del JWT a esa URL (Cardinal)
+// 3) Escucha el postMessage de Cardinal (el "listener TRUE" que pide Red Enlace)
+// 4) Resuelve cuando el DDC terminó, o a los 11s como respaldo
+// Devuelve el referenceId para el enrollment.
+// ═══════════════════════════════════════════════════════════════
+async function tjEjecutarDDC(datosTarjeta){
+  // 1) Setup
+  const setup = await tjLlamar('pago-iniciar', Object.assign({}, datosTarjeta, { paso: 'setup' }));
+  if(!setup || !setup.ok){
+    throw new Error('DDC setup falló: ' + (setup && setup.error ? setup.error : 'sin respuesta'));
+  }
+  const { accessToken, deviceDataCollectionUrl, referenceId } = setup;
+
+  // Si CyberSource no devolvió DDC, seguimos igual (algunos perfiles no lo requieren)
+  if(!accessToken || !deviceDataCollectionUrl){
+    return { referenceId: referenceId };
+  }
+
+  // 2) iframe oculto + form POST del JWT
+  return await new Promise(function(resolve){
+    let resuelto = false;
+    const finalizar = function(){
+      if(resuelto) return;
+      resuelto = true;
+      window.removeEventListener('message', onMsg);
+      resolve({ referenceId: referenceId });
+    };
+
+    // 3) Listener del postMessage de Cardinal (respuesta del Data Collector)
+    function onMsg(ev){
+      if(typeof ev.origin === 'string' &&
+         (ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('centinelapistag') !== -1 || ev.origin.indexOf('centinelapi') !== -1)){
+        try{
+          const data = typeof ev.data === 'string' ? JSON.parse(ev.data) : ev.data;
+          // Cardinal responde con MessageType "profile.completed"
+          if(data && (data.Status === true || data.MessageType === 'profile.completed')){
+            finalizar();
+          }
+        }catch(e){ /* mensajes no-JSON de otros orígenes, ignorar */ }
+      }
+    }
+    window.addEventListener('message', onMsg);
+
+    const iframe = document.createElement('iframe');
+    iframe.name = 'tj_ddc_iframe';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    const form = document.createElement('form');
+    form.target = 'tj_ddc_iframe';
+    form.method = 'POST';
+    form.action = deviceDataCollectionUrl;
+    const inp = document.createElement('input');
+    inp.type = 'hidden';
+    inp.name = 'JWT';
+    inp.value = accessToken;
+    form.appendChild(inp);
+    document.body.appendChild(form);
+    form.submit();
+
+    // 4) Respaldo: si Cardinal no responde, resolvemos a los 11s (cronómetro).
+    setTimeout(finalizar, 11000);
+  });
+}
+
 async function tjPagar(){
   const numero = document.getElementById('tj-numero').value.replace(/\s/g,'');
   const nombre = document.getElementById('tj-nombre').value.trim();
@@ -2011,13 +2079,17 @@ async function tjPagar(){
   TJ_DATOS = { numero, mes, anio, cvv, firstName, lastName, pendienteId, precio, moneda, emailAlumno };
 
   try{
+    tjCargando(true,'Verificando la seguridad de tu dispositivo…');
+    // DDC: ejecutar el Device Data Collection oficial de CyberSource antes del enrollment.
+    const datosBase = {
+      cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
+      amount:String(precio), currency:moneda,
+      firstName, lastName, email:emailAlumno, phone:'00000000',
+      address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
+      referenceCode:'INSC-' + pendienteId,
+    };
+    await tjEjecutarDDC(datosBase);
     tjCargando(true,'Verificando tu tarjeta…');
-    // OBS.5: esperar a que el Data Collector (device fingerprint) termine sus 11 seg.
-    if(TJ_FP_LISTO){
-      tjCargando(true,'Verificando la seguridad de tu dispositivo…');
-      await TJ_FP_LISTO;
-      tjCargando(true,'Verificando tu tarjeta…');
-    }
     const ini = await tjLlamar('pago-iniciar',{
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
       amount:String(precio), currency:moneda,
