@@ -997,17 +997,30 @@
         pendsPorCohorte[key][mod]++;
       });
 
-      // Agrupar cohortes por curso
+      // Agrupar cohortes por curso — respetando el filtro de la barra superior
       const porCurso = {};
-      estado.cohortes.forEach(c => {
+      const cohortesVisibles = estado.filtroCurso
+        ? estado.cohortes.filter(c => c.curso_id === estado.filtroCurso)
+        : estado.cohortes;
+
+      cohortesVisibles.forEach(c => {
         const k = c.curso_titulo || 'Sin curso';
         if(!porCurso[k]) porCurso[k] = [];
         porCurso[k].push(c);
       });
 
+      if(Object.keys(porCurso).length === 0){
+        panel.style.display = 'none';
+        return;
+      }
+
       // Título dinámico
       const cantCursos = Object.keys(porCurso).length;
-      if(tit) tit.textContent = `Cupos por grupo · ${cantCursos} curso${cantCursos === 1 ? '' : 's'} en vivo`;
+      if(tit){
+        tit.textContent = estado.filtroCurso
+          ? `Cupos por grupo · curso seleccionado`
+          : `Cupos por grupo · ${cantCursos} curso${cantCursos === 1 ? '' : 's'} en vivo`;
+      }
 
       panel.style.display = '';
 
@@ -1055,10 +1068,13 @@
         return {curso, cohortes, activos, ocT, cuT, pendT};
       }).sort((a,b) => (b.activos - a.activos) || (b.pendT - a.pendT));
 
+      // Si hay un curso filtrado o hay uno solo, se abre automáticamente
+      const abrirTodo = !!estado.filtroCurso || bloques.length === 1;
+
       cont.innerHTML = bloques.map((b, idx) => {
         const pctT = b.cuT > 0 ? Math.round(b.ocT / b.cuT * 100) : 0;
         return `
-        <div class="cupos-acc" data-idx="${idx}">
+        <div class="cupos-acc${abrirTodo ? ' abierto' : ''}" data-idx="${idx}">
           <button class="cupos-acc-head" type="button" onclick="toggleAcc(${idx})">
             <span class="acc-arrow">▸</span>
             <span class="acc-curso">${escapar(b.curso)}</span>
@@ -1446,6 +1462,7 @@
     document.getElementById('filterCurso').addEventListener('change', e => {
       estado.filtroCurso = e.target.value;
       renderizar();
+      renderResumenCupos();
     });
     document.getElementById('filterModalidad').addEventListener('change', e => {
       estado.filtroModalidad = e.target.value;
