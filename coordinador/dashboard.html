@@ -183,6 +183,18 @@
       .acc-resumen{width:100%;justify-content:flex-start;}
     }
 
+    .filter-check{
+      display:flex;align-items:center;gap:7px;
+      font-size:12.5px;color:var(--muted,#6B7A90);
+      cursor:pointer;user-select:none;white-space:nowrap;
+      padding:0 4px;
+    }
+    .filter-check input{
+      width:15px;height:15px;cursor:pointer;
+      accent-color:var(--purple,#6B6BBB);
+    }
+    .filter-check:hover{color:var(--navy,#1A2744);}
+
     /* Cursos grabados (sin cupos) */
     .cupos-acc.grabados .cupos-acc-head{background:#F8F7FC;}
     .cupos-acc.grabados .acc-curso{color:#6B6BBB;}
@@ -727,6 +739,9 @@
         <select class="filter-select" id="filterCurso">
           <option value="">Todos los cursos</option>
         </select>
+        <label class="filter-check" title="Mostrar grupos finalizados o cancelados">
+          <input type="checkbox" id="filterFinalizados"> Ver finalizados
+        </label>
         <select class="filter-select" id="filterModalidad">
           <option value="">Todas las modalidades</option>
           <option value="virtual">📺 Virtual</option>
@@ -891,6 +906,7 @@
       filtroCurso: '',
       filtroCategoria: '',
       filtroTipo: '',
+      verFinalizados: false,
       grabados: [],
       filtroModalidad: '',
       pendienteSeleccionada: null
@@ -1064,12 +1080,16 @@
         return true;
       };
 
+      const CERRADOS = ['finalizada','cancelada'];
       const porCurso = {};
-      estado.cohortes.filter(pasaFiltros).forEach(c => {
-        const k = c.curso_titulo || 'Sin curso';
-        if(!porCurso[k]) porCurso[k] = [];
-        porCurso[k].push(c);
-      });
+      estado.cohortes
+        .filter(pasaFiltros)
+        .filter(c => estado.verFinalizados || !CERRADOS.includes(c.estado))
+        .forEach(c => {
+          const k = c.curso_titulo || 'Sin curso';
+          if(!porCurso[k]) porCurso[k] = [];
+          porCurso[k].push(c);
+        });
 
       // Grabados que pasan el filtro (no tienen cohortes, van aparte)
       const grabadosVis = (estado.grabados || []).filter(pasaFiltros);
@@ -1574,6 +1594,10 @@
       const sc = document.getElementById('filterCurso');
       if(sc) sc.value = '';
       renderizar();
+      renderResumenCupos();
+    });
+    document.getElementById('filterFinalizados').addEventListener('change', e => {
+      estado.verFinalizados = e.target.checked;
       renderResumenCupos();
     });
     document.getElementById('filterTipo').addEventListener('change', e => {
