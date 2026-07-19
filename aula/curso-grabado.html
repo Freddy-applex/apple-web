@@ -222,7 +222,7 @@
         <div class="contacto-card">
           <div class="contacto-icon">💬</div>
           <div class="contacto-text"><strong>Karina Campos</strong> · Coordinadora<br>Consultas por WhatsApp sobre el curso o el material.</div>
-          <a href="https://wa.me/59164403290" target="_blank" rel="noopener" class="btn-wa">📱 Escribir</a>
+          <a href="https://wa.me/59157388229" target="_blank" rel="noopener" class="btn-wa">📱 Escribir</a>
         </div>
       </aside>
 
@@ -247,7 +247,7 @@
     const LOGIN_URL = '/login.html';
     const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    let estado = { user:null, curso:null, inscripcion:null, clases:[], progreso:{}, materiales:[], activa:0 };
+    let estado = { user:null, curso:null, inscripcion:null, clases:[], progreso:{}, materiales:[], activa:0, certificado:null };
 
     (async function init(){
       const params = new URLSearchParams(window.location.search);
@@ -295,9 +295,16 @@
         .order('orden', { ascending:true });
       estado.materiales = mats || [];
 
+      // Certificado emitido (si existe)
+      const { data:cert } = await sb.from('certificados')
+        .select('codigo_unico, titulo_curso, duracion_horas, pdf_url')
+        .eq('inscripcion_id', insc.id).maybeSingle();
+      estado.certificado = cert || null;
+
       renderClases();
       renderMateriales();
       actualizarProgreso();
+      renderCertificado();
 
       // Abrir primera no-completada (o la primera)
       let idx = estado.clases.findIndex(c => !estado.progreso[c.id]);
@@ -436,10 +443,30 @@
       }catch(e){ mostrarToast('No se pudo abrir el material','err'); }
     }
 
-    document.getElementById('btnCert').onclick = () => {
-      const txt = encodeURIComponent('Hola, completé el curso "'+(estado.curso?estado.curso.titulo:'')+'" y quiero solicitar mi certificado oficial APPLENDE.');
-      window.open('https://wa.me/59164403290?text='+txt, '_blank', 'noopener');
-    };
+    // Si el certificado ya fue emitido → descarga directa.
+    // Si no → solicitarlo por WhatsApp (flujo anterior).
+    function renderCertificado(){
+      const card = document.getElementById('certCard');
+      const btn  = document.getElementById('btnCert');
+      if(!card || !btn) return;
+
+      const c = estado.certificado;
+      if(c && c.pdf_url){
+        card.classList.add('unlocked');
+        card.querySelector('h3').textContent = '🎓 Tu certificado está listo';
+        card.querySelector('p').innerHTML =
+          escapar(c.titulo_curso || '') +
+          (c.duracion_horas ? '<br>' + c.duracion_horas + ' horas académicas' : '') +
+          '<br><small style="opacity:.75">Código: ' + escapar(c.codigo_unico || '') + '</small>';
+        btn.textContent = '⬇ Descargar certificado';
+        btn.onclick = () => window.open(c.pdf_url, '_blank', 'noopener');
+      }else{
+        btn.onclick = () => {
+          const txt = encodeURIComponent('Hola, completé el curso "'+(estado.curso?estado.curso.titulo:'')+'" y quiero solicitar mi certificado oficial APPLENDE.');
+          window.open('https://wa.me/59157388229?text='+txt, '_blank', 'noopener');
+        };
+      }
+    }
 
     function escapar(t){ const d=document.createElement('div'); d.textContent=t||''; return d.innerHTML; }
     function mostrarToast(msg, tipo){

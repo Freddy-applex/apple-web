@@ -401,6 +401,38 @@
     }
 
     /* ─── CONTACTO ─── */
+    /* ── CERTIFICADO ── */
+    .cert-card{
+      display:flex;gap:18px;align-items:center;
+      background:linear-gradient(135deg,rgba(107,107,187,0.10),rgba(141,198,63,0.06));
+      border:1.5px solid rgba(107,107,187,0.30);
+      border-radius:12px;padding:20px;
+    }
+    .cert-info{flex:1;min-width:0;}
+    .cert-titulo{
+      font-size:15px;font-weight:800;color:var(--navy);
+      letter-spacing:.2px;
+    }
+    .cert-sub{
+      margin-top:4px;font-size:13px;color:var(--text);line-height:1.45;
+    }
+    .cert-codigo{
+      margin-top:7px;font-size:11.5px;color:#7A8398;
+      letter-spacing:.6px;font-weight:600;
+    }
+    .cert-btn{
+      background:var(--violeta,#6B6BBB);color:#fff;text-decoration:none;
+      padding:12px 22px;border-radius:10px;
+      font-weight:800;font-size:13px;letter-spacing:0.5px;
+      display:inline-flex;align-items:center;gap:7px;
+      transition:all .2s;flex-shrink:0;
+    }
+    .cert-btn:hover{filter:brightness(1.08);transform:translateY(-1px);box-shadow:0 6px 20px rgba(107,107,187,0.40);}
+    .cert-btn.disabled{background:#B8BECD;pointer-events:none;}
+    @media(max-width:560px){
+      .cert-card{flex-direction:column;text-align:center;}
+    }
+
     .contacto-card{
       display:flex;gap:18px;align-items:center;
       background:linear-gradient(135deg,rgba(37,211,102,0.08),rgba(141,198,63,0.04));
@@ -626,6 +658,24 @@
       </div>
     </section>
 
+    <!-- CERTIFICADO -->
+    <section class="section" id="certificadoSection" style="display:none;">
+      <div class="section-head">
+        <span class="icon">🎓</span>
+        <h2>Tu certificado</h2>
+      </div>
+      <div class="cert-card">
+        <div class="cert-info">
+          <div class="cert-titulo">Certificado de participación</div>
+          <div class="cert-sub" id="certSub">—</div>
+          <div class="cert-codigo" id="certCodigo">—</div>
+        </div>
+        <a class="cert-btn" id="certBtn" href="#" target="_blank" rel="noopener">
+          ⬇ Descargar PDF
+        </a>
+      </div>
+    </section>
+
     <!-- CONTACTO KARINA -->
     <section class="section">
       <div class="section-head">
@@ -791,12 +841,21 @@
         .order('orden', { ascending: true });
       estado.grabadas = grabadas || [];
 
+      // Cargar certificado del alumno (si ya fue emitido)
+      const { data: certificado } = await sb
+        .from('certificados')
+        .select('codigo_unico, nombre_alumno, titulo_curso, duracion_horas, pdf_url, emitido_en')
+        .eq('inscripcion_id', inscripcion.id)
+        .maybeSingle();
+      estado.certificado = certificado || null;
+
       // Renderizar todo
       renderHero();
       renderInstructor();
       // TODOS los cursos usan el formato INTEGRADO (video + material juntos por clase).
       renderIntegrado();
       renderCalendario();
+      renderCertificado();
 
       // Mostrar contenido y ocultar loading
       document.getElementById('loading').classList.add('hidden');
@@ -805,6 +864,39 @@
       // Iniciar countdown
       iniciarCountdown();
     })();
+
+    // ═══════════════════════════════════════════════════════════════
+    // CERTIFICADO
+    // ═══════════════════════════════════════════════════════════════
+    function renderCertificado(){
+      const sec = document.getElementById('certificadoSection');
+      if(!sec) return;
+
+      const c = estado.certificado;
+      // Sin certificado emitido → no mostrar la sección
+      if(!c){ sec.style.display = 'none'; return; }
+
+      const sub  = document.getElementById('certSub');
+      const cod  = document.getElementById('certCodigo');
+      const btn  = document.getElementById('certBtn');
+
+      sub.textContent = (c.titulo_curso || '') +
+                        (c.duracion_horas ? ' · ' + c.duracion_horas + ' horas académicas' : '');
+      cod.textContent = 'Código: ' + (c.codigo_unico || '—');
+
+      if(c.pdf_url){
+        btn.href = c.pdf_url;
+        btn.classList.remove('disabled');
+        btn.textContent = '⬇ Descargar PDF';
+      }else{
+        // Certificado registrado pero PDF aún no disponible
+        btn.href = '#';
+        btn.classList.add('disabled');
+        btn.textContent = 'PDF en preparación';
+      }
+
+      sec.style.display = 'block';
+    }
 
     // ═══════════════════════════════════════════════════════════════
     // CLASES GRABADAS (Vimeo embebido)
