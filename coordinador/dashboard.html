@@ -183,6 +183,14 @@
       .acc-resumen{width:100%;justify-content:flex-start;}
     }
 
+    /* Cursos grabados (sin cupos) */
+    .cupos-acc.grabados .cupos-acc-head{background:#F8F7FC;}
+    .cupos-acc.grabados .acc-curso{color:#6B6BBB;}
+    .cupo-card.grabado{border-left-color:#6B6BBB;}
+    .cupo-card.grabado .cc-oc{color:#6B6BBB;}
+    .cupo-card.grabado .cc-tot{font-size:12px;margin-left:5px;}
+    .e-grab{background:#EEEDF9;color:#5B5AC4;}
+
     /* ═══ TARJETAS DE CUPOS ═══ */
     .cupos-cards{
       display:grid;
@@ -703,6 +711,19 @@
       <div class="filters">
         <input type="text" class="filter-input" id="filterSearch" 
                placeholder="🔍 Buscar por nombre, email o CI...">
+        <select class="filter-select" id="filterCategoria">
+          <option value="">Todas las áreas</option>
+          <option value="tecnico">🏗️ Construcción y Técnico</option>
+          <option value="software">💻 Software de Diseño</option>
+          <option value="legal">📋 Gestión Inmobiliaria</option>
+          <option value="economia-finanzas">💰 Economía y Finanzas</option>
+          <option value="gestion-publica">🏛️ Gestión Pública</option>
+        </select>
+        <select class="filter-select" id="filterTipo">
+          <option value="">En vivo y Grabados</option>
+          <option value="en_vivo">🔴 En vivo</option>
+          <option value="grabado">▶️ Grabados</option>
+        </select>
         <select class="filter-select" id="filterCurso">
           <option value="">Todos los cursos</option>
         </select>
@@ -868,6 +889,9 @@
       cohortes: [],
       filtroBusqueda: '',
       filtroCurso: '',
+      filtroCategoria: '',
+      filtroTipo: '',
+      grabados: [],
       filtroModalidad: '',
       pendienteSeleccionada: null
     };
@@ -955,25 +979,60 @@
     }
 
     async function cargarCohortes(){
-      // Solo cohortes de cursos "en_vivo" publicados (cursos grabados no tienen grupos gestionables)
+      // Cohortes de cursos EN VIVO (tienen grupos con cupos gestionables)
       const {data, error} = await supabaseClient
         .from('cohortes')
         .select(`
           id, nombre, curso_id, estado, fecha_inicio, fecha_fin,
           cupos_virtuales, cupos_presenciales,
           ocupados_virtuales, ocupados_presenciales,
-          cursos!inner(modalidad, estado, titulo)
+          cursos!inner(modalidad, estado, titulo, categoria_id,
+                       categorias(slug, nombre))
         `)
         .eq('cursos.modalidad', 'en_vivo')
         .eq('cursos.estado', 'publicado')
         .order('fecha_inicio', { ascending: false, nullsFirst: false });
       if(error){console.error('Error cargando cohortes:', error);return;}
 
-      // Aplanar nested cursos.titulo para uso conveniente en el render
       estado.cohortes = (data || []).map(c => ({
         ...c,
-        curso_titulo: c.cursos?.titulo || ''
+        curso_titulo: c.cursos?.titulo || '',
+        categoria_slug: c.cursos?.categorias?.slug || '',
+        categoria_nombre: c.cursos?.categorias?.nombre || 'Sin categoría',
+        tipo: 'en_vivo'
       }));
+
+      await cargarGrabados();
+    }
+
+    // Cursos GRABADOS: no tienen cupos, se muestra el total de alumnos inscritos
+    async function cargarGrabados(){
+      const {data: cursosG, error} = await supabaseClient
+        .from('cursos')
+        .select('id, titulo, categoria_id, categorias(slug, nombre)')
+        .eq('modalidad', 'grabado')
+        .eq('estado', 'publicado')
+        .order('titulo');
+      if(error){ console.error('Error cargando grabados:', error); estado.grabados = []; return; }
+
+      // Contar alumnos activos por curso
+      const conteos = await Promise.all((cursosG || []).map(async cur => {
+        const { count } = await supabaseClient
+          .from('inscripciones')
+          .select('id', {count:'exact', head:true})
+          .eq('curso_id', cur.id)
+          .eq('acceso_activo', true);
+        return {
+          curso_id: cur.id,
+          curso_titulo: cur.titulo || '',
+          categoria_slug: cur.categorias?.slug || '',
+          categoria_nombre: cur.categorias?.nombre || 'Sin categoría',
+          alumnos: count || 0,
+          tipo: 'grabado'
+        };
+      }));
+
+      estado.grabados = conteos;
     }
 
     function renderResumenCupos(){
@@ -997,19 +1056,25 @@
         pendsPorCohorte[key][mod]++;
       });
 
-      // Agrupar cohortes por curso — respetando el filtro de la barra superior
-      const porCurso = {};
-      const cohortesVisibles = estado.filtroCurso
-        ? estado.cohortes.filter(c => c.curso_id === estado.filtroCurso)
-        : estado.cohortes;
+      // ── Filtros en cascada: área → tipo → curso ──
+      const pasaFiltros = (item) => {
+        if(estado.filtroCategoria && item.categoria_slug !== estado.filtroCategoria) return false;
+        if(estado.filtroTipo && item.tipo !== estado.filtroTipo) return false;
+        if(estado.filtroCurso && item.curso_id !== estado.filtroCurso) return false;
+        return true;
+      };
 
-      cohortesVisibles.forEach(c => {
+      const porCurso = {};
+      estado.cohortes.filter(pasaFiltros).forEach(c => {
         const k = c.curso_titulo || 'Sin curso';
         if(!porCurso[k]) porCurso[k] = [];
         porCurso[k].push(c);
       });
 
-      if(Object.keys(porCurso).length === 0){
+      // Grabados que pasan el filtro (no tienen cohortes, van aparte)
+      const grabadosVis = (estado.grabados || []).filter(pasaFiltros);
+
+      if(Object.keys(porCurso).length === 0 && grabadosVis.length === 0){
         panel.style.display = 'none';
         return;
       }
@@ -1017,9 +1082,12 @@
       // Título dinámico
       const cantCursos = Object.keys(porCurso).length;
       if(tit){
-        tit.textContent = estado.filtroCurso
-          ? `Cupos por grupo · curso seleccionado`
-          : `Cupos por grupo · ${cantCursos} curso${cantCursos === 1 ? '' : 's'} en vivo`;
+        const partes = [];
+        if(cantCursos > 0) partes.push(`${cantCursos} en vivo`);
+        if(grabadosVis.length > 0) partes.push(`${grabadosVis.length} grabado${grabadosVis.length===1?'':'s'}`);
+        tit.textContent = partes.length
+          ? `Ocupación de cursos · ${partes.join(' · ')}`
+          : 'Ocupación de cursos';
       }
 
       panel.style.display = '';
@@ -1150,6 +1218,42 @@
         </div>
         `;
       }).join('');
+
+      // ── Bloque de cursos GRABADOS (sin cupos, solo alumnos inscritos) ──
+      if(grabadosVis.length > 0){
+        const totalAlum = grabadosVis.reduce((s,g)=> s + g.alumnos, 0);
+        const idxG = bloques.length;
+        cont.innerHTML += `
+          <div class="cupos-acc grabados${abrirTodo ? ' abierto' : ''}" data-idx="${idxG}">
+            <button class="cupos-acc-head" type="button" onclick="toggleAcc(${idxG})">
+              <span class="acc-arrow">▸</span>
+              <span class="acc-curso">▶️ Cursos grabados</span>
+              <span class="acc-resumen">
+                <span class="acc-grupos">${grabadosVis.length} curso${grabadosVis.length===1?'':'s'}</span>
+                <span class="acc-cifra">${totalAlum}</span>
+                <span class="acc-grupos">alumnos</span>
+              </span>
+            </button>
+            <div class="cupos-acc-body">
+              <div class="cupos-cards">
+              ${grabadosVis.map(g => `
+                <div class="cupo-card grabado">
+                  <div class="cc-top">
+                    <span class="cc-nombre">${escapar((g.curso_titulo||'').replace(/\s*—\s*GRABADO/i,''))}</span>
+                  </div>
+                  <span class="cc-estado-badge e-grab">Grabado · A tu ritmo</span>
+                  <div class="cc-cifra">
+                    <span class="cc-oc">${g.alumnos}</span>
+                    <span class="cc-tot">alumno${g.alumnos===1?'':'s'}</span>
+                  </div>
+                  <div class="cc-estado">${g.categoria_nombre}</div>
+                </div>
+              `).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+      }
     }
 
     // Abrir/cerrar un bloque del acordeón
@@ -1461,6 +1565,22 @@
     });
     document.getElementById('filterCurso').addEventListener('change', e => {
       estado.filtroCurso = e.target.value;
+      renderizar();
+      renderResumenCupos();
+    });
+    document.getElementById('filterCategoria').addEventListener('change', e => {
+      estado.filtroCategoria = e.target.value;
+      estado.filtroCurso = '';
+      const sc = document.getElementById('filterCurso');
+      if(sc) sc.value = '';
+      renderizar();
+      renderResumenCupos();
+    });
+    document.getElementById('filterTipo').addEventListener('change', e => {
+      estado.filtroTipo = e.target.value;
+      estado.filtroCurso = '';
+      const sc2 = document.getElementById('filterCurso');
+      if(sc2) sc2.value = '';
       renderizar();
       renderResumenCupos();
     });
