@@ -99,6 +99,83 @@
     main{max-width:1280px;margin:0 auto;padding:32px 5%;}
 
     /* ─── PAGE HEADING ─── */
+
+    /* ═══ TARJETAS DE CUPOS ═══ */
+    .cupos-cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(215px,1fr));
+      gap:12px;margin-top:10px;
+    }
+    .cupo-card{
+      background:#fff;border:1px solid var(--border,#E2E8F0);
+      border-radius:12px;padding:14px 15px 12px;
+      border-left:4px solid #CBD5E1;
+      transition:all .18s;position:relative;
+    }
+    .cupo-card:hover{
+      box-shadow:0 4px 14px rgba(26,39,68,.10);
+      transform:translateY(-1px);
+    }
+    /* Semáforo */
+    .cupo-card.vacio{border-left-color:#CBD5E1;}
+    .cupo-card.bajo {border-left-color:#F59E0B;}
+    .cupo-card.medio{border-left-color:#8DC63F;}
+    .cupo-card.lleno{border-left-color:#16A34A;background:#F6FCF2;}
+
+    .cc-top{
+      display:flex;align-items:flex-start;justify-content:space-between;
+      gap:8px;margin-bottom:9px;
+    }
+    .cc-nombre{
+      font-size:12.5px;font-weight:700;color:var(--navy,#1A2744);
+      line-height:1.35;
+    }
+    .cc-pend{
+      background:#FEF3C7;color:#92400E;border:1px solid #FCD34D;
+      font-size:11px;font-weight:700;padding:2px 7px;border-radius:20px;
+      white-space:nowrap;flex-shrink:0;
+    }
+
+    .cc-cifra{display:flex;align-items:baseline;gap:2px;margin-bottom:7px;}
+    .cc-oc{
+      font-family:'Josefin Sans',sans-serif;
+      font-size:27px;font-weight:700;color:var(--navy,#1A2744);line-height:1;
+    }
+    .cc-tot{font-size:15px;font-weight:600;color:#94A3B8;}
+    .cc-pct{
+      margin-left:auto;font-size:12px;font-weight:700;color:#64748B;
+    }
+
+    .cc-bar{
+      height:6px;background:#EEF1F6;border-radius:4px;
+      overflow:hidden;margin-bottom:9px;
+    }
+    .cc-fill{
+      height:100%;border-radius:4px;transition:width .4s ease;
+      background:linear-gradient(90deg,#8DC63F,#6aaa2a);
+    }
+    .cupo-card.vacio .cc-fill{background:#CBD5E1;}
+    .cupo-card.bajo  .cc-fill{background:linear-gradient(90deg,#FBBF24,#F59E0B);}
+    .cupo-card.lleno .cc-fill{background:linear-gradient(90deg,#22C55E,#15803D);}
+
+    .cc-detalle{
+      display:flex;gap:10px;flex-wrap:wrap;
+      font-size:11px;color:#64748B;margin-bottom:7px;
+    }
+    .cc-det b{color:var(--navy,#1A2744);font-weight:700;}
+
+    .cc-estado{
+      font-size:10px;letter-spacing:.7px;text-transform:uppercase;
+      font-weight:700;color:#94A3B8;
+    }
+    .cupo-card.bajo  .cc-estado{color:#B45309;}
+    .cupo-card.medio .cc-estado{color:#4D7C0F;}
+    .cupo-card.lleno .cc-estado{color:#15803D;}
+
+    @media(max-width:520px){
+      .cupos-cards{grid-template-columns:1fr;}
+    }
+
     /* ═══ NAV — idéntico a cursos.html (style.css) ═══ */
     .nav{
       position:sticky;top:0;z-index:200;
@@ -850,9 +927,17 @@
       if(tit) tit.textContent = `Cupos por grupo · ${cantCursos} curso${cantCursos === 1 ? '' : 's'} en vivo`;
 
       panel.style.display = '';
+
+      // Nombre corto del grupo: quita el título del curso si se repite
+      const nombreCorto = (n) => (n || '')
+        .replace(/^Grupo\s*/i, '')
+        .replace(/\s*·\s*En vivo Zoom/i, '')
+        .trim() || 'Grupo';
+
       cont.innerHTML = Object.entries(porCurso).map(([curso, cohortes]) => `
         <div class="cupos-curso-block">
           <div class="cupos-curso-header">${escapar(curso)}</div>
+          <div class="cupos-cards">
           ${cohortes.map(c => {
             const ocV = c.ocupados_virtuales || 0;
             const ocP = c.ocupados_presenciales || 0;
@@ -861,17 +946,40 @@
             const pend = pendsPorCohorte[c.id] || {virtual:0, presencial:0};
             const totalPend = pend.virtual + pend.presencial;
 
+            const ocupados = ocV + ocP;
+            const totales  = cuV + cuP;
+            const pct = totales > 0 ? Math.round(ocupados / totales * 100) : 0;
+
+            // Semáforo por nivel de ocupación
+            let nivel = 'vacio', etiqueta = 'Sin inscritos';
+            if(pct >= 90){ nivel = 'lleno';  etiqueta = 'Casi lleno'; }
+            else if(pct >= 50){ nivel = 'medio'; etiqueta = 'En camino'; }
+            else if(pct > 0){ nivel = 'bajo';  etiqueta = 'Pocos inscritos'; }
+
             return `
-              <div class="cupos-grupo">
-                <span class="nombre">${escapar(c.nombre)}</span>
-                <span class="metric virt">📺 <span class="num">${ocV}/${cuV}</span> virtuales</span>
-                <span class="metric pres">🏛️ <span class="num">${ocP}/${cuP}</span> presenciales</span>
-                ${totalPend > 0 
-                  ? `<span class="metric pend">⏳ <span class="num">${totalPend}</span> pendientes (${pend.virtual}V·${pend.presencial}P)</span>` 
-                  : ''}
+              <div class="cupo-card ${nivel}">
+                <div class="cc-top">
+                  <span class="cc-nombre">${escapar(nombreCorto(c.nombre))}</span>
+                  ${totalPend > 0 ? `<span class="cc-pend" title="${pend.virtual} virtual · ${pend.presencial} presencial">⏳ ${totalPend}</span>` : ''}
+                </div>
+
+                <div class="cc-cifra">
+                  <span class="cc-oc">${ocupados}</span><span class="cc-tot">/${totales}</span>
+                  <span class="cc-pct">${pct}%</span>
+                </div>
+
+                <div class="cc-bar"><div class="cc-fill" style="width:${Math.min(pct,100)}%"></div></div>
+
+                <div class="cc-detalle">
+                  <span class="cc-det"><b>${ocV}</b>/${cuV} virtual</span>
+                  ${cuP > 0 ? `<span class="cc-det"><b>${ocP}</b>/${cuP} presencial</span>` : ''}
+                </div>
+
+                <div class="cc-estado">${etiqueta}</div>
               </div>
             `;
           }).join('')}
+          </div>
         </div>
       `).join('');
     }
