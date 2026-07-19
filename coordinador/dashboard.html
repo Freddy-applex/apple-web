@@ -99,6 +99,90 @@
     main{max-width:1280px;margin:0 auto;padding:32px 5%;}
 
     /* ─── PAGE HEADING ─── */
+    /* ═══ HERO APPLENDE (mismo patrón que cursos.html) ═══ */
+    .ap-hero{
+      background:linear-gradient(135deg,#0F1729 0%,#1A2744 50%,#3d2d6b 100%);
+      padding:42px 34px 34px;position:relative;overflow:hidden;
+      border-bottom:3px solid var(--green,#8DC63F);
+      border-radius:16px;margin-bottom:26px;
+    }
+    .ap-hero::before{
+      content:'';position:absolute;inset:0;
+      background-image:linear-gradient(rgba(141,198,63,.04) 1px,transparent 1px),
+                       linear-gradient(90deg,rgba(141,198,63,.04) 1px,transparent 1px);
+      background-size:60px 60px;pointer-events:none;
+    }
+    .ap-hero::after{
+      content:'';position:absolute;top:-120px;right:-140px;width:460px;height:460px;
+      background:radial-gradient(circle,rgba(107,107,187,.28) 0%,transparent 65%);
+      pointer-events:none;
+    }
+    .ap-hero-inner{
+      position:relative;z-index:2;display:grid;
+      grid-template-columns:1.45fr 1fr;gap:40px;align-items:center;
+    }
+    .ap-badge{
+      display:inline-flex;align-items:center;gap:8px;
+      background:rgba(141,198,63,.15);border:1px solid rgba(141,198,63,.35);
+      color:var(--green,#8DC63F);font-size:10.5px;font-weight:700;
+      letter-spacing:2.5px;text-transform:uppercase;
+      padding:7px 14px;border-radius:20px;margin-bottom:16px;
+    }
+    .ap-dot{width:6px;height:6px;background:var(--green,#8DC63F);border-radius:50%;animation:pulse-dot 2s infinite;}
+    @keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.4;}}
+    .ap-h1{
+      font-family:'Josefin Sans',sans-serif;
+      font-size:clamp(28px,3.4vw,44px);font-weight:700;color:#fff;
+      line-height:1;letter-spacing:-1px;margin-bottom:14px;
+    }
+    .ap-h1 .g{color:var(--green,#8DC63F);}
+    .ap-sub{
+      font-size:14.5px;color:rgba(255,255,255,.7);
+      max-width:520px;line-height:1.65;margin-bottom:24px;
+    }
+    .ap-sub strong{color:var(--green,#8DC63F);font-weight:600;}
+    .ap-stats{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+      border-top:1px solid rgba(255,255,255,.12);padding-top:18px;
+    }
+    .ap-stat{padding:0 16px;border-right:1px solid rgba(255,255,255,.08);}
+    .ap-stat:first-child{padding-left:0;}
+    .ap-stat:last-child{border-right:none;}
+    .ap-stat-num{
+      font-family:'Josefin Sans',sans-serif;font-size:30px;font-weight:700;
+      color:var(--green,#8DC63F);line-height:1;display:block;
+    }
+    .ap-stat-lbl{
+      font-size:10.5px;letter-spacing:1px;text-transform:uppercase;
+      color:rgba(255,255,255,.45);margin-top:6px;line-height:1.4;
+    }
+    .ap-hero-card{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(141,198,63,.2);
+      border-radius:14px;padding:22px;backdrop-filter:blur(8px);
+    }
+    .ap-card-tit{
+      font-family:'Josefin Sans',sans-serif;font-size:15px;
+      color:#fff;margin-bottom:13px;font-weight:700;
+    }
+    .ap-feat-list{display:flex;flex-direction:column;gap:9px;}
+    .ap-feat-link{
+      display:block;font-size:13px;color:rgba(255,255,255,.85);
+      line-height:1.5;text-decoration:none;padding:7px 10px;
+      border-radius:8px;transition:all .18s;
+      border:1px solid transparent;
+    }
+    .ap-feat-link:hover{
+      background:rgba(141,198,63,.12);
+      border-color:rgba(141,198,63,.3);
+      color:var(--green,#8DC63F);
+    }
+    @media(max-width:900px){
+      .ap-hero{padding:32px 22px 26px;}
+      .ap-hero-inner{grid-template-columns:1fr;gap:26px;}
+      .ap-stats{grid-template-columns:repeat(3,1fr);}
+    }
+
     .page-heading{margin-bottom:24px;border-left:4px solid var(--purple);padding-left:14px;}
     .page-heading h1{
       font-family:'Josefin Sans',sans-serif;font-weight:700;
@@ -476,10 +560,28 @@
 
   <main>
 
-    <div class="page-heading">
-      <h1>Coordinación académica</h1>
-      <p>Gestión de inscripciones, estudiantes y cohortes.</p>
-    </div>
+    <section class="ap-hero">
+      <div class="ap-hero-inner">
+        <div>
+          <div class="ap-badge"><span class="ap-dot"></span>PANEL DE COORDINACIÓN</div>
+          <h1 class="ap-h1">Coordinación <span class="g">académica</span></h1>
+          <p class="ap-sub">Gestión de <strong>inscripciones, estudiantes y cohortes</strong> de APPLENDE Academia.</p>
+          <div class="ap-stats">
+            <div class="ap-stat"><span class="ap-stat-num" id="heroPend">—</span><div class="ap-stat-lbl">Inscripciones<br>pendientes</div></div>
+            <div class="ap-stat"><span class="ap-stat-num" id="heroAlum">—</span><div class="ap-stat-lbl">Estudiantes<br>activos</div></div>
+            <div class="ap-stat"><span class="ap-stat-num" id="heroCoh">—</span><div class="ap-stat-lbl">Grupos<br>en curso</div></div>
+          </div>
+        </div>
+        <div class="ap-hero-card">
+          <div class="ap-card-tit">Accesos rápidos</div>
+          <div class="ap-feat-list">
+            <a class="ap-feat-link" href="/coordinador/materiales.html">📁 Gestionar materiales de cursos</a>
+            <a class="ap-feat-link" href="/cursos.html">🎓 Ver catálogo público</a>
+            <a class="ap-feat-link" href="https://wa.me/59157388229" target="_blank" rel="noopener">💬 WhatsApp de la Academia</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ─── TABS ─── -->
     <nav class="tabs" role="tablist">
@@ -876,6 +978,31 @@
       document.getElementById('statAprobadasHoy').textContent = aprob.count ?? '—';
       document.getElementById('statRechazadasHoy').textContent = rech.count ?? '—';
       document.getElementById('tabCountInscripciones').textContent = pend.count ?? '0';
+
+      // Métricas del hero
+      const hp = document.getElementById('heroPend');
+      if(hp) hp.textContent = pend.count ?? '—';
+      cargarMetricasHero();
+    }
+
+    // Métricas adicionales del hero: estudiantes activos y grupos en curso
+    async function cargarMetricasHero(){
+      try{
+        const [alum, coh] = await Promise.all([
+          supabaseClient.from('inscripciones')
+            .select('alumno_id', {count:'exact', head:true})
+            .eq('acceso_activo', true),
+          supabaseClient.from('cohortes')
+            .select('id', {count:'exact', head:true})
+            .in('estado', ['inscripciones_abiertas','en_curso'])
+        ]);
+        const a = document.getElementById('heroAlum');
+        const c = document.getElementById('heroCoh');
+        if(a) a.textContent = alum.count ?? '—';
+        if(c) c.textContent = coh.count ?? '—';
+      }catch(e){
+        console.warn('[APPLENDE] No se pudieron cargar métricas del hero:', e);
+      }
     }
 
     // ═══════════════════════════════════════════════════════════════
