@@ -88,6 +88,12 @@ a{text-decoration:none;color:inherit;}
 .precio-tachado{font-family:'Josefin Sans',sans-serif;font-size:14px;font-weight:600;color:#999;text-decoration:line-through;margin-right:6px;}
 .precio-badge-promo{display:inline-block;font-size:9.5px;font-weight:800;background:#FF6B35;color:#fff;padding:2px 6px;border-radius:4px;letter-spacing:.5px;animation:pulse-promo 2s ease-in-out infinite;}
 @keyframes pulse-promo{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+.promo-grupos{background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:9px 11px;margin-bottom:12px;font-size:11px;color:#7C2D12;line-height:1.8;}
+.pg-row{display:flex;align-items:center;gap:7px;}
+.pg-tag{font-size:9px;font-weight:800;color:#fff;padding:2px 7px;border-radius:4px;letter-spacing:.4px;flex-shrink:0;}
+.pg-tag.a{background:var(--green);color:var(--navy);}
+.pg-tag.b{background:var(--purple);}
+.promo-grupos strong{color:#9A3412;font-weight:700;}
 .promo-banner{display:none;background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#fff;padding:8px 12px;border-radius:8px;font-size:11.5px;font-weight:700;text-align:center;margin-bottom:12px;letter-spacing:.3px;box-shadow:0 4px 12px rgba(255,107,53,0.3);}
 .promo-banner.activa{display:block;}
 .promo-banner .promo-countdown{display:block;font-size:10px;font-weight:600;opacity:.9;margin-top:2px;}
@@ -490,6 +496,11 @@ footer a{color:var(--green);}
       <div class="promo-banner" id="promoBanner">
         🔥 INSCRIPCIÓN ANTICIPADA · Hasta Bs 50 de descuento
         <span class="promo-countdown" id="promoCountdown">Promoción válida hasta el martes 11 de agosto</span>
+      </div>
+
+      <div class="promo-grupos">
+        <div class="pg-row"><span class="pg-tag a">Grupo A</span> Lun-Mié-Vie · promo hasta el <strong>mar 11 ago</strong></div>
+        <div class="pg-row"><span class="pg-tag b">Grupo B</span> Mar-Jue-Sáb · promo hasta el <strong>lun 10 ago</strong></div>
       </div>
 
       <div class="modalidad-block virtual">

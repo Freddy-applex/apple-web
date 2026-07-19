@@ -89,6 +89,11 @@ a{text-decoration:none;color:inherit;}
 .precio-bs{font-family:'Josefin Sans',sans-serif;font-size:18px;font-weight:700;color:var(--navy);line-height:1;}
 .precio-tachado{text-decoration:line-through;color:#94A3B8;font-size:.75em;margin-right:7px;font-weight:600;}
 .precio-bs.estudiante{color:var(--green-dark);}
+.promo-banner{display:none;background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#fff;padding:8px 12px;border-radius:8px;font-size:11.5px;font-weight:700;text-align:center;margin-bottom:12px;letter-spacing:.3px;box-shadow:0 4px 12px rgba(255,107,53,0.3);}
+.promo-banner.activa{display:block;}
+.promo-countdown{display:block;font-size:10px;font-weight:600;opacity:.9;margin-top:2px;}
+.precio-tachado{font-family:'Josefin Sans',sans-serif;font-size:14px;font-weight:600;color:#999;text-decoration:line-through;margin-right:6px;}
+.precio-desc-badge{font-size:9.5px;font-weight:800;background:#FF6B35;color:#fff;padding:2px 6px;border-radius:4px;letter-spacing:.5px;margin-left:6px;}
 .precio-badge{font-size:9.5px;font-weight:800;background:var(--green);color:var(--navy);padding:2px 6px;border-radius:4px;letter-spacing:.5px;}
 .precio-nota{font-size:10.5px;color:var(--muted);text-align:center;font-style:italic;margin:8px 0 14px;line-height:1.4;}
 
@@ -526,6 +531,12 @@ footer a{color:var(--green);}
       <div class="precio-section-tit">💰 Inversión</div>
 
       <div id="precios-bolivia">
+
+      <div class="promo-banner" id="promoBanner">
+        🔥 INSCRIPCIÓN ANTICIPADA · Bs 30 de descuento
+        <span class="promo-countdown" id="promoCountdown">Promoción válida hasta el martes 11 de agosto</span>
+      </div>
+
       <div class="modalidad-block virtual">
         <div class="mod-head">
           <span class="mod-icon">📺</span>
@@ -537,19 +548,19 @@ footer a{color:var(--green);}
           <div class="precio-monto">
             <span class="precio-tachado">Bs 180</span>
             <span class="precio-bs">Bs 150</span>
+            <span class="precio-desc-badge">-Bs 30</span>
           </div>
         </div>
         <div class="precio-fila">
           <div class="precio-tipo precio-tipo-est">🎓 Estudiante</div>
           <div class="precio-monto">
             <span class="precio-bs estudiante">Bs 100</span>
-            <span class="precio-badge">33% OFF</span>
           </div>
         </div>
       </div>
 
-      <p class="precio-nota">🔥 <strong>Precio promocional hasta el martes 11 de agosto</strong> · Después Bs 180<br>
-      Tarifa estudiantil con carnet vigente · Pago único · Curso 100% virtual por Zoom</p>
+      <p class="precio-nota">Tarifa estudiantil con carnet vigente · Pago único · Curso 100% virtual por Zoom<br>
+      Después del 11 de agosto el precio profesional sube a Bs 180</p>
       </div><!-- /precios-bolivia -->
 
       <div id="precios-internacional" style="display:none;">
@@ -629,6 +640,36 @@ function actualizarCountdown(){
 }
 actualizarCountdown();
 setInterval(actualizarCountdown, 1000);
+
+/* ── PROMO ANTICIPADA ── */
+const PROMO_FECHA_LIMITE = new Date('2026-08-11T23:59:59-04:00');
+
+function aplicarPromoAnticipada(){
+  const ahora = new Date();
+  const elBanner = document.getElementById('promoBanner');
+  const elCountdown = document.getElementById('promoCountdown');
+  const promoActiva = ahora <= PROMO_FECHA_LIMITE;
+
+  if(promoActiva){
+    if(elBanner) elBanner.classList.add('activa');
+    if(elCountdown){
+      const diff = PROMO_FECHA_LIMITE - ahora;
+      const dias = Math.ceil(diff / (1000 * 60 * 60 * 24));
+      if(dias > 1){
+        elCountdown.textContent = '⏰ Quedan ' + dias + ' días — termina el martes 11 de agosto';
+      } else if(dias === 1){
+        elCountdown.textContent = '⏰ ¡Último día! Termina hoy a las 23:59';
+      } else {
+        elCountdown.textContent = '⏰ Últimas horas — termina el martes 11 de agosto 23:59';
+      }
+    }
+  } else {
+    if(elBanner) elBanner.classList.remove('activa');
+  }
+}
+aplicarPromoAnticipada();
+setInterval(aplicarPromoAnticipada, 60000);
+
 
 /* ============================================================
    DETECCIÓN DE PAÍS POR IP — Precio diferenciado
