@@ -793,7 +793,12 @@ const PROMOS_INSCRIPCION_ANTICIPADA = {
   'modelacion-financiera-ia': {
     precioNormal: 200,
     precioPromo:  150,
-    fechaLimite:  '2026-07-20T23:59:59-04:00'
+    precioEstudianteNormal: 100,
+    precioEstudiantePromo:   50,
+    // Grupo A (Lun-Mié-Vie) inicia 12/08 → promo hasta el 11
+    // Grupo B (Mar-Jue-Sáb) inicia 11/08 → promo hasta el 10
+    // Se usa la fecha más lejana para no cortar antes a nadie.
+    fechaLimite:  '2026-08-11T23:59:59-04:00'
   },
   'formulacion-poa-julio': {
     precioNormal: 200,
@@ -808,9 +813,16 @@ const PROMOS_INSCRIPCION_ANTICIPADA = {
     precioEstudianteNormal: 200,
     precioEstudiantePromo:  150,
     fechaLimite:  '2026-07-21T23:59:59-04:00'
+  },
+  'vectorworks-plugins': {
+    precioNormal: 180,
+    precioPromo:  150,
+    precioEstudianteNormal: 100,
+    precioEstudiantePromo:  100,   // el estudiante no cambia
+    fechaLimite:  '2026-08-11T23:59:59-04:00'
   }
   // Ejemplo para futuras promos (descomentar y ajustar):
-  // 'vectorworks':              { precioNormal: 180, precioPromo: 130, fechaLimite: '2026-06-XXT23:59:59-04:00' }
+  // 'nuevo-curso': { precioNormal: 200, precioPromo: 150, fechaLimite: '2026-XX-XXT23:59:59-04:00' }
 };
 
 // Devuelve el precio profesional aplicable según promo vigente.
