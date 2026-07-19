@@ -64,6 +64,21 @@
     .btn-logout:hover{background:rgba(220,38,38,0.15);border-color:var(--red);color:#ff6b68;}
 
     /* ─── Volver al sitio ─── */
+    .nav-mats{
+      display:flex;align-items:center;gap:6px;
+      color:var(--green,#8DC63F);
+      padding:7px 14px;border-radius:20px;
+      border:1px solid rgba(141,198,63,0.40);
+      background:rgba(141,198,63,0.10);
+      font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;
+      letter-spacing:0.3px;transition:all .2s;text-decoration:none;
+    }
+    .nav-mats:hover{
+      background:rgba(141,198,63,0.20);
+      border-color:var(--green,#8DC63F);
+    }
+    .nav-mats .ico{font-size:14px;line-height:1;}
+
     .nav-back{
       display:flex;align-items:center;gap:6px;
       color:rgba(255,255,255,0.75);
@@ -443,6 +458,10 @@
       <span class="badge-rol">Coordinación</span>
     </div>
     <div class="nav-user">
+      <a href="/coordinador/materiales.html" class="nav-mats" title="Gestionar materiales de los cursos">
+        <span class="ico">📁</span>
+        <span class="label-full">Materiales</span>
+      </a>
       <a href="/cursos.html" class="nav-back" title="Volver a la Academia">
         <span class="arrow">←</span>
         <span class="label-full">Volver a la Academia</span>
