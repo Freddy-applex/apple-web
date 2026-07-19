@@ -485,7 +485,7 @@ footer a{color:var(--green);}
 
       <div class="promo-banner" id="promoBanner">
         🔥 INSCRIPCIÓN ANTICIPADA · Hasta Bs 50 de descuento
-        <span class="promo-countdown" id="promoCountdown">Promoción válida hasta el lunes 20 de julio</span>
+        <span class="promo-countdown" id="promoCountdown">Promoción válida hasta el lunes 10 de agosto</span>
       </div>
 
       <div class="modalidad-block virtual">
@@ -607,7 +607,7 @@ setInterval(actualizarCountdown, 1000);
 // Virtual:    Prof Bs 200→150 · Est Bs 100→50
 // Presencial: Prof Bs 300→250 · Est Bs 250→200
 // ============================================================
-const PROMO_FECHA_LIMITE = new Date('2026-07-20T23:59:59-04:00');
+const PROMO_FECHA_LIMITE = new Date('2026-08-10T23:59:59-04:00');
 
 const PROMO_TARIFAS = [
   { tach:'tachVirtProf', precio:'precioVirtProf', badge:'badgeVirtProf', normal:200, oferta:150 },
@@ -645,11 +645,11 @@ function aplicarPromoEarlyBird(){
       const diff = PROMO_FECHA_LIMITE - ahora;
       const dias = Math.ceil(diff / (1000 * 60 * 60 * 24));
       if(dias > 1){
-        elCountdown.textContent = '⏰ Quedan ' + dias + ' días — termina el lunes 20 de julio';
+        elCountdown.textContent = '⏰ Quedan ' + dias + ' días — termina el lunes 10 de agosto';
       } else if(dias === 1){
         elCountdown.textContent = '⏰ ¡Último día! Termina hoy a las 23:59';
       } else {
-        elCountdown.textContent = '⏰ Últimas horas — termina el lunes 20 de julio 23:59';
+        elCountdown.textContent = '⏰ Últimas horas — termina el lunes 10 de agosto 23:59';
       }
     }
   } else {
