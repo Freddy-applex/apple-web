@@ -100,6 +100,89 @@
 
     /* ─── PAGE HEADING ─── */
 
+    /* ═══ ACORDEÓN DE CUPOS ═══ */
+    .cupos-acc{
+      border:1px solid var(--border,#E2E8F0);border-radius:12px;
+      margin-bottom:9px;overflow:hidden;background:#fff;
+    }
+    .cupos-acc-head{
+      width:100%;display:flex;align-items:center;gap:12px;
+      padding:13px 15px;background:#FBFCFE;border:none;cursor:pointer;
+      font-family:'Barlow',sans-serif;text-align:left;
+      transition:background .16s;position:relative;
+    }
+    .cupos-acc-head:hover{background:#F3F6FB;}
+    .acc-arrow{
+      color:#94A3B8;font-size:13px;flex-shrink:0;
+      transition:transform .2s;display:inline-block;
+    }
+    .cupos-acc.abierto .acc-arrow{transform:rotate(90deg);}
+    .acc-curso{
+      font-size:13.5px;font-weight:700;color:var(--navy,#1A2744);
+      flex:1;min-width:0;line-height:1.35;
+    }
+    .acc-resumen{
+      display:flex;align-items:center;gap:9px;flex-shrink:0;flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .acc-grupos{font-size:11.5px;color:#64748B;}
+    .acc-activos{
+      font-size:10.5px;font-weight:700;color:#15803D;
+      background:#DCFCE7;border:1px solid #BBF7D0;
+      padding:2px 8px;border-radius:20px;white-space:nowrap;
+    }
+    .acc-cifra{
+      font-family:'Josefin Sans',sans-serif;font-size:15px;
+      font-weight:700;color:var(--navy,#1A2744);
+    }
+    .acc-pend{
+      background:#FEF3C7;color:#92400E;border:1px solid #FCD34D;
+      font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;
+      white-space:nowrap;
+    }
+    .acc-minibar{
+      position:absolute;left:0;bottom:0;height:3px;width:100%;
+      background:#EEF1F6;
+    }
+    .acc-minibar span{
+      display:block;height:100%;
+      background:linear-gradient(90deg,#8DC63F,#6aaa2a);
+      transition:width .4s;
+    }
+
+    .cupos-acc-body{
+      display:none;padding:4px 15px 15px;
+      border-top:1px solid var(--border,#E2E8F0);
+    }
+    .cupos-acc.abierto .cupos-acc-body{display:block;}
+
+    /* Badges de estado de la cohorte */
+    .cc-estado-badge{
+      display:inline-block;font-size:9.5px;font-weight:700;
+      letter-spacing:.5px;text-transform:uppercase;
+      padding:3px 8px;border-radius:5px;margin-bottom:8px;
+    }
+    .e-abie {background:#DCFCE7;color:#15803D;}
+    .e-curso{background:#DBEAFE;color:#1D4ED8;}
+    .e-cerr {background:#FEF3C7;color:#92400E;}
+    .e-fin  {background:#F1F5F9;color:#64748B;}
+    .e-canc {background:#FEE2E2;color:#B91C1C;}
+    .e-borr {background:#F1F5F9;color:#94A3B8;}
+
+    .cc-aviso{
+      display:inline-block;font-size:10.5px;color:#64748B;
+      margin-left:6px;margin-bottom:8px;
+    }
+    .cc-aviso.urg{color:#B45309;font-weight:700;}
+
+    .cupo-card.apagada{opacity:.55;}
+    .cupo-card.apagada:hover{opacity:.85;}
+
+    @media(max-width:640px){
+      .cupos-acc-head{flex-wrap:wrap;gap:8px;}
+      .acc-resumen{width:100%;justify-content:flex-start;}
+    }
+
     /* ═══ TARJETAS DE CUPOS ═══ */
     .cupos-cards{
       display:grid;
@@ -876,14 +959,14 @@
       const {data, error} = await supabaseClient
         .from('cohortes')
         .select(`
-          id, nombre, curso_id,
+          id, nombre, curso_id, estado, fecha_inicio, fecha_fin,
           cupos_virtuales, cupos_presenciales,
           ocupados_virtuales, ocupados_presenciales,
           cursos!inner(modalidad, estado, titulo)
         `)
         .eq('cursos.modalidad', 'en_vivo')
         .eq('cursos.estado', 'publicado')
-        .order('nombre');
+        .order('fecha_inicio', { ascending: false, nullsFirst: false });
       if(error){console.error('Error cargando cohortes:', error);return;}
 
       // Aplanar nested cursos.titulo para uso conveniente en el render
@@ -928,60 +1011,135 @@
 
       panel.style.display = '';
 
-      // Nombre corto del grupo: quita el título del curso si se repite
+      // Nombre corto del grupo: quita lo repetido
       const nombreCorto = (n) => (n || '')
         .replace(/^Grupo\s*/i, '')
         .replace(/\s*·\s*En vivo Zoom/i, '')
         .trim() || 'Grupo';
 
-      cont.innerHTML = Object.entries(porCurso).map(([curso, cohortes]) => `
-        <div class="cupos-curso-block">
-          <div class="cupos-curso-header">${escapar(curso)}</div>
-          <div class="cupos-cards">
-          ${cohortes.map(c => {
-            const ocV = c.ocupados_virtuales || 0;
-            const ocP = c.ocupados_presenciales || 0;
-            const cuV = c.cupos_virtuales || 0;
-            const cuP = c.cupos_presenciales || 0;
-            const pend = pendsPorCohorte[c.id] || {virtual:0, presencial:0};
-            const totalPend = pend.virtual + pend.presencial;
+      // Estado legible de la cohorte
+      const ESTADOS = {
+        borrador:               {txt:'Borrador',   cls:'e-borr'},
+        inscripciones_abiertas: {txt:'Inscripciones abiertas', cls:'e-abie'},
+        inscripciones_cerradas: {txt:'Inscripciones cerradas', cls:'e-cerr'},
+        en_curso:               {txt:'En curso',   cls:'e-curso'},
+        finalizada:             {txt:'Finalizada', cls:'e-fin'},
+        cancelada:              {txt:'Cancelada',  cls:'e-canc'}
+      };
 
-            const ocupados = ocV + ocP;
-            const totales  = cuV + cuP;
-            const pct = totales > 0 ? Math.round(ocupados / totales * 100) : 0;
+      const fmtFecha = (iso) => {
+        if(!iso) return '';
+        const f = new Date(iso);
+        if(isNaN(f)) return '';
+        return f.toLocaleDateString('es-BO', {day:'numeric', month:'short'});
+      };
 
-            // Semáforo por nivel de ocupación
-            let nivel = 'vacio', etiqueta = 'Sin inscritos';
-            if(pct >= 90){ nivel = 'lleno';  etiqueta = 'Casi lleno'; }
-            else if(pct >= 50){ nivel = 'medio'; etiqueta = 'En camino'; }
-            else if(pct > 0){ nivel = 'bajo';  etiqueta = 'Pocos inscritos'; }
+      const diasPara = (iso) => {
+        if(!iso) return null;
+        const f = new Date(iso); if(isNaN(f)) return null;
+        const hoy = new Date(); hoy.setHours(0,0,0,0);
+        f.setHours(0,0,0,0);
+        return Math.round((f - hoy) / 86400000);
+      };
 
-            return `
-              <div class="cupo-card ${nivel}">
-                <div class="cc-top">
-                  <span class="cc-nombre">${escapar(nombreCorto(c.nombre))}</span>
-                  ${totalPend > 0 ? `<span class="cc-pend" title="${pend.virtual} virtual · ${pend.presencial} presencial">⏳ ${totalPend}</span>` : ''}
+      // Ordenar cursos: primero los que tienen grupos activos
+      const bloques = Object.entries(porCurso).map(([curso, cohortes]) => {
+        const activos = cohortes.filter(c =>
+          ['inscripciones_abiertas','en_curso','inscripciones_cerradas'].includes(c.estado)).length;
+        const ocT = cohortes.reduce((s,c)=> s + (c.ocupados_virtuales||0) + (c.ocupados_presenciales||0), 0);
+        const cuT = cohortes.reduce((s,c)=> s + (c.cupos_virtuales||0) + (c.cupos_presenciales||0), 0);
+        const pendT = cohortes.reduce((s,c)=>{
+          const pe = pendsPorCohorte[c.id] || {virtual:0,presencial:0};
+          return s + pe.virtual + pe.presencial;
+        }, 0);
+        return {curso, cohortes, activos, ocT, cuT, pendT};
+      }).sort((a,b) => (b.activos - a.activos) || (b.pendT - a.pendT));
+
+      cont.innerHTML = bloques.map((b, idx) => {
+        const pctT = b.cuT > 0 ? Math.round(b.ocT / b.cuT * 100) : 0;
+        return `
+        <div class="cupos-acc" data-idx="${idx}">
+          <button class="cupos-acc-head" type="button" onclick="toggleAcc(${idx})">
+            <span class="acc-arrow">▸</span>
+            <span class="acc-curso">${escapar(b.curso)}</span>
+            <span class="acc-resumen">
+              <span class="acc-grupos">${b.cohortes.length} grupo${b.cohortes.length===1?'':'s'}</span>
+              ${b.activos > 0 ? `<span class="acc-activos">${b.activos} activo${b.activos===1?'':'s'}</span>` : ''}
+              <span class="acc-cifra">${b.ocT}/${b.cuT}</span>
+              ${b.pendT > 0 ? `<span class="acc-pend">⏳ ${b.pendT}</span>` : ''}
+            </span>
+            <span class="acc-minibar"><span style="width:${Math.min(pctT,100)}%"></span></span>
+          </button>
+
+          <div class="cupos-acc-body">
+            <div class="cupos-cards">
+            ${b.cohortes.map(c => {
+              const ocV = c.ocupados_virtuales || 0;
+              const ocP = c.ocupados_presenciales || 0;
+              const cuV = c.cupos_virtuales || 0;
+              const cuP = c.cupos_presenciales || 0;
+              const pend = pendsPorCohorte[c.id] || {virtual:0, presencial:0};
+              const totalPend = pend.virtual + pend.presencial;
+
+              const ocupados = ocV + ocP;
+              const totales  = cuV + cuP;
+              const pct = totales > 0 ? Math.round(ocupados / totales * 100) : 0;
+
+              let nivel = 'vacio', etiqueta = 'Sin inscritos';
+              if(pct >= 90){ nivel = 'lleno';  etiqueta = 'Casi lleno'; }
+              else if(pct >= 50){ nivel = 'medio'; etiqueta = 'En camino'; }
+              else if(pct > 0){ nivel = 'bajo';  etiqueta = 'Pocos inscritos'; }
+
+              const est = ESTADOS[c.estado] || {txt:c.estado||'—', cls:'e-borr'};
+              const d = diasPara(c.fecha_inicio);
+              let aviso = '';
+              if(c.estado === 'inscripciones_abiertas' && d !== null){
+                if(d > 0 && d <= 7) aviso = `<span class="cc-aviso urg">Inicia en ${d} día${d===1?'':'s'}</span>`;
+                else if(d === 0)    aviso = `<span class="cc-aviso urg">Inicia hoy</span>`;
+                else if(d > 7)      aviso = `<span class="cc-aviso">Inicia ${fmtFecha(c.fecha_inicio)}</span>`;
+              } else if(c.estado === 'en_curso'){
+                aviso = `<span class="cc-aviso">Hasta ${fmtFecha(c.fecha_fin)}</span>`;
+              }
+
+              const apagada = ['finalizada','cancelada'].includes(c.estado) ? ' apagada' : '';
+
+              return `
+                <div class="cupo-card ${nivel}${apagada}">
+                  <div class="cc-top">
+                    <span class="cc-nombre">${escapar(nombreCorto(c.nombre))}</span>
+                    ${totalPend > 0 ? `<span class="cc-pend" title="${pend.virtual} virtual · ${pend.presencial} presencial">⏳ ${totalPend}</span>` : ''}
+                  </div>
+
+                  <span class="cc-estado-badge ${est.cls}">${est.txt}</span>
+                  ${aviso}
+
+                  <div class="cc-cifra">
+                    <span class="cc-oc">${ocupados}</span><span class="cc-tot">/${totales}</span>
+                    <span class="cc-pct">${pct}%</span>
+                  </div>
+
+                  <div class="cc-bar"><div class="cc-fill" style="width:${Math.min(pct,100)}%"></div></div>
+
+                  <div class="cc-detalle">
+                    <span class="cc-det"><b>${ocV}</b>/${cuV} virtual</span>
+                    ${cuP > 0 ? `<span class="cc-det"><b>${ocP}</b>/${cuP} presencial</span>` : ''}
+                  </div>
+
+                  <div class="cc-estado">${etiqueta}</div>
                 </div>
-
-                <div class="cc-cifra">
-                  <span class="cc-oc">${ocupados}</span><span class="cc-tot">/${totales}</span>
-                  <span class="cc-pct">${pct}%</span>
-                </div>
-
-                <div class="cc-bar"><div class="cc-fill" style="width:${Math.min(pct,100)}%"></div></div>
-
-                <div class="cc-detalle">
-                  <span class="cc-det"><b>${ocV}</b>/${cuV} virtual</span>
-                  ${cuP > 0 ? `<span class="cc-det"><b>${ocP}</b>/${cuP} presencial</span>` : ''}
-                </div>
-
-                <div class="cc-estado">${etiqueta}</div>
-              </div>
-            `;
-          }).join('')}
+              `;
+            }).join('')}
+            </div>
           </div>
         </div>
-      `).join('');
+        `;
+      }).join('');
+    }
+
+    // Abrir/cerrar un bloque del acordeón
+    function toggleAcc(idx){
+      const el = document.querySelector('.cupos-acc[data-idx="' + idx + '"]');
+      if(el) el.classList.toggle('abierto');
     }
 
     async function cargarStats(){
