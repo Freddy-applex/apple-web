@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Curso Vectorworks Architect · Arq. Pablo Aramayo · Academia APPLENDE · Bolivia · Modalidad Virtual o Presencial">
+<meta name="description" content="Curso Vectorworks Architect · Arq. Pablo Aramayo · Academia APPLENDE · Bolivia · Modalidad Virtual">
 <title>Vectorworks Architect · Academia APPLENDE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -87,6 +87,7 @@ a{text-decoration:none;color:inherit;}
 .precio-tipo-est{font-weight:600;color:var(--navy);}
 .precio-monto{display:flex;align-items:center;gap:8px;}
 .precio-bs{font-family:'Josefin Sans',sans-serif;font-size:18px;font-weight:700;color:var(--navy);line-height:1;}
+.precio-tachado{text-decoration:line-through;color:#94A3B8;font-size:.75em;margin-right:7px;font-weight:600;}
 .precio-bs.estudiante{color:var(--green-dark);}
 .precio-badge{font-size:9.5px;font-weight:800;background:var(--green);color:var(--navy);padding:2px 6px;border-radius:4px;letter-spacing:.5px;}
 .precio-nota{font-size:10.5px;color:var(--muted);text-align:center;font-style:italic;margin:8px 0 14px;line-height:1.4;}
@@ -236,7 +237,6 @@ footer a{color:var(--green);}
       <p>Curso completo de Vectorworks Architect con el Arq. Pablo Aramayo, basado en el programa oficial de D-PAR. 7 clases que te llevan desde la instalación hasta el cómputo métrico avanzado y la exportación profesional, con un proyecto real de vivienda como hilo conductor.</p>
       <div class="hero-mods">
         <span class="hero-mod virtual">📺 Modalidad Virtual</span>
-        <span class="hero-mod presencial">🏛️ Modalidad Presencial</span>
       </div>
     </div>
   </div>
@@ -534,37 +534,22 @@ footer a{color:var(--green);}
         </div>
         <div class="precio-fila">
           <div class="precio-tipo">👔 Profesional</div>
-          <div class="precio-monto"><span class="precio-bs">Bs 180</span></div>
+          <div class="precio-monto">
+            <span class="precio-tachado">Bs 180</span>
+            <span class="precio-bs">Bs 150</span>
+          </div>
         </div>
         <div class="precio-fila">
           <div class="precio-tipo precio-tipo-est">🎓 Estudiante</div>
           <div class="precio-monto">
-            <span class="precio-bs estudiante">Bs 130</span>
-            <span class="precio-badge">28% OFF</span>
+            <span class="precio-bs estudiante">Bs 100</span>
+            <span class="precio-badge">33% OFF</span>
           </div>
         </div>
       </div>
 
-      <div class="modalidad-block presencial">
-        <div class="mod-head">
-          <span class="mod-icon">🏛️</span>
-          <span class="mod-titulo">Presencial</span>
-          <span class="mod-cupos">20 cupos</span>
-        </div>
-        <div class="precio-fila">
-          <div class="precio-tipo">👔 Profesional</div>
-          <div class="precio-monto"><span class="precio-bs">Bs 250</span></div>
-        </div>
-        <div class="precio-fila">
-          <div class="precio-tipo precio-tipo-est">🎓 Estudiante</div>
-          <div class="precio-monto">
-            <span class="precio-bs estudiante">Bs 180</span>
-            <span class="precio-badge">28% OFF</span>
-          </div>
-        </div>
-      </div>
-
-      <p class="precio-nota">Tarifa estudiantil con carnet vigente · Pago único · Coordinación presencial vía WhatsApp</p>
+      <p class="precio-nota">🔥 <strong>Precio promocional hasta el martes 11 de agosto</strong> · Después Bs 180<br>
+      Tarifa estudiantil con carnet vigente · Pago único · Curso 100% virtual por Zoom</p>
       </div><!-- /precios-bolivia -->
 
       <div id="precios-internacional" style="display:none;">
