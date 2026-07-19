@@ -490,7 +490,7 @@
   <div class="max-w">
     <div class="sub-head sub-head-vivo">
       <span class="sub-dot sub-dot-vivo"></span>
-      <h3 class="sub-h3">Programados para junio y julio 2026 · En vivo <span class="sub-h3-meta">(grupos en simultáneo)</span></h3>
+      <h3 class="sub-h3">Programados para julio y agosto 2026 · En vivo <span class="sub-h3-meta">(grupos en simultáneo)</span></h3>
       <span class="sub-badge sub-badge-vivo"><span id="count-vivo">0</span> cursos</span>
     </div>
     <p class="sub-desc">Clases en vivo por Zoom en horario noche, pensadas para profesionales en ejercicio. Grupos reducidos con horarios fijos.</p>
@@ -821,7 +821,7 @@ function badgeHTML(badge, esVivo) {
 function cohorteInfoHTML(curso) {
   if (curso.modalidad !== 'en_vivo') return '';
   
-  // Caso especial: curso marcado como "próximo" (Junio 2026) sin cohorte abierta aún.
+  // Caso especial: curso marcado como "próximo" sin cohorte abierta aún.
   // Mostramos un bloque sin cupos para no dejar la card vacía abajo del precio.
   if (!curso.cohorte_proxima_id) {
     if (curso.badge === 'proximo') {
