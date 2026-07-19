@@ -723,6 +723,9 @@
       <div class="filters">
         <input type="text" class="filter-input" id="filterSearch" 
                placeholder="🔍 Buscar por nombre, email o CI...">
+        <select class="filter-select" id="filterMes">
+          <option value="">Todos los meses</option>
+        </select>
         <select class="filter-select" id="filterCategoria">
           <option value="">Todas las áreas</option>
           <option value="tecnico">🏗️ Construcción y Técnico</option>
@@ -906,6 +909,7 @@
       filtroCurso: '',
       filtroCategoria: '',
       filtroTipo: '',
+      filtroMes: '',
       verFinalizados: false,
       grabados: [],
       filtroModalidad: '',
@@ -1015,10 +1019,46 @@
         curso_titulo: c.cursos?.titulo || '',
         categoria_slug: c.cursos?.categorias?.slug || '',
         categoria_nombre: c.cursos?.categorias?.nombre || 'Sin categoría',
-        tipo: 'en_vivo'
+        tipo: 'en_vivo',
+        mesClave: c.fecha_inicio ? c.fecha_inicio.slice(0,7) : ''
       }));
 
+      poblarSelectorMeses();
       await cargarGrabados();
+    }
+
+    // Arma el selector de meses con los que realmente tienen grupos
+    function poblarSelectorMeses(){
+      const sel = document.getElementById('filterMes');
+      if(!sel) return;
+
+      const MESES = ['enero','febrero','marzo','abril','mayo','junio',
+                     'julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+      const claves = [...new Set(
+        estado.cohortes.map(c => c.mesClave).filter(Boolean)
+      )].sort().reverse();   // más reciente primero
+
+      const label = (k) => {
+        const [a, m] = k.split('-');
+        const nom = MESES[parseInt(m,10) - 1] || m;
+        return nom.charAt(0).toUpperCase() + nom.slice(1) + ' ' + a;
+      };
+
+      const previo = estado.filtroMes;
+      sel.innerHTML = '<option value="">Todos los meses</option>' +
+        claves.map(k => `<option value="${k}">${label(k)}</option>`).join('');
+
+      // Default: el mes actual si tiene grupos; si no, el más reciente
+      const hoy = new Date();
+      const mesHoy = hoy.getFullYear() + '-' + String(hoy.getMonth()+1).padStart(2,'0');
+
+      if(previo && claves.includes(previo)){
+        sel.value = previo;
+      }else if(claves.includes(mesHoy)){
+        sel.value = mesHoy;
+        estado.filtroMes = mesHoy;
+      }
     }
 
     // Cursos GRABADOS: no tienen cupos, se muestra el total de alumnos inscritos
@@ -1077,6 +1117,8 @@
         if(estado.filtroCategoria && item.categoria_slug !== estado.filtroCategoria) return false;
         if(estado.filtroTipo && item.tipo !== estado.filtroTipo) return false;
         if(estado.filtroCurso && item.curso_id !== estado.filtroCurso) return false;
+        // El mes solo aplica a cursos EN VIVO: los grabados se venden todo el año
+        if(estado.filtroMes && item.tipo === 'en_vivo' && item.mesClave !== estado.filtroMes) return false;
         return true;
       };
 
@@ -1103,6 +1145,11 @@
       const cantCursos = Object.keys(porCurso).length;
       if(tit){
         const partes = [];
+        if(estado.filtroMes){
+          const selM = document.getElementById('filterMes');
+          const txtM = selM ? selM.options[selM.selectedIndex]?.text : '';
+          if(txtM) partes.push(txtM);
+        }
         if(cantCursos > 0) partes.push(`${cantCursos} en vivo`);
         if(grabadosVis.length > 0) partes.push(`${grabadosVis.length} grabado${grabadosVis.length===1?'':'s'}`);
         tit.textContent = partes.length
@@ -1593,6 +1640,14 @@
       estado.filtroCurso = '';
       const sc = document.getElementById('filterCurso');
       if(sc) sc.value = '';
+      renderizar();
+      renderResumenCupos();
+    });
+    document.getElementById('filterMes').addEventListener('change', e => {
+      estado.filtroMes = e.target.value;
+      estado.filtroCurso = '';
+      const sm = document.getElementById('filterCurso');
+      if(sm) sm.value = '';
       renderizar();
       renderResumenCupos();
     });
