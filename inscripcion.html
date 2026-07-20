@@ -381,6 +381,21 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 #challenge-modal-insc{display:none;position:fixed;inset:0;background:rgba(14,26,48,.7);z-index:9999;align-items:center;justify-content:center;}
 #challenge-modal-insc>div{background:#fff;border-radius:16px;padding:20px;max-width:480px;width:92%;}
 #challenge-iframe-insc{width:100%;height:420px;border:1px solid var(--border);border-radius:10px;}
+
+    /* ═══ AVISO DE CONTRASEÑA ═══ */
+    .pwd-aviso{
+      display:flex; gap:11px; align-items:flex-start;
+      background:#FFF7ED; border:1.5px solid #FDBA74;
+      border-radius:10px; padding:13px 15px;
+      margin:6px 0 16px;
+      font-size:13.5px; line-height:1.55; color:#7C2D12;
+    }
+    .pwd-aviso b{ color:#9A3412; font-weight:700; }
+    .pwd-aviso u{ text-decoration-color:#EA580C; text-underline-offset:2px; font-weight:600; }
+    .pwd-aviso-ico{ font-size:19px; line-height:1.2; flex-shrink:0; }
+    @media(max-width:560px){
+      .pwd-aviso{ font-size:12.5px; padding:11px 13px; }
+    }
 </style>
 </head>
 <body>
@@ -456,7 +471,7 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
         <div class="form-row">
           <label class="form-lbl form-lbl-req" for="inp-email">Email</label>
           <input type="email" class="form-input" id="inp-email" placeholder="ej: juan@gmail.com" autocomplete="email" required>
-          <div class="form-hint">Será tu usuario para acceder al aula virtual. Usá un email real.</div>
+          <div class="form-hint">Será tu usuario para entrar al aula virtual. Usá un email real.<br>Solo necesitamos la dirección — <b>nunca te pediremos la contraseña de tu correo</b>.</div>
           <div class="form-err" id="err-email">Email inválido</div>
         </div>
 
@@ -467,21 +482,32 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
           <div class="form-err" id="err-whatsapp">Número de WhatsApp inválido</div>
         </div>
 
+        <div class="pwd-aviso">
+          <span class="pwd-aviso-ico">🔒</span>
+          <div>
+            <b>Creá una contraseña nueva para el Aula Virtual</b><br>
+            Es una clave que inventás vos ahora, solo para APPLENDE.
+            <u>No pongas la contraseña de tu correo electrónico.</u>
+          </div>
+        </div>
+
         <div class="form-row-2">
           <div>
-            <label class="form-lbl form-lbl-req" for="inp-password">Contraseña</label>
+            <label class="form-lbl form-lbl-req" for="inp-password">Creá tu contraseña</label>
             <div class="pwd-wrap">
-              <input type="password" class="form-input" id="inp-password" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required>
+              <input type="password" class="form-input" id="inp-password" placeholder="Inventá una de mínimo 6 caracteres" autocomplete="new-password" required>
               <button type="button" class="pwd-toggle" id="tog-pwd" aria-label="Mostrar contraseña">👁️</button>
             </div>
+            <div class="form-hint">Vas a usarla para entrar al aula virtual.</div>
             <div class="form-err" id="err-password">La contraseña debe tener al menos 6 caracteres</div>
           </div>
           <div>
-            <label class="form-lbl form-lbl-req" for="inp-password2">Confirmar contraseña</label>
+            <label class="form-lbl form-lbl-req" for="inp-password2">Repetí tu contraseña</label>
             <div class="pwd-wrap">
-              <input type="password" class="form-input" id="inp-password2" placeholder="Repetí la contraseña" autocomplete="new-password" required>
+              <input type="password" class="form-input" id="inp-password2" placeholder="Escribí la misma contraseña" autocomplete="new-password" required>
               <button type="button" class="pwd-toggle" id="tog-pwd2" aria-label="Mostrar contraseña">👁️</button>
             </div>
+            <div class="form-hint">Para confirmar que no hubo errores.</div>
             <div class="form-err" id="err-password2">Las contraseñas no coinciden</div>
           </div>
         </div>
