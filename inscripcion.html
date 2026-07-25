@@ -963,8 +963,17 @@ async function cargarCurso() {
     renderizarResumen(cursoActual);
     
     // Si hay 2+ cohortes, mostrar el selector
-    if (cohortesDisponibles.length >= 2) {
+    const hayVariosGrupos = cohortesDisponibles.length >= 2;
+    if (hayVariosGrupos) {
       mostrarSelectorCohortes(cohortesDisponibles);
+    }
+
+    // ═══ PRECIO OCULTO: si el curso no tiene NADA que elegir
+    //     (ni varios grupos, ni tipo estudiantil), no tiene sentido
+    //     ocultar el precio: se revela de una vez.
+    const hayTipoEstudiante = cursoActual.precio_estudiante_bs && Number(cursoActual.precio_estudiante_bs) > 0;
+    if (!hayVariosGrupos && !hayTipoEstudiante) {
+      revelarPrecio();
     }
     
     document.getElementById('carga-inicial').style.display = 'none';
@@ -1003,14 +1012,15 @@ function renderizarResumen(curso) {
   document.getElementById('res-curso').textContent = curso.titulo;
   document.getElementById('res-inst').textContent = curso.instructor_nombre || '';
 
+  // ═══ PRECIO OCULTO HASTA ELEGIR: el resumen no muestra el precio de entrada.
+  //     Aparece recién cuando la persona selecciona grupo y/o tipo de alumno.
+  //     (Los montos de la pantalla de pago SÍ se precargan, no son visibles aún.)
   const precioFmt = formatearPrecio(curso.precio_bs, curso.precio_original_bs);
-  document.getElementById('res-precio').textContent = 'Bs ' + precioFmt.precio;
-  if (precioFmt.original) {
-    document.getElementById('res-porig').textContent = 'Bs ' + precioFmt.original;
-  }
-  const usd = Math.round((curso.precio_bs || 0) / TIPO_CAMBIO_USD);
-  document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
+  document.getElementById('res-precio').textContent = '—';
+  document.getElementById('res-porig').textContent = '';
+  document.getElementById('res-pusd').textContent = 'Elegí tu grupo y tipo para ver el precio';
 
+  // Los montos de pago se precargan (pantalla oculta hasta el paso 2)
   document.getElementById('pago-monto').textContent = 'Bs ' + precioFmt.precio;
   document.getElementById('pago-monto-card').textContent = 'Bs ' + precioFmt.precio;
 
@@ -1051,6 +1061,8 @@ function mostrarSelectorTipoAlumno(curso) {
 }
 
 function actualizarPrecioSegunTipo(curso) {
+  // ═══ PRECIO OCULTO: al elegir tipo, revelar
+  precioRevelado = true;
   // Usar la función obtenerPrecioAplicable que ya considera modalidad + tipo
   const precioAplicable = obtenerPrecioAplicable();
   const precioFmt = formatearPrecio(precioAplicable).precio;
@@ -1283,8 +1295,28 @@ function mostrarSelectorCohortes(cohortes) {
       document.getElementById('err-cohorte').classList.remove('show');
       // Actualizar cupos por modalidad para esta cohorte
       actualizarCuposPorModalidad();
+      // ═══ PRECIO OCULTO: al elegir grupo, revelar el precio
+      revelarPrecio();
     });
   });
+}
+
+/* ════════════════════════════════════════════════════════════════
+   PRECIO OCULTO HASTA ELEGIR — revela el precio en el resumen
+   Se llama al elegir grupo o tipo de alumno. Idempotente.
+   ════════════════════════════════════════════════════════════════ */
+let precioRevelado = false;
+function revelarPrecio() {
+  if (precioRevelado) return;
+  precioRevelado = true;
+  const precioAplicable = obtenerPrecioAplicable();
+  const precioFmt = formatearPrecio(precioAplicable, cursoActual ? cursoActual.precio_original_bs : null);
+  document.getElementById('res-precio').textContent = 'Bs ' + precioFmt.precio;
+  if (precioFmt.original) {
+    document.getElementById('res-porig').textContent = 'Bs ' + precioFmt.original;
+  }
+  const usd = Math.round(precioAplicable / TIPO_CAMBIO_USD);
+  document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
 }
 
 function actualizarResumenConCohorte(cohorte) {
