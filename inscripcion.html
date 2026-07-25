@@ -884,6 +884,7 @@ function aplicarPromoEnInscripcion(curso) {
 
 let cursoActual = null;
 let cohorteActual = null;
+let precioRevelado = false;  // PRECIO OCULTO: se vuelve true cuando el usuario elige grupo/tipo
 let inscripcionCreada = null;
 
 function obtenerSlug() {
@@ -1056,22 +1057,29 @@ function mostrarSelectorTipoAlumno(curso) {
 
   // Escuchar cambios y actualizar precio mostrado en resumen + pago
   document.querySelectorAll('input[name="tipo-alumno"]').forEach(r => {
-    r.addEventListener('change', () => actualizarPrecioSegunTipo(curso));
+    r.addEventListener('change', () => {
+      revelarPrecio();
+      actualizarPrecioSegunTipo(curso);
+    });
   });
 }
 
 function actualizarPrecioSegunTipo(curso) {
-  // ═══ PRECIO OCULTO: al elegir tipo, revelar
-  precioRevelado = true;
   // Usar la función obtenerPrecioAplicable que ya considera modalidad + tipo
   const precioAplicable = obtenerPrecioAplicable();
   const precioFmt = formatearPrecio(precioAplicable).precio;
-  document.getElementById('res-precio').textContent = 'Bs ' + precioFmt;
+
+  // Los montos de la pantalla de pago siempre se actualizan (están ocultos hasta el paso 2)
   document.getElementById('pago-monto').textContent = 'Bs ' + precioFmt;
   document.getElementById('pago-monto-card').textContent = 'Bs ' + precioFmt;
-  
-  const usd = Math.round(precioAplicable / TIPO_CAMBIO_USD);
-  document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
+
+  // ═══ PRECIO OCULTO: solo escribir en el resumen visible SI ya fue revelado
+  //     (evita que las llamadas de inicialización muestren el precio de entrada).
+  if (precioRevelado) {
+    document.getElementById('res-precio').textContent = 'Bs ' + precioFmt;
+    const usd = Math.round(precioAplicable / TIPO_CAMBIO_USD);
+    document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
+  }
 
   // ═══ FIX: Actualizar precios del cuadro TIPO DE INSCRIPCIÓN según modalidad elegida ═══
   // El cuadro tipo de inscripción debe reflejar los precios correctos según virtual/presencial
@@ -1305,7 +1313,6 @@ function mostrarSelectorCohortes(cohortes) {
    PRECIO OCULTO HASTA ELEGIR — revela el precio en el resumen
    Se llama al elegir grupo o tipo de alumno. Idempotente.
    ════════════════════════════════════════════════════════════════ */
-let precioRevelado = false;
 function revelarPrecio() {
   if (precioRevelado) return;
   precioRevelado = true;
