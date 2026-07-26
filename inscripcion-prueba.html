@@ -1355,8 +1355,8 @@ function validarFormulario() {
     ok = false;
   }
 
-  // Si vino por Google, no se valida contraseña (no la necesita)
-  if (!window.USUARIO_GOOGLE) {
+  // Si vino por Google o ya está logueado, no se valida contraseña
+  if (!window.USUARIO_GOOGLE && !window.ALUMNO_LOGUEADO) {
     const pwd = document.getElementById('inp-password').value;
     if (pwd.length < 6) {
       marcarError('password', 'La contraseña debe tener al menos 6 caracteres');
@@ -1513,13 +1513,16 @@ async function procesarInscripcion(ev) {
     let errAuth = null;
     let authData = null;
 
-    if (window.USUARIO_GOOGLE) {
-      // ─── Vino por Google: ya está autenticado, NO hacemos signUp ───
-      console.log('[INSC] Inscripción vía Google, se saltea signUp');
+    const usuarioSesion = window.USUARIO_GOOGLE || window.ALUMNO_LOGUEADO;
+    if (usuarioSesion) {
+      // ─── Ya autenticado (Google o login previo): NO hacemos signUp ───
+      console.log('[INSC] Inscripción con sesión activa, se saltea signUp');
       alumnoExistenteOk = true;
-      // Actualizar el WhatsApp en el perfil (Google no lo trae)
+      // Si el perfil no tenía teléfono, guardamos el que cargó ahora
       try {
-        await sb.from('perfiles').update({ telefono: datosAlumno.whatsapp }).eq('id', window.USUARIO_GOOGLE.id);
+        if (datosAlumno.whatsapp && datosAlumno.whatsapp !== 'PENDIENTE') {
+          await sb.from('perfiles').update({ telefono: datosAlumno.whatsapp }).eq('id', usuarioSesion.id);
+        }
       } catch(e) { console.warn('[INSC] No se pudo actualizar telefono:', e); }
     } else {
       // ─── Camino normal: crear cuenta con contraseña ───
@@ -1885,6 +1888,12 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('form-inscripcion').addEventListener('submit', procesarInscripcion);
 
   // ══════════════════════════════════════════════════════════════
+  //  ALUMNO YA LOGUEADO: si al entrar ya hay sesión activa,
+  //  no le pedimos sus datos de nuevo — usamos los que ya tiene.
+  // ══════════════════════════════════════════════════════════════
+  detectarSesionExistente();
+
+  // ══════════════════════════════════════════════════════════════
   //  CONTINUAR CON GOOGLE (versión prueba)
   //  Al hacer clic: guarda el slug actual y lanza OAuth de Google,
   //  que vuelve a ESTA misma página. Al volver, se detecta la sesión
@@ -1958,6 +1967,72 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnG = document.getElementById('btn-google-insc');
     if (btnG) btnG.style.display = 'none';
     console.log('[INSC] Usuario Google aplicado:', u.email);
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  //  DETECTAR SESIÓN EXISTENTE (alumno ya logueado con contraseña o Google)
+  //  Trae el perfil guardado y pre-rellena SIN pedir datos de nuevo.
+  //  WhatsApp fijo: se toma del perfil, no se puede editar acá.
+  // ══════════════════════════════════════════════════════════════
+  async function detectarSesionExistente() {
+    try {
+      const sb = obtenerSupabaseInsc();
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session || !session.user) return;  // no logueado: formulario normal
+
+      const u = session.user;
+      // Traer el perfil guardado (nombre, apellido, telefono)
+      let perfil = null;
+      try {
+        const { data } = await sb.from('perfiles')
+          .select('nombre, apellido, telefono')
+          .eq('id', u.id).single();
+        perfil = data;
+      } catch(e) { console.warn('[INSC] No se pudo leer perfil:', e); }
+
+      window.ALUMNO_LOGUEADO = u;  // bandera: el submit saltea signUp
+
+      const nombreCompleto = perfil
+        ? [perfil.nombre, perfil.apellido].filter(Boolean).join(' ').trim()
+        : (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || '';
+      const telGuardado = perfil && perfil.telefono && perfil.telefono !== 'PENDIENTE' ? perfil.telefono : '';
+
+      // Pre-rellenar y bloquear nombre + email
+      const inpNombre = document.getElementById('inp-nombre');
+      const inpEmail  = document.getElementById('inp-email');
+      if (inpNombre && nombreCompleto) { inpNombre.value = nombreCompleto; inpNombre.readOnly = true; }
+      if (inpEmail && u.email)         { inpEmail.value = u.email; inpEmail.readOnly = true; }
+
+      // WhatsApp: si ya lo tiene guardado, fijarlo y bloquearlo.
+      const inpWa = document.getElementById('inp-whatsapp');
+      if (inpWa) {
+        if (telGuardado) { inpWa.value = telGuardado; inpWa.readOnly = true; }
+        // si no tiene teléfono guardado, lo dejamos editable para que lo cargue esta vez
+      }
+
+      // Ocultar contraseña (ya tiene cuenta)
+      const filaPwd = document.querySelector('.pwd-aviso');
+      if (filaPwd) filaPwd.style.display = 'none';
+      [document.getElementById('inp-password'), document.getElementById('inp-password2')].forEach(el => {
+        if (el) { const cont = el.closest('.form-row-2'); if (cont) cont.style.display='none'; el.removeAttribute('required'); }
+      });
+
+      // Ocultar botón de Google y separador (ya está adentro)
+      const btnG = document.getElementById('btn-google-insc');
+      if (btnG) btnG.style.display = 'none';
+      const divisor = document.querySelector('.insc-divider');
+      if (divisor) divisor.style.display = 'none';
+
+      // Aviso de bienvenida
+      const okBox = document.getElementById('insc-google-ok');
+      if (okBox) {
+        okBox.textContent = '✅ Ya tenés cuenta en APPLENDE (' + u.email + '). Solo elegí tu grupo y confirmá tu inscripción.';
+        okBox.style.display = 'block';
+      }
+      console.log('[INSC] Alumno logueado detectado:', u.email, '| tel:', telGuardado || '(sin guardar)');
+    } catch (e) {
+      console.warn('[INSC] Error al detectar sesión:', e);
+    }
   }
   _qrWiring();
 });
