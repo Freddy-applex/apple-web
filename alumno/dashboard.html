@@ -56,20 +56,22 @@
     .user-info .name{font-size:13px;font-weight:600;}
     .user-info .email{font-size:11px;color:rgba(255,255,255,0.5);}
     .btn-logout{
-      background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;
-      padding:7px 14px;border-radius:20px;font-family:'Barlow',sans-serif;
-      font-weight:600;font-size:12px;cursor:pointer;transition:all .2s;
+      display:inline-flex;align-items:center;gap:6px;
+      background:transparent;border:1.5px solid rgba(255,255,255,0.25);color:#fff;
+      padding:8px 16px;border-radius:20px;font-family:'Barlow',sans-serif;
+      font-weight:700;font-size:12px;letter-spacing:.3px;cursor:pointer;
+      transition:all .2s;white-space:nowrap;line-height:1;
     }
     .btn-logout:hover{background:rgba(220,38,38,0.15);border-color:#dc2626;color:#ff6b68;}
 
     /* ─── Volver al sitio ─── */
     .nav-back{
-      display:flex;align-items:center;gap:6px;
-      color:rgba(255,255,255,0.75);
-      padding:7px 14px;border-radius:20px;
-      border:1px solid rgba(255,255,255,0.18);
-      font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;
-      letter-spacing:0.3px;transition:all .2s;
+      display:inline-flex;align-items:center;gap:6px;
+      color:#fff;
+      padding:8px 16px;border-radius:20px;
+      border:1.5px solid rgba(255,255,255,0.25);
+      font-family:'Barlow',sans-serif;font-weight:700;font-size:12px;
+      letter-spacing:0.3px;transition:all .2s;white-space:nowrap;line-height:1;text-decoration:none;
     }
     .nav-back:hover{
       color:var(--green);border-color:var(--green);
