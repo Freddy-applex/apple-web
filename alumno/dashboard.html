@@ -313,6 +313,10 @@
 .perfil-guardar:hover{background:#7db32f;}
 .perfil-guardar:disabled{opacity:.6;cursor:default;}
 @media(max-width:560px){.perfil-grid{grid-template-columns:1fr;}}
+
+.perfil-pwd{margin-top:20px;padding-top:18px;border-top:1px dashed #d5dae4;}
+.perfil-pwd-tit{font-size:14px;font-weight:700;color:#1A2744;margin-bottom:4px;}
+.perfil-pwd-hint{font-size:12.5px;color:#5a6580;margin-bottom:12px;line-height:1.4;}
 </style>
 </head>
 <body>
@@ -356,7 +360,7 @@
         <button class="perfil-toggle" id="perfilToggle" type="button">Editar mis datos</button>
       </div>
       <div class="perfil-alerta" id="perfilAlertaCI" style="display:none;">
-        ⚠️ Completá tu <strong>número de CI</strong> para poder recibir tu certificado al finalizar el curso.
+        ⚠️ Completá tu <strong>número de CI</strong> y creá tu <strong>contraseña</strong> para acceder a todo. El CI es necesario para tu certificado.
       </div>
       <div class="perfil-body" id="perfilBody" style="display:none;">
         <div class="perfil-grid">
@@ -396,6 +400,22 @@
             <input type="email" id="pf-email" disabled>
           </div>
         </div>
+
+        <div class="perfil-pwd">
+          <div class="perfil-pwd-tit">🔑 Crear / cambiar contraseña</div>
+          <div class="perfil-pwd-hint">Si entraste con Google, creá una contraseña acá para poder entrar también con tu email. Mínimo 6 caracteres.</div>
+          <div class="perfil-grid">
+            <div class="perfil-field">
+              <label for="pf-pwd">Nueva contraseña</label>
+              <input type="password" id="pf-pwd" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+            </div>
+            <div class="perfil-field">
+              <label for="pf-pwd2">Repetir contraseña</label>
+              <input type="password" id="pf-pwd2" placeholder="Escribí la misma" autocomplete="new-password">
+            </div>
+          </div>
+        </div>
+
         <div class="perfil-actions">
           <span class="perfil-msg" id="perfilMsg"></span>
           <button class="perfil-guardar" id="perfilGuardar" type="button">Guardar cambios</button>
@@ -783,7 +803,31 @@
 
           if (error) throw error;
 
-          msg.textContent = '✅ Datos guardados correctamente'; msg.className='perfil-msg ok';
+          // ═══ Contraseña (opcional): si escribió una, la seteamos ═══
+          const pwd = document.getElementById('pf-pwd').value;
+          const pwd2 = document.getElementById('pf-pwd2').value;
+          let msgExtra = '';
+          if (pwd || pwd2) {
+            if (pwd.length < 6) {
+              msg.textContent = 'La contraseña debe tener al menos 6 caracteres'; msg.className='perfil-msg err';
+              btn.disabled = false; btn.textContent = 'Guardar cambios'; return;
+            }
+            if (pwd !== pwd2) {
+              msg.textContent = 'Las contraseñas no coinciden'; msg.className='perfil-msg err';
+              btn.disabled = false; btn.textContent = 'Guardar cambios'; return;
+            }
+            const { error: errPwd } = await supabaseClient.auth.updateUser({ password: pwd });
+            if (errPwd) {
+              console.error('[PERFIL] Error al setear contraseña:', errPwd);
+              msg.textContent = 'Datos guardados, pero no se pudo cambiar la contraseña: ' + (errPwd.message || ''); msg.className='perfil-msg err';
+              btn.disabled = false; btn.textContent = 'Guardar cambios'; return;
+            }
+            document.getElementById('pf-pwd').value = '';
+            document.getElementById('pf-pwd2').value = '';
+            msgExtra = ' y contraseña actualizada';
+          }
+
+          msg.textContent = '✅ Datos guardados' + msgExtra; msg.className='perfil-msg ok';
           // Actualizar el nombre mostrado arriba
           document.getElementById('userName').textContent = `${nombre} ${apellido}`;
           document.getElementById('welcomeTitle').textContent = `Bienvenido, ${nombre}`;
