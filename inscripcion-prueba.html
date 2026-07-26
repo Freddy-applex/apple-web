@@ -1441,9 +1441,12 @@ function mostrarErrorGeneral(msg, titulo) {
 /* ════════════════════════════════════════════════════════════════
    PROCESAR INSCRIPCIÓN: signUp + insert inscripción pendiente
    ════════════════════════════════════════════════════════════════ */
+let procesandoInscripcion = false;
 async function procesarInscripcion(ev) {
   ev.preventDefault();
+  if (procesandoInscripcion) { console.warn('[INSC] Ya se está procesando, ignoro doble clic'); return; }
   if (!validarFormulario()) return;
+  procesandoInscripcion = true;
   if (!cursoActual) {
     mostrarErrorGeneral('No se cargó el curso correctamente. Recargá la página.');
     return;
@@ -1493,7 +1496,7 @@ async function procesarInscripcion(ev) {
           'No pudimos subir tu carnet. Verificá que sea una imagen o PDF válido y reintentá.',
           '⚠️ Error al subir carnet'
         );
-        btn.disabled = false;
+        btn.disabled = false; procesandoInscripcion = false;
         btn.innerHTML = 'Crear cuenta y continuar al pago →';
         return;
       }
@@ -1561,7 +1564,7 @@ async function procesarInscripcion(ev) {
             `Este email ya tiene una cuenta en APPLENDE. Si es tuya, ingresá la <strong>misma contraseña</strong> que usás para entrar. Si la olvidaste, <a href="login.html" style="color:#991B1B;text-decoration:underline;font-weight:700;">recuperala acá</a> o escribinos por WhatsApp al ${WA_KARINA.replace('591','+591 ')}.`,
             'Ya tenés una cuenta'
           );
-          btn.disabled = false;
+          btn.disabled = false; procesandoInscripcion = false;
           btn.innerHTML = 'Inscribirme a este curso →';
           return;
         }
@@ -1577,7 +1580,7 @@ async function procesarInscripcion(ev) {
       }
       // Si el alumno existente se autenticó correctamente, NO cortamos: seguimos a la inscripción.
       if (!alumnoExistenteOk) {
-        btn.disabled = false;
+        btn.disabled = false; procesandoInscripcion = false;
         btn.innerHTML = 'Crear cuenta y continuar al pago →';
         return;
       }
@@ -1610,7 +1613,7 @@ async function procesarInscripcion(ev) {
       // Caso: curso no disponible (raro, ya lo validamos antes)
       if (msgLower.includes('curso no disponible')) {
         mostrarErrorGeneral('El curso ya no está disponible. Volvé al catálogo.');
-        btn.disabled = false;
+        btn.disabled = false; procesandoInscripcion = false;
         btn.innerHTML = 'Crear cuenta y continuar al pago →';
         return;
       }
@@ -1644,7 +1647,7 @@ async function procesarInscripcion(ev) {
         `Tu cuenta se creó correctamente, pero tuvimos un problema al registrar la inscripción. Por favor escribinos por WhatsApp al <a href="https://wa.me/${WA_KARINA}" target="_blank" style="color:#991B1B;font-weight:700;text-decoration:underline;">+591 57388229</a> y te ayudamos a completar el proceso.`,
         '⚠️ Inscripción incompleta'
       );
-      btn.disabled = false;
+      btn.disabled = false; procesandoInscripcion = false;
       btn.innerHTML = 'Crear cuenta y continuar al pago →';
       return;
     }
@@ -1657,7 +1660,7 @@ async function procesarInscripcion(ev) {
   } catch (err) {
     console.error('[APPLENDE] Error inesperado:', err);
     mostrarErrorGeneral('Error de conexión. Verificá tu internet y reintentá.');
-    btn.disabled = false;
+    btn.disabled = false; procesandoInscripcion = false;
     btn.innerHTML = 'Crear cuenta y continuar al pago →';
   }
 }
@@ -1947,6 +1950,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function aplicarUsuarioGoogle(u) {
+    if (window.USUARIO_GOOGLE) return;  // ya aplicado, evitar repetición
     window.USUARIO_GOOGLE = u;  // bandera que el submit usará para saltear signUp
     const meta = u.user_metadata || {};
     const nombreG = meta.full_name || meta.name || (u.email ? u.email.split('@')[0] : '');
