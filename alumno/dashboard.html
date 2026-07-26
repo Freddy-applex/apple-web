@@ -291,7 +291,29 @@
       .welcome-hero{padding:26px 22px;}
       .course-grid{grid-template-columns:1fr;}
     }
-  </style>
+  
+/* ═══ MI PERFIL ═══ */
+.perfil-card{background:#fff;border:1px solid #e2e6ee;border-radius:16px;padding:22px 24px;margin-bottom:32px;}
+.perfil-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.perfil-toggle{background:#1A2744;color:#fff;border:none;border-radius:9px;padding:9px 18px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .15s;}
+.perfil-toggle:hover{background:#26365a;}
+.perfil-alerta{background:#FFF4E5;border:1px solid #F5C77E;color:#8A5A00;border-radius:10px;padding:11px 15px;font-size:13.5px;margin-top:14px;}
+.perfil-body{margin-top:18px;}
+.perfil-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 18px;}
+.perfil-field{display:flex;flex-direction:column;gap:5px;}
+.perfil-field label{font-size:12px;font-weight:600;color:#5a6580;letter-spacing:.2px;}
+.perfil-field input,.perfil-field select{border:1px solid #d5dae4;border-radius:9px;padding:10px 12px;font-size:14.5px;font-family:inherit;color:#1A2744;background:#fff;transition:border-color .15s;}
+.perfil-field input:focus,.perfil-field select:focus{outline:none;border-color:#6B6BBB;}
+.perfil-field input:disabled{background:#f2f4f8;color:#9aa3b5;cursor:not-allowed;}
+.perfil-actions{display:flex;align-items:center;justify-content:flex-end;gap:16px;margin-top:18px;}
+.perfil-msg{font-size:13.5px;font-weight:600;}
+.perfil-msg.ok{color:#2e7d32;}
+.perfil-msg.err{color:#c62828;}
+.perfil-guardar{background:#8DC63F;color:#1A2744;border:none;border-radius:9px;padding:11px 26px;font-size:14.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .15s;}
+.perfil-guardar:hover{background:#7db32f;}
+.perfil-guardar:disabled{opacity:.6;cursor:default;}
+@media(max-width:560px){.perfil-grid{grid-template-columns:1fr;}}
+</style>
 </head>
 <body>
 
@@ -326,6 +348,59 @@
       <h1 id="welcomeTitle">Bienvenido</h1>
       <p>Aquí podrás acceder a tus cursos, ver el progreso de tus clases en vivo,
          descargar materiales y obtener tus certificados al finalizar.</p>
+    </section>
+
+    <section class="perfil-card" id="perfilCard">
+      <div class="perfil-head">
+        <h2 class="section-title" style="margin:0;">Mi perfil</h2>
+        <button class="perfil-toggle" id="perfilToggle" type="button">Editar mis datos</button>
+      </div>
+      <div class="perfil-alerta" id="perfilAlertaCI" style="display:none;">
+        ⚠️ Completá tu <strong>número de CI</strong> para poder recibir tu certificado al finalizar el curso.
+      </div>
+      <div class="perfil-body" id="perfilBody" style="display:none;">
+        <div class="perfil-grid">
+          <div class="perfil-field">
+            <label for="pf-nombre">Nombre</label>
+            <input type="text" id="pf-nombre" placeholder="Tu nombre">
+          </div>
+          <div class="perfil-field">
+            <label for="pf-apellido">Apellido</label>
+            <input type="text" id="pf-apellido" placeholder="Tu apellido">
+          </div>
+          <div class="perfil-field">
+            <label for="pf-ci">Cédula de identidad</label>
+            <input type="text" id="pf-ci" placeholder="Ej: 12345678">
+          </div>
+          <div class="perfil-field">
+            <label for="pf-telefono">WhatsApp</label>
+            <input type="tel" id="pf-telefono" placeholder="Ej: 70123456">
+          </div>
+          <div class="perfil-field">
+            <label for="pf-ciudad">Departamento</label>
+            <select id="pf-ciudad">
+              <option value="">Elegí tu departamento</option>
+              <option value="Santa Cruz">Santa Cruz</option>
+              <option value="La Paz">La Paz</option>
+              <option value="Cochabamba">Cochabamba</option>
+              <option value="Tarija">Tarija</option>
+              <option value="Chuquisaca">Chuquisaca</option>
+              <option value="Oruro">Oruro</option>
+              <option value="Potosí">Potosí</option>
+              <option value="Beni">Beni</option>
+              <option value="Pando">Pando</option>
+            </select>
+          </div>
+          <div class="perfil-field">
+            <label for="pf-email">Email (no editable)</label>
+            <input type="email" id="pf-email" disabled>
+          </div>
+        </div>
+        <div class="perfil-actions">
+          <span class="perfil-msg" id="perfilMsg"></span>
+          <button class="perfil-guardar" id="perfilGuardar" type="button">Guardar cambios</button>
+        </div>
+      </div>
     </section>
 
     <h2 class="section-title">
@@ -371,7 +446,7 @@
       if(!session){window.location.href=LOGIN_URL;return;}
 
       const {data:perfil, error} = await supabaseClient
-        .from('perfiles').select('rol,nombre,apellido')
+        .from('perfiles').select('rol,nombre,apellido,ci,telefono,ciudad')
         .eq('id', session.user.id).single();
 
       if(error||!perfil){
@@ -391,6 +466,9 @@
       document.getElementById('userEmail').textContent = session.user.email;
       document.getElementById('welcomeTitle').textContent = `Bienvenido, ${perfil.nombre}`;
       document.getElementById('loading').classList.add('hidden');
+
+      // ═══ MI PERFIL: inicializar panel editable ═══
+      inicializarPerfil(session.user.id, session.user.email, perfil);
 
       await cargarCursosYPendientes(session.user.id, session.user.email);
     })();
@@ -650,6 +728,76 @@
     // ═══════════════════════════════════════════════════════════════
     // UTILIDADES
     // ═══════════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════════
+    //  MI PERFIL — editar datos del alumno (nombre, CI, WhatsApp, depto)
+    // ═══════════════════════════════════════════════════════════════
+    function inicializarPerfil(userId, email, perfil){
+      // Rellenar campos con los datos actuales
+      document.getElementById('pf-nombre').value   = perfil.nombre   || '';
+      document.getElementById('pf-apellido').value = perfil.apellido || '';
+      document.getElementById('pf-ci').value       = (perfil.ci && perfil.ci !== 'PENDIENTE') ? perfil.ci : '';
+      document.getElementById('pf-telefono').value = (perfil.telefono && perfil.telefono !== 'PENDIENTE') ? perfil.telefono : '';
+      document.getElementById('pf-ciudad').value   = perfil.ciudad   || '';
+      document.getElementById('pf-email').value    = email || '';
+
+      // Si el CI está pendiente, mostrar alerta y abrir el panel automáticamente
+      const ciPendiente = !perfil.ci || perfil.ci === 'PENDIENTE';
+      if (ciPendiente) {
+        document.getElementById('perfilAlertaCI').style.display = 'block';
+      }
+
+      // Toggle mostrar/ocultar el formulario
+      const body = document.getElementById('perfilBody');
+      const toggle = document.getElementById('perfilToggle');
+      toggle.addEventListener('click', () => {
+        const abierto = body.style.display !== 'none';
+        body.style.display = abierto ? 'none' : 'block';
+        toggle.textContent = abierto ? 'Editar mis datos' : 'Cerrar';
+      });
+
+      // Guardar cambios
+      document.getElementById('perfilGuardar').addEventListener('click', async () => {
+        const btn = document.getElementById('perfilGuardar');
+        const msg = document.getElementById('perfilMsg');
+        msg.textContent = ''; msg.className = 'perfil-msg';
+
+        const nombre = document.getElementById('pf-nombre').value.trim();
+        const apellido = document.getElementById('pf-apellido').value.trim();
+        const ci = document.getElementById('pf-ci').value.trim();
+        const telefono = document.getElementById('pf-telefono').value.trim().replace(/[\s\-\+]/g,'');
+        const ciudad = document.getElementById('pf-ciudad').value;
+
+        // Validaciones mínimas
+        if (!nombre) { msg.textContent = 'El nombre no puede quedar vacío'; msg.className='perfil-msg err'; return; }
+
+        btn.disabled = true; btn.textContent = 'Guardando...';
+        try {
+          const { error } = await supabaseClient.from('perfiles').update({
+            nombre: nombre,
+            apellido: apellido,
+            ci: ci || 'PENDIENTE',
+            telefono: telefono || 'PENDIENTE',
+            ciudad: ciudad || null,
+            actualizado_en: new Date().toISOString()
+          }).eq('id', userId);
+
+          if (error) throw error;
+
+          msg.textContent = '✅ Datos guardados correctamente'; msg.className='perfil-msg ok';
+          // Actualizar el nombre mostrado arriba
+          document.getElementById('userName').textContent = `${nombre} ${apellido}`;
+          document.getElementById('welcomeTitle').textContent = `Bienvenido, ${nombre}`;
+          // Ocultar alerta de CI si ya lo completó
+          if (ci) document.getElementById('perfilAlertaCI').style.display = 'none';
+        } catch(e) {
+          console.error('[PERFIL] Error al guardar:', e);
+          msg.textContent = 'No se pudo guardar. Intentá de nuevo.'; msg.className='perfil-msg err';
+        } finally {
+          btn.disabled = false; btn.textContent = 'Guardar cambios';
+        }
+      });
+    }
+
     function escapar(s){
       if(!s) return '';
       return String(s).replace(/[&<>"']/g, c => ({
