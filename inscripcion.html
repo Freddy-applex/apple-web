@@ -396,6 +396,14 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
     @media(max-width:560px){
       .pwd-aviso{ font-size:12.5px; padding:11px 13px; }
     }
+
+.insc-google-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 16px;background:#fff;color:#3c4043;border:1px solid #dadce0;border-radius:10px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .15s,box-shadow .15s;margin-bottom:14px;}
+.insc-google-btn:hover{background:#f7f8f8;box-shadow:0 1px 3px rgba(60,64,67,.15);}
+.insc-google-btn:disabled{opacity:.6;cursor:default;}
+.insc-google-hint{background:#E8F5E9;border:1px solid #A5D6A7;color:#1B5E20;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;margin-bottom:14px;}
+.insc-divider{display:flex;align-items:center;gap:12px;margin:6px 0 18px;}
+.insc-divider span:first-child,.insc-divider span:last-child{flex:1;height:1px;background:#e0e0e0;}
+.insc-divider-txt{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#9e9e9e;}
 </style>
 </head>
 <body>
@@ -439,33 +447,23 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 
       <form id="form-inscripcion">
 
+        <button type="button" class="insc-google-btn" id="btn-google-insc">
+          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.71-1.57 2.68-3.88 2.68-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.97 10.72a5.4 5.4 0 0 1 0-3.44V4.95H.96a9 9 0 0 0 0 8.1l3.01-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.46 3.44 1.35l2.58-2.58C13.46.9 11.43 0 9 0A9 9 0 0 0 .96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"/></svg>
+          Continuar con Google
+        </button>
+
+        <div class="insc-google-hint" id="insc-google-ok" style="display:none;">
+          ✅ Conectado con Google. Solo completá tu WhatsApp abajo y elegí tu grupo.
+        </div>
+
+        <div class="insc-divider">
+          <span></span><span class="insc-divider-txt">o completá tus datos</span><span></span>
+        </div>
+
         <div class="form-row">
           <label class="form-lbl form-lbl-req" for="inp-nombre">Nombre completo</label>
           <input type="text" class="form-input" id="inp-nombre" placeholder="Ej: Juan Pérez López" autocomplete="name" required>
           <div class="form-err" id="err-nombre">Este campo es obligatorio</div>
-        </div>
-
-        <div class="form-row-2">
-          <div>
-            <label class="form-lbl form-lbl-req" for="inp-ci">Cédula de identidad</label>
-            <input type="text" class="form-input" id="inp-ci" placeholder="Ej: 12345678" autocomplete="off" required>
-            <div class="form-err" id="err-ci">CI inválido</div>
-          </div>
-          <div>
-            <label class="form-lbl" for="inp-ciudad">Ciudad</label>
-            <select class="form-input" id="inp-ciudad">
-              <option value="Santa Cruz">Santa Cruz</option>
-              <option value="La Paz">La Paz</option>
-              <option value="Cochabamba">Cochabamba</option>
-              <option value="Tarija">Tarija</option>
-              <option value="Sucre">Sucre</option>
-              <option value="Oruro">Oruro</option>
-              <option value="Potosí">Potosí</option>
-              <option value="Beni">Beni</option>
-              <option value="Pando">Pando</option>
-              <option value="Otro">Otro</option>
-            </select>
-          </div>
         </div>
 
         <div class="form-row">
@@ -480,6 +478,23 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
           <input type="tel" class="form-input" id="inp-whatsapp" placeholder="Ej: 70123456" autocomplete="tel" required>
           <div class="form-hint">Solo el número (sin +591). Lo usaremos para coordinar el pago contigo.</div>
           <div class="form-err" id="err-whatsapp">Número de WhatsApp inválido</div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-lbl form-lbl-req" for="inp-departamento">Departamento</label>
+          <select class="form-input" id="inp-departamento" required>
+            <option value="">Elegí tu departamento</option>
+            <option value="Santa Cruz">Santa Cruz</option>
+            <option value="La Paz">La Paz</option>
+            <option value="Cochabamba">Cochabamba</option>
+            <option value="Tarija">Tarija</option>
+            <option value="Chuquisaca">Chuquisaca</option>
+            <option value="Oruro">Oruro</option>
+            <option value="Potosí">Potosí</option>
+            <option value="Beni">Beni</option>
+            <option value="Pando">Pando</option>
+          </select>
+          <div class="form-err" id="err-departamento">Elegí tu departamento</div>
         </div>
 
         <div class="pwd-aviso">
@@ -884,7 +899,6 @@ function aplicarPromoEnInscripcion(curso) {
 
 let cursoActual = null;
 let cohorteActual = null;
-let precioRevelado = false;  // PRECIO OCULTO: se vuelve true cuando el usuario elige grupo/tipo
 let inscripcionCreada = null;
 
 function obtenerSlug() {
@@ -964,17 +978,8 @@ async function cargarCurso() {
     renderizarResumen(cursoActual);
     
     // Si hay 2+ cohortes, mostrar el selector
-    const hayVariosGrupos = cohortesDisponibles.length >= 2;
-    if (hayVariosGrupos) {
+    if (cohortesDisponibles.length >= 2) {
       mostrarSelectorCohortes(cohortesDisponibles);
-    }
-
-    // ═══ PRECIO OCULTO: si el curso no tiene NADA que elegir
-    //     (ni varios grupos, ni tipo estudiantil), no tiene sentido
-    //     ocultar el precio: se revela de una vez.
-    const hayTipoEstudiante = cursoActual.precio_estudiante_bs && Number(cursoActual.precio_estudiante_bs) > 0;
-    if (!hayVariosGrupos && !hayTipoEstudiante) {
-      revelarPrecio();
     }
     
     document.getElementById('carga-inicial').style.display = 'none';
@@ -1013,15 +1018,14 @@ function renderizarResumen(curso) {
   document.getElementById('res-curso').textContent = curso.titulo;
   document.getElementById('res-inst').textContent = curso.instructor_nombre || '';
 
-  // ═══ PRECIO OCULTO HASTA ELEGIR: el resumen no muestra el precio de entrada.
-  //     Aparece recién cuando la persona selecciona grupo y/o tipo de alumno.
-  //     (Los montos de la pantalla de pago SÍ se precargan, no son visibles aún.)
   const precioFmt = formatearPrecio(curso.precio_bs, curso.precio_original_bs);
-  document.getElementById('res-precio').textContent = '—';
-  document.getElementById('res-porig').textContent = '';
-  document.getElementById('res-pusd').textContent = 'Elegí tu grupo y tipo para ver el precio';
+  document.getElementById('res-precio').textContent = 'Bs ' + precioFmt.precio;
+  if (precioFmt.original) {
+    document.getElementById('res-porig').textContent = 'Bs ' + precioFmt.original;
+  }
+  const usd = Math.round((curso.precio_bs || 0) / TIPO_CAMBIO_USD);
+  document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
 
-  // Los montos de pago se precargan (pantalla oculta hasta el paso 2)
   document.getElementById('pago-monto').textContent = 'Bs ' + precioFmt.precio;
   document.getElementById('pago-monto-card').textContent = 'Bs ' + precioFmt.precio;
 
@@ -1057,10 +1061,7 @@ function mostrarSelectorTipoAlumno(curso) {
 
   // Escuchar cambios y actualizar precio mostrado en resumen + pago
   document.querySelectorAll('input[name="tipo-alumno"]').forEach(r => {
-    r.addEventListener('change', () => {
-      revelarPrecio();
-      actualizarPrecioSegunTipo(curso);
-    });
+    r.addEventListener('change', () => actualizarPrecioSegunTipo(curso));
   });
 }
 
@@ -1068,18 +1069,12 @@ function actualizarPrecioSegunTipo(curso) {
   // Usar la función obtenerPrecioAplicable que ya considera modalidad + tipo
   const precioAplicable = obtenerPrecioAplicable();
   const precioFmt = formatearPrecio(precioAplicable).precio;
-
-  // Los montos de la pantalla de pago siempre se actualizan (están ocultos hasta el paso 2)
+  document.getElementById('res-precio').textContent = 'Bs ' + precioFmt;
   document.getElementById('pago-monto').textContent = 'Bs ' + precioFmt;
   document.getElementById('pago-monto-card').textContent = 'Bs ' + precioFmt;
-
-  // ═══ PRECIO OCULTO: solo escribir en el resumen visible SI ya fue revelado
-  //     (evita que las llamadas de inicialización muestren el precio de entrada).
-  if (precioRevelado) {
-    document.getElementById('res-precio').textContent = 'Bs ' + precioFmt;
-    const usd = Math.round(precioAplicable / TIPO_CAMBIO_USD);
-    document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
-  }
+  
+  const usd = Math.round(precioAplicable / TIPO_CAMBIO_USD);
+  document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
 
   // ═══ FIX: Actualizar precios del cuadro TIPO DE INSCRIPCIÓN según modalidad elegida ═══
   // El cuadro tipo de inscripción debe reflejar los precios correctos según virtual/presencial
@@ -1303,27 +1298,8 @@ function mostrarSelectorCohortes(cohortes) {
       document.getElementById('err-cohorte').classList.remove('show');
       // Actualizar cupos por modalidad para esta cohorte
       actualizarCuposPorModalidad();
-      // ═══ PRECIO OCULTO: al elegir grupo, revelar el precio
-      revelarPrecio();
     });
   });
-}
-
-/* ════════════════════════════════════════════════════════════════
-   PRECIO OCULTO HASTA ELEGIR — revela el precio en el resumen
-   Se llama al elegir grupo o tipo de alumno. Idempotente.
-   ════════════════════════════════════════════════════════════════ */
-function revelarPrecio() {
-  if (precioRevelado) return;
-  precioRevelado = true;
-  const precioAplicable = obtenerPrecioAplicable();
-  const precioFmt = formatearPrecio(precioAplicable, cursoActual ? cursoActual.precio_original_bs : null);
-  document.getElementById('res-precio').textContent = 'Bs ' + precioFmt.precio;
-  if (precioFmt.original) {
-    document.getElementById('res-porig').textContent = 'Bs ' + precioFmt.original;
-  }
-  const usd = Math.round(precioAplicable / TIPO_CAMBIO_USD);
-  document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
 }
 
 function actualizarResumenConCohorte(cohorte) {
@@ -1361,12 +1337,6 @@ function validarFormulario() {
     ok = false;
   }
 
-  const ci = document.getElementById('inp-ci').value.trim();
-  if (ci.length < 5 || !/^[0-9A-Z\-]+$/i.test(ci)) {
-    marcarError('ci', 'CI inválido (solo números y letras)');
-    ok = false;
-  }
-
   const email = document.getElementById('inp-email').value.trim();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     marcarError('email', 'Email inválido');
@@ -1379,16 +1349,25 @@ function validarFormulario() {
     ok = false;
   }
 
-  const pwd = document.getElementById('inp-password').value;
-  if (pwd.length < 6) {
-    marcarError('password', 'La contraseña debe tener al menos 6 caracteres');
+  const dep = document.getElementById('inp-departamento').value;
+  if (!dep) {
+    marcarError('departamento', 'Elegí tu departamento');
     ok = false;
   }
 
-  const pwd2 = document.getElementById('inp-password2').value;
-  if (pwd !== pwd2) {
-    marcarError('password2', 'Las contraseñas no coinciden');
-    ok = false;
+  // Si vino por Google o ya está logueado, no se valida contraseña
+  if (!window.USUARIO_GOOGLE && !window.ALUMNO_LOGUEADO) {
+    const pwd = document.getElementById('inp-password').value;
+    if (pwd.length < 6) {
+      marcarError('password', 'La contraseña debe tener al menos 6 caracteres');
+      ok = false;
+    }
+
+    const pwd2 = document.getElementById('inp-password2').value;
+    if (pwd !== pwd2) {
+      marcarError('password2', 'Las contraseñas no coinciden');
+      ok = false;
+    }
   }
 
   const terminos = document.getElementById('inp-terminos').checked;
@@ -1462,9 +1441,12 @@ function mostrarErrorGeneral(msg, titulo) {
 /* ════════════════════════════════════════════════════════════════
    PROCESAR INSCRIPCIÓN: signUp + insert inscripción pendiente
    ════════════════════════════════════════════════════════════════ */
+let procesandoInscripcion = false;
 async function procesarInscripcion(ev) {
   ev.preventDefault();
+  if (procesandoInscripcion) { console.warn('[INSC] Ya se está procesando, ignoro doble clic'); return; }
   if (!validarFormulario()) return;
+  procesandoInscripcion = true;
   if (!cursoActual) {
     mostrarErrorGeneral('No se cargó el curso correctamente. Recargá la página.');
     return;
@@ -1476,10 +1458,10 @@ async function procesarInscripcion(ev) {
 
   const datosAlumno = {
     nombre: document.getElementById('inp-nombre').value.trim(),
-    ci: document.getElementById('inp-ci').value.trim(),
+    ci: 'PENDIENTE',
     email: document.getElementById('inp-email').value.trim().toLowerCase(),
     whatsapp: document.getElementById('inp-whatsapp').value.trim().replace(/[\s\-\+]/g, ''),
-    ciudad: document.getElementById('inp-ciudad').value,
+    ciudad: document.getElementById('inp-departamento').value || 'Santa Cruz',
     password: document.getElementById('inp-password').value
   };
 
@@ -1514,7 +1496,7 @@ async function procesarInscripcion(ev) {
           'No pudimos subir tu carnet. Verificá que sea una imagen o PDF válido y reintentá.',
           '⚠️ Error al subir carnet'
         );
-        btn.disabled = false;
+        btn.disabled = false; procesandoInscripcion = false;
         btn.innerHTML = 'Crear cuenta y continuar al pago →';
         return;
       }
@@ -1531,20 +1513,39 @@ async function procesarInscripcion(ev) {
     const apellido = partesNombre.slice(1).join(' ');
 
     let alumnoExistenteOk = false;
-    const { data: authData, error: errAuth } = await sb.auth.signUp({
-      email: datosAlumno.email,
-      password: datosAlumno.password,
-      options: {
-        data: {
-          nombre: nombre,
-          apellido: apellido,
-          ci: datosAlumno.ci,
-          telefono: datosAlumno.whatsapp,
-          ciudad: datosAlumno.ciudad,
-          pais: 'Bolivia'
+    let errAuth = null;
+    let authData = null;
+
+    const usuarioSesion = window.USUARIO_GOOGLE || window.ALUMNO_LOGUEADO;
+    if (usuarioSesion) {
+      // ─── Ya autenticado (Google o login previo): NO hacemos signUp ───
+      console.log('[INSC] Inscripción con sesión activa, se saltea signUp');
+      alumnoExistenteOk = true;
+      // Si el perfil no tenía teléfono, guardamos el que cargó ahora
+      try {
+        if (datosAlumno.whatsapp && datosAlumno.whatsapp !== 'PENDIENTE') {
+          await sb.from('perfiles').update({ telefono: datosAlumno.whatsapp }).eq('id', usuarioSesion.id);
         }
-      }
-    });
+      } catch(e) { console.warn('[INSC] No se pudo actualizar telefono:', e); }
+    } else {
+      // ─── Camino normal: crear cuenta con contraseña ───
+      const resp = await sb.auth.signUp({
+        email: datosAlumno.email,
+        password: datosAlumno.password,
+        options: {
+          data: {
+            nombre: nombre,
+            apellido: apellido,
+            ci: datosAlumno.ci,
+            telefono: datosAlumno.whatsapp,
+            ciudad: datosAlumno.ciudad,
+            pais: 'Bolivia'
+          }
+        }
+      });
+      authData = resp.data;
+      errAuth = resp.error;
+    }
 
     if (errAuth) {
       console.error('[APPLENDE] Error en signUp:', errAuth);
@@ -1563,7 +1564,7 @@ async function procesarInscripcion(ev) {
             `Este email ya tiene una cuenta en APPLENDE. Si es tuya, ingresá la <strong>misma contraseña</strong> que usás para entrar. Si la olvidaste, <a href="login.html" style="color:#991B1B;text-decoration:underline;font-weight:700;">recuperala acá</a> o escribinos por WhatsApp al ${WA_KARINA.replace('591','+591 ')}.`,
             'Ya tenés una cuenta'
           );
-          btn.disabled = false;
+          btn.disabled = false; procesandoInscripcion = false;
           btn.innerHTML = 'Inscribirme a este curso →';
           return;
         }
@@ -1579,7 +1580,7 @@ async function procesarInscripcion(ev) {
       }
       // Si el alumno existente se autenticó correctamente, NO cortamos: seguimos a la inscripción.
       if (!alumnoExistenteOk) {
-        btn.disabled = false;
+        btn.disabled = false; procesandoInscripcion = false;
         btn.innerHTML = 'Crear cuenta y continuar al pago →';
         return;
       }
@@ -1612,7 +1613,7 @@ async function procesarInscripcion(ev) {
       // Caso: curso no disponible (raro, ya lo validamos antes)
       if (msgLower.includes('curso no disponible')) {
         mostrarErrorGeneral('El curso ya no está disponible. Volvé al catálogo.');
-        btn.disabled = false;
+        btn.disabled = false; procesandoInscripcion = false;
         btn.innerHTML = 'Crear cuenta y continuar al pago →';
         return;
       }
@@ -1646,7 +1647,7 @@ async function procesarInscripcion(ev) {
         `Tu cuenta se creó correctamente, pero tuvimos un problema al registrar la inscripción. Por favor escribinos por WhatsApp al <a href="https://wa.me/${WA_KARINA}" target="_blank" style="color:#991B1B;font-weight:700;text-decoration:underline;">+591 57388229</a> y te ayudamos a completar el proceso.`,
         '⚠️ Inscripción incompleta'
       );
-      btn.disabled = false;
+      btn.disabled = false; procesandoInscripcion = false;
       btn.innerHTML = 'Crear cuenta y continuar al pago →';
       return;
     }
@@ -1659,7 +1660,7 @@ async function procesarInscripcion(ev) {
   } catch (err) {
     console.error('[APPLENDE] Error inesperado:', err);
     mostrarErrorGeneral('Error de conexión. Verificá tu internet y reintentá.');
-    btn.disabled = false;
+    btn.disabled = false; procesandoInscripcion = false;
     btn.innerHTML = 'Crear cuenta y continuar al pago →';
   }
 }
@@ -1888,6 +1889,155 @@ document.addEventListener('DOMContentLoaded', function() {
   setupTogglesPassword();
   setupCarnetUpload();
   document.getElementById('form-inscripcion').addEventListener('submit', procesarInscripcion);
+
+  // ══════════════════════════════════════════════════════════════
+  //  ALUMNO YA LOGUEADO: si al entrar ya hay sesión activa,
+  //  no le pedimos sus datos de nuevo — usamos los que ya tiene.
+  // ══════════════════════════════════════════════════════════════
+  detectarSesionExistente();
+
+  // ══════════════════════════════════════════════════════════════
+  //  CONTINUAR CON GOOGLE (versión prueba)
+  //  Al hacer clic: guarda el slug actual y lanza OAuth de Google,
+  //  que vuelve a ESTA misma página. Al volver, se detecta la sesión
+  //  y se pre-rellena nombre + email.
+  // ══════════════════════════════════════════════════════════════
+  const btnGoogleInsc = document.getElementById('btn-google-insc');
+  if (btnGoogleInsc) {
+    btnGoogleInsc.addEventListener('click', async function() {
+      this.disabled = true;
+      try {
+        const sb = obtenerSupabaseInsc();
+        // Guardar el slug para recuperarlo al volver de Google
+        try { sessionStorage.setItem('insc_slug', obtenerSlug() || ''); } catch(e){}
+        const { error } = await sb.auth.signInWithOAuth({
+          provider: 'google',
+          options: { redirectTo: window.location.href }
+        });
+        if (error) {
+          console.error('[INSC] Error OAuth Google:', error);
+          mostrarErrorGeneral('No pudimos conectar con Google. Probá completando tus datos manualmente.');
+          this.disabled = false;
+        }
+      } catch (err) {
+        console.error('[INSC] Excepción OAuth:', err);
+        this.disabled = false;
+      }
+    });
+  }
+
+  // Al cargar: si volvemos de Google (hay sesión), pre-rellenar el form.
+  (function() {
+    try {
+      const sb = obtenerSupabaseInsc();
+      sb.auth.onAuthStateChange((evento, session) => {
+        if ((evento === 'SIGNED_IN' || evento === 'INITIAL_SESSION') && session && session.user) {
+          const u = session.user;
+          // Solo si vino por Google (proveedor google)
+          const prov = (u.app_metadata && u.app_metadata.provider) || '';
+          if (prov !== 'google') return;
+          aplicarUsuarioGoogle(u);
+        }
+      });
+    } catch (e) {
+      console.warn('[INSC] No se pudo suscribir a onAuthStateChange:', e);
+    }
+  })();
+
+  function obtenerSupabaseInsc() {
+    if (window.obtenerSupabase) return window.obtenerSupabase();
+    return obtenerSB();
+  }
+
+  function aplicarUsuarioGoogle(u) {
+    if (window.USUARIO_GOOGLE) return;  // ya aplicado, evitar repetición
+    window.USUARIO_GOOGLE = u;  // bandera que el submit usará para saltear signUp
+    const meta = u.user_metadata || {};
+    const nombreG = meta.full_name || meta.name || (u.email ? u.email.split('@')[0] : '');
+    const inpNombre = document.getElementById('inp-nombre');
+    const inpEmail = document.getElementById('inp-email');
+    if (inpNombre && nombreG) { inpNombre.value = nombreG; inpNombre.readOnly = true; }
+    if (inpEmail && u.email) { inpEmail.value = u.email; inpEmail.readOnly = true; }
+
+    // Ocultar los campos de contraseña (con Google no hacen falta)
+    const filaPwd = document.querySelector('.pwd-aviso');
+    if (filaPwd) filaPwd.style.display = 'none';
+    const inpsPwd = [document.getElementById('inp-password'), document.getElementById('inp-password2')];
+    inpsPwd.forEach(el => { if (el) { const cont = el.closest('.form-row-2'); if (cont) cont.style.display='none'; el.removeAttribute('required'); } });
+
+    // Mostrar aviso verde de conexión
+    const ok = document.getElementById('insc-google-ok');
+    if (ok) ok.style.display = 'block';
+    const btnG = document.getElementById('btn-google-insc');
+    if (btnG) btnG.style.display = 'none';
+    console.log('[INSC] Usuario Google aplicado:', u.email);
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  //  DETECTAR SESIÓN EXISTENTE (alumno ya logueado con contraseña o Google)
+  //  Trae el perfil guardado y pre-rellena SIN pedir datos de nuevo.
+  //  WhatsApp fijo: se toma del perfil, no se puede editar acá.
+  // ══════════════════════════════════════════════════════════════
+  async function detectarSesionExistente() {
+    try {
+      const sb = obtenerSupabaseInsc();
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session || !session.user) return;  // no logueado: formulario normal
+
+      const u = session.user;
+      // Traer el perfil guardado (nombre, apellido, telefono)
+      let perfil = null;
+      try {
+        const { data } = await sb.from('perfiles')
+          .select('nombre, apellido, telefono')
+          .eq('id', u.id).single();
+        perfil = data;
+      } catch(e) { console.warn('[INSC] No se pudo leer perfil:', e); }
+
+      window.ALUMNO_LOGUEADO = u;  // bandera: el submit saltea signUp
+
+      const nombreCompleto = perfil
+        ? [perfil.nombre, perfil.apellido].filter(Boolean).join(' ').trim()
+        : (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || '';
+      const telGuardado = perfil && perfil.telefono && perfil.telefono !== 'PENDIENTE' ? perfil.telefono : '';
+
+      // Pre-rellenar y bloquear nombre + email
+      const inpNombre = document.getElementById('inp-nombre');
+      const inpEmail  = document.getElementById('inp-email');
+      if (inpNombre && nombreCompleto) { inpNombre.value = nombreCompleto; inpNombre.readOnly = true; }
+      if (inpEmail && u.email)         { inpEmail.value = u.email; inpEmail.readOnly = true; }
+
+      // WhatsApp: si ya lo tiene guardado, fijarlo y bloquearlo.
+      const inpWa = document.getElementById('inp-whatsapp');
+      if (inpWa) {
+        if (telGuardado) { inpWa.value = telGuardado; inpWa.readOnly = true; }
+        // si no tiene teléfono guardado, lo dejamos editable para que lo cargue esta vez
+      }
+
+      // Ocultar contraseña (ya tiene cuenta)
+      const filaPwd = document.querySelector('.pwd-aviso');
+      if (filaPwd) filaPwd.style.display = 'none';
+      [document.getElementById('inp-password'), document.getElementById('inp-password2')].forEach(el => {
+        if (el) { const cont = el.closest('.form-row-2'); if (cont) cont.style.display='none'; el.removeAttribute('required'); }
+      });
+
+      // Ocultar botón de Google y separador (ya está adentro)
+      const btnG = document.getElementById('btn-google-insc');
+      if (btnG) btnG.style.display = 'none';
+      const divisor = document.querySelector('.insc-divider');
+      if (divisor) divisor.style.display = 'none';
+
+      // Aviso de bienvenida
+      const okBox = document.getElementById('insc-google-ok');
+      if (okBox) {
+        okBox.textContent = '✅ Ya tenés cuenta en APPLENDE (' + u.email + '). Solo elegí tu grupo y confirmá tu inscripción.';
+        okBox.style.display = 'block';
+      }
+      console.log('[INSC] Alumno logueado detectado:', u.email, '| tel:', telGuardado || '(sin guardar)');
+    } catch (e) {
+      console.warn('[INSC] Error al detectar sesión:', e);
+    }
+  }
   _qrWiring();
 });
 
