@@ -404,10 +404,6 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 .insc-divider{display:flex;align-items:center;gap:12px;margin:6px 0 18px;}
 .insc-divider span:first-child,.insc-divider span:last-child{flex:1;height:1px;background:#e0e0e0;}
 .insc-divider-txt{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#9e9e9e;}
-
-.seccion-eleccion{max-height:0;overflow:hidden;opacity:0;transition:max-height .4s ease,opacity .3s ease;}
-.seccion-eleccion.revelada{max-height:3000px;opacity:1;}
-.seccion-eleccion-aviso{background:linear-gradient(135deg,rgba(141,198,63,.12),rgba(107,107,187,.08));border:1px dashed rgba(141,198,63,.5);border-radius:10px;padding:12px 16px;font-size:14px;font-weight:700;color:var(--navy);text-align:center;margin-bottom:18px;}
 </style>
 </head>
 <body>
@@ -532,8 +528,29 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
         </div>
 
         <!-- ═══ SELECTOR DE COHORTE (solo cursos en vivo con 2+ grupos abiertos) ═══ -->
-        <div class="seccion-eleccion" id="seccion-eleccion">
-        <div class="seccion-eleccion-aviso" id="seccion-eleccion-aviso">👇 Elegí tu grupo y tipo de inscripción para continuar</div>
+        <div class="form-check">
+          <input type="checkbox" id="inp-terminos" required>
+          <label class="form-check-lbl" for="inp-terminos">
+            Acepto los <a href="terminos.html" target="_blank">términos y condiciones</a> y autorizo a APPLENDE Academia a contactarme por email y WhatsApp para coordinar mi inscripción.
+          </label>
+        </div>
+
+        <button type="submit" class="form-btn" id="btn-continuar">Crear mi cuenta →</button>
+
+        <div class="login-link-box">
+          ¿Ya tenés cuenta en APPLENDE? <a href="login.html">Iniciá sesión →</a>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="pago-card">
+      <h1 class="pago-tit">¡Cuenta creada, <span id="pago-nombre">amigo</span>! 🎉</h1>
+      <p class="pago-desc" id="pago-desc-elegir">Tu cuenta ya está lista. Ahora elegí tu grupo y tipo de inscripción para reservar tu cupo.</p>
+      <p class="pago-desc" id="pago-desc-pagar" style="display:none;">Para reservar tu cupo, realizá el pago de <strong id="pago-monto">Bs 200</strong>.</p>
+
+      <!-- ═══ SUB-PASO 2A: ELEGIR grupo + modalidad + tipo (se completa acá, después de crear cuenta) ═══ -->
+      <div id="eleccion-wrap">
         <div class="cohorte-block" id="cohorte-block">
           <div class="cohorte-tit">Elegí tu grupo</div>
           <div class="cohorte-sub">Este curso tiene varios horarios disponibles. Seleccioná el que mejor se ajuste a tu agenda.</div>
@@ -607,28 +624,13 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
           <div class="form-err" id="err-carnet">Subí tu carnet para acceder al descuento estudiantil</div>
         </div>
 
-        </div><!-- /seccion-eleccion -->
 
-        <div class="form-check">
-          <input type="checkbox" id="inp-terminos" required>
-          <label class="form-check-lbl" for="inp-terminos">
-            Acepto los <a href="terminos.html" target="_blank">términos y condiciones</a> y autorizo a APPLENDE Academia a contactarme por email y WhatsApp para coordinar mi inscripción.
-          </label>
-        </div>
+        <button type="button" class="form-btn" id="btn-confirmar-inscripcion">Confirmar e ir al pago →</button>
+        <div class="form-err" id="err-confirmar" style="margin-top:10px;"></div>
+      </div>
 
-        <button type="submit" class="form-btn" id="btn-continuar">Crear cuenta y continuar al pago →</button>
-
-        <div class="login-link-box">
-          ¿Ya tenés cuenta en APPLENDE? <a href="login.html">Iniciá sesión →</a>
-        </div>
-
-      </form>
-    </div>
-
-    <div class="pago-card">
-      <h1 class="pago-tit">¡Cuenta creada, <span id="pago-nombre">amigo</span>! 🎉</h1>
-      <p class="pago-desc">Tu cuenta quedó registrada en APPLENDE. <strong>Para reservar tu cupo</strong>, necesitás realizar el pago de <strong id="pago-monto">Bs 200</strong>.</p>
-
+      <!-- ═══ SUB-PASO 2B: PAGO (oculto hasta confirmar inscripción) ═══ -->
+      <div id="pago-wrap" style="display:none;">
       <div class="pago-confirm">
         <div class="pago-confirm-tit">📋 Cuenta creada · Inscripción registrada</div>
         <div class="pago-confirm-desc">Tu cupo se confirma automáticamente cuando verificamos tu pago. Tenés 48 horas para realizar la transferencia. Después del pago, vas a poder acceder al aula virtual con tu email y contraseña.</div>
@@ -759,6 +761,7 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
           </div>
         </div>
       </div>
+      </div><!-- /pago-wrap -->
 
       <a href="cursos.html" class="pago-back">← Volver al catálogo de cursos</a>
       <a href="alumno/dashboard.html" class="pago-back" style="margin-top:8px;color:var(--navy);font-weight:700;">Ir a mi dashboard →</a>
@@ -1327,7 +1330,7 @@ function escapar(txt) {
 /* ════════════════════════════════════════════════════════════════
    VALIDACIÓN DE FORMULARIO
    ════════════════════════════════════════════════════════════════ */
-function validarFormulario() {
+function validarDatosPersonales() {
   let ok = true;
   ['nombre', 'ci', 'email', 'whatsapp', 'password', 'password2'].forEach(c => {
     const err = document.getElementById('err-' + c);
@@ -1377,6 +1380,13 @@ function validarFormulario() {
       ok = false;
     }
   }
+
+  return ok;
+}
+
+function validarEleccion() {
+  let ok = true;
+  document.getElementById('error-general').classList.remove('show');
 
   const terminos = document.getElementById('inp-terminos').checked;
   if (!terminos) {
@@ -1453,7 +1463,7 @@ let procesandoInscripcion = false;
 async function procesarInscripcion(ev) {
   ev.preventDefault();
   if (procesandoInscripcion) { console.warn('[INSC] Ya se está procesando, ignoro doble clic'); return; }
-  if (!validarFormulario()) return;
+  if (!validarDatosPersonales()) return;
   procesandoInscripcion = true;
   if (!cursoActual) {
     mostrarErrorGeneral('No se cargó el curso correctamente. Recargá la página.');
@@ -1472,46 +1482,13 @@ async function procesarInscripcion(ev) {
     ciudad: document.getElementById('inp-departamento').value || 'Santa Cruz',
     password: document.getElementById('inp-password').value
   };
-
-  const tipoAlumno = obtenerTipoAlumno();
-  const precioAplicable = obtenerPrecioAplicable();
+  // Guardar datos para el paso 2 (confirmarInscripcion)
+  window.DATOS_ALUMNO = datosAlumno;
 
   const sb = obtenerSupabase();
 
   try {
-    // ────── PASO 1 (opcional): Subir carnet si es estudiante ──────
-    let urlCarnet = null;
-    
-    if (tipoAlumno === 'estudiante') {
-      btn.innerHTML = '<span class="form-btn-loader"></span>Subiendo carnet...';
-      
-      const carnetFile = document.getElementById('inp-carnet').files[0];
-      const emailSanit = datosAlumno.email.replace(/[^a-z0-9]/g, '-');
-      const timestamp = Date.now();
-      const ext = carnetFile.name.split('.').pop().toLowerCase();
-      const nombreArchivo = `${emailSanit}-${timestamp}.${ext}`;
-
-      const { data: uploadData, error: errUpload } = await sb.storage
-        .from('carnets-estudiantes')
-        .upload(nombreArchivo, carnetFile, {
-          cacheControl: '3600',
-          upsert: false
-        });
-
-      if (errUpload) {
-        console.error('[APPLENDE] Error al subir carnet:', errUpload);
-        mostrarErrorGeneral(
-          'No pudimos subir tu carnet. Verificá que sea una imagen o PDF válido y reintentá.',
-          '⚠️ Error al subir carnet'
-        );
-        btn.disabled = false; procesandoInscripcion = false;
-        btn.innerHTML = 'Crear cuenta y continuar al pago →';
-        return;
-      }
-
-      urlCarnet = uploadData.path;
-      console.log('[APPLENDE] Carnet subido:', urlCarnet);
-    }
+    // ────── Crear SOLO la cuenta (la inscripción se crea en el paso 2) ──────
 
     // ────── PASO 2: Crear cuenta en auth.users ──────
     btn.innerHTML = '<span class="form-btn-loader"></span>Creando cuenta...';
@@ -1589,87 +1566,21 @@ async function procesarInscripcion(ev) {
       // Si el alumno existente se autenticó correctamente, NO cortamos: seguimos a la inscripción.
       if (!alumnoExistenteOk) {
         btn.disabled = false; procesandoInscripcion = false;
-        btn.innerHTML = 'Crear cuenta y continuar al pago →';
+        btn.innerHTML = 'Crear mi cuenta →';
         return;
       }
     }
 
-    // ────── PASO 3: Crear inscripción pendiente vía RPC ──────
-    btn.innerHTML = '<span class="form-btn-loader"></span>Registrando inscripción...';
-
-    const { data: inscripcionId, error: errInsc } = await sb.rpc(
-      'crear_inscripcion_pendiente',
-      {
-        p_curso_id:                   cursoActual.id,
-        p_cohorte_id:                 cohorteActual ? cohorteActual.id : null,
-        p_nombre:                     datosAlumno.nombre,
-        p_ci:                         datosAlumno.ci,
-        p_email:                      datosAlumno.email,
-        p_whatsapp:                   datosAlumno.whatsapp,
-        p_ciudad:                     datosAlumno.ciudad,
-        p_precio:                     precioAplicable,
-        p_tipo_alumno:                tipoAlumno,
-        p_modalidad:                  obtenerModalidadElegida(),
-        p_url_documento_validacion:   urlCarnet
-      }
-    );
-
-    if (errInsc) {
-      console.error('[APPLENDE] Error al crear inscripción:', errInsc);
-      const msgLower = (errInsc.message || '').toLowerCase();
-
-      // Caso: curso no disponible (raro, ya lo validamos antes)
-      if (msgLower.includes('curso no disponible')) {
-        mostrarErrorGeneral('El curso ya no está disponible. Volvé al catálogo.');
-        btn.disabled = false; procesandoInscripcion = false;
-        btn.innerHTML = 'Crear cuenta y continuar al pago →';
-        return;
-      }
-
-      // Caso: duplicado (inscripción pendiente ya existe)
-      if (errInsc.code === '23505' || msgLower.includes('duplicate') || msgLower.includes('unique')) {
-        console.warn('[APPLENDE] Ya existe inscripción pendiente, buscando su ID...');
-        // Buscar la inscripción pendiente existente para recuperar su ID (necesario para activar tras el pago)
-        let idExistente = null;
-        try {
-          const { data: pendExist } = await sb
-            .from('inscripciones_pendientes')
-            .select('id')
-            .eq('email_alumno', datosAlumno.email)
-            .eq('curso_id', cursoActual.id)
-            .eq('estado', 'pendiente_pago')
-            .order('creado_en', { ascending: false })
-            .limit(1)
-            .maybeSingle();
-          if (pendExist && pendExist.id) idExistente = pendExist.id;
-        } catch (e) {
-          console.warn('[APPLENDE] No se pudo recuperar el ID de la pendiente:', e);
-        }
-        inscripcionCreada = { id: idExistente, email_alumno: datosAlumno.email };
-        avanzarAPago(datosAlumno);
-        return;
-      }
-
-      // Cualquier otro error: cuenta creada pero inscripción falló
-      mostrarErrorGeneral(
-        `Tu cuenta se creó correctamente, pero tuvimos un problema al registrar la inscripción. Por favor escribinos por WhatsApp al <a href="https://wa.me/${WA_KARINA}" target="_blank" style="color:#991B1B;font-weight:700;text-decoration:underline;">+591 57388229</a> y te ayudamos a completar el proceso.`,
-        '⚠️ Inscripción incompleta'
-      );
-      btn.disabled = false; procesandoInscripcion = false;
-      btn.innerHTML = 'Crear cuenta y continuar al pago →';
-      return;
-    }
-
-    // Éxito: inscripcionId contiene el UUID devuelto por la RPC
-    inscripcionCreada = { id: inscripcionId, email_alumno: datosAlumno.email };
-    console.log('[APPLENDE] Inscripción creada OK:', inscripcionId);
-    avanzarAPago(datosAlumno);
+    // ────── Cuenta creada OK. Avanzar al PASO 2 (elegir grupo + tipo + pagar) ──────
+    console.log('[APPLENDE] Cuenta lista, avanzando al paso 2 (elección)');
+    procesandoInscripcion = false;
+    avanzarAPasoEleccion(datosAlumno);
 
   } catch (err) {
     console.error('[APPLENDE] Error inesperado:', err);
     mostrarErrorGeneral('Error de conexión. Verificá tu internet y reintentá.');
     btn.disabled = false; procesandoInscripcion = false;
-    btn.innerHTML = 'Crear cuenta y continuar al pago →';
+    btn.innerHTML = 'Crear mi cuenta →';
   }
 }
 
@@ -1748,6 +1659,135 @@ async function configurarMetodosPagoPorPais() {
     if (sepAlt)      sepAlt.style.display = '';
   }
   // En cualquier otro caso (Bolivia sin modo prueba, o CyberSource inactivo) → solo QR.
+}
+
+// ════════════════════════════════════════════════════════════════
+//  PASO 2 — Mostrar la pantalla de elección (grupo + tipo), sin pago aún.
+//  La cuenta ya fue creada. Acá el alumno elige y confirma.
+// ════════════════════════════════════════════════════════════════
+function avanzarAPasoEleccion(datos) {
+  document.body.classList.add('pantalla-pago');
+  document.getElementById('pago-nombre').textContent = extraerPrimerNombre(datos.nombre);
+  // Mostrar elección, ocultar pago
+  const eleccion = document.getElementById('eleccion-wrap');
+  const pagoWrap = document.getElementById('pago-wrap');
+  const descElegir = document.getElementById('pago-desc-elegir');
+  const descPagar = document.getElementById('pago-desc-pagar');
+  if (eleccion) eleccion.style.display = 'block';
+  if (pagoWrap) pagoWrap.style.display = 'none';
+  if (descElegir) descElegir.style.display = 'block';
+  if (descPagar) descPagar.style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ════════════════════════════════════════════════════════════════
+//  Confirmar inscripción (botón del paso 2): valida elección,
+//  sube carnet si estudiante, crea la inscripción, y muestra el pago.
+// ════════════════════════════════════════════════════════════════
+let procesandoConfirmacion = false;
+async function confirmarInscripcion() {
+  if (procesandoConfirmacion) return;
+  if (!validarEleccion()) return;
+  procesandoConfirmacion = true;
+
+  const datosAlumno = window.DATOS_ALUMNO;
+  if (!datosAlumno) {
+    mostrarErrorGeneral('Se perdieron tus datos. Recargá la página e intentá de nuevo.');
+    procesandoConfirmacion = false;
+    return;
+  }
+
+  const btn = document.getElementById('btn-confirmar-inscripcion');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="form-btn-loader"></span>Registrando inscripción...';
+
+  const sb = obtenerSupabase();
+  const tipoAlumno = obtenerTipoAlumno();
+  const precioAplicable = obtenerPrecioAplicable();
+
+  try {
+    // Subir carnet si es estudiante
+    let urlCarnet = null;
+    if (tipoAlumno === 'estudiante') {
+      btn.innerHTML = '<span class="form-btn-loader"></span>Subiendo carnet...';
+      const carnetFile = document.getElementById('inp-carnet').files[0];
+      const emailSanit = datosAlumno.email.replace(/[^a-z0-9]/g, '-');
+      const ext = carnetFile.name.split('.').pop().toLowerCase();
+      const nombreArchivo = `${emailSanit}-${Date.now()}.${ext}`;
+      const { data: uploadData, error: errUpload } = await sb.storage
+        .from('carnets-estudiantes')
+        .upload(nombreArchivo, carnetFile, { cacheControl: '3600', upsert: false });
+      if (errUpload) {
+        console.error('[APPLENDE] Error al subir carnet:', errUpload);
+        mostrarErrorGeneral('No pudimos subir tu carnet. Verificá el archivo y reintentá.', '⚠️ Error al subir carnet');
+        btn.disabled = false; procesandoConfirmacion = false;
+        btn.innerHTML = 'Confirmar e ir al pago →';
+        return;
+      }
+      urlCarnet = uploadData.path;
+    }
+
+    // Crear inscripción pendiente
+    btn.innerHTML = '<span class="form-btn-loader"></span>Registrando inscripción...';
+    const { data: inscripcionId, error: errInsc } = await sb.rpc('crear_inscripcion_pendiente', {
+      p_curso_id:                 cursoActual.id,
+      p_cohorte_id:               cohorteActual ? cohorteActual.id : null,
+      p_nombre:                   datosAlumno.nombre,
+      p_ci:                       datosAlumno.ci,
+      p_email:                    datosAlumno.email,
+      p_whatsapp:                 datosAlumno.whatsapp,
+      p_ciudad:                   datosAlumno.ciudad,
+      p_precio:                   precioAplicable,
+      p_tipo_alumno:              tipoAlumno,
+      p_modalidad:                obtenerModalidadElegida(),
+      p_url_documento_validacion: urlCarnet
+    });
+
+    if (errInsc) {
+      console.error('[APPLENDE] Error al crear inscripción:', errInsc);
+      const msgLower = (errInsc.message || '').toLowerCase();
+      if (errInsc.code === '23505' || msgLower.includes('duplicate') || msgLower.includes('unique')) {
+        // Ya existe pendiente: recuperar su ID y seguir al pago
+        let idExistente = null;
+        try {
+          const { data: pendExist } = await sb.from('inscripciones_pendientes')
+            .select('id').eq('email_alumno', datosAlumno.email).eq('curso_id', cursoActual.id)
+            .eq('estado', 'pendiente_pago').order('creado_en', { ascending: false }).limit(1).maybeSingle();
+          if (pendExist && pendExist.id) idExistente = pendExist.id;
+        } catch (e) { console.warn('[APPLENDE] No se pudo recuperar ID pendiente:', e); }
+        inscripcionCreada = { id: idExistente, email_alumno: datosAlumno.email };
+        mostrarPago(datosAlumno);
+        return;
+      }
+      mostrarErrorGeneral(`Tuvimos un problema al registrar la inscripción. Escribinos por WhatsApp al <a href="https://wa.me/${WA_KARINA}" target="_blank" style="color:#991B1B;font-weight:700;text-decoration:underline;">+591 57388229</a>.`, '⚠️ Inscripción incompleta');
+      btn.disabled = false; procesandoConfirmacion = false;
+      btn.innerHTML = 'Confirmar e ir al pago →';
+      return;
+    }
+
+    inscripcionCreada = { id: inscripcionId, email_alumno: datosAlumno.email };
+    console.log('[APPLENDE] Inscripción creada OK:', inscripcionId);
+    mostrarPago(datosAlumno);
+
+  } catch (err) {
+    console.error('[APPLENDE] Error inesperado:', err);
+    mostrarErrorGeneral('Error de conexión. Verificá tu internet y reintentá.');
+    btn.disabled = false; procesandoConfirmacion = false;
+    btn.innerHTML = 'Confirmar e ir al pago →';
+  }
+}
+
+// Muestra el sub-paso de pago (oculta la elección, revela el pago)
+function mostrarPago(datos) {
+  const eleccion = document.getElementById('eleccion-wrap');
+  const pagoWrap = document.getElementById('pago-wrap');
+  const descElegir = document.getElementById('pago-desc-elegir');
+  const descPagar = document.getElementById('pago-desc-pagar');
+  if (eleccion) eleccion.style.display = 'none';
+  if (pagoWrap) pagoWrap.style.display = 'block';
+  if (descElegir) descElegir.style.display = 'none';
+  if (descPagar) descPagar.style.display = 'block';
+  avanzarAPago(datos);
 }
 
 function avanzarAPago(datos) {
@@ -1897,28 +1937,9 @@ document.addEventListener('DOMContentLoaded', function() {
   setupTogglesPassword();
   setupCarnetUpload();
   document.getElementById('form-inscripcion').addEventListener('submit', procesarInscripcion);
-
-  // ══════════════════════════════════════════════════════════════
-  //  REVELAR grupo + precio cuando los datos personales estén completos.
-  //  Objetivo: que la persona no vea precios de entrada (mejora conversión).
-  // ══════════════════════════════════════════════════════════════
-  function chequearRevelarEleccion() {
-    const secc = document.getElementById('seccion-eleccion');
-    if (!secc) return;
-    // Si es alumno logueado o Google, sus datos ya están: revelar directo.
-    if (window.ALUMNO_LOGUEADO || window.USUARIO_GOOGLE) { secc.classList.add('revelada'); return; }
-    const nombre = (document.getElementById('inp-nombre').value || '').trim();
-    const email  = (document.getElementById('inp-email').value || '').trim();
-    const wa     = (document.getElementById('inp-whatsapp').value || '').trim();
-    const pwd    = (document.getElementById('inp-password').value || '');
-    const completo = nombre.length>=3 && /@/.test(email) && wa.length>=7 && pwd.length>=6;
-    if (completo) secc.classList.add('revelada');
-  }
-  ['inp-nombre','inp-email','inp-whatsapp','inp-password'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('input', chequearRevelarEleccion);
-  });
-  window.chequearRevelarEleccion = chequearRevelarEleccion;
+  // Botón del paso 2: confirmar inscripción (crea la inscripción y muestra el pago)
+  const btnConfirmar = document.getElementById('btn-confirmar-inscripcion');
+  if (btnConfirmar) btnConfirmar.addEventListener('click', confirmarInscripcion);
 
   // ══════════════════════════════════════════════════════════════
   //  ALUMNO YA LOGUEADO: si al entrar ya hay sesión activa,
@@ -2001,7 +2022,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnG = document.getElementById('btn-google-insc');
     if (btnG) btnG.style.display = 'none';
     console.log('[INSC] Usuario Google aplicado:', u.email);
-    if (window.chequearRevelarEleccion) window.chequearRevelarEleccion();
   }
 
   // ══════════════════════════════════════════════════════════════
@@ -2065,7 +2085,6 @@ document.addEventListener('DOMContentLoaded', function() {
         okBox.style.display = 'block';
       }
       console.log('[INSC] Alumno logueado detectado:', u.email, '| tel:', telGuardado || '(sin guardar)');
-      if (window.chequearRevelarEleccion) window.chequearRevelarEleccion();
     } catch (e) {
       console.warn('[INSC] Error al detectar sesión:', e);
     }
