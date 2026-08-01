@@ -1,0 +1,2504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Inscripción — Academia APPLENDE">
+<title>Inscripción — Academia APPLENDE</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Josefin+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1A2744;--navy-dark:#0E1A30;--blue:#2E4A8E;--purple:#6B6BBB;
+  --green:#8DC63F;--green-dark:#7AB232;
+  --text:#1A2744;--muted:#6B7A90;--white:#fff;--offwhite:#F5F7FA;--border:#E4E7ED;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Barlow',sans-serif;color:var(--text);background:var(--offwhite);overflow-x:hidden;line-height:1.5;}
+a{text-decoration:none;color:inherit;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+input,textarea,select{font-family:inherit;font-size:inherit;color:inherit;}
+
+/* ═══ NAV ═══ */
+.nav{position:sticky;top:0;z-index:100;background:var(--navy-dark);box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 5%;height:60px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.nav-logo{display:flex;align-items:center;flex-shrink:0;}
+.nav-logo img{height:44px;width:auto;display:block;}
+.nav-back{color:#fff;font-size:13px;font-weight:600;opacity:.85;display:flex;align-items:center;gap:8px;transition:opacity .2s;}
+.nav-back:hover{opacity:1;}
+
+/* ═══ LAYOUT GENERAL ═══ */
+.main{max-width:1200px;margin:0 auto;padding:40px 5% 80px;}
+.progress{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:40px;}
+.prog-step{display:flex;align-items:center;gap:10px;}
+.prog-circle{width:32px;height:32px;border-radius:50%;background:var(--border);color:var(--muted);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;transition:all .3s;}
+.prog-step.active .prog-circle{background:var(--navy);color:#fff;}
+.prog-step.done .prog-circle{background:var(--green);color:var(--navy);}
+.prog-lbl{font-size:13px;font-weight:600;color:var(--muted);}
+.prog-step.active .prog-lbl,.prog-step.done .prog-lbl{color:var(--navy);}
+.prog-line{width:60px;height:2px;background:var(--border);margin:0 12px;}
+.prog-line.done{background:var(--green);}
+
+/* ═══ GRID 2 COLUMNAS ═══ */
+.grid{display:grid;grid-template-columns:1fr 400px;gap:32px;align-items:flex-start;}
+@media(max-width:900px){.grid{grid-template-columns:1fr;}}
+
+/* ═══ CARD RESUMEN DEL CURSO ═══ */
+.resumen{background:var(--white);border-radius:12px;border:1px solid var(--border);padding:24px;position:sticky;top:80px;}
+.resumen-tit{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.resumen-curso{font-family:'Josefin Sans',sans-serif;font-size:20px;font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:6px;}
+.resumen-inst{font-size:13px;color:var(--muted);margin-bottom:16px;}
+.resumen-cohorte{background:rgba(220,38,38,.06);border-left:3px solid #dc2626;padding:10px 12px;border-radius:0 6px 6px 0;margin-bottom:16px;display:none;}
+body.modo-vivo .resumen-cohorte{display:block;}
+.resumen-coh-fecha{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:3px;}
+.resumen-coh-cupos{font-size:11px;color:#dc2626;font-weight:600;}
+.resumen-precio{border-top:1px solid var(--border);padding-top:16px;}
+.resumen-ptit{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.resumen-pamt{display:flex;align-items:baseline;gap:8px;}
+.resumen-pact{font-family:'Josefin Sans',sans-serif;font-size:32px;font-weight:700;color:var(--navy);line-height:1;}
+.resumen-porig{font-size:14px;color:var(--muted);text-decoration:line-through;}
+.resumen-pusd{font-size:11px;color:var(--muted);margin-top:4px;}
+
+/* ═══ CARD FORMULARIO ═══ */
+.form-card{background:var(--white);border-radius:12px;border:1px solid var(--border);padding:32px;}
+.form-tit{font-family:'Josefin Sans',sans-serif;font-size:24px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.form-desc{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.6;}
+
+.form-row{margin-bottom:18px;}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;}
+@media(max-width:540px){.form-row-2{grid-template-columns:1fr;}}
+.form-lbl{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px;letter-spacing:.3px;}
+.form-lbl-req::after{content:' *';color:#dc2626;}
+.form-input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;transition:all .2s;background:#fff;}
+.form-input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(141,198,63,.12);}
+.form-input.error{border-color:#dc2626;background:rgba(220,38,38,.04);}
+.form-hint{font-size:11px;color:var(--muted);margin-top:5px;}
+.form-err{font-size:11.5px;color:#dc2626;margin-top:5px;font-weight:600;display:none;}
+.form-err.show{display:block;}
+
+.form-check{display:flex;align-items:flex-start;gap:10px;background:var(--offwhite);padding:14px 16px;border-radius:8px;margin-bottom:24px;}
+.form-check input{margin-top:3px;flex-shrink:0;width:16px;height:16px;accent-color:var(--green);cursor:pointer;}
+.form-check-lbl{font-size:12.5px;color:var(--text);line-height:1.6;cursor:pointer;}
+.form-check-lbl a{color:var(--navy);font-weight:700;text-decoration:underline;}
+
+/* ═══ PASSWORD FIELD (con toggle mostrar/ocultar) ═══ */
+.pwd-wrap{position:relative;}
+.pwd-wrap .form-input{padding-right:44px;}
+.pwd-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;opacity:.6;padding:4px 8px;line-height:1;transition:opacity .15s;}
+.pwd-toggle:hover{opacity:1;}
+
+/* ═══ LINK "YA TENGO CUENTA" ═══ */
+.login-link-box{text-align:center;font-size:13px;color:var(--muted);margin-top:18px;padding-top:18px;border-top:1px dashed var(--border);}
+.login-link-box a{color:var(--navy);font-weight:700;text-decoration:none;border-bottom:1.5px solid var(--green);padding-bottom:1px;}
+.login-link-box a:hover{color:var(--green-dark);}
+
+/* ═══ BOX INFO (para "usuario creado") ═══ */
+.info-box{background:rgba(141,198,63,.08);border:1px solid rgba(141,198,63,.25);border-left:4px solid var(--green);border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:20px;font-size:12.5px;color:var(--navy);line-height:1.5;display:none;}
+.info-box.show{display:block;}
+.info-box strong{color:var(--green-dark);}
+
+.form-btn{display:block;width:100%;background:linear-gradient(135deg,var(--green),var(--green-dark));color:var(--navy);padding:16px;border-radius:10px;font-weight:800;font-size:15px;letter-spacing:.4px;transition:all .2s;box-shadow:0 4px 16px rgba(141,198,63,.25);}
+.form-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 28px rgba(141,198,63,.4);}
+.form-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.form-btn-loader{display:inline-block;width:16px;height:16px;border:2px solid var(--navy);border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite;margin-right:8px;vertical-align:-3px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ═══ PANTALLA 2 — PAGO ═══ */
+.pago-card{background:var(--white);border-radius:12px;border:1px solid var(--border);padding:32px;display:none;}
+body.pantalla-pago .pago-card{display:block;}
+body.pantalla-pago .form-card{display:none;}
+body.pantalla-pago .prog-step-1{opacity:.6;}
+body.pantalla-pago .prog-step-1 .prog-circle{background:var(--green);color:var(--navy);}
+body.pantalla-pago .prog-line-1{background:var(--green);}
+body.pantalla-pago .prog-step-2 .prog-circle{background:var(--navy);color:#fff;}
+body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
+
+.pago-tit{font-family:'Josefin Sans',sans-serif;font-size:24px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.pago-desc{font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.6;}
+
+.pago-confirm{background:rgba(141,198,63,.08);border:1px solid rgba(141,198,63,.3);border-left:4px solid var(--green);border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:28px;}
+.pago-confirm-tit{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:3px;}
+.pago-confirm-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+
+.pago-metodos{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+@media(max-width:540px){.pago-metodos{grid-template-columns:1fr;}}
+
+.pago-met{border:1.5px solid var(--border);border-radius:10px;padding:18px;transition:all .2s;}
+.pago-met:hover{border-color:var(--green);}
+.pago-met-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.pago-met-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.pago-met-qr .pago-met-icon{background:rgba(107,107,187,.15);}
+.pago-met-bank .pago-met-icon{background:rgba(46,74,142,.12);}
+.pago-met-tigo .pago-met-icon{background:rgba(141,198,63,.15);}
+.pago-met-tit{font-size:14px;font-weight:800;color:var(--navy);}
+.pago-met-sub{font-size:11px;color:var(--muted);}
+.pago-met-body{font-size:12.5px;color:var(--text);line-height:1.7;}
+.pago-met-body strong{color:var(--navy);}
+
+/* ═══ CARD DE PAGO POR WHATSAPP (sin QR personal hasta tener Red Enlace) ═══ */
+.pago-wa-card{
+  background:linear-gradient(135deg,rgba(37,211,102,.06),rgba(141,198,63,.04));
+  border:1.5px solid rgba(37,211,102,.25);
+  border-radius:14px;
+  padding:28px 24px;
+  margin-bottom:24px;
+  text-align:center;
+}
+.pago-wa-icon-big{font-size:48px;margin-bottom:8px;}
+.pago-wa-card-tit{font-family:'Josefin Sans',sans-serif;font-size:24px;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.pago-wa-card-desc{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:18px;max-width:480px;margin-left:auto;margin-right:auto;}
+.pago-wa-card-desc .hl-monto{display:block;margin-top:8px;color:var(--navy);font-size:14px;}
+.pago-wa-card-desc .hl-monto strong{font-family:'Josefin Sans',sans-serif;font-size:20px;color:var(--green-dark);font-weight:800;}
+
+.pago-horarios{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  background:var(--white);border:1px solid var(--border);border-radius:12px;
+  padding:14px;margin-bottom:18px;text-align:left;
+}
+@media(max-width:540px){.pago-horarios{grid-template-columns:1fr;}}
+.pago-horario-item{display:flex;align-items:center;gap:10px;}
+.pago-horario-icon{font-size:24px;flex-shrink:0;}
+.pago-horario-texto strong{display:block;font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.pago-horario-texto small{font-size:11.5px;color:var(--muted);line-height:1.4;}
+
+.pago-wa-btn-big{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;max-width:380px;margin:0 auto 20px auto;
+  background:#25D366;color:#fff;padding:16px 24px;border-radius:12px;
+  font-weight:800;font-size:16px;text-decoration:none;
+  transition:all .2s;box-shadow:0 4px 16px rgba(37,211,102,.3);
+}
+.pago-wa-btn-big:hover{background:#1DA851;transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,211,102,.4);}
+.pago-wa-btn-big span{font-size:20px;}
+
+.pago-medios-info{
+  background:var(--white);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;margin-top:8px;
+}
+.pago-medios-info-tit{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px;letter-spacing:.3px;text-transform:uppercase;}
+.pago-medios-list{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+.pago-medio-pill{display:inline-flex;align-items:center;gap:4px;background:var(--offwhite);border:1px solid var(--border);color:var(--navy);font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:18px;white-space:nowrap;}
+
+.pago-separator{display:flex;align-items:center;gap:14px;margin:24px 0;}
+.pago-sep-line{flex:1;height:1px;background:var(--border);}
+.pago-sep-txt{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);}
+
+.pago-wa-block{background:linear-gradient(135deg,rgba(37,211,102,.08),rgba(37,211,102,.02));border:1px solid rgba(37,211,102,.2);border-radius:12px;padding:20px;margin-bottom:20px;}
+.pago-wa-tit{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.pago-wa-desc{font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:14px;}
+.pago-wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:#25D366;color:#fff;padding:14px 20px;border-radius:10px;font-weight:800;font-size:15px;text-decoration:none;transition:all .2s;box-shadow:0 4px 16px rgba(37,211,102,.3);}
+.pago-wa-btn:hover{background:#1DA851;transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,211,102,.4);}
+
+.pago-back{display:block;text-align:center;font-size:13px;color:var(--muted);margin-top:20px;font-weight:600;}
+.pago-back:hover{color:var(--navy);}
+
+/* ═══ PANTALLA ERROR ═══ */
+.error-box{background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.2);border-radius:10px;padding:16px 18px;margin-bottom:20px;display:none;}
+.error-box.show{display:block;}
+.error-tit{font-size:13px;font-weight:800;color:#991B1B;margin-bottom:4px;}
+.error-desc{font-size:12px;color:#991B1B;line-height:1.5;}
+
+/* ═══ PANTALLA DE CARGA ═══ */
+.carga{text-align:center;padding:60px 20px;}
+.carga-sp{width:48px;height:48px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px;}
+.carga-txt{font-size:14px;color:var(--muted);font-weight:600;}
+
+/* ═══ SELECTOR DE COHORTE (cuando hay 2+ grupos disponibles) ═══ */
+.cohorte-block{margin-bottom:22px;padding:16px;background:linear-gradient(135deg,rgba(26,39,68,.04),rgba(141,198,63,.04));border:1.5px solid rgba(26,39,68,.12);border-radius:10px;display:none;}
+.cohorte-block.show{display:block;}
+.cohorte-tit{font-size:12px;font-weight:800;letter-spacing:.5px;color:var(--navy);margin-bottom:4px;text-transform:uppercase;}
+.cohorte-sub{font-size:12px;color:var(--muted);margin-bottom:14px;}
+.cohorte-opts{display:flex;flex-direction:column;gap:10px;}
+.cohorte-opt{position:relative;cursor:pointer;}
+.cohorte-opt input{position:absolute;opacity:0;pointer-events:none;}
+.cohorte-card{display:flex;flex-direction:column;gap:5px;padding:14px 16px 14px 44px;border:1.5px solid var(--border);border-radius:9px;background:#fff;transition:all .2s;position:relative;}
+.cohorte-card::before{content:'';position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;border:2px solid var(--border);border-radius:50%;background:#fff;transition:all .2s;}
+.cohorte-card::after{content:'';position:absolute;left:19px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:var(--green);opacity:0;transition:opacity .2s;}
+.cohorte-opt input:checked + .cohorte-card{border-color:var(--green);background:rgba(141,198,63,.05);box-shadow:0 0 0 3px rgba(141,198,63,.08);}
+.cohorte-opt input:checked + .cohorte-card::before{border-color:var(--green);}
+.cohorte-opt input:checked + .cohorte-card::after{opacity:1;}
+.cohorte-card-name{font-size:14px;font-weight:700;color:var(--navy);}
+.cohorte-card-meta{font-size:12px;color:var(--muted);font-weight:500;display:flex;flex-wrap:wrap;gap:10px;margin-top:2px;}
+.cohorte-card-meta span{display:inline-flex;align-items:center;gap:4px;}
+.cohorte-card-cupos{font-size:11px;font-weight:700;color:var(--green-dark);}
+.cohorte-card-cupos.bajo{color:#dc2626;}
+
+/* ═══ SELECTOR TIPO DE INSCRIPCIÓN ═══ */
+
+/* ═══ SELECTOR DE MODALIDAD (Virtual / Presencial) ═══ */
+.modalidad-block{margin-bottom:22px;padding:16px;background:linear-gradient(135deg,rgba(141,198,63,.05),rgba(107,107,187,.03));border:1px solid rgba(141,198,63,.22);border-radius:10px;display:none;}
+.modalidad-block.show{display:block;}
+.modalidad-tit{font-size:12px;font-weight:800;letter-spacing:.5px;color:var(--navy);margin-bottom:10px;text-transform:uppercase;}
+.modalidad-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:420px){.modalidad-opts{grid-template-columns:1fr;}}
+.modalidad-opt{position:relative;cursor:pointer;}
+.modalidad-opt input{position:absolute;opacity:0;pointer-events:none;}
+.modalidad-card{display:flex;flex-direction:column;gap:5px;padding:14px 14px 14px 42px;border:1.5px solid var(--border);border-radius:9px;background:#fff;transition:all .2s;position:relative;}
+.modalidad-card::before{content:'';position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;border:2px solid var(--border);border-radius:50%;background:#fff;transition:all .2s;}
+.modalidad-card::after{content:'';position:absolute;left:19px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:var(--green);opacity:0;transition:opacity .2s;}
+.modalidad-opt input:checked + .modalidad-card{border-color:var(--green);background:rgba(141,198,63,.05);box-shadow:0 0 0 3px rgba(141,198,63,.08);}
+.modalidad-opt input:checked + .modalidad-card::before{border-color:var(--green);}
+.modalidad-opt input:checked + .modalidad-card::after{opacity:1;}
+.modalidad-card-lbl{font-size:13.5px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:6px;}
+.modalidad-card-hint{font-size:10.5px;color:var(--muted);font-weight:500;line-height:1.4;}
+.modalidad-card-cupos{font-size:11px;color:var(--green-dark);font-weight:700;margin-top:2px;}
+.modalidad-card-cupos.bajo{color:#dc2626;}
+.modalidad-card-cupos.lleno{color:#999;text-decoration:line-through;}
+.modalidad-opt.disabled{opacity:.5;pointer-events:none;}
+.modalidad-opt.disabled .modalidad-card{background:#f5f5f5;}
+
+.tipo-block{margin-bottom:22px;padding:16px;background:linear-gradient(135deg,rgba(107,107,187,.05),rgba(141,198,63,.03));border:1px solid rgba(107,107,187,.18);border-radius:10px;display:none;}
+.tipo-block.show{display:block;}
+.tipo-tit{font-size:12px;font-weight:800;letter-spacing:.5px;color:var(--navy);margin-bottom:10px;text-transform:uppercase;}
+.tipo-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:420px){.tipo-opts{grid-template-columns:1fr;}}
+.tipo-opt{position:relative;cursor:pointer;}
+.tipo-opt input{position:absolute;opacity:0;pointer-events:none;}
+.tipo-card{display:flex;flex-direction:column;gap:4px;padding:14px 14px 14px 42px;border:1.5px solid var(--border);border-radius:9px;background:#fff;transition:all .2s;position:relative;}
+.tipo-card::before{content:'';position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;border:2px solid var(--border);border-radius:50%;background:#fff;transition:all .2s;}
+.tipo-card::after{content:'';position:absolute;left:19px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:var(--green);opacity:0;transition:opacity .2s;}
+.tipo-opt input:checked + .tipo-card{border-color:var(--green);background:rgba(141,198,63,.05);box-shadow:0 0 0 3px rgba(141,198,63,.08);}
+.tipo-opt input:checked + .tipo-card::before{border-color:var(--green);}
+.tipo-opt input:checked + .tipo-card::after{opacity:1;}
+.tipo-card-lbl{font-size:13.5px;font-weight:700;color:var(--navy);}
+.tipo-card-precio{font-family:'Josefin Sans',sans-serif;font-size:18px;font-weight:700;color:var(--green-dark);}
+.tipo-card-hint{font-size:10.5px;color:var(--muted);font-weight:500;}
+
+/* ═══ UPLOAD DE CARNET ═══ */
+.carnet-block{margin-bottom:18px;display:none;animation:fadeIn .25s ease;}
+.carnet-block.show{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+.carnet-drop{position:relative;border:2px dashed rgba(107,107,187,.4);border-radius:10px;padding:20px 16px;text-align:center;background:rgba(107,107,187,.03);cursor:pointer;transition:all .2s;}
+.carnet-drop:hover{border-color:var(--purple);background:rgba(107,107,187,.06);}
+.carnet-drop.has-file{border-style:solid;border-color:var(--green);background:rgba(141,198,63,.05);}
+.carnet-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.carnet-icon{font-size:30px;margin-bottom:6px;display:block;opacity:.7;}
+.carnet-txt{font-size:13px;color:var(--navy);font-weight:600;margin-bottom:3px;}
+.carnet-sub{font-size:11px;color:var(--muted);line-height:1.4;}
+.carnet-file-info{display:none;align-items:center;gap:10px;justify-content:center;padding:6px 0;}
+.carnet-drop.has-file .carnet-file-info{display:flex;}
+.carnet-drop.has-file .carnet-icon,
+.carnet-drop.has-file .carnet-txt,
+.carnet-drop.has-file .carnet-sub{display:none;}
+.carnet-file-name{font-size:13px;color:var(--navy);font-weight:700;}
+.carnet-file-remove{font-size:11px;color:#dc2626;font-weight:700;background:none;border:none;cursor:pointer;text-decoration:underline;}
+
+/* ═══ RESUMEN — precios duales ═══ */
+.resumen-tier-switch{display:none;background:var(--offwhite);border-radius:8px;padding:4px;gap:4px;margin-bottom:10px;font-size:11px;}
+.resumen-tier-switch.show{display:flex;}
+.resumen-tier-pill{flex:1;text-align:center;padding:6px;border-radius:6px;cursor:pointer;font-weight:700;color:var(--muted);transition:all .2s;}
+.resumen-tier-pill.active{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(0,0,0,.08);}
+
+/* ═══ FOOTER ═══ */
+.ft{background:var(--navy-dark);color:#fff;padding:24px 5%;margin-top:40px;}
+.ft-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12px;opacity:.75;}
+
+/* ══ PAGO CON QR (Red Enlace) ══ */
+
+/* ══ PAGO · diseño limpio APPLENDE ══ */
+.pago-qr-card{background:#fff;border:2.5px solid var(--green);border-radius:18px;padding:0;margin-bottom:20px;box-shadow:0 8px 28px rgba(141,198,63,.18);overflow:hidden;}
+.pago-qr-franja{background:var(--green);color:var(--navy);text-align:center;padding:10px;font-weight:800;font-size:12px;letter-spacing:.6px;text-transform:uppercase;}
+.pago-qr-body{padding:24px 22px;}
+.pago-qr-seguro{text-align:center;margin-top:12px;font-size:12px;color:#8a96a6;}
+.pago-qr-head{text-align:center;margin-bottom:20px;}
+.pago-qr-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green);color:var(--navy);font-weight:800;font-size:11.5px;padding:6px 14px;border-radius:30px;letter-spacing:.4px;margin-bottom:12px;text-transform:uppercase;}
+.pago-qr-tit{font-family:'Josefin Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);margin-bottom:8px;line-height:1.2;}
+.pago-qr-desc{font-size:13.5px;color:var(--muted);line-height:1.55;max-width:360px;margin:0 auto;}
+.pago-qr-btn{width:100%;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:17px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:transform .15s,background .2s;}
+.pago-qr-btn:hover{background:var(--navy-dark);transform:translateY(-1px);}
+.pago-qr-btn-alt{background:#94a3b8;}
+.pago-qr-btn-alt:hover{background:#64748b;}
+.pago-qr-loader{display:flex;flex-direction:column;align-items:center;gap:14px;padding:28px;color:var(--muted);font-size:14px;}
+.pago-qr-spin{width:38px;height:38px;border:4px solid #eef0f3;border-top-color:var(--green);border-radius:50%;animation:qrspin .8s linear infinite;}
+.pago-qr-spin-sm{width:20px;height:20px;border-width:3px;}
+@keyframes qrspin{to{transform:rotate(360deg);}}
+.pago-qr-img-wrap{text-align:center;margin-bottom:16px;}
+.pago-qr-img{width:230px;height:230px;border:1px solid var(--border);border-radius:14px;padding:10px;background:#fff;}
+.pago-qr-monto{text-align:center;font-size:15px;color:var(--muted);margin-bottom:12px;}
+.pago-qr-monto strong{font-family:'Josefin Sans',sans-serif;font-size:26px;color:var(--navy);display:block;margin-top:2px;}
+.pago-qr-timer{text-align:center;background:#FEF3C7;color:#92400E;font-weight:700;font-size:13.5px;padding:8px 16px;border-radius:30px;display:table;margin:0 auto 16px;}
+.pago-qr-waiting{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--muted);font-size:14px;margin-bottom:6px;}
+.pago-qr-hint{text-align:center;font-size:12px;color:#aab2bd;}
+.pago-qr-ok{text-align:center;padding:16px;}
+.pago-qr-ok-icon{font-size:50px;margin-bottom:10px;}
+.pago-qr-ok-tit{font-family:'Josefin Sans',sans-serif;font-size:23px;font-weight:700;color:#15803D;margin-bottom:7px;}
+.pago-qr-ok-desc{font-size:14px;color:var(--muted);margin-bottom:18px;line-height:1.5;}
+.pago-qr-ok-btn{display:inline-block;background:var(--green);color:var(--navy);font-weight:800;font-size:16px;padding:14px 30px;border-radius:13px;text-decoration:none;transition:transform .15s;}
+.pago-qr-ok-btn:hover{transform:translateY(-1px);}
+.pago-qr-err{background:#FEE2E2;color:#991B1B;font-size:14px;padding:12px 16px;border-radius:12px;margin-bottom:12px;text-align:center;line-height:1.5;}
+
+/* Separador alternativo */
+.pago-alt-sep{text-align:center;margin:22px 0 16px;position:relative;}
+.pago-alt-sep span{background:var(--offwhite);padding:0 14px;color:#aab2bd;font-size:12.5px;position:relative;z-index:1;}
+.pago-alt-sep::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border);}
+
+/* Opciones alternativas — filas limpias tipo lista */
+.pago-alt{display:flex;flex-direction:column;gap:10px;}
+.pago-alt-opt{display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:15px 16px;text-decoration:none;transition:border-color .2s,transform .15s,box-shadow .2s;}
+.pago-alt-opt:hover{border-color:var(--green);transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.06);}
+.pago-alt-ico{font-size:24px;flex-shrink:0;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--offwhite);border-radius:11px;}
+.pago-alt-txt{flex:1;display:flex;flex-direction:column;gap:2px;}
+.pago-alt-txt strong{font-size:14.5px;color:var(--navy);font-weight:700;}
+.pago-alt-txt small{font-size:12px;color:var(--muted);line-height:1.4;}
+.pago-alt-arrow{font-size:22px;color:#cbd2db;font-weight:700;flex-shrink:0;}
+.pago-alt-opt:hover .pago-alt-arrow{color:var(--green);}
+
+/* Monto + medios disponibles */
+.pago-alt-medios{margin-top:14px;text-align:center;padding-top:16px;border-top:1px solid var(--border);}
+.pago-alt-monto{font-size:13px;color:var(--muted);display:block;margin-bottom:10px;}
+.pago-alt-monto strong{font-family:'Josefin Sans',sans-serif;font-size:18px;color:var(--navy);}
+.pago-alt-pills{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+.pago-alt-pill{font-size:11.5px;color:var(--muted);background:var(--offwhite);border:1px solid var(--border);padding:5px 11px;border-radius:30px;}
+
+@media(max-width:480px){.pago-qr-img{width:200px;height:200px;}.pago-qr-tit{font-size:19px;}.pago-alt-txt strong{font-size:13.5px;}}
+
+.pago-alt-ico-wa{background:rgba(37,211,102,.12)!important;}
+.pago-alt-ico-wa svg{display:block;}
+.pago-alt-ico-check{position:relative;}
+.pago-alt-checkbadge{position:absolute;bottom:-2px;right:-2px;width:18px;height:18px;background:var(--green);color:var(--navy);border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;}
+
+/* ══ PAGO CON TARJETA (CyberSource) ══ */
+.pago-tarjeta-card{border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:16px;background:#fff;}
+.pago-tarjeta-franja{background:var(--navy);color:#fff;font-size:13px;font-weight:700;padding:10px 16px;text-align:center;}
+.pago-tarjeta-body{padding:16px;}
+.pago-tarjeta-btn{width:100%;background:var(--navy);color:#fff;border:none;padding:14px;border-radius:11px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s;}
+.pago-tarjeta-btn:hover{opacity:.9;}
+.tj-campo{margin-bottom:12px;}
+.tj-campo label{display:block;font-size:12px;font-weight:600;color:var(--navy);margin-bottom:5px;}
+.tj-campo input{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:9px;font-size:15px;box-sizing:border-box;}
+.tj-campo input:focus{outline:none;border-color:var(--navy);}
+.tj-fila{display:flex;gap:10px;}
+.tj-fila .tj-campo{flex:1;}
+.pago-tarjeta-pagar{width:100%;background:var(--green);color:var(--navy);border:none;padding:14px;border-radius:11px;font-size:16px;font-weight:800;cursor:pointer;margin-top:6px;transition:opacity .2s;}
+.pago-tarjeta-pagar:hover:not(:disabled){opacity:.9;}
+.pago-tarjeta-pagar:disabled{opacity:.55;cursor:not-allowed;}
+.tj-estado{padding:12px;border-radius:9px;margin-top:12px;font-size:13.5px;display:none;}
+.tj-estado.ok{background:#e8f8ef;color:#1faa59;border:1px solid #a9e3c2;display:block;}
+.tj-estado.err{background:#fdeceb;color:#e0413b;border:1px solid #f3bcb9;display:block;}
+.tj-estado.info{background:#eef4fb;color:var(--navy);border:1px solid #c5d9ef;display:block;}
+.tj-seguro{font-size:11px;color:var(--muted);text-align:center;margin-top:10px;}
+.tj-spin{display:inline-block;width:14px;height:14px;border:2.5px solid rgba(10,37,64,.25);border-top-color:var(--navy);border-radius:50%;animation:tjspin .7s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes tjspin{to{transform:rotate(360deg)}}
+#challenge-modal-insc{display:none;position:fixed;inset:0;background:rgba(14,26,48,.7);z-index:9999;align-items:center;justify-content:center;}
+#challenge-modal-insc>div{background:#fff;border-radius:16px;padding:20px;max-width:480px;width:92%;}
+#challenge-iframe-insc{width:100%;height:420px;border:1px solid var(--border);border-radius:10px;}
+
+    /* ═══ AVISO DE CONTRASEÑA ═══ */
+    .pwd-aviso{
+      display:flex; gap:11px; align-items:flex-start;
+      background:#FFF7ED; border:1.5px solid #FDBA74;
+      border-radius:10px; padding:13px 15px;
+      margin:6px 0 16px;
+      font-size:13.5px; line-height:1.55; color:#7C2D12;
+    }
+    .pwd-aviso b{ color:#9A3412; font-weight:700; }
+    .pwd-aviso u{ text-decoration-color:#EA580C; text-underline-offset:2px; font-weight:600; }
+    .pwd-aviso-ico{ font-size:19px; line-height:1.2; flex-shrink:0; }
+    @media(max-width:560px){
+      .pwd-aviso{ font-size:12.5px; padding:11px 13px; }
+    }
+
+.insc-google-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 16px;background:#fff;color:#3c4043;border:1px solid #dadce0;border-radius:10px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .15s,box-shadow .15s;margin-bottom:14px;}
+.insc-google-btn:hover{background:#f7f8f8;box-shadow:0 1px 3px rgba(60,64,67,.15);}
+.insc-google-btn:disabled{opacity:.6;cursor:default;}
+.insc-google-hint{background:#E8F5E9;border:1px solid #A5D6A7;color:#1B5E20;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;margin-bottom:14px;}
+.insc-divider{display:flex;align-items:center;gap:12px;margin:6px 0 18px;}
+.insc-divider span:first-child,.insc-divider span:last-child{flex:1;height:1px;background:#e0e0e0;}
+.insc-divider-txt{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#9e9e9e;}
+
+.seccion-eleccion{max-height:0;overflow:hidden;opacity:0;transition:max-height .4s ease,opacity .3s ease;}
+.seccion-eleccion.revelada{max-height:3000px;opacity:1;}
+.seccion-eleccion-aviso{background:linear-gradient(135deg,rgba(141,198,63,.12),rgba(107,107,187,.08));border:1px dashed rgba(141,198,63,.5);border-radius:10px;padding:12px 16px;font-size:14px;font-weight:700;color:var(--navy);text-align:center;margin-bottom:18px;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="cursos.html" class="nav-logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUsAAAB4CAYAAAB7LtApAABEBUlEQVR42u29eXwcxZk+/rxV3XOP7sOS5fvEBttgAjGGSFwJDssZZiAhF2GBTbLk2lybg9Gw2ZCDH3xzsQmbg1y7iWbJRcINlgNJIJjblvEBAd+2ZN1zdXfV+/ujZ2zZlmTZlmzJ9PP5NBYzPd3VVV1Pve9b70EoIJGASCahAeB9Xz512bT50ev9pThXmJguDSncsxgeDgUB7ThaW+K1TI9+4MUnu+/+0/dfWsMMIvI60YOHiQoaSJRzl0aqYp9Y9P+VTgu+O1RGpnIcKIe96X1Y0AAEhClhSkJfl+rveB233/7B1luJwKxBIK9HPXiYcGRZJMoV75s/961X1d5fN883q6/HAmutWEshiMmlVA8jAhMADWYwCNo0hQyGDWx+yXr4vz6666qOjvX95C5THmF68DChdMbmBBovW1x21lU199XOMWf17MnbUAyClEJ4RHn4yw8DRCBBRCSkbTP39+StaUuCb//oXTW/JAJaUjFRlOo9ePAwgdTwz91z1g9nLYte39uRsUkI0+uWURc3wcRWNBrybX02/7n/eH/rN1paYjIeTymvbzx4mBiQ7/3SksXTTw3+F2sFzWSQJ++MzZrEQmh22AwaZ88+ec7PP3fjfd2JBMSqVZ467sHDhFDDG+YFbopWmNJRzB5RjiFdEpOytI5WU6i6wfoYGEBTo/B6xoOHCUKWwYrAuY5iQMObuGNPmcK2FfuieFdDQ0OwuWmVgme79OBhYpClIXmGUgpEnlw51mAIsi1F0idmnB6vm0IETiQ8svTgYSLAkJL8rI/WbEYAGO7Wufu3hyF6iQmmH3zaWybL97R8RnZ1dQnmGwGAicjrOA8exuv8ve3hJvaXMlgfqbREBZLU0HCgoUBM+xEEAPAAGijKsOx62ez9bu/nhf8MPG/g9/tdj/adW7wein70NEDHLXxGtP/1mQvnFNtB++h+oMjHB7Rn75JAQ5834NbFP5gkk52XvGnbcw0/fk92+37nMcsCaWrv1fTgYZxJlkcnKQkANmydg4QfIVEBU5Ttr1fSgYxxwGcDBVE6gGEO/C0NwkB0wHVoBOcPde8DGRKHaA8GOf9Q1xAENhnR3IUX3nVX/RYpWfh8vo577rnndSLqLpImEXluRR48nAhkSZCwOQOTopgdOB/1/jMRlfUwEQaRF54ytCZOABSJ5fKe4ie2bWPx4tN29vX1P/r003+/i4j+xsxFM7LXlR48TFSyJAIs1Y9a32KcErkOFTQDihxo7QCswd78HgYagASDdNE2YEhTBEvDk+rrJr+3qrLq2pNPPul2IvoskYDWijxbpgcPxx+H7S5EJGCrHKYFGrGs9N9RSg3Icw8cnQXDAXvz+tDCJTSYlWDmwqGRy2e5q6vLMQwTpy894zOPPfb4H5h1AAAxs7dj7sHDxCFLggDB0RnUmkuwNHITSBFs5AGYA3bCPYyMMGn/vnWDyQ2tFXV1dVmLFy255JFHHr27sNnj+cB68DBRyJIAKDAkRbE4/H4Qm9Cw4ObaYI8oR4tGiaCZfXv2dNkLFix833333X8tEanCTrkHDx7GO1kyEWzOYprvbJQYs+BwDgTpkeRYKepaS8fWevLkyV/9wQ8SIbjGTq+zPXgY92o4MyRM1PtPh2YLg/vReBhFCVNks1ldW1M7taZm6XuIiFeuXOlJlx48jG+yJDBsBEUVonIqmG1PyDlmpCm4pqb6nwCgqanJW5k8eBjPZEkANGsEKAqT/AV90CPLsQYzC9uxKRAIzAIAIYTnqO7Bw3hXwxmAgAEi6anex44siTUjk8nUAihlLgZYevDgYdyS5T7KHBNa8EZiGFiWbQLw7JUePBxHHGYEj9hbkGs0BByGBmvh1qwZr5u9BLhZRiSO9YY0M6MgTXI0Wk+f+tQ20daWogULYoXVpVW0trZi1aqk8lYcDx7GFVmOFgm4VGn6DBiSwGBoPf4EJ2aAWUNIWaCiY9tGrTX8fhM+n+C+vu3pZPKgbER7/z8Wa5GpVNyzaXrwMPHJshDmpwHTL0BsYPv2LDZv7kNnuw3LcfamSBsP0JoRCklUVpp4440cTEMc+5h3ZpLSQH9/tuT97/3Zo4YQTuFjUjovNTub0v27H1/15Jd+l0rFe73kGx48nABk6TpaCwRCAtu25vHkn7fgjc29sPIGiHSBI8ePGu4ojbIyA1bOh7a1aQR9BjQfew5iMKSURlXF9OUHfkNCLFdVsz/wruqW1zu7X/sqEf03EaEQS+4RpgcPE5EstdbwBw2sfqYbKx/dCssh+P0GQiEC2HQTcIyj6W1oAb9fwjQFgkEDflMeF7J0ExQz8lZaHSx4MoOIgsGa6VMjk+6OX3XHRS3/96n3JRKcSyY9CdODh9HEMUnQoDUjGBJ49tk9eOhP20DCQDBgACygNUGzBmveu6ExLo697XHbf7za4d4bgGswHXCQJCKDQNKx09qyMta0KcuufN97fvDTZJJ0LNYi4LkZefAwcciSmeH3C2zenMPjD7fDH5QgcgnIFXw84edIFfS96jgJAWZfJttrTao55ar4u775lVQqrgqE6cGDh4khWQowE/7yxC7YSkMIAnv8ODbkydqXszJOZcXcL571lg8tS6WuVrFYzPPP9OBhvJMlM+DzAdu3p7H5jRz8flGQKD2MPtyKFUpZCIYruGHaki8AjJaWFq/DPXgY/2TJkAbh9dczsGyG8EqTHwsYjp1DJFJz/syZF0x1kwd7mdY9eBjXZOnaJoHOjjy8MjLHSL4kglZah0PlwVnTz1gMAI2NzZ4q7sHDeCZLwCXLfE7tVx/cw9iCwWxIH8JBs87rDQ8eJghZggWYvU3ZY02XANCb7q72+sKDh4lClqQBKsYxeqLlMVTIIYTheP3gwcNEIUsPx1HA9DZ2PHjwyNKDBw8ePLL04MGDB48sPXjw4GHCwfC6YH8U/eaFIAhBoMK/QpAbUVhIXOy5QXnw4JHlm44cCwlzwQwopaEUw7Y0TFMjnyX091tQfgMMhhACQhCkdI/i79hjTw8ePLI88VAIvSQJx3Fg5RWYNXw+gUjUh2jUQDhioqIiiJpaP6JleRADectBuj+H3j6Fvt48shkLSguYhoDPL0EkwNoBe5nRPHjwyHLiS5IEIkI2r6BtC+WVfixaXIkF8ysxZVoZqmpCCIVMSGkMSbT5vI2enjx2bu/Hpo0daFu3B1u39MKyJUIhE4LYSxjiwYNHlhNPinQd4glSAHlLwbEVZs6O4uyzp2DJqfUoKQ0ecH5BrS7aJ8EgiGJiH/j9BmpqfKipiWLRkjpcrhU2btiDJ/78Op5dvRuWIgQChkeYHjx4ZDmhZEm40Swa/f02Jk2K4J2XzsCyZVMhhNxLjFyoluZKnoWNHnJ/f6BSXfT1LtophZCYN78G8+bXoKmpHamWV7BxUxci4QC01t5b5sGDR5YTQ+0GNNJpheXn1CF+zSmIRAIANLTWIBJ7VfORX3PgtV3pU2s3E9rsudX49Ocq8Kv/fRErH9uGSMTnSZgePHhkOb5VbyICQyOf07jq6llYseIkAG7xNHdXe/SkV1dKdQnYNAXe9/7TEAz4cf/9rxUkTK+ktwcPExknqFM67f0nl3HwnvfNw4oVJ0FrDWZACDFm3SmEW0ZDa8ZV8YVYdlYt0um866fpwYMHjyzHG1kKSUj3W7j4suk499zZUMqVJo9FsvaizZOZ8d73noraSX5YtgMvUbwHDx5Zjq+HEkA27WDRonJcccVCaM1jKE0ORZgEZkYwZOLKK+fBdhQIXsJyDx48shxHUIoRCgtc+75FAMTeHe5jT9oCzBqnvaUBc2ZVIJe34WnjHjx4ZDkOwBCCkM1aOO+CKaiuKYHWx1f9ZSYIEjinqR6OUvCCezx4mJg4oXbDCQKOA5RXmDj33Flg1iA6vqpv0b3olEV1qCjfhExGQ8oJV4+IAEYi0byX6pPJZi6kwD/m908mASDJ8FLvH7LfmBnNzfvGrbm5mQvvpNd3b2qyFAK5TBbLl09BSWmw4CJ0fEU5IkAzoyQaxJy5pfj739sRDpkTIfEGxWItYsGCarr11vMcZkIyOXCCJcHM1NzcKtva7uJUKjXKvlEJ0dgI0drUrClJGjjw/kAiwaK1tVmsWtWsDpe42S0MRalUashzYrEYALBbTvjo+jKRSNDChQtH/DLG4/Ej6k9mptbWVtnU1MRCCHUgMSaTSbcCqNaysJjrIyXOWKzlqCSRBQvW8nFc+CiRSFBb28jH5IQiS2YFwyCcfubkfQLJuGgXA0SYM68aT/9t97jvx1isRaZSV6tUat+EPf/8j1aGpK88o5wooNO7d7/eTkRdAJwicQHNSCaTR0ksTC0xiHiK1KpV0LQqCQCRSy9IlHRbu2oBwKf0nkf/cveeZJLSADSQLLR55AQzCgR4SLS0tMhYLAYiUslkcqzJgJhZEJEqjgkAcfvtt1dkMplq0zQDwWCwX0rZefPNN3cXztvbziMh58Pp75GQvLvwtnMqFT9iAh+JABBDDPHU4Y/JCUOWRIBtA7U1IUyfXoqi/XI8QBRIe/qMMvj8Yhyr4AnB3MyFieS75pqvNYYDNZcJCp8jpDGVSEYAaTDbauZ01X3G6de+ZttdrbvaN/w2maS/7SPaI5tE7m9JxVNQZ5xxRcOcWY2XmkbJOw3hO9U0o6X1pMMAAI3c9Nlv61RsPZ/L9/1py7aHf5VKxbuICLfwLSKJoQmbmYmIeM2aNQuqq6vLu7q6YBgHTwPHcVBeXo4dO3b0LFmyZM1h9WIiIQrqbrEf6N57752cTqennnTSSRSNRvdNwAH3dhwHgUAAnZ2d/JOf/OTZ73znO/mR3u/WW2/VRKQ+/OEPl1966aWXlZWVrfD7/adIKeuZuURKSdqNjOhfvXr1Ttu2V3d3d/9hxYoV98fj8f4C0Y54AVmwYIFvxpSLLpo267RuoQylpSIhJMMunGACe/8eABsOnFwn+vr6kM109aWt3Xsef/xnPUTUP4Dk0dLCcu3aZj76xXdfHyWTt+pUKq5SAFCL8CVnfLIuaE6pLS+vgVkcB3NvQ/c+g2Ea6OvbfiKRJcG2LcyYUQ2/339UKjiDwVpDkACIwKzdjRqBI5NYC6dXVQYQiZjIZBSkpHFFmrFYTKZSSUWUxKWXNt9QVTH7E9Fw1QLDiEBpG1opaNYANAN+KYSolNKoFDT1LZHwlM9c9/5Tf7f2lfubU6n4i0dCmI2NCSOVijtnnXpB/dyTYp8Jhqs+EAhVlRNL9/7aAhdsF0Qi4A+W1ktp1oP54vLSKV9sqH/7937V8vFvJJFU7rMMaRYQAJRpmneYpvkOn88HKQ/WJoUQME0TjuP8FcDykZJJUUpLJpO49957z6urq3tfJBI5U0o5zTTNkGEY+7mxDQyzNQwDpmlCSolp06ZNBbDFneRDE8YAqdC3cuXKj1dVVX2ioqKiXkoJy7LgOE4hGIOZiKQQotQ0zVLTNOfZtn3t888//+rmzZv/g4h+WjBNMNGwJg0CwDt3WoGzzjz1VwFzatChHCSJ/clm7988YF4BfjD8sgrBEEMpC1o72RlTL+zSbG1ipid2tW96/umnWx6Jx6l33wIa00djH4/FWmQyGVcA/Jeu+MLVtbXzLmZhLjdlsFYaQcP1vz5gTpuF/zcZJEwYht1/YqnhmtEwtWTfyBy5TlAIX2Q4tgPDNApO5nrAzvrhxpIzohEfysr86OtL700cPH6IMqVOOeXimactvuoH5RXTLgBLWFZG206vLhBM8X0iQLPjAI5jMQBN5JOV5bMvP+3k2EV1VXM+kUrFf5BoTBjJVUlnpC9zKhV3Lrss8Z762lNuD4Um1VlWDlYu4zAxgVkUsj65PakdVsqG7eQ0QGyYpZPr66u/+sH3/vTyZ57+9QdTqdS6QxAmAOSz2ay2bVtZliUHWXxVNpuVzJw7HLU7Ho+rO++8c/pZZ511V3V19YpQKATLsmBZFpRSbNs2D2qmKfzpOA4xc940TR7p/b71rW/NWr58+f9MmTLljEwmg76+PjXgJaWBJAcAlmXttRFWVlbOqqmpuae1tfVsIrqBmd243UPMoD17NvX960dKN9u2M0cpRwMkRj4fClnAZEAYhggGAmVBIYx6QfJt0WgdGupP3ZbLdv5p8xt//UkqFX/qaDSW4u8aG69vmjl1+XdLy6YuJOGHVjaUcsCstaPUkE9LBCYiMsxI+wlFltKQqJscHchQR8KTABFaV27CX57YhnTaRkVVEBdeOA2LlzQUCPNwr+1KpyQMRKMBaNW/12n9uCveruSiLrnkswtrK097vKRsSk0+1+cwa0FEYohJMIA4IQBGJtfj+ILl/ukzG7+/4h26LvlQsnkkL3hxwl9+6Ve+Pm3KmZ8FS2SzPQ5AkogMAh08lkRU4E3pqq85VspyqirnnLFs+bWPVlZUXpBK/XzdcFJZQR0XBYlLDPI9E5GgEQ520V541113vXX58uX3TZo0qaqnp0d1d3fzvsWGaLBVdl+m/oKNwJXwRnS/7373uwvPOeecx2tra2u6urocZpaimE5rSB1nXxvS6bSWUuqTTz75n5988kkion9mZjnQpjkYmptBzNog4bofEh2OG2IxDaIGs2KlGESkmcGCJIUClZNLopNujIRr/rlhyum/eO7FH9+SSsXfOFzCLJ5/6cXJKybXL2oJhCoMK59zwBliOKIwHIKGlX2YiUBgFieMn6XWDJ9JKC8LHDFXulmIgAcfeAU//uEavP56H3btyuCVth7c9d3VeP21PS7J6SMkYQDhiA+aGeOhonfR1vX2xutnT64945FoSV1NLtvlAGS4BMIjfvmJpGE7eWgNZ87s8xJXXtl8dSoVV8PtmMZiLlHGrvyPz8+ccfZnldKO7eQ0kTDoMFYkct93M5PtckrKptbPmnv+/Utmn10NNANIiKN7r/SI+hEAf+c736lftmzZ76uqqqo6OzudAukYh0O6Ix23wr9V55xzzm9qampqurq6HCIyxGHanoQQQmttdHZ22nPmzLn+D3/4w0eJSBUkzLE2nhXWEEHu4giDoaXtZDib7XOEEaa6SUvef9ZbP7v67W//3LtSqbhqaRnZDryrWVytGhtvaqqfvDBl+spkPtevAG2AtCzc8/D66sQwWAKsAX9AIBzxHaFE6YZE9vXl8OhD/0A0GkIgIGCaEtGoCdsy8PentrpS4hHp+O64BEMCrGlc7NO3tS0kZvZPmXbuz8Lhurpcvt8hkoarhR2OqcHV8ARJUsoWgNRV5af88O1v//CUlpaYLk7uwVb9FRf+23k1tafdZtu2o7UjB5PyRtzDQhi5XJ9dWTVv+kmnvfuuZJJ0LDa4a8ho5hltbm4mIuJFixZ9p6Ghoaavr88WQoyZ1la4n37b29723fr6+rk9PT1Hdb+iK1Emk9ENDQ1f+8///M9aAJr5WC/pBXWFJBGRAXYok+1zIuFJVfNmv+3/Lrno1s/F43GVSKw85LO2tLRogI2ZU5d/KxSskY6T0UTGUS0A4gThSmhmmD63Fs6RkiUAvPZaF3p6NKShoVSxiBlDGMCOHZmDjPKHC9MkjAd/4EQiYaRScfWuK775kbKKqcty+T5b0NFOcA0iKWwnq6PRSZG6miVfJSIezL9wwYIYAzDr6pfc6fNFoJRNoyF9EWBmcr1OVdXMqy67LNF0KOn2qO3kBXX4Rz/60eKamporurq6NBGNGVG2tLRIIlI/+9nPzpo2bdrVPT09DhGZR91vRCKfz+vJkydHTjvttA8TEbe2tsrjPbOJyLDttCb4nJlz3vq1K674j5uTyXOdxsbEkH3c2JgwiIgvuvCL15aW1S/K5bIOkZTA0Xk6nVDhjlJISCmwr5TE4a9qHR0ZaK1woAlGECGdzoFxdOGTftNw1dbjy5fU3Nyspk1rDFSU193sOJpHonYxa2YeLpNxUcIkaeXTOhisuqax8QPz3d3afdKluztJ+srLvnBptKRukZXPKiKSw48Zs7sbPgJDr9YwjRKUl0z+dOGOR0OGI5pDM2bMuLqiooK0K7KOmURWcJTHjBkzPhaJRNhxnNG8vLAsiysrK+ONjY1GU1OTwjhwViYyhKMsqZVQkyed+u1LVnz2wlWrks5Qi+BHP9rMAFBdO/1KKXy8b7+KPLIsvtRSioK7EB1xv+RzDgoeFAcMGODYDD7KrOc0DvK0xWItgoh46ZILGwOh2hm2k+bhDfQMZmjDCJBhBIkZ+lBPqbTSoXC1MalqccyVZJvEgRM+HJ52nSEChyBgl6SJDDKNAAlhHOL+BCJI28nCMErfceqpV05LpUgdre1yGCgACAQCTUqpEdsutNbMxdWncBRUXw1guE0pdfPNN1eHw+GLMpkMAcOnsipcTwFQhb+HlS6z2SzC4fC86667bh4RcSKROOoXlsE48Fndtox0h5NBJMhx8mTIKGonLb5nyeyLql3t5CBTAcXjpKZNmxbwmZHTHKUI0HKEHKKHGhPGCHbdJpY+flT+QgMkicFWIYICQ4+GGec48+WCBdXk2k+rLzRlkDHkJKLCi2rANEyRzu7uymR3dRmmFIKMYa0JBBBYIhAqPceVZJv0wJe5tnZR2O8vWeo4Ng23aDMYphkkx0lzX2Z7RzbXxaYvIHj4jiStbRWOVBkzZ56x1CXo/U0Bo+SJQETES5cuNUOhUJ1t24cc3cKOtw4GgxQOh8XAIxQKyXA4LAzDCBqGcdB1UqmUAIDzzjtvUVlZWalt23o404XWGsFgUIRCIRkMBmUoFBIjeG5VWloqysvLTweApqYmcbQvu5QmfL6AcI+g8PkCwjT9QghJYKHBcHgEUogQJPJ2v1NWNq1+xslN30gmSbe0pPZrXwIuuc+eckW9IQK1SjsYfoeAC/67gk0zVGhfUBTba5p+6fMFhCC//01aN3xYuWTo151OjNwDC9uaGAACvtBsd2UeagdVA/BpwMaG11be9sYbv78D6MXsmR/+wOSGxXcIYeihFlwGk1I2fEZwekFo0SjE4yaTSV6y4NwGwwhUK22DhnibmTWbZhDd3Vt2b9v5xOW7dr2yvjQ4p27m3DO+XVm24HzLSStg8EwpzGApTIR80ZMGLhCHbYUdZiOo+Czz58+vsm27+lCSJTPD5/ORUora29t3ptNpVaj/VHyxWEpJ/f39VldX10H6dXW1+wylpaUnB4NBtm1bD7XQMLMOh8Oio6Pj5a1bt/6nlNKpqan5cm1t7eJMJqOH2khjZhiGgUgkMmd0VhOBdN9updnZ4TorFwzLRoAIVBUIRP2GGRGOY8Nx8oqGTfpKEGCZz+d1TdWsa848891fjcfjG12toeAilgCQBBqmzPRJaZjMetjli1mwYRik7SzS6Z5ttp0DaL8VhYUwiTm3zSPLNyFiLdAgCCLZwHpov1Fm1n6/X+zu2PT8Aw/c9qXiW9fW9sU7r3v/T99dVjbjLfl8nyY62AWNAGLYIJgVU6eeXbp585NdwL7EBeHopFpTBqVmPaRDM5HUJCD7+jZ/5tFHf/hUYTOlq7Ss+gulkalPA5KGFm/dWcksp4x1f86ePZuklMNKbczMhmHAsqz0Cy+88MFbb731oba2tiFVbgB5APvF2jc1NRX/nC6EIGYedOxck5REOp3mJ5544rqPf/zjzwLArbfe+tJVV121xjRNUynFg0mlxWtGIpGqA+55JOq3E/CFjO3btv7iN3/43L8UTAYKABoaGmjOlLfX1NTPmi2M6GWRSN2VkXDNZMvOKDBLdw0YpD9JkFJZFQlPCkyb+pb3Pv30/yYSiaaD/GnLSsvZgWAMs6NfHJNcuqvzja1/e8/aV+7489atA9TMA073yPI4yK7HeTOcCpKMqbRdo1kXbWGDClZCkAj6SlvdRBmtvh07ouruu0+3penvLexWDvo0TG44p63sEsPgKICugd/XVU8XwjCghi23QZTPZ5DLpDc0NiaMm26620dEmazTA82FbPTDdCYRwe8LjBd1QIfDYbl169anrrnmmnuZmYaK0tFaDyrRtra2AgByuVztUERZvITf7xfd3d1vfPzjH1+zcuVKIxqN0umnn75pxYoVG+rq6k7u7+8faiOKmBldXV1T97NPHRFbupePRKs7AMq5gQ5CA4ytW7di69YfvwHgDQCPzZ279NYzlt741arKuTfYtqVBWgw9rpKU1ggFyi4HkGxublJu9qKBiO4LWRpatFQ+I2x0ZV/740OP3vHQypVsnH++4Qyh5Ryb2HClAMdhSMljEg9N5F5fKR6VawkBCEEQwp3wo+kVqTVgOwzlMJwxLJEriXEo13cp/Tz8XHBXd2nIfDJJGkAOAC688FMxnxk8x7azGkNtMDCYIMnnMzvSkU173A+TvHu3u9GyZfu6GTNn14HIGVKVJALAGpm+nsCqp/7LWbUKDgD/5PrFnzD9Ydj5DA/nmsAAcrn0eCFLkcvl2O/3n3znnXfOI6L1R3qhQCCgDrEaMhEhGo3uApBvamqiVColmBnr1q3bSUQnD0eCzIxAIDBqjqjKsU2A6aab7j4gk2uCYrGFtGBBNSWT53Vs2HDTje+55k67tua0j1hWWgFCDiHkCeVY7PNFTjr11PfOJKJNh4qhH2pMbGVzMFJy6owZZ88991zaMNzJx4AsGSUlElVVJnw+MWZkadsapaXmAYvh4ZOc7Whk0hqmdGA7DmxHQ0T22sGOGsEQUFktEQ2bY1ZPnAGYpkQ4XNo77JtyyMTIrior2O3IK6647YflpVPm+czwcikipHSeh15IGCQElON07XppV3ZAaLI7gQCDRiC0EAiOgf4LL/zYyfX1S241hH9hJDRprmVlmIbN7EyAu6H5xlCEcKzF+Xw+zyUlJZPOO++8p1evXv1cd3e3DexXbVSFw2H50ksvfeuGG264f6jUaYfhLC4OJNGXX355RBs2o1mzqqB9cF3d3APyVia5mE60kKkJRPTJ6z74y0tLonUNtpXlQnTWQVdkVioQKDenT5k/7/nnselw8lIOaJewnTQHAzWnnHvOvzx7XuO/Pp230grQ2Jc1R0OSANvZT40pWRIIrAllFRL5vAGfKcdOslQa0aiJo/WnqigzMXtOGOGwH0ppgBU62i2k+/NwHHEUfVFQDiIm6ib5EQoaRxQ2ObIpQiAp4fcbo5NvkCQDQE3l3EtLS6dUp9OdWun8sJWNCKSlkKR0Zh0A3dKiZTy+L96YRrhbRiRgWblsNFRyUl31KVdkc2nYdpYP5cAuSJDjZKmrf9ta187aftwlTCKiXC7H0Wi0NBAInDt58uT9cgQopVBWVoZXX331MQD3Fzd03gxwpcImA4CVzuz+VUXp1E/byKmhBDrNzD7pg+kLzgGOfAOPQGQ7eY5E6yKG4TsfXNzgLShdxBBEyKd3VI0pWXJBunjjtTw2bkzDH5DQY8CWRcmytqboQ3v4kqW7kmqc3TgTZzfO3u+773/v73jqb7vg95tH7JBepPBdu/N46cU+RKMBKD1GbMkCfp8Pvb0Z36hellV33uqvAPTITBPsUDrT/QgArP1eKx3+/dx/TVMSQPlsrlc5jqOI4Bv+d5ql4RPZzO7O7dv/9iQAFBLKYjwQpmVZbFnWYO1xCuSQxZsQBZssAfxnpfKfdqVKHnYhJTYaRmNMHCfPSuW1u3DRfsK5EBoQ2jkGariG6SP4gwb8Y6iGS6kHhDoe6YIs9pukrBkkCJpHb0/GNAQCARMBv4TSY+TmSoDPMOE42fDoSKr7REyAJDM0DeuOwdqQAdHfv6drw86nfgMQkqvOPSopl4Ugcm1YIxkKZZhBI5fb89sXX1zV3dLC+0m144EwMbitl4lI8onm/zxC1NQsZACc7unrtivyAAxynQVocPGDgHC4TI3mmAymsBAIigUdk0FhdomHeQyPwvVHi3wHHqPdF/oY9QUdF8dQAgDl85sik9l9xwtPptpbWn4tMSrrDY+gfxUbRpAyma259q71twFMa9c2vymLcx1NtNjxjDQzDGfAxDtUO47duuK5DnkYZcOLtkPBMnPPng3PPffSR76RSLCIx0kfk3szmITfNgzDt2Xrps8/+OB3Xo3FzpHJZFJ5YzPQ3DQ+sXv3WgKAULiqzJQmbOcQeQgYSKe7j1myD+G9Ph5Gh6i0ZoYTCpSbXXs2bd/y6uNXrGsjC8nmkYmERyWtMzPDkUIi5Av4tm5/5u7f/v4LtxfSwOlx1VPMupBYlw88irvGhyjrcMLCdYAnaMLZ0vBjBDkDwORsHYVbK2DwMSkeUprakyyPg5o60bY4xT5OVGBWICiGFmCCm9dWSJ8vKAAlurtff/TZl3//kRde+M3mI/R9G0It1MzMipkG1ABwEywY0icNn9/IZTrU65ufvy31289/mRMs3BK6GNLxe4SS2KgRFzMjHA4LpRQsy9rPbEREUEqZQggopd6M85IWLmxigBEOVl3uKA2AxVBqOAkiR9lIZ3vfAPY57B+JYcfvC0mlLChlY7+qMYW9HiKgs3Nn2CPL4yKHTTjlrUjz5QF/qRRCShIEAkFrhUy2i7O5PU/3dG+++/9++/mfAHvLVYwOUdqKtSZfIBiRwspJIuG6pYHhqDysXHdnR2f7ys1bn/7mk0/+5OmES5RHXYu6EDboG40kuMysg8Gg2L59++OdnZ139Pf3d1mWxVK6blmFQmUcCoWop6fn9YKkddzMB8fQZkmxWIsoL58p4nGyY7GvfK60pH6uZWUU0ZBO6SCSIp/vcTq2b37F7SvoVasOXyMxTB/t3t12X3//zh8b/uhuoTRTwVWuuFhKqem1Lc+/5pHlsRcsx5FkOVIucTnP4Y6WXbv6FgZDka35fF7ZjrUzZ/W27dmz9fnHH7/9pcILSETNNFpEyWCQ3wwQ5f/R3r7xEcvKi3C4ZHs2t8dmlhv7+zrb2jtX/u3JJx9sB/bmyjwkyYwgDyQ5jgNmnlms1bN69Wqzr6+Pzz33XHU4RMzMLKWkTCbjPPvsszd85CMfeW2EhMUTmAQPwuuvv24kEisHKt46mSRdqKujLrvktptrKhZ/zXFsBbAcqouZoX3SL7L2jg1PP/+j9cXSRYdNlIaPsund/b/81YevBdB3qN94ZPlmZ+6RvVgEAD/6yb98dOhJKHDVVb+SA+xxo9I81gyiUPjBB+94AsDbhzo1FmuRCxas5ULJ00Oit7eX6urqhiMVkc/nVXV1df2DDz74ISL6bwBHvAAUYrmptLT0qDckxAQtnfXTn153UKXM8vKZpWed9b7ltTWzro+G669UWmulHOEGZ/EQ76zWQkiRy6bvB6Cbm1sNDKg57sICYB4YOHYg6TIDMhicEs1mt3hk6WH01PCbb77f/+1vr7BTKdData6TeWtrK5qaoJPJpD6SUqUjk4Y0A0w/+MGzxo3bl6pmtO5li7a2dk6lYtpN8DvyFcI0zS0F0hmS2LXW0rZtnj59+g9Wr159pWVZL5im2fXQQw/9/Etf+tKOtrY2AoBt27YJpdSQQUVERFprHQgE5Pz583/+pz/9qaWhoeHVfD7PACClRKGeOBuGQel0Wq9ateqxf/u3f8ti2Ok+UdZkV+q78foffCwUnBTYvG3j7GCwzAj7wzUavDQQrJxkGgHkrYyGm2wDw2WTEhQQmWyn6uhZc4/7WetBi1jeykOaoSK5HiQYEBEpZXE4WBOMXfHlVN7uvLciOuU1xgDPDenSo1/60JftUB5ZehgxKiqCiuhgN6DDtRUd4YzjRx+N6ZtSKX00El5xI8C27fVaD1/WuLDpQkII1NXVXWSa5kX5fB5CiCcA7FiwYAEV1Ms+IUQfEQWGk1RzuRxqamrOrK+vP1MptXeDZ0ApXPh8PmitYdv2NACbizkzJ/RS6+YyBXP06/5AQ2D61DIQDDAUlFJwnLzO5zNMxBI0vEsuM6tAICDbOzb+8aGH7lrrml0OXqS3/2M96madBtP0DRnGQETkaBuVVfPOAtFZrB3QQI2LinZrH0IsOw3sLZrLHht4GELtO3Gepb3djRHfsWPHM4XY7GHzUBZjt3t7e5WUUluWRVJKGwAWLlxYLPXdo7XebppmdUFapKGulU6ndWHBGTQsxbIssm07HwwG9XBtOnIh79jbLDWUBAC/P7oxm+s6ybFtDbAgArEbei32lVQfPieoMHxIZ9ud3Ts2fdHNARff75xkspmBJN7ofGJX7czFnSRkpXaGr5tlWRlVqE9Bg93VUYogqFuwJgfEHlfus2NAa953qLFJK+fh+CAej2tmpu9///vP9fb2/sPv99OhatMUSEYWzFaGUooOtFHkcrnnC/kpD1nnpnAdeeBRKBonj03N7uMyt0yCMAAYbgVMt+btSG3nRML2+3yyffe6Ox58/PaXYrGUSKVS6kANJJFg8eKLq7odp3+DKU0eTBs6AJKGGBP3O5JgLYVy1KvSkAVbJ73JpxIX8lm6uSylISAkwTQIHmOeOIPc2toqV61alevp6flpMBiko1HrU4UcY319fal8Pj8q5XzHVksQE3Rmwg4Go74d29b89d7f/fuXW4YNOHBt2n09ex4iEuTW2CEcdXXHXC//0ZREgNBH8c6cAKueS4abNu7Cffetw8MPv4oHH9iAh+5fj927sjAMecLxJb1J18ampibFzPTII498f8uWLZ3BYFBofWQpoOLxuE4kEuInP/nJozt37lwXDocFM3vhlaNIkwzYoUCZ2b57/YtPPPbfMSJhrU2tHdKPNplsUgBh686nf9jTu6PfNAPEbB+1+iy2PWf9oH+3zpumIOY3rzJeTM20dk0Hfn7POqR+tQ6/+p91+PnP27BjZz8MHx3zhLFjiQULMOKV9kRbQomIU6mUuO2223Zt27bteiISpmlqfWTZmHnhwoWUSqWsjRs3ftq2bTJNk4+UfMca47RZ+8uQxb80ayKpQoESs2PPuj9v/MfXz9my5/ntt9zyZZHEcH68xLHYr+VTT6W27W5v+0/DMKQgv82s+Gj2Z8Q933x6Y+c251uBqCH4IF+lNx98foloqYlIxI9IxIdoiR/SMAv1RE4gUaxtQeGZhkuW7CYrGBvFTR7XlTkejytmlpdeeunvnn/++S8Gg0GjYL90+DBXxXg8rlpaWuS11157/0svvfR5v99v+P1+cSTXGmtVeryr4czEDFYMUn5/RAih5e6OF79zz88/dNFf/7q+LxaLyZEEPKRScR2Ltcg//DHxte3bn/txIBD1kTRYQzlHKmKKlpaY/MnnNty6+xX7mWi5z9Sa7Te10K8JWu2/wQM+6si58QoFsCJiBQx2QDGgQKOfNYhIM2vWbgKDwe9PxIoBRSTGpPOJSDGzvOyyy7761FNP3ZBOp/sqKioMn89HABQzOwAcNya90B/MqhiiOBj5XnbZZV9fvXr19ZZldZaXlxt+v79oE93vWoMdxeujUAFxGC1Ij+Q6hQCBg8Z84DnDtGHYMb/1VmgicvgQ74/WWjO71yKQKmymcQF6wOEApIQ0yO8PS79hyp7eLS+/9tqfr/jZLz7yMSKRBZgO3tAZuptSqbhOJFj8b8snrt++82/NcGwO+csMIU2C2xbHvS+rQx5EjrF2bYp370b6id9VvasxXvNQ1Qz/Sf09WYeVFG6WBB5URPZwAkCg1O+LSqLcoElPtWYZ8EfhWB3BUZcrSfr8wYigfNY/9J6IkIbMA8iPmT9wkTCJ6Idf+tKXVl100UX/Fo1GryovL6/0+/17c4RqrSGEQOEzY6hrtbS0yMsvv/zH3/zmNx8766yzPl1eXn5ZMBicEgwGRdHcM5SwycwwTROWZYWGSwBMRJHS0lLpOI6UUg6mastIJIJcLlc6yG9LSktLpRuBefBvlVKytLQURBQdrt8qKuZFHceqL4lGpGMbg7w/BM1KhoJRSMFBALBVvjISqBQMjUJ8PxEJkJAQIKG1jWym0872p/+czm6/+1epz/8BQG5f9qjDDv/kZJKK7l3Jt7/9pgcaJi3/uJDmuyLhar+U/kIVUlcgoiGSDAvpQyadqTGSSehEAiKZXLulKli+/OQV8kelU4JXsFTI5xywhnKTyGpAMA1V1N7DBNPCG9v0mVbnw3nLH1Yqrw/c7mFmYhJOLpMJ5nLd64DRqWNTU9PGAJCx27fs7ljzgk+E2n1+X3aw+F4BwX39HdVa93S6dtYFYyZhFoqDbfzKV77yLzfffPOXzzvvvLdVV1cvJqJZoVAoEgwGIYRAPp8HEe0BgLVr1/JQKnk8Hn8DwM2f+cxnvnDhhReeEYlETpNSzgJQF4lEYBjGkGSZz+dtKWUaAJqbmzlZqPNa9BEF8GRPT49Mp9NqiKJtWmstmHlT8YMBbX2kt7d3VyaTGaqqppZSCgCrh5OQHCcnu3s2PyMEtCSRZkAcOH5aa/T2bJnhWL0vAoDm3petfKQnne6oASBMX6CbtdPfn+7OE9Szlt3x110dr/3lz3++Z2NhXHDVVb+WRxsZRkRcINy/Az+49qSZFzQvWHTBqaFg9Sk+n3+qFFTmM/2AHLQ7ILQPgtJ79k4QlzBdcflLv3jHlf5S+/O+iFoaLJVCkgEbOVSKuXiL/99H7EbDzDB9Ev/368149dU0/P6xre5YXRPAl5vfBp9pHHbZsqLkcP8f1yOVWo+SaAC27UApht9vIp93MKnej1uaGyHF4Qs6WjOEINz3+/X47b0bEI36oMauFK7jM4PGy2v+8O+Prrzja42NCWPVqqTjLRHDo1BhkIZQX4/btU4wUDRaXxHhCO3o39AHID8Ib1A8nhIF1yAezfFd2NZM8dSRjcneWZ9MQoNBDAYR/QbAb+IfO/3kuUvLprbv7pmeTmf8c2qMeWdeSDexA81gL3HwhCcHFm1tqUOuKS0tMT36GXDccjO33KKGbcPY3HtwJJNJnUwmi4lDBIbYOi04OfNIr5VKpUSxUmNTU9MhnyWVSmGwErgDyESMUBY4yCH7aH47GKk1N4OGG7//+79rlNZqoNbAfX3b9/QNUNeZNTU3t8pinoHCfdVYjC+QBJAQjY0QTU1NWLiwiYu+siMmy2K7CYSWlpi8+pqUavn26jUA1hS//uUPv7GMIG9i4fB49SchjwMP4+UZ2cbN2PhjEjMfug3Hwxe0MLHVeLvWAWR9zH87xLPxCM8bYopyMTO8AxyrPANJvWoV9KpVySOTLPe3u7g7TokExMKFMdqxY5LR2fmSSut/VBLmgdhNvOrBgwcPh6tSTNSGi+ElD+h4PKXq6s5xkslVDlFot+04YGhPBffgwcObCiPaqYjFYhoAtm79xyu57Kl7SkvLK/P5PI+3OFi3zEGh1CwOd4PH1SgOtQHFmqGPYHEsBod4IeYePJzAZElEXPBF633Hinc+MikUuDqfzyuMs+TBRIDff2RNEsL1wDBM7BfZ4haYc808glBw+aAjuL77G2kWchd6xlUPHk48sgT2ZVdZt/6V71VXVl8jhCTX0X98zHoigm0rbNzYDtMQhy1ZKs2QQqCzIwsp3KQZRIDhYzALEDEsW2PTq+0wxOG7mmrt5oXs3JOGkJ7F14OHE5YsXWdblvE4Pfnww4/94tQlp723o6PDJoJ5vB+CGZCS0NOrcPs3nnbTcxJQ3IYqkmbxb96rtu//GbGEkIRASMC2NUpKJSbVBfHK2ix8AUJPp8Ltt/19v0CCA0l5eJJmCGEgEAhAa+3t3HvwcCKSJQCsXdvMzCxuuummfw0GAmfOmTN/TldXp01E5nh4GALDZx5dU9zQp31kakqAiUEswMQwfUemhg8kdkCDPNHyCJEQiLXRAJXnEG45TIilBHavdX+zChrDZqwBIZHYd323pAMf8ry95zfzkGF5iYRAWxthqEik/RNEHNAOYF+7EwKJ/X53QBuZkGimQ7Tfbc9I2u1hLx8c3qtaqAf9yU9+cva7r7n299Onz1zQ2dlZTG9VSA/vXrcYwXNvy5YxjeAZCyjFKC2VmDzZh5fXZBDwSeiJszvjRfAAQIIFBvPjHOrzUb0vPPJ5M0uW7kKV1AXC3JROp8/6wAeu//ak2tr3h0Jh5HI5FGotc5Es3WB98jROD6OxsLP/zA9MJ39wCiwlBFv9mad/+uzgZxOQJF1z8sm1fZMvfqsUqIaje6w1T75sJekVMBMGiwyafZG/fNbps1XtwpxM7wjk1z26J9N2/64BVhYAQMUZ15YEZpw6qburO+iff0YXOxaRoVk+/CO7I0k7DrD0AIAMn/exhVr4fbKktt9smJvZ777rVpV0bXtgA9raLAAIL3tvTeiUi6NOpNzSiqV8+n/tzqd+tg0AlS370FQun1Ju53MUiJbnZNfmLe2r7uov3m/me79Z0zV5SSCQzSK/4ZHuzge/03twBy3w1bznfQ39u9Klpac37un907fz6TX37T7wOT3swxH5SxYJ8+677+5ZvvzMDzz5l79c+No/Xvt1V3fntv50n8rns5S3spS3cpTPZ4m1Fx7r4WgtLIylgIn5Fzxsv+XaP1tnXtPqLL50dWj+P51WUFnFAPVVxJil77Lb7u5quu0VZ+GK31mnXPHf2UWXtPCln30x8k+3JEDE+6mhiYQBMAXnLrspvfCCNemKmhf6Z561Rp/yjq8CYCRWurt6jQkDAKxw1dV76peuy89veq5HRDb2BmrW9YmqdT3nf3x98N3f/WPV1Pl1rmQZkwAwCZEKNeW0v1mLLn0mO/mUtT2yZGOPiGzqEdGNPWbFpr4Zy/8eNGdU75ViZp35/p6yma/0aP/a/kDFhuys5f8DANMAf2bO2Sv7F1z4fP6k81enZ5y5VlXXr3CfocUEgO3ByT/q4+jGTrNio03l1w1sd+Ffilz8rot7apetzy84++/tFNmoFl/yPQCMFi+MedQky4GEWYihJSJ6FMCjjY2NkfPPf+dkvx9RABDCT7adweY3pt8TCtctsK2sLhRs8uBh5Ii1CBDpFy7697dRxZQ5GoaCAe1UTDXlyY2X45U/Pgc0SSCpEWsRSMbVfbE77tRzzrtBWXkIOJC9O8GhCthl0wSVT26O2lZfXzJ5B2ItEqm4QnOzQpJYV91zje2PgHL9YVtIUFn9O0sa3lrRmzyvc6DZikRAKSMkFNmOgPIRNLQ/Am0GocrPvZi1uA+bP7IciRYbSQLQD236lZYGg/2CQD6QBNhN+ETEAlpRURjN2Yg40jCYKMTM0g6Wn4no/MreZeeGOFo7VUMyfEFlS5+Z9ZUXpJEFAAALfpPJ8LEk+A6c463NGpRkp2LadVaw1OCc0KSEISI1F5UvfPuUrjhtARLiEHZdjywPe7kvxIa2tLTIWCwGIupftWrV+gPPu/79v+wLhiSOVUIED3sH6MTo71gMSIHNqtnXWMEyFns2W+SktVM739TRuisAfAXNTTaSCYFUXAUXXzzZqZr5YZ3PO1L1G8a6x37k3/zc96wpJ1+l5l/wBRamrUoqLwLwPSyI2UBMgkhFzrh2QT466TRYNsuO1y1UTDF0dHKtteSCi7D1qf9BY2KAz5gGVJ4h/dLs3tEm1z/2aVTNeItdt+gWW0E5DScvjTTeuKI/Sb8DFQreaTdrouHkObz57zfoYM0aURHO+7Vf21teiHRl0Y4WLREnRaYvAwYLJ6cpnyWU1/sDSy6cZ0cnT9LRKim7dinlCwmSkg8MPRcM7cDNp6v32yVgApGuOOWKhr5IbRPZeTY7Xsup0npTlU0KZxa84yKsffi/kWgSSHpkOSpq+IGIx+OqkESVEomEaGlpkS0tLXLlSjZaWlokEbwcmMcBWqsTod8JcaFKp55drgIlV7D0kcx1PGX0bL+biOBEa04OXPC5M0DEiLmLP9cvOFsHK/2QMKhv5/rcQ1/95551Dz6fffj2L/rXPPBO/9M/W3RS6jMXA8gjSRqJjxAAqPrFH1LRGj/pHMxtLyaklelUgSir0snX7ZXKDmybMEgLdGb+/P0HMr/53K20Z+MTwoRPy6DO1y46tSCGFs8mgElJif6pp38xU1H3835z0o/3BKf+PDuvcRk2PZjHn1pddw4pFEtBlO2FuWOtpUNVjJrJZ1lm8Fz2Rdnc/rItnCxAkgY32BaPAUi0SgDIzDzzGlVSG4W2ydzz2hfIyW7RZoQ5WHIjAInmJs9uNlZkOVDSTCaTOh6Pq3g8rpqaoFwild4qdczBCPnDPRP+MRoTEmDwaRdcpEtrK4WdhZnu+G101Z13yf4OcLiaMWnGuwEAoekCAExNtYLAmiQI8g0wC9y42gSz6Hv8Ww/0/+2nrzwL7Cuf4pKDzymruwxCwuhvb88+fufXjZ7NL5MGIVJzTukpV84Ekca8etqPk1hDgwwsvdHEjatNmc3tJjYBsKCKhsFLtJABitbN4Io5czhUdaqO1i9iRy8dqOaDNQESMIN9lO/6k9YOqZL6ixCuWo58hmD1/p6lqUa8F9PUBKBJAyCubLiCpR9Gb7t17Z9uvcuXaX+EtCYO15weOvM9S9yFJ+YJOGNJlkNBKUt6G2zHWv9WqKmdsWXCP0pBmsuXzXyfMiOsc/0qV3PSu7sv+/rdcGyllU1OqOry6gULIsiE7YK22a3dTAFwDDMKIo0fnmmDSIf+6ZYvRq76Riw0/5w6AITGhAEiLnvHJ87UZVNmc75XKyMQ8t302/vtYOXJnOtVXNbgz08//VoAQN53EIkwmQ6evdvG3afbLGWISbuJI63MgesXgwhS5cl85dGv+3auuTpg966I2rtXREojSQCMs6JqAGGCWUec7p3Py96dFkeqz3ei9adSpqODe3euJUHmiH3xnn5JIkk6eM71b9GhimVsZbWShvzpTS2/t/2V5yHXrVTJFKipp8Zd8+dHPA+W0bRZHgqpFAQAlbOyHWUk2C2GIeAR51hTJaC0wrZdr0/wJ0kIEOnAsvdMs8MV58HKgKUpdeXMZVpIiEwaZPcrLq2rz8y86mKk4r8GCLq97QWZXU46VOUII3S6b9mHrqn9249/t6fx45fkZzV+RYcqEAhE1y995YlTnnU3PJAtn/3PHIiAcxnNZVMjjhlcAccCZzu1Yj9QM+1yAF/F9A86wHX7c6WdKSutnTuDTzpvbqZq+jmsbFuSaZo7X3kjBwzInlIILdMKctPTf6x46dNrbUBKQFuAicZGA+VL92lhzCAppNG5+Rnd37VbVUxpgDBA3Z1tvmjgIUv6bhVuXO4BE2oQRa62xPV9nrTw3So6iUSmV6nyKQab/hXQDJ1pZ8EWVKj6A9XAf7Tfet5eVyRvRh0Dsly7tpUAoLdvxxOTahe8w+v3Y6F8MwRJmc32Wjt3bnwJAFatmqClvwsbDbphaZwj1QYpZRm92/rkrjU7iAkcCEatkmn1Woa1VTHrWgC/RkIb6SSt8c88+z5x0sWXKIaDxVf8csdJ52/WwZIGxxfOGYSAyuYeLKjiVFp6SnmmZNJFWmlHqix8W9Zv0CRyUjvSKp02RwlTIFS1KPyOT8xPJ2mtq5OxBkkHSjkIVZ6UueyrbdpfFtBmCOQLQW57YVffMw88ss+fMwIQNECOMsKcf+u7V+08M66ZBAOCpba4ZOvfz+mN0zMAIBnMBAfkU6GOLa87TvYvShrvAgiyq/0lpz9nEUxHEwFS7mdj1BIKWjpgDQjhjv3FH7Tx0+sMXdbwT1qzY7AD/7bnN0BzjlkLJ1o91wnXQpRNrc6c/4m34rH/9yhiLQJHWf/GU8NHiGSyVQPA5k1/+Z+evs15w/ALt9C5hzFkS2UaIc7n9zzz4ou/fiOR4InqBkJoblINDQ1BESr9NJkR6RfkF+tXfib3ixsXZX95w6Lw0z9bYeiMT0g2RUn5JVVnXz0XSVJIMMy//uhD5ut/fdRgZXB5g3AmnzZdlU4zfNoOGP/464O5ez/5ZSRWGiBi+/xYjCqn1kh/yDDaN+zM/uKGU3I/v35J5pc3nSzb1/3NCIYMKq01dPncT+5tnHLChmkYUugABculrpwVoEAYki2YHeteFOsfuhTtz+xEPCUAoB+AAJdJ0zCkaZq6coZwqmYaqmK6qapm+FTlDL+GCO0dxt5dM3ym3zCk4YcvCtm7/a+mYRomOYbsfG2lk8dk6TMNw+cz0Lm7DgDQuZkAQKpsqen3GabPMEjbbmXOOKmSFZ96F8qnzjZMaYieLXtqfvahxZlfXL8k98sbTjF2rrvfDEZ8FKkSunLmZwAQYjFvPh0ryRJI6pZYi4yn4v+YveC875SXTfu0o2wbgOl1/dgwpRBSK52THe1v3AmAW1ubJTBBJUsizlScYfq3rb3N3LOZpG1bcufWe/MkAK1oz5w5/yjf8Pi1DvlrISTZVtQGwEg2Uz82dOAXN14YvfCzK5z6k+ahrF4j2yN44xPbcyu/0wIAaLtLAkAg3/+CvXblJ6DzQndtW5MnYdGvlcTVUgV2b/wEs32mymVCRj69NVtsW67zQfPl+z8lHWYBRYDDLExL+cPP/dNvP/9MClBAYq9k1o/+zuj2tR+Qu16thJNjAZvc6VdQoYmZ+19vK17el++423z+t6+ynbFkVdk2sXPNrwwrK6BsBLb/8WFrTszQL97/SSF8xN17Hs0CwM6fOAAQ2LLua2LnP+ZqaOiu7Y8WrynT/Zv9bY99SgMIWDtfeINErvic/r5d/6Zf/M0qzQZJq3t3FmDEyduY3W/1Pgb3SCSY7r67PnDhuc3PVdcsnJfJdDtCSGM8d8zEiw1nMJMdDpWZW7c9+8f/bfnXSwrlP9Wb9t0mweBB5juJwm7zkHaho7PVEQG33DIRfBU9m+T4kSwLsxjNtGPHzsymDY9eZvpLHisrnTo5l+uxmdkgEt6u29F2MGsmQU4oWGJ2dW58bs26B96fSPDe0sYTHsVQPQBYlVT7TfChv3OJMtYisaB63zvW1s44sMRqIiGAJlGQNnm/TEaJhEArBJoAtC3kfTY8JjQ2H+xeU9PGSKX0oEQ5sK2DYWD7i21qbQXcJCi01ynePa/gVtUErGpS+yXtiLXIQbMsJRICrU2FZzngOZEQaIRAU1Oxjzxb5XGQLN3xi8VkKpVSS5e+e/7CBRekairnn2w7Wdi21gTNDE3HuEkjkiwbGvx46aU0An4BzeNq5Ljg5UymGRBSCrTvXvfE2vX3Xfnss3/sKGaH8l5xDx4mGFkOJEwApVdd+Y3PVpRNvS4QqKgThs+d9kVBdBxoBsoBSkoJ9ZN9WLsmB7+fxld6OSaABWzVh2y2+9Xe3i3/L/Wbz/8XAOURpQcPE5wsXU0gIZLJWzXAmFm7rOaUM1a8MxSqPd1x0rMJEONCshSAshlVVUHfrNmV0b/89Y09oYAPSo0D/iFiEBNpkSbJ63v6tj31wAPfXAmgh8gtWO/lUfTgYfTx/wMuqTJ4/v84VQAAAABJRU5ErkJggg==" alt="APPLENDE Academia"></a>
+    <a href="javascript:history.back()" class="nav-back">← Volver al curso</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <div class="progress">
+    <div class="prog-step active prog-step-1">
+      <div class="prog-circle">1</div>
+      <div class="prog-lbl">Tus datos</div>
+    </div>
+    <div class="prog-line prog-line-1"></div>
+    <div class="prog-step prog-step-2">
+      <div class="prog-circle">2</div>
+      <div class="prog-lbl">Pago</div>
+    </div>
+  </div>
+
+  <div id="carga-inicial" class="carga">
+    <div class="carga-sp"></div>
+    <div class="carga-txt">Cargando información del curso...</div>
+  </div>
+
+  <div class="grid" id="contenedor" style="display:none">
+
+    <div class="form-card">
+      <h1 class="form-tit">Creá tu cuenta y reservá tu cupo</h1>
+      <p class="form-desc">Completá tus datos para registrar tu inscripción y crear tu cuenta en APPLENDE. En el próximo paso vas a coordinar el pago.</p>
+
+      <div class="error-box" id="error-general">
+        <div class="error-tit" id="error-tit">Error al procesar</div>
+        <div class="error-desc" id="error-desc"></div>
+      </div>
+
+      <form id="form-inscripcion">
+
+        <button type="button" class="insc-google-btn" id="btn-google-insc">
+          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.71-1.57 2.68-3.88 2.68-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.97 10.72a5.4 5.4 0 0 1 0-3.44V4.95H.96a9 9 0 0 0 0 8.1l3.01-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.46 3.44 1.35l2.58-2.58C13.46.9 11.43 0 9 0A9 9 0 0 0 .96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"/></svg>
+          Continuar con Google
+        </button>
+
+        <div class="insc-google-hint" id="insc-google-ok" style="display:none;">
+          ✅ Conectado con Google. Solo completá tu WhatsApp abajo y elegí tu grupo.
+        </div>
+
+        <div class="insc-divider">
+          <span></span><span class="insc-divider-txt">o completá tus datos</span><span></span>
+        </div>
+
+        <div class="form-row">
+          <label class="form-lbl form-lbl-req" for="inp-nombre">Nombre completo</label>
+          <input type="text" class="form-input" id="inp-nombre" placeholder="Ej: Juan Pérez López" autocomplete="name" required>
+          <div class="form-err" id="err-nombre">Este campo es obligatorio</div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-lbl form-lbl-req" for="inp-email">Email</label>
+          <input type="email" class="form-input" id="inp-email" placeholder="ej: juan@gmail.com" autocomplete="email" required>
+          <div class="form-hint">Será tu usuario para entrar al aula virtual. Usá un email real.<br>Solo necesitamos la dirección — <b>nunca te pediremos la contraseña de tu correo</b>.</div>
+          <div class="form-err" id="err-email">Email inválido</div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-lbl form-lbl-req" for="inp-whatsapp">WhatsApp</label>
+          <input type="tel" class="form-input" id="inp-whatsapp" placeholder="Ej: 70123456" autocomplete="tel" required>
+          <div class="form-hint">Solo el número (sin +591). Lo usaremos para coordinar el pago contigo.</div>
+          <div class="form-err" id="err-whatsapp">Número de WhatsApp inválido</div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-lbl form-lbl-req" for="inp-departamento">Departamento</label>
+          <select class="form-input" id="inp-departamento" required>
+            <option value="">Elegí tu departamento</option>
+            <option value="Santa Cruz">Santa Cruz</option>
+            <option value="La Paz">La Paz</option>
+            <option value="Cochabamba">Cochabamba</option>
+            <option value="Tarija">Tarija</option>
+            <option value="Chuquisaca">Chuquisaca</option>
+            <option value="Oruro">Oruro</option>
+            <option value="Potosí">Potosí</option>
+            <option value="Beni">Beni</option>
+            <option value="Pando">Pando</option>
+          </select>
+          <div class="form-err" id="err-departamento">Elegí tu departamento</div>
+        </div>
+
+        <div class="pwd-aviso">
+          <span class="pwd-aviso-ico">🔒</span>
+          <div>
+            <b>Creá una contraseña nueva para el Aula Virtual</b><br>
+            Es una clave que inventás vos ahora, solo para APPLENDE.
+            <u>No pongas la contraseña de tu correo electrónico.</u>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div>
+            <label class="form-lbl form-lbl-req" for="inp-password">Creá tu contraseña</label>
+            <div class="pwd-wrap">
+              <input type="password" class="form-input" id="inp-password" placeholder="Inventá una de mínimo 6 caracteres" autocomplete="new-password" required>
+              <button type="button" class="pwd-toggle" id="tog-pwd" aria-label="Mostrar contraseña">👁️</button>
+            </div>
+            <div class="form-hint">Vas a usarla para entrar al aula virtual.</div>
+            <div class="form-err" id="err-password">La contraseña debe tener al menos 6 caracteres</div>
+          </div>
+          <div>
+            <label class="form-lbl form-lbl-req" for="inp-password2">Repetí tu contraseña</label>
+            <div class="pwd-wrap">
+              <input type="password" class="form-input" id="inp-password2" placeholder="Escribí la misma contraseña" autocomplete="new-password" required>
+              <button type="button" class="pwd-toggle" id="tog-pwd2" aria-label="Mostrar contraseña">👁️</button>
+            </div>
+            <div class="form-hint">Para confirmar que no hubo errores.</div>
+            <div class="form-err" id="err-password2">Las contraseñas no coinciden</div>
+          </div>
+        </div>
+
+        <!-- ═══ SELECTOR DE COHORTE (solo cursos en vivo con 2+ grupos abiertos) ═══ -->
+        <div class="seccion-eleccion" id="seccion-eleccion">
+        <div class="seccion-eleccion-aviso" id="seccion-eleccion-aviso">👇 Elegí tu grupo y tipo de inscripción para continuar</div>
+        <div class="cohorte-block" id="cohorte-block">
+          <div class="cohorte-tit">Elegí tu grupo</div>
+          <div class="cohorte-sub">Este curso tiene varios horarios disponibles. Seleccioná el que mejor se ajuste a tu agenda.</div>
+          <div class="cohorte-opts" id="cohorte-opts">
+            <!-- Las opciones se renderizan dinámicamente desde JS -->
+          </div>
+          <div class="form-err" id="err-cohorte">Tenés que elegir un grupo para continuar.</div>
+        </div>
+
+        <!-- ═══ SELECTOR DE MODALIDAD (Virtual / Presencial) — solo si curso tiene cupos por modalidad ═══ -->
+        <div class="modalidad-block" id="modalidad-block">
+          <div class="modalidad-tit">¿Cómo querés cursar?</div>
+          <div class="modalidad-opts">
+            <label class="modalidad-opt" id="mod-virtual-opt">
+              <input type="radio" name="modalidad-elegida" value="virtual" checked>
+              <div class="modalidad-card">
+                <span class="modalidad-card-lbl">📺 Virtual (Zoom)</span>
+                <span class="modalidad-card-hint">Clases en vivo desde tu casa · grabaciones permanentes</span>
+                <span class="modalidad-card-cupos" id="mod-virtual-cupos">⚡ — cupos disponibles</span>
+              </div>
+            </label>
+            <label class="modalidad-opt" id="mod-presencial-opt">
+              <input type="radio" name="modalidad-elegida" value="presencial">
+              <div class="modalidad-card">
+                <span class="modalidad-card-lbl">🏛️ Presencial</span>
+                <span class="modalidad-card-hint">Aula en Santa Cruz · networking + atención directa</span>
+                <span class="modalidad-card-cupos" id="mod-presencial-cupos">⚡ — cupos disponibles</span>
+              </div>
+            </label>
+          </div>
+          <div class="form-err" id="err-modalidad">Tenés que elegir una modalidad para continuar.</div>
+        </div>
+
+        <!-- ═══ SELECTOR TIPO DE INSCRIPCIÓN (solo cursos con precio estudiante) ═══ -->
+        <div class="tipo-block" id="tipo-block">
+          <div class="tipo-tit">Tipo de inscripción</div>
+          <div class="tipo-opts">
+            <label class="tipo-opt">
+              <input type="radio" name="tipo-alumno" value="profesional" checked>
+              <div class="tipo-card">
+                <span class="tipo-card-lbl">Profesional</span>
+                <span class="tipo-card-precio" id="tipo-precio-prof">Bs 200</span>
+                <span class="tipo-card-hint">Precio regular</span>
+              </div>
+            </label>
+            <label class="tipo-opt">
+              <input type="radio" name="tipo-alumno" value="estudiante">
+              <div class="tipo-card">
+                <span class="tipo-card-lbl">Estudiante</span>
+                <span class="tipo-card-precio" id="tipo-precio-est">Bs 100</span>
+                <span class="tipo-card-hint">Requiere carnet universitario</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- ═══ UPLOAD CARNET (solo si elige estudiante) ═══ -->
+        <div class="carnet-block" id="carnet-block">
+          <label class="form-lbl form-lbl-req">Carnet universitario vigente</label>
+          <div class="carnet-drop" id="carnet-drop">
+            <input type="file" id="inp-carnet" accept="image/jpeg,image/png,image/webp,application/pdf">
+            <span class="carnet-icon">📎</span>
+            <div class="carnet-txt">Click para subir tu carnet</div>
+            <div class="carnet-sub">JPG, PNG, WEBP o PDF · máx 5 MB</div>
+            <div class="carnet-file-info">
+              <span class="carnet-file-name" id="carnet-name">—</span>
+              <button type="button" class="carnet-file-remove" id="btn-carnet-quitar">Quitar</button>
+            </div>
+          </div>
+          <div class="form-hint">Subí tu carnet universitario vigente. Karina lo revisará antes de aprobar tu inscripción con descuento estudiantil.</div>
+          <div class="form-err" id="err-carnet">Subí tu carnet para acceder al descuento estudiantil</div>
+        </div>
+
+        </div><!-- /seccion-eleccion -->
+
+        <div class="form-check">
+          <input type="checkbox" id="inp-terminos" required>
+          <label class="form-check-lbl" for="inp-terminos">
+            Acepto los <a href="terminos.html" target="_blank">términos y condiciones</a> y autorizo a APPLENDE Academia a contactarme por email y WhatsApp para coordinar mi inscripción.
+          </label>
+        </div>
+
+        <button type="submit" class="form-btn" id="btn-continuar">Crear cuenta y continuar al pago →</button>
+
+        <div class="login-link-box">
+          ¿Ya tenés cuenta en APPLENDE? <a href="login.html">Iniciá sesión →</a>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="pago-card">
+      <h1 class="pago-tit">¡Cuenta creada, <span id="pago-nombre">amigo</span>! 🎉</h1>
+      <p class="pago-desc">Tu cuenta quedó registrada en APPLENDE. <strong>Para reservar tu cupo</strong>, necesitás realizar el pago de <strong id="pago-monto">Bs 200</strong>.</p>
+
+      <div class="pago-confirm">
+        <div class="pago-confirm-tit">📋 Cuenta creada · Inscripción registrada</div>
+        <div class="pago-confirm-desc">Tu cupo se confirma automáticamente cuando verificamos tu pago. Tenés 48 horas para realizar la transferencia. Después del pago, vas a poder acceder al aula virtual con tu email y contraseña.</div>
+      </div>
+
+      <!-- ══ PAGO CON QR (Red Enlace) ══ -->
+      <!-- ╔══════════════════════════════════════════════════════════════╗
+           ║  QR OCULTO TEMPORALMENTE (esperando token de PRODUCCIÓN)       ║
+           ║  PARA REACTIVAR: borrá ' style="display:none;" ' de la línea   ║
+           ║  de abajo (el div pago-qr-card). Eso es todo.                   ║
+           ╚══════════════════════════════════════════════════════════════╝ -->
+      <div class="pago-qr-card" id="pago-qr-card">
+        <div class="pago-qr-franja">⚡ Recomendado · Activación al instante</div>
+        <div class="pago-qr-body">
+        <div class="pago-qr-head">
+          <div class="pago-qr-tit">Pagá con QR y entrá al curso ya</div>
+          <div class="pago-qr-desc">Escaneá con la app de cualquier banco. Tu acceso se activa <strong>solo</strong>, sin esperar verificación.</div>
+        </div>
+
+        <!-- Estado A: botón inicial -->
+        <div id="qr-estado-inicial">
+          <button type="button" class="pago-qr-btn" id="btn-generar-qr">
+            <span>📲</span> Generar QR de pago
+          </button>
+          <div class="pago-qr-seguro">🔒 Pago seguro · Procesado por Red Enlace</div>
+        </div>
+
+        <!-- Estado B: cargando -->
+        <div id="qr-estado-cargando" style="display:none;">
+          <div class="pago-qr-loader">
+            <div class="pago-qr-spin"></div>
+            <span>Generando tu QR seguro…</span>
+          </div>
+        </div>
+
+        <!-- Estado C: QR listo, esperando pago -->
+        <div id="qr-estado-listo" style="display:none;">
+          <div class="pago-qr-img-wrap">
+            <img id="qr-imagen" alt="Código QR de pago" class="pago-qr-img" />
+          </div>
+          <div class="pago-qr-monto">Monto: <strong id="qr-monto">Bs 0</strong></div>
+          <div class="pago-qr-timer" id="qr-timer">⏱️ El QR vence en 15:00</div>
+          <div class="pago-qr-waiting">
+            <div class="pago-qr-spin pago-qr-spin-sm"></div>
+            <span>Esperando confirmación del pago…</span>
+          </div>
+          <div class="pago-qr-hint">No cierres esta ventana. Se activará solo al pagar.</div>
+        </div>
+
+        <!-- Estado D: pago confirmado -->
+        <div id="qr-estado-exito" style="display:none;">
+          <div class="pago-qr-ok">
+            <div class="pago-qr-ok-icon">✅</div>
+            <div class="pago-qr-ok-tit">¡Pago confirmado!</div>
+            <div class="pago-qr-ok-desc">Tu curso ya está activo. Ya podés entrar al aula virtual.</div>
+            <a href="alumno/dashboard.html" class="pago-qr-ok-btn">Ir a mi curso →</a>
+          </div>
+        </div>
+
+        <!-- Estado E: error -->
+        <div id="qr-estado-error" style="display:none;">
+          <div class="pago-qr-err" id="qr-err-msg">No pudimos generar el QR. Probá de nuevo o usá WhatsApp.</div>
+          <button type="button" class="pago-qr-btn pago-qr-btn-alt" id="btn-reintentar-qr">Reintentar</button>
+        </div>
+        </div>
+      </div>
+
+      <!-- ══ PAGO CON TARJETA (CyberSource / Red Enlace) ══ -->
+      <div class="pago-tarjeta-card" id="pago-tarjeta-card">
+        <div class="pago-tarjeta-franja">💳 Pagá con tarjeta · Visa o Mastercard</div>
+        <div class="pago-tarjeta-body">
+          <!-- Botón inicial que despliega el formulario -->
+          <button type="button" class="pago-tarjeta-btn" id="btn-mostrar-tarjeta">
+            <span>💳</span> Pagar con tarjeta de crédito o débito
+          </button>
+
+          <!-- Formulario (oculto hasta que tocan el botón) -->
+          <div id="tarjeta-form" style="display:none;">
+            <div class="tj-campo">
+              <label>Número de tarjeta</label>
+              <input type="text" id="tj-numero" placeholder="4000 0000 0000 1000" maxlength="19" inputmode="numeric" autocomplete="cc-number">
+            </div>
+            <div class="tj-campo">
+              <label>Nombre en la tarjeta</label>
+              <input type="text" id="tj-nombre" placeholder="Como figura en la tarjeta" autocomplete="cc-name">
+            </div>
+            <div class="tj-fila">
+              <div class="tj-campo"><label>Mes</label><input type="text" id="tj-mes" placeholder="12" maxlength="2" inputmode="numeric"></div>
+              <div class="tj-campo"><label>Año</label><input type="text" id="tj-anio" placeholder="2028" maxlength="4" inputmode="numeric"></div>
+              <div class="tj-campo"><label>CVV</label><input type="text" id="tj-cvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc"></div>
+            </div>
+            <button type="button" class="pago-tarjeta-pagar" id="btn-pagar-tarjeta">Pagar <span id="tj-monto-btn">Bs 0</span></button>
+            <div class="tj-estado" id="tj-estado"></div>
+            <div class="tj-seguro">🔒 Pago seguro procesado por CyberSource · No almacenamos tu tarjeta</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Separador oculto junto con el QR. Para reactivar: quitá style="display:none;" -->
+      <div class="pago-alt-sep" id="pago-alt-sep"><span>o si preferís otro medio de pago</span></div>
+
+      <div class="pago-alt">
+        <a href="#" class="pago-alt-opt" id="btn-whatsapp-pago" target="_blank">
+          <span class="pago-alt-ico pago-alt-ico-wa"><svg viewBox="0 0 24 24" width="24" height="24" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24.044 12.045.044 5.463.044.104 5.403.101 11.986c0 2.096.549 4.14 1.595 5.945L0 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.582 0 11.94-5.359 11.944-11.945a11.864 11.864 0 00-3.477-8.401"/></svg></span>
+          <span class="pago-alt-txt">
+            <strong>Coordinar pago por WhatsApp</strong>
+            <small>QR Simple, Transferencia, Tigo Money o efectivo.</small>
+          </span>
+          <span class="pago-alt-arrow">›</span>
+        </a>
+
+        <a href="#" class="pago-alt-opt" id="btn-whatsapp" target="_blank">
+          <span class="pago-alt-ico pago-alt-ico-wa pago-alt-ico-check"><svg viewBox="0 0 24 24" width="24" height="24" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24.044 12.045.044 5.463.044.104 5.403.101 11.986c0 2.096.549 4.14 1.595 5.945L0 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.582 0 11.94-5.359 11.944-11.945a11.864 11.864 0 00-3.477-8.401"/></svg><span class="pago-alt-checkbadge">✓</span></span>
+          <span class="pago-alt-txt">
+            <strong>Ya pagué · Enviar comprobante</strong>
+            <small>Mandá tu comprobante por WhatsApp y activamos tu acceso.</small>
+          </span>
+          <span class="pago-alt-arrow">›</span>
+        </a>
+
+        <div class="pago-alt-medios">
+          <span class="pago-alt-monto">Monto: <strong id="pago-monto-card">Bs 200</strong></span>
+          <div class="pago-alt-pills">
+            <span class="pago-alt-pill">QR Simple (todos los bancos)</span>
+            <span class="pago-alt-pill">Transferencia</span>
+            <span class="pago-alt-pill">Tigo Money</span>
+            <span class="pago-alt-pill">Efectivo</span>
+          </div>
+        </div>
+      </div>
+
+      <a href="cursos.html" class="pago-back">← Volver al catálogo de cursos</a>
+      <a href="alumno/dashboard.html" class="pago-back" style="margin-top:8px;color:var(--navy);font-weight:700;">Ir a mi dashboard →</a>
+
+    </div>
+
+    <div class="resumen">
+      <div class="resumen-tit">Tu inscripción</div>
+      <div class="resumen-curso" id="res-curso">Cargando curso...</div>
+      <div class="resumen-inst" id="res-inst"></div>
+
+      <div class="resumen-cohorte">
+        <div class="resumen-coh-fecha" id="res-coh-fecha">—</div>
+        <div class="resumen-coh-cupos" id="res-coh-cupos">—</div>
+      </div>
+
+      <div class="resumen-precio">
+        <div class="resumen-ptit">Total a pagar</div>
+        <div class="resumen-pamt">
+          <span class="resumen-pact" id="res-precio">Bs 200</span>
+          <span class="resumen-porig" id="res-porig"></span>
+        </div>
+        <div class="resumen-pusd" id="res-pusd">≈ USD 28</div>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer class="ft">
+  <div class="ft-inner">
+    <div>© 2026 APPLENDE · Centro de Capacitación Técnica Privado · NIT 2989818012</div>
+    <div>Hecho con ♥ en Bolivia</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="applende-config.js"></script>
+<script>
+/* ════════════════════════════════════════════════════════════════
+   APPLENDE — inscripcion.html v2.0
+   Flujo B: signUp + insert en inscripciones_pendientes
+   Consulta directa a tablas base (NO depende de v_catalogo_cursos)
+   ════════════════════════════════════════════════════════════════ */
+
+const WA_KARINA = '59157388229'; // WhatsApp corporativo APPLENDE (Karina)
+const TIPO_CAMBIO_USD = 6.96;    // Bolivianos por USD (ajustar si cambia)
+
+// [NUEVO 27/05/2026] Lista de cursos que son SOLO VIRTUAL (no muestran selector presencial)
+// Para agregar otro curso solo-virtual en el futuro, agregar su slug a este array.
+const CURSOS_SOLO_VIRTUAL = [
+  'construccion-edificios-5-niveles',
+];
+
+// ════════════════════════════════════════════════════════════════════
+// [NUEVO 27/05/2026] PROMOS DE INSCRIPCIÓN ANTICIPADA POR CURSO
+// ────────────────────────────────────────────────────────────────────
+// Cada entrada define el descuento de la tarifa PROFESIONAL (virtual)
+// hasta una fecha límite. La promo SE DESACTIVA SOLA al pasar la fecha.
+// La tarifa estudiantil NO cambia con la promo.
+//
+// Para activar promo en otro curso: agregar entrada con:
+//   precioNormal:   precio_bs original en Supabase
+//   precioPromo:    precio_bs durante la promo
+//   fechaLimite:    formato 'YYYY-MM-DDTHH:MM:SS-04:00' (Bolivia UTC-4)
+//
+// Para desactivar: simplemente borrar/comentar la línea del curso.
+// ════════════════════════════════════════════════════════════════════
+const PROMOS_INSCRIPCION_ANTICIPADA = {
+  'formulacion-poa': {
+    precioNormal: 200,
+    precioPromo:  150,
+    fechaLimite:  '2026-06-17T23:59:59-04:00'
+  },
+  'construccion-vivienda-2-plantas-vivo': {
+    precioNormal: 250,
+    precioPromo:  200,
+    fechaLimite:  '2026-07-13T23:59:59-04:00'
+  },
+  'modelacion-financiera-ia': {
+    precioNormal: 200,
+    precioPromo:  150,
+    precioEstudianteNormal: 100,
+    precioEstudiantePromo:   50,
+    // Grupo A (Lun-Mié-Vie) inicia 12/08 → promo hasta el 11
+    // Grupo B (Mar-Jue-Sáb) inicia 11/08 → promo hasta el 10
+    // Se usa la fecha más lejana para no cortar antes a nadie.
+    fechaLimite:  '2026-08-11T23:59:59-04:00'
+  },
+  'formulacion-poa-julio': {
+    precioNormal: 200,
+    precioPromo:  150,
+    precioEstudianteNormal: 150,
+    precioEstudiantePromo:  100,
+    fechaLimite:  '2026-07-21T23:59:59-04:00'
+  },
+  'asesoria-tecnica-legislativa': {
+    precioNormal: 200,
+    precioPromo:  150,
+    precioEstudianteNormal: 150,
+    precioEstudiantePromo:  100,
+    fechaLimite:  '2026-07-21T23:59:59-04:00'
+  },
+  'vectorworks-plugins': {
+    precioNormal: 180,
+    precioPromo:  150,
+    precioEstudianteNormal: 100,
+    precioEstudiantePromo:  100,   // el estudiante no cambia
+    fechaLimite:  '2026-08-11T23:59:59-04:00'
+  }
+  // Ejemplo para futuras promos (descomentar y ajustar):
+  // 'nuevo-curso': { precioNormal: 200, precioPromo: 150, fechaLimite: '2026-XX-XXT23:59:59-04:00' }
+};
+
+// Devuelve el precio profesional aplicable según promo vigente.
+// Si no hay promo o ya expiró, devuelve el precio normal de Supabase.
+function aplicarPromoEnInscripcion(curso) {
+  if (!curso || !curso.slug) return curso;
+  const promo = PROMOS_INSCRIPCION_ANTICIPADA[curso.slug];
+  if (!promo) return curso;
+
+  const ahora = new Date();
+  const limite = new Date(promo.fechaLimite);
+  if (ahora > limite) {
+    // Promo expirada → restaurar el precio normal definido en el cuadro.
+    // (Supabase puede tener grabado el precio promo, por eso forzamos aquí.)
+    curso.precio_bs = promo.precioNormal;
+    if (promo.precioEstudianteNormal) {
+      curso.precio_estudiante_bs = promo.precioEstudianteNormal;
+    }
+    return curso;
+  }
+
+  // Promo activa → sobreescribir precio_bs y guardar el original como tachado
+  curso.precio_bs = promo.precioPromo;
+  if (!curso.precio_original_bs || Number(curso.precio_original_bs) < promo.precioNormal) {
+    curso.precio_original_bs = promo.precioNormal;
+  }
+  // Precio de estudiante durante la promo
+  if (promo.precioEstudiantePromo) {
+    curso.precio_estudiante_bs = promo.precioEstudiantePromo;
+  }
+  return curso;
+}
+
+let cursoActual = null;
+let cohorteActual = null;
+let inscripcionCreada = null;
+
+function obtenerSlug() {
+  return new URLSearchParams(window.location.search).get('slug');
+}
+
+function obtenerSupabase() {
+  // Reutiliza el cliente de applende-config.js si existe
+  if (window.APPLENDE && window.APPLENDE.supabase) return window.APPLENDE.supabase;
+  // Fallback: crear uno nuevo
+  const URL = 'https://wdoqzsmwuvozhkclqbjk.supabase.co';
+  const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indkb3F6c213dXZvemhrY2xxYmprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTI0NzQsImV4cCI6MjA5MjI4ODQ3NH0.qlfh1Qz695Kg_hH5n-LbtAw6r-1gzpkCe5NOznxNSnM';
+  return window.supabase.createClient(URL, KEY);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   CARGA DEL CURSO (tablas base, sin depender de v_catalogo_cursos)
+   ════════════════════════════════════════════════════════════════ */
+async function cargarCurso() {
+  const slug = obtenerSlug();
+  if (!slug) {
+    mostrarErrorInicial('No se especificó el curso. Volvé al catálogo para elegir uno.');
+    return;
+  }
+
+  const sb = obtenerSupabase();
+
+  try {
+    // 1) Cargar datos del curso desde tabla base
+    const { data: curso, error: errCurso } = await sb
+      .from('cursos')
+      .select('id, slug, titulo, subtitulo, modalidad, duracion_horas, precio_bs, precio_estudiante_bs, precio_original_bs, precio_presencial_bs, precio_presencial_estudiante_bs, instructor_id, estado')
+      .eq('slug', slug)
+      .eq('estado', 'publicado')
+      .maybeSingle();
+
+    if (errCurso) throw errCurso;
+    if (!curso) {
+      mostrarErrorInicial('No encontramos el curso solicitado o no está disponible en este momento.');
+      return;
+    }
+
+    // 2) Cargar nombre del instructor (opcional - si falla, seguimos)
+    let instructorNombre = '';
+    if (curso.instructor_id) {
+      try {
+        const { data: inst } = await sb
+          .from('instructores')
+          .select('nombre_publico')
+          .eq('id', curso.instructor_id)
+          .maybeSingle();
+        if (inst) instructorNombre = inst.nombre_publico;
+      } catch (e) { console.warn('[APPLENDE] No se pudo cargar instructor:', e); }
+    }
+    curso.instructor_nombre = instructorNombre;
+
+    // 3) Cargar cohortes abiertas (solo si es curso en vivo) — TODAS, no solo la próxima
+    let cohortesDisponibles = [];
+    if (curso.modalidad === 'en_vivo') {
+      try {
+        const { data: cohortes } = await sb
+          .from('cohortes')
+          .select('id, nombre, fecha_inicio, fecha_fin, dias_clase, hora_inicio_clase, cupos_totales, cupos_ocupados, cupos_virtuales, cupos_presenciales, ocupados_virtuales, ocupados_presenciales, estado')
+          .eq('curso_id', curso.id)
+          .in('estado', ['inscripciones_abiertas', 'en_curso'])
+          .gte('fecha_inicio', new Date().toISOString())
+          .order('fecha_inicio', { ascending: true });
+        if (cohortes && cohortes.length > 0) {
+          cohortesDisponibles = cohortes;
+          // Default: la primera (más próxima). Si hay 2+, el usuario puede cambiar.
+          cohorteActual = cohortes[0];
+        }
+      } catch (e) { console.warn('[APPLENDE] No se pudo cargar cohortes:', e); }
+    }
+
+    cursoActual = aplicarPromoEnInscripcion(curso);
+    renderizarResumen(cursoActual);
+    
+    // Si hay 2+ cohortes, mostrar el selector
+    if (cohortesDisponibles.length >= 2) {
+      mostrarSelectorCohortes(cohortesDisponibles);
+    }
+    
+    document.getElementById('carga-inicial').style.display = 'none';
+    document.getElementById('contenedor').style.display = 'grid';
+
+  } catch (err) {
+    console.error('[APPLENDE] Error cargando curso:', err);
+    mostrarErrorInicial('Error de conexión. Verificá tu internet e intentá nuevamente.');
+  }
+}
+
+function mostrarErrorInicial(mensaje) {
+  document.getElementById('carga-inicial').innerHTML = `
+    <div style="font-size:48px;margin-bottom:16px">⚠️</div>
+    <h2 style="color:var(--navy);margin-bottom:8px">${mensaje}</h2>
+    <a href="cursos.html" style="color:var(--green);font-weight:700">← Volver al catálogo</a>
+  `;
+}
+
+function formatearPrecio(precio, precioOriginal) {
+  const fmt = n => Number(n).toLocaleString('es-BO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  const result = { precio: fmt(precio || 0) };
+  if (precioOriginal && Number(precioOriginal) > Number(precio)) {
+    result.original = fmt(precioOriginal);
+  }
+  return result;
+}
+
+function formatearFecha(fechaISO) {
+  if (!fechaISO) return '';
+  const d = new Date(fechaISO);
+  return d.toLocaleDateString('es-BO', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function renderizarResumen(curso) {
+  document.getElementById('res-curso').textContent = curso.titulo;
+  document.getElementById('res-inst').textContent = curso.instructor_nombre || '';
+
+  const precioFmt = formatearPrecio(curso.precio_bs, curso.precio_original_bs);
+  document.getElementById('res-precio').textContent = 'Bs ' + precioFmt.precio;
+  if (precioFmt.original) {
+    document.getElementById('res-porig').textContent = 'Bs ' + precioFmt.original;
+  }
+  const usd = Math.round((curso.precio_bs || 0) / TIPO_CAMBIO_USD);
+  document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
+
+  document.getElementById('pago-monto').textContent = 'Bs ' + precioFmt.precio;
+  document.getElementById('pago-monto-card').textContent = 'Bs ' + precioFmt.precio;
+
+  if (curso.modalidad === 'en_vivo' && cohorteActual) {
+    document.body.classList.add('modo-vivo');
+    document.getElementById('res-coh-fecha').textContent = '📅 Inicia ' + formatearFecha(cohorteActual.fecha_inicio);
+    const disponibles = (cohorteActual.cupos_totales || 0) - (cohorteActual.cupos_ocupados || 0);
+    document.getElementById('res-coh-cupos').textContent = '⚡ ' + disponibles + ' de ' + cohorteActual.cupos_totales + ' cupos disponibles';
+  }
+
+  // ═══ Si el curso tiene precio estudiantil, mostrar el selector
+  if (curso.precio_estudiante_bs && Number(curso.precio_estudiante_bs) > 0) {
+    mostrarSelectorTipoAlumno(curso);
+  }
+
+  // ═══ Si el curso tiene precio presencial diferenciado, mostrar selector de modalidad
+  if (curso.precio_presencial_bs && Number(curso.precio_presencial_bs) > 0) {
+    mostrarSelectorModalidad(curso);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SELECTOR DE TIPO DE ALUMNO (Profesional vs Estudiante)
+   ════════════════════════════════════════════════════════════════ */
+function mostrarSelectorTipoAlumno(curso) {
+  const bloque = document.getElementById('tipo-block');
+  bloque.classList.add('show');
+
+  const precioProfFmt = formatearPrecio(curso.precio_bs).precio;
+  const precioEstFmt = formatearPrecio(curso.precio_estudiante_bs).precio;
+  document.getElementById('tipo-precio-prof').textContent = 'Bs ' + precioProfFmt;
+  document.getElementById('tipo-precio-est').textContent = 'Bs ' + precioEstFmt;
+
+  // Escuchar cambios y actualizar precio mostrado en resumen + pago
+  document.querySelectorAll('input[name="tipo-alumno"]').forEach(r => {
+    r.addEventListener('change', () => actualizarPrecioSegunTipo(curso));
+  });
+}
+
+function actualizarPrecioSegunTipo(curso) {
+  // Usar la función obtenerPrecioAplicable que ya considera modalidad + tipo
+  const precioAplicable = obtenerPrecioAplicable();
+  const precioFmt = formatearPrecio(precioAplicable).precio;
+  document.getElementById('res-precio').textContent = 'Bs ' + precioFmt;
+  document.getElementById('pago-monto').textContent = 'Bs ' + precioFmt;
+  document.getElementById('pago-monto-card').textContent = 'Bs ' + precioFmt;
+  
+  const usd = Math.round(precioAplicable / TIPO_CAMBIO_USD);
+  document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
+
+  // ═══ FIX: Actualizar precios del cuadro TIPO DE INSCRIPCIÓN según modalidad elegida ═══
+  // El cuadro tipo de inscripción debe reflejar los precios correctos según virtual/presencial
+  const modalidad = obtenerModalidadElegida();
+  const tieneDualModalidad = curso.precio_presencial_bs && Number(curso.precio_presencial_bs) > 0;
+
+  let precioProfMostrar = Number(curso.precio_bs);
+  let precioEstMostrar = curso.precio_estudiante_bs ? Number(curso.precio_estudiante_bs) : null;
+
+  if (tieneDualModalidad && modalidad === 'presencial') {
+    precioProfMostrar = Number(curso.precio_presencial_bs);
+    if (curso.precio_presencial_estudiante_bs) {
+      precioEstMostrar = Number(curso.precio_presencial_estudiante_bs);
+    }
+  }
+
+  const profEl = document.getElementById('tipo-precio-prof');
+  const estEl = document.getElementById('tipo-precio-est');
+  if (profEl) profEl.textContent = 'Bs ' + formatearPrecio(precioProfMostrar).precio;
+  if (estEl && precioEstMostrar !== null) estEl.textContent = 'Bs ' + formatearPrecio(precioEstMostrar).precio;
+  // ═══ FIN FIX ═══
+
+  // Mostrar/ocultar precio original tachado (solo aplica al precio profesional virtual)
+  const tipo = obtenerTipoAlumno();
+  const origEl = document.getElementById('res-porig');
+  // Solo mostrar tachado en modalidad virtual profesional (precio_original_bs corresponde al virtual)
+  if (tipo === 'profesional' && modalidad === 'virtual' && curso.precio_original_bs && Number(curso.precio_original_bs) > Number(curso.precio_bs)) {
+    origEl.textContent = 'Bs ' + formatearPrecio(curso.precio_original_bs).precio;
+    origEl.style.display = '';
+  } else {
+    origEl.style.display = 'none';
+  }
+
+  // Mostrar/ocultar bloque de upload de carnet
+  const carnetBlock = document.getElementById('carnet-block');
+  if (tipo === 'estudiante') {
+    carnetBlock.classList.add('show');
+  } else {
+    carnetBlock.classList.remove('show');
+    // Limpiar archivo si había uno
+    document.getElementById('inp-carnet').value = '';
+    document.getElementById('carnet-drop').classList.remove('has-file');
+    document.getElementById('err-carnet').classList.remove('show');
+  }
+}
+
+function obtenerTipoAlumno() {
+  const radio = document.querySelector('input[name="tipo-alumno"]:checked');
+  return radio ? radio.value : 'profesional';
+}
+
+function obtenerPrecioAplicable() {
+  const tipo = obtenerTipoAlumno();
+  const modalidad = obtenerModalidadElegida();
+
+  // Si el curso tiene precios duales por modalidad
+  if (cursoActual.precio_presencial_bs && Number(cursoActual.precio_presencial_bs) > 0) {
+    if (modalidad === 'presencial') {
+      if (tipo === 'estudiante' && cursoActual.precio_presencial_estudiante_bs) {
+        return Number(cursoActual.precio_presencial_estudiante_bs);
+      }
+      return Number(cursoActual.precio_presencial_bs);
+    }
+  }
+
+  // Default: virtual (o curso sin presencial diferenciado)
+  if (tipo === 'estudiante' && cursoActual.precio_estudiante_bs) {
+    return Number(cursoActual.precio_estudiante_bs);
+  }
+  return Number(cursoActual.precio_bs);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SELECTOR DE MODALIDAD (Virtual vs Presencial)
+   ════════════════════════════════════════════════════════════════ */
+function mostrarSelectorModalidad(curso) {
+  const bloque = document.getElementById('modalidad-block');
+  bloque.classList.add('show');
+
+  // [NUEVO 27/05/2026] Si el curso es SOLO VIRTUAL, ocultar opción Presencial y forzar Virtual
+  const esSoloVirtual = CURSOS_SOLO_VIRTUAL.includes(curso.slug);
+  if (esSoloVirtual) {
+    const presencialOpt = document.getElementById('mod-presencial-opt');
+    if (presencialOpt) presencialOpt.style.display = 'none';
+    // Forzar Virtual como única opción seleccionada
+    const radioVirtual = document.querySelector('input[name="modalidad-elegida"][value="virtual"]');
+    if (radioVirtual) radioVirtual.checked = true;
+    // Cambiar título del bloque para no confundir al usuario
+    const titulo = bloque.querySelector('.modalidad-tit');
+    if (titulo) titulo.textContent = 'Modalidad del curso';
+  }
+
+  // Listener para cambios
+  document.querySelectorAll('input[name="modalidad-elegida"]').forEach(r => {
+    r.addEventListener('change', () => {
+      actualizarPrecioSegunTipo(curso);
+      document.getElementById('err-modalidad').classList.remove('show');
+    });
+  });
+
+  // Actualizar cupos al renderizar (usa la cohorte actual si existe)
+  actualizarCuposPorModalidad();
+}
+
+function obtenerModalidadElegida() {
+  const radio = document.querySelector('input[name="modalidad-elegida"]:checked');
+  return radio ? radio.value : 'virtual';
+}
+
+function actualizarCuposPorModalidad() {
+  if (!cohorteActual) return;
+
+  const cupVirt = (cohorteActual.cupos_virtuales || 0) - (cohorteActual.ocupados_virtuales || 0);
+  const cupPres = (cohorteActual.cupos_presenciales || 0) - (cohorteActual.ocupados_presenciales || 0);
+
+  // Actualizar cupos virtuales
+  const elV = document.getElementById('mod-virtual-cupos');
+  const optV = document.getElementById('mod-virtual-opt');
+  if (elV && optV) {
+    if (cupVirt <= 0) {
+      elV.textContent = '🔒 Cupos agotados';
+      elV.classList.add('lleno');
+      optV.classList.add('disabled');
+      const inpV = optV.querySelector('input');
+      if (inpV) inpV.disabled = true;
+    } else {
+      elV.textContent = '⚡ ' + cupVirt + ' cupos disponibles';
+      elV.classList.toggle('bajo', cupVirt <= 5);
+      elV.classList.remove('lleno');
+      optV.classList.remove('disabled');
+      const inpV = optV.querySelector('input');
+      if (inpV) inpV.disabled = false;
+    }
+  }
+
+  // Actualizar cupos presenciales
+  const elP = document.getElementById('mod-presencial-cupos');
+  const optP = document.getElementById('mod-presencial-opt');
+  if (elP && optP) {
+    if (cupPres <= 0) {
+      elP.textContent = '🔒 Cupos agotados';
+      elP.classList.add('lleno');
+      optP.classList.add('disabled');
+      const inpP = optP.querySelector('input');
+      if (inpP) inpP.disabled = true;
+    } else {
+      elP.textContent = '⚡ ' + cupPres + ' cupos disponibles';
+      elP.classList.toggle('bajo', cupPres <= 3);
+      elP.classList.remove('lleno');
+      optP.classList.remove('disabled');
+      const inpP = optP.querySelector('input');
+      if (inpP) inpP.disabled = false;
+    }
+  }
+
+  // Si la modalidad elegida está agotada, cambiar automáticamente a la otra
+  const modActual = obtenerModalidadElegida();
+  if (modActual === 'virtual' && cupVirt <= 0 && cupPres > 0) {
+    document.querySelector('input[name="modalidad-elegida"][value="presencial"]').checked = true;
+    actualizarPrecioSegunTipo(cursoActual);
+  } else if (modActual === 'presencial' && cupPres <= 0 && cupVirt > 0) {
+    document.querySelector('input[name="modalidad-elegida"][value="virtual"]').checked = true;
+    actualizarPrecioSegunTipo(cursoActual);
+  }
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   SELECTOR DE COHORTES (cuando hay 2+ grupos disponibles)
+   ════════════════════════════════════════════════════════════════ */
+function mostrarSelectorCohortes(cohortes) {
+  const bloque = document.getElementById('cohorte-block');
+  const opts = document.getElementById('cohorte-opts');
+  
+  opts.innerHTML = '';
+  
+  cohortes.forEach((c, idx) => {
+    const fechaIni = c.fecha_inicio ? new Date(c.fecha_inicio) : null;
+    const fechaFin = c.fecha_fin ? new Date(c.fecha_fin) : null;
+    const cuposDisp = (c.cupos_totales || 0) - (c.cupos_ocupados || 0);
+    const cuposBajos = cuposDisp <= 10;
+    
+    const fechaIniStr = fechaIni 
+      ? fechaIni.toLocaleDateString('es-BO', { day: 'numeric', month: 'short' })
+      : '';
+    const fechaFinStr = fechaFin 
+      ? fechaFin.toLocaleDateString('es-BO', { day: 'numeric', month: 'short', year: 'numeric' })
+      : '';
+    const horario = c.hora_inicio_clase 
+      ? c.hora_inicio_clase.substring(0, 5)
+      : '';
+
+    const checked = idx === 0 ? 'checked' : '';
+    const label = document.createElement('label');
+    label.className = 'cohorte-opt';
+    label.innerHTML = `
+      <input type="radio" name="cohorte-elegida" value="${escapar(c.id)}" ${checked}>
+      <div class="cohorte-card">
+        <span class="cohorte-card-name">${escapar(c.nombre)}</span>
+        <div class="cohorte-card-meta">
+          ${c.dias_clase ? `<span>📅 ${escapar(c.dias_clase)}</span>` : ''}
+          ${horario ? `<span>🕒 ${horario} hs</span>` : ''}
+          ${fechaIniStr && fechaFinStr ? `<span>📆 ${fechaIniStr} → ${fechaFinStr}</span>` : ''}
+        </div>
+        <span class="cohorte-card-cupos ${cuposBajos ? 'bajo' : ''}">⚡ ${cuposDisp} cupos disponibles</span>
+      </div>
+    `;
+    opts.appendChild(label);
+  });
+  
+  bloque.classList.add('show');
+  
+  // Listener para cambios
+  document.querySelectorAll('input[name="cohorte-elegida"]').forEach(r => {
+    r.addEventListener('change', () => {
+      const cohorteId = r.value;
+      // Buscar la cohorte completa en el array
+      cohorteActual = cohortes.find(c => c.id === cohorteId);
+      actualizarResumenConCohorte(cohorteActual);
+      // Limpiar error si existe
+      document.getElementById('err-cohorte').classList.remove('show');
+      // Actualizar cupos por modalidad para esta cohorte
+      actualizarCuposPorModalidad();
+    });
+  });
+}
+
+function actualizarResumenConCohorte(cohorte) {
+  if (!cohorte) return;
+  document.body.classList.add('modo-vivo');
+  document.getElementById('res-coh-fecha').textContent = '📅 Inicia ' + formatearFecha(cohorte.fecha_inicio);
+  const disponibles = (cohorte.cupos_totales || 0) - (cohorte.cupos_ocupados || 0);
+  document.getElementById('res-coh-cupos').textContent = '⚡ ' + disponibles + ' de ' + cohorte.cupos_totales + ' cupos disponibles';
+}
+
+function escapar(txt) {
+  const div = document.createElement('div');
+  div.textContent = txt;
+  return div.innerHTML;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   VALIDACIÓN DE FORMULARIO
+   ════════════════════════════════════════════════════════════════ */
+function validarFormulario() {
+  let ok = true;
+  ['nombre', 'ci', 'email', 'whatsapp', 'password', 'password2'].forEach(c => {
+    const err = document.getElementById('err-' + c);
+    const inp = document.getElementById('inp-' + c);
+    if (err) err.classList.remove('show');
+    if (inp) inp.classList.remove('error');
+  });
+  document.getElementById('error-general').classList.remove('show');
+
+  const nombre = document.getElementById('inp-nombre').value.trim();
+  const palabras = nombre.split(/\s+/).filter(p => p.length > 0);
+  const todasTienenLetras = palabras.every(p => /[a-zA-ZáéíóúÁÉÍÓÚñÑ]/.test(p));
+  if (nombre.length < 5 || palabras.length < 2 || !todasTienenLetras) {
+    marcarError('nombre', 'Ingresá nombre y apellido (mínimo 2 palabras con letras)');
+    ok = false;
+  }
+
+  const email = document.getElementById('inp-email').value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    marcarError('email', 'Email inválido');
+    ok = false;
+  }
+
+  const wa = document.getElementById('inp-whatsapp').value.trim().replace(/[\s\-\+]/g, '');
+  if (!/^[0-9]{7,12}$/.test(wa)) {
+    marcarError('whatsapp', 'Número inválido (7-12 dígitos, sin +591)');
+    ok = false;
+  }
+
+  const dep = document.getElementById('inp-departamento').value;
+  if (!dep) {
+    marcarError('departamento', 'Elegí tu departamento');
+    ok = false;
+  }
+
+  // Si vino por Google o ya está logueado, no se valida contraseña
+  if (!window.USUARIO_GOOGLE && !window.ALUMNO_LOGUEADO) {
+    const pwd = document.getElementById('inp-password').value;
+    if (pwd.length < 6) {
+      marcarError('password', 'La contraseña debe tener al menos 6 caracteres');
+      ok = false;
+    }
+
+    const pwd2 = document.getElementById('inp-password2').value;
+    if (pwd !== pwd2) {
+      marcarError('password2', 'Las contraseñas no coinciden');
+      ok = false;
+    }
+  }
+
+  const terminos = document.getElementById('inp-terminos').checked;
+  if (!terminos) {
+    mostrarErrorGeneral('Debés aceptar los términos y condiciones para continuar.');
+    ok = false;
+  }
+
+  // Validación de cohorte: si el bloque está visible, debe haber una elegida
+  const cohorteBlock = document.getElementById('cohorte-block');
+  if (cohorteBlock && cohorteBlock.classList.contains('show')) {
+    const cohorteRadio = document.querySelector('input[name="cohorte-elegida"]:checked');
+    if (!cohorteRadio) {
+      document.getElementById('err-cohorte').classList.add('show');
+      ok = false;
+    }
+  }
+
+  // Validación de modalidad: si el bloque está visible, no debe estar agotada la elegida
+  const modalidadBlock = document.getElementById('modalidad-block');
+  if (modalidadBlock && modalidadBlock.classList.contains('show')) {
+    const modalidadRadio = document.querySelector('input[name="modalidad-elegida"]:checked');
+    if (!modalidadRadio || modalidadRadio.disabled) {
+      document.getElementById('err-modalidad').classList.add('show');
+      ok = false;
+    }
+  }
+
+  // Validación extra: si es estudiante, debe haber subido carnet
+  const tipo = obtenerTipoAlumno();
+  if (tipo === 'estudiante') {
+    const carnetFile = document.getElementById('inp-carnet').files[0];
+    if (!carnetFile) {
+      document.getElementById('err-carnet').classList.add('show');
+      ok = false;
+    } else {
+      // Validar tipo y tamaño
+      const tiposValidos = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+      if (!tiposValidos.includes(carnetFile.type)) {
+        const errEl = document.getElementById('err-carnet');
+        errEl.textContent = 'Formato inválido. Subí JPG, PNG, WEBP o PDF.';
+        errEl.classList.add('show');
+        ok = false;
+      } else if (carnetFile.size > 5 * 1024 * 1024) {
+        const errEl = document.getElementById('err-carnet');
+        errEl.textContent = 'El archivo pesa más de 5 MB. Achicá la imagen.';
+        errEl.classList.add('show');
+        ok = false;
+      }
+    }
+  }
+
+  return ok;
+}
+
+function marcarError(campo, mensaje) {
+  const err = document.getElementById('err-' + campo);
+  const inp = document.getElementById('inp-' + campo);
+  if (err) { err.textContent = mensaje; err.classList.add('show'); }
+  if (inp) inp.classList.add('error');
+}
+
+function mostrarErrorGeneral(msg, titulo) {
+  const box = document.getElementById('error-general');
+  document.getElementById('error-tit').textContent = titulo || 'No pudimos procesar tu inscripción';
+  document.getElementById('error-desc').innerHTML = msg;
+  box.classList.add('show');
+  box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+/* ════════════════════════════════════════════════════════════════
+   PROCESAR INSCRIPCIÓN: signUp + insert inscripción pendiente
+   ════════════════════════════════════════════════════════════════ */
+let procesandoInscripcion = false;
+async function procesarInscripcion(ev) {
+  ev.preventDefault();
+  if (procesandoInscripcion) { console.warn('[INSC] Ya se está procesando, ignoro doble clic'); return; }
+  if (!validarFormulario()) return;
+  procesandoInscripcion = true;
+  if (!cursoActual) {
+    mostrarErrorGeneral('No se cargó el curso correctamente. Recargá la página.');
+    return;
+  }
+
+  const btn = document.getElementById('btn-continuar');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="form-btn-loader"></span>Creando cuenta...';
+
+  const datosAlumno = {
+    nombre: document.getElementById('inp-nombre').value.trim(),
+    ci: 'PENDIENTE',
+    email: document.getElementById('inp-email').value.trim().toLowerCase(),
+    whatsapp: document.getElementById('inp-whatsapp').value.trim().replace(/[\s\-\+]/g, ''),
+    ciudad: document.getElementById('inp-departamento').value || 'Santa Cruz',
+    password: document.getElementById('inp-password').value
+  };
+
+  const tipoAlumno = obtenerTipoAlumno();
+  const precioAplicable = obtenerPrecioAplicable();
+
+  const sb = obtenerSupabase();
+
+  try {
+    // ────── PASO 1 (opcional): Subir carnet si es estudiante ──────
+    let urlCarnet = null;
+    
+    if (tipoAlumno === 'estudiante') {
+      btn.innerHTML = '<span class="form-btn-loader"></span>Subiendo carnet...';
+      
+      const carnetFile = document.getElementById('inp-carnet').files[0];
+      const emailSanit = datosAlumno.email.replace(/[^a-z0-9]/g, '-');
+      const timestamp = Date.now();
+      const ext = carnetFile.name.split('.').pop().toLowerCase();
+      const nombreArchivo = `${emailSanit}-${timestamp}.${ext}`;
+
+      const { data: uploadData, error: errUpload } = await sb.storage
+        .from('carnets-estudiantes')
+        .upload(nombreArchivo, carnetFile, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (errUpload) {
+        console.error('[APPLENDE] Error al subir carnet:', errUpload);
+        mostrarErrorGeneral(
+          'No pudimos subir tu carnet. Verificá que sea una imagen o PDF válido y reintentá.',
+          '⚠️ Error al subir carnet'
+        );
+        btn.disabled = false; procesandoInscripcion = false;
+        btn.innerHTML = 'Crear cuenta y continuar al pago →';
+        return;
+      }
+
+      urlCarnet = uploadData.path;
+      console.log('[APPLENDE] Carnet subido:', urlCarnet);
+    }
+
+    // ────── PASO 2: Crear cuenta en auth.users ──────
+    btn.innerHTML = '<span class="form-btn-loader"></span>Creando cuenta...';
+    
+    const partesNombre = datosAlumno.nombre.split(/\s+/).filter(p => p.length > 0);
+    const nombre = partesNombre[0];
+    const apellido = partesNombre.slice(1).join(' ');
+
+    let alumnoExistenteOk = false;
+    let errAuth = null;
+    let authData = null;
+
+    const usuarioSesion = window.USUARIO_GOOGLE || window.ALUMNO_LOGUEADO;
+    if (usuarioSesion) {
+      // ─── Ya autenticado (Google o login previo): NO hacemos signUp ───
+      console.log('[INSC] Inscripción con sesión activa, se saltea signUp');
+      alumnoExistenteOk = true;
+      // Si el perfil no tenía teléfono, guardamos el que cargó ahora
+      try {
+        if (datosAlumno.whatsapp && datosAlumno.whatsapp !== 'PENDIENTE') {
+          await sb.from('perfiles').update({ telefono: datosAlumno.whatsapp }).eq('id', usuarioSesion.id);
+        }
+      } catch(e) { console.warn('[INSC] No se pudo actualizar telefono:', e); }
+    } else {
+      // ─── Camino normal: crear cuenta con contraseña ───
+      const resp = await sb.auth.signUp({
+        email: datosAlumno.email,
+        password: datosAlumno.password,
+        options: {
+          data: {
+            nombre: nombre,
+            apellido: apellido,
+            ci: datosAlumno.ci,
+            telefono: datosAlumno.whatsapp,
+            ciudad: datosAlumno.ciudad,
+            pais: 'Bolivia'
+          }
+        }
+      });
+      authData = resp.data;
+      errAuth = resp.error;
+    }
+
+    if (errAuth) {
+      console.error('[APPLENDE] Error en signUp:', errAuth);
+      const msg = (errAuth.message || '').toLowerCase();
+      if (msg.includes('already') || msg.includes('registered') || msg.includes('duplicate')) {
+        // El email ya tiene cuenta (alumno existente que se inscribe a OTRO curso).
+        // Intentamos iniciar sesión con la contraseña ingresada para continuar la inscripción.
+        btn.innerHTML = '<span class="form-btn-loader"></span>Verificando tu cuenta...';
+        const { data: loginData, error: errLogin } = await sb.auth.signInWithPassword({
+          email: datosAlumno.email,
+          password: datosAlumno.password
+        });
+        if (errLogin || !loginData || !loginData.user) {
+          // La contraseña no coincide con la cuenta existente
+          mostrarErrorGeneral(
+            `Este email ya tiene una cuenta en APPLENDE. Si es tuya, ingresá la <strong>misma contraseña</strong> que usás para entrar. Si la olvidaste, <a href="login.html" style="color:#991B1B;text-decoration:underline;font-weight:700;">recuperala acá</a> o escribinos por WhatsApp al ${WA_KARINA.replace('591','+591 ')}.`,
+            'Ya tenés una cuenta'
+          );
+          btn.disabled = false; procesandoInscripcion = false;
+          btn.innerHTML = 'Inscribirme a este curso →';
+          return;
+        }
+        // Login correcto: el alumno existente queda autenticado y seguimos con la inscripción al nuevo curso.
+        console.log('[APPLENDE] Alumno existente autenticado, continuando inscripción al nuevo curso');
+        alumnoExistenteOk = true;
+      } else if (msg.includes('password') || msg.includes('weak')) {
+        marcarError('password', 'La contraseña es muy débil. Usá al menos 6 caracteres.');
+      } else if (msg.includes('invalid') && msg.includes('email')) {
+        marcarError('email', 'Email inválido.');
+      } else {
+        mostrarErrorGeneral('No pudimos crear tu cuenta. Probá nuevamente o escribinos por WhatsApp.');
+      }
+      // Si el alumno existente se autenticó correctamente, NO cortamos: seguimos a la inscripción.
+      if (!alumnoExistenteOk) {
+        btn.disabled = false; procesandoInscripcion = false;
+        btn.innerHTML = 'Crear cuenta y continuar al pago →';
+        return;
+      }
+    }
+
+    // ────── PASO 3: Crear inscripción pendiente vía RPC ──────
+    btn.innerHTML = '<span class="form-btn-loader"></span>Registrando inscripción...';
+
+    const { data: inscripcionId, error: errInsc } = await sb.rpc(
+      'crear_inscripcion_pendiente',
+      {
+        p_curso_id:                   cursoActual.id,
+        p_cohorte_id:                 cohorteActual ? cohorteActual.id : null,
+        p_nombre:                     datosAlumno.nombre,
+        p_ci:                         datosAlumno.ci,
+        p_email:                      datosAlumno.email,
+        p_whatsapp:                   datosAlumno.whatsapp,
+        p_ciudad:                     datosAlumno.ciudad,
+        p_precio:                     precioAplicable,
+        p_tipo_alumno:                tipoAlumno,
+        p_modalidad:                  obtenerModalidadElegida(),
+        p_url_documento_validacion:   urlCarnet
+      }
+    );
+
+    if (errInsc) {
+      console.error('[APPLENDE] Error al crear inscripción:', errInsc);
+      const msgLower = (errInsc.message || '').toLowerCase();
+
+      // Caso: curso no disponible (raro, ya lo validamos antes)
+      if (msgLower.includes('curso no disponible')) {
+        mostrarErrorGeneral('El curso ya no está disponible. Volvé al catálogo.');
+        btn.disabled = false; procesandoInscripcion = false;
+        btn.innerHTML = 'Crear cuenta y continuar al pago →';
+        return;
+      }
+
+      // Caso: duplicado (inscripción pendiente ya existe)
+      if (errInsc.code === '23505' || msgLower.includes('duplicate') || msgLower.includes('unique')) {
+        console.warn('[APPLENDE] Ya existe inscripción pendiente, buscando su ID...');
+        // Buscar la inscripción pendiente existente para recuperar su ID (necesario para activar tras el pago)
+        let idExistente = null;
+        try {
+          const { data: pendExist } = await sb
+            .from('inscripciones_pendientes')
+            .select('id')
+            .eq('email_alumno', datosAlumno.email)
+            .eq('curso_id', cursoActual.id)
+            .eq('estado', 'pendiente_pago')
+            .order('creado_en', { ascending: false })
+            .limit(1)
+            .maybeSingle();
+          if (pendExist && pendExist.id) idExistente = pendExist.id;
+        } catch (e) {
+          console.warn('[APPLENDE] No se pudo recuperar el ID de la pendiente:', e);
+        }
+        inscripcionCreada = { id: idExistente, email_alumno: datosAlumno.email };
+        avanzarAPago(datosAlumno);
+        return;
+      }
+
+      // Cualquier otro error: cuenta creada pero inscripción falló
+      mostrarErrorGeneral(
+        `Tu cuenta se creó correctamente, pero tuvimos un problema al registrar la inscripción. Por favor escribinos por WhatsApp al <a href="https://wa.me/${WA_KARINA}" target="_blank" style="color:#991B1B;font-weight:700;text-decoration:underline;">+591 57388229</a> y te ayudamos a completar el proceso.`,
+        '⚠️ Inscripción incompleta'
+      );
+      btn.disabled = false; procesandoInscripcion = false;
+      btn.innerHTML = 'Crear cuenta y continuar al pago →';
+      return;
+    }
+
+    // Éxito: inscripcionId contiene el UUID devuelto por la RPC
+    inscripcionCreada = { id: inscripcionId, email_alumno: datosAlumno.email };
+    console.log('[APPLENDE] Inscripción creada OK:', inscripcionId);
+    avanzarAPago(datosAlumno);
+
+  } catch (err) {
+    console.error('[APPLENDE] Error inesperado:', err);
+    mostrarErrorGeneral('Error de conexión. Verificá tu internet y reintentá.');
+    btn.disabled = false; procesandoInscripcion = false;
+    btn.innerHTML = 'Crear cuenta y continuar al pago →';
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   PANTALLA DE PAGO
+   ════════════════════════════════════════════════════════════════ */
+function capitalizarNombre(texto) {
+  if (!texto) return '';
+  return texto.trim().toLowerCase()
+    .split(' ')
+    .filter(p => p.length > 0)
+    .map(p => p.charAt(0).toUpperCase() + p.slice(1))
+    .join(' ');
+}
+
+function extraerPrimerNombre(nombreCompleto) {
+  if (!nombreCompleto) return 'amigo';
+  const partes = nombreCompleto.trim().split(/\s+/).filter(p => p.length > 0);
+  if (partes.length === 0) return 'amigo';
+  const primero = partes[0];
+  return primero.charAt(0).toUpperCase() + primero.slice(1).toLowerCase();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// CONTROL DE MÉTODOS DE PAGO POR PAÍS (geolocalización por IP)
+// ════════════════════════════════════════════════════════════════════
+// Regla:
+//   • Bolivia  → SOLO QR (nunca tarjeta)
+//   • Extranjero → tarjeta SOLO si CyberSource está certificado
+//   • Si la IP falla → se asume Bolivia (solo QR) por seguridad
+//
+// 👉 Cuando Red Enlace certifique CyberSource, cambiar a true:
+const CYBERSOURCE_ACTIVO = false;
+// ⚠️ SOLO PRUEBAS: muestra el botón de tarjeta también en Bolivia (para probar sin VPN).
+// Poné en false antes de producción pública. Cuando es true, Bolivia ve tarjeta.
+const MODO_PRUEBA_TARJETA_BOLIVIA = true;
+// ════════════════════════════════════════════════════════════════════
+
+// Detecta el país por IP. Devuelve 'BO' (Bolivia) o 'EXT' (extranjero).
+// Si algo falla, devuelve 'BO' (lo más seguro para el público mayoritario).
+async function detectarPaisUsuario() {
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 3000); // máx 3s de espera
+    const r = await fetch('https://ipapi.co/json/', { signal: ctrl.signal });
+    clearTimeout(t);
+    if (!r.ok) return 'BO';
+    const data = await r.json();
+    return (data && data.country_code === 'BO') ? 'BO' : 'EXT';
+  } catch (e) {
+    return 'BO'; // ante cualquier error, asumimos Bolivia → solo QR
+  }
+}
+
+// Muestra/oculta los métodos de pago según el país detectado.
+async function configurarMetodosPagoPorPais() {
+  const cardQR      = document.getElementById('pago-qr-card');
+  const cardTarjeta = document.getElementById('pago-tarjeta-card');
+  const sepAlt      = document.getElementById('pago-alt-sep');
+
+  // Por defecto: QR visible, tarjeta y separador ocultos (estado seguro).
+  if (cardQR)      cardQR.style.display = '';
+  if (cardTarjeta) cardTarjeta.style.display = 'none';
+  if (sepAlt)      sepAlt.style.display = 'none';
+
+  const pais = await detectarPaisUsuario();
+
+  // La tarjeta se muestra a extranjeros si CyberSource está activo,
+  // O en modo prueba desde Bolivia (para testear sin VPN).
+  const mostrarTarjeta =
+    (pais === 'EXT' && CYBERSOURCE_ACTIVO) ||
+    (MODO_PRUEBA_TARJETA_BOLIVIA && CYBERSOURCE_ACTIVO);
+
+  if (mostrarTarjeta) {
+    if (cardTarjeta) cardTarjeta.style.display = '';
+    if (sepAlt)      sepAlt.style.display = '';
+  }
+  // En cualquier otro caso (Bolivia sin modo prueba, o CyberSource inactivo) → solo QR.
+}
+
+function avanzarAPago(datos) {
+  document.body.classList.add('pantalla-pago');
+  document.getElementById('pago-nombre').textContent = extraerPrimerNombre(datos.nombre);
+
+  // Decide qué método de pago mostrar según el país del visitante.
+  configurarMetodosPagoPorPais();
+
+  // Mensaje para el botón "Enviar comprobante" (post-pago)
+  const mensajeWA = construirMensajeWA(datos, cursoActual);
+  const urlWA = 'https://wa.me/' + WA_KARINA + '?text=' + encodeURIComponent(mensajeWA);
+  document.getElementById('btn-whatsapp').href = urlWA;
+
+  // Mensaje para el botón "Coordinar pago" (pre-pago)
+  const mensajePagoWA = construirMensajeWAPrepago(datos, cursoActual);
+  const urlPagoWA = 'https://wa.me/' + WA_KARINA + '?text=' + encodeURIComponent(mensajePagoWA);
+  document.getElementById('btn-whatsapp-pago').href = urlPagoWA;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function construirMensajeWAPrepago(datos, curso) {
+  const precioAplicable = obtenerPrecioAplicable();
+  const precioFmt = formatearPrecio(precioAplicable).precio;
+  const tipoAlumno = obtenerTipoAlumno();
+  const nombreFmt = capitalizarNombre(datos.nombre);
+  const lineas = [];
+  lineas.push('Hola APPLENDE, buenas!');
+  lineas.push('');
+  lineas.push('Acabo de registrarme para el curso *' + curso.titulo + '* y necesito coordinar el pago.');
+  lineas.push('');
+  lineas.push('*Mis datos:*');
+  lineas.push('- Nombre: ' + nombreFmt);
+  lineas.push('- Email: ' + datos.email);
+  if (tipoAlumno === 'estudiante') {
+    lineas.push('- Tipo: *Estudiante*');
+  } else {
+    lineas.push('- Tipo: Profesional');
+  }
+  // Modalidad (solo si el curso tiene selector de modalidad activo)
+  const bloqueModalidad = document.getElementById('modalidad-block');
+  if (bloqueModalidad && bloqueModalidad.classList.contains('show')) {
+    const modalidadElegida = obtenerModalidadElegida();
+    if (modalidadElegida === 'presencial') {
+      lineas.push('- Modalidad: *🏛️ Presencial* (Santa Cruz)');
+    } else {
+      lineas.push('- Modalidad: 📺 Virtual (Zoom)');
+    }
+  }
+  lineas.push('- Monto a pagar: *Bs ' + precioFmt + '*');
+  lineas.push('');
+  lineas.push('¿Me pasan los datos para realizar el pago, por favor?');
+  lineas.push('');
+  lineas.push('Gracias!');
+  return lineas.join('\n');
+}
+
+function construirMensajeWA(datos, curso) {
+  const precioAplicable = obtenerPrecioAplicable();
+  const precioFmt = formatearPrecio(precioAplicable).precio;
+  const tipoAlumno = obtenerTipoAlumno();
+  const nombreFmt = capitalizarNombre(datos.nombre);
+  const ciudadFmt = capitalizarNombre(datos.ciudad);
+  const lineas = [];
+  lineas.push('Hola APPLENDE, buenas!');
+  lineas.push('');
+  lineas.push('Acabo de inscribirme al curso *' + curso.titulo + '* y ya realicé el pago.');
+  lineas.push('');
+  lineas.push('*Mis datos:*');
+  lineas.push('- Nombre: ' + nombreFmt);
+  lineas.push('- CI: ' + datos.ci);
+  lineas.push('- Email: ' + datos.email);
+  lineas.push('- Ciudad: ' + ciudadFmt);
+  if (tipoAlumno === 'estudiante') {
+    lineas.push('- Tipo: *Estudiante* (ya adjunté carnet en la web)');
+  } else {
+    lineas.push('- Tipo: Profesional');
+  }
+  // Modalidad (solo si el curso tiene selector de modalidad activo)
+  const bloqueModalidad = document.getElementById('modalidad-block');
+  if (bloqueModalidad && bloqueModalidad.classList.contains('show')) {
+    const modalidadElegida = obtenerModalidadElegida();
+    if (modalidadElegida === 'presencial') {
+      lineas.push('- Modalidad: *🏛️ Presencial* (Santa Cruz)');
+    } else {
+      lineas.push('- Modalidad: 📺 Virtual (Zoom)');
+    }
+  }
+  lineas.push('- Monto pagado: *Bs ' + precioFmt + '*');
+  if (curso.modalidad === 'en_vivo' && cohorteActual) {
+    lineas.push('- Grupo: ' + formatearFecha(cohorteActual.fecha_inicio));
+  }
+  lineas.push('');
+  lineas.push('Adjunto el comprobante de pago. ¿Me confirman cuando esté todo verificado para acceder al curso?');
+  lineas.push('');
+  lineas.push('Gracias!');
+  return lineas.join(String.fromCharCode(10));
+}
+
+/* ════════════════════════════════════════════════════════════════
+   INICIALIZACIÓN
+   ════════════════════════════════════════════════════════════════ */
+function setupTogglesPassword() {
+  const toggle = (btnId, inpId) => {
+    const btn = document.getElementById(btnId);
+    const inp = document.getElementById(inpId);
+    if (!btn || !inp) return;
+    btn.addEventListener('click', () => {
+      const isPwd = inp.type === 'password';
+      inp.type = isPwd ? 'text' : 'password';
+      btn.textContent = isPwd ? '🙈' : '👁️';
+    });
+  };
+  toggle('tog-pwd', 'inp-password');
+  toggle('tog-pwd2', 'inp-password2');
+}
+
+function setupCarnetUpload() {
+  const input = document.getElementById('inp-carnet');
+  const drop = document.getElementById('carnet-drop');
+  const name = document.getElementById('carnet-name');
+  const btnQuitar = document.getElementById('btn-carnet-quitar');
+
+  if (!input || !drop) return;
+
+  input.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      drop.classList.remove('has-file');
+      return;
+    }
+    name.textContent = file.name;
+    drop.classList.add('has-file');
+    document.getElementById('err-carnet').classList.remove('show');
+  });
+
+  btnQuitar.addEventListener('click', (e) => {
+    e.stopPropagation();
+    input.value = '';
+    drop.classList.remove('has-file');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  cargarCurso();
+  setupTogglesPassword();
+  setupCarnetUpload();
+  document.getElementById('form-inscripcion').addEventListener('submit', procesarInscripcion);
+
+  // ══════════════════════════════════════════════════════════════
+  //  REVELAR grupo + precio cuando los datos personales estén completos.
+  //  Objetivo: que la persona no vea precios de entrada (mejora conversión).
+  // ══════════════════════════════════════════════════════════════
+  function chequearRevelarEleccion() {
+    const secc = document.getElementById('seccion-eleccion');
+    if (!secc) return;
+    // Si es alumno logueado o Google, sus datos ya están: revelar directo.
+    if (window.ALUMNO_LOGUEADO || window.USUARIO_GOOGLE) { secc.classList.add('revelada'); return; }
+    const nombre = (document.getElementById('inp-nombre').value || '').trim();
+    const email  = (document.getElementById('inp-email').value || '').trim();
+    const wa     = (document.getElementById('inp-whatsapp').value || '').trim();
+    const pwd    = (document.getElementById('inp-password').value || '');
+    const completo = nombre.length>=3 && /@/.test(email) && wa.length>=7 && pwd.length>=6;
+    if (completo) secc.classList.add('revelada');
+  }
+  ['inp-nombre','inp-email','inp-whatsapp','inp-password'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', chequearRevelarEleccion);
+  });
+  window.chequearRevelarEleccion = chequearRevelarEleccion;
+
+  // ══════════════════════════════════════════════════════════════
+  //  ALUMNO YA LOGUEADO: si al entrar ya hay sesión activa,
+  //  no le pedimos sus datos de nuevo — usamos los que ya tiene.
+  // ══════════════════════════════════════════════════════════════
+  detectarSesionExistente();
+
+  // ══════════════════════════════════════════════════════════════
+  //  CONTINUAR CON GOOGLE (versión prueba)
+  //  Al hacer clic: guarda el slug actual y lanza OAuth de Google,
+  //  que vuelve a ESTA misma página. Al volver, se detecta la sesión
+  //  y se pre-rellena nombre + email.
+  // ══════════════════════════════════════════════════════════════
+  const btnGoogleInsc = document.getElementById('btn-google-insc');
+  if (btnGoogleInsc) {
+    btnGoogleInsc.addEventListener('click', async function() {
+      this.disabled = true;
+      try {
+        const sb = obtenerSupabaseInsc();
+        // Guardar el slug para recuperarlo al volver de Google
+        try { sessionStorage.setItem('insc_slug', obtenerSlug() || ''); } catch(e){}
+        const { error } = await sb.auth.signInWithOAuth({
+          provider: 'google',
+          options: { redirectTo: window.location.href }
+        });
+        if (error) {
+          console.error('[INSC] Error OAuth Google:', error);
+          mostrarErrorGeneral('No pudimos conectar con Google. Probá completando tus datos manualmente.');
+          this.disabled = false;
+        }
+      } catch (err) {
+        console.error('[INSC] Excepción OAuth:', err);
+        this.disabled = false;
+      }
+    });
+  }
+
+  // Al cargar: si volvemos de Google (hay sesión), pre-rellenar el form.
+  (function() {
+    try {
+      const sb = obtenerSupabaseInsc();
+      sb.auth.onAuthStateChange((evento, session) => {
+        if ((evento === 'SIGNED_IN' || evento === 'INITIAL_SESSION') && session && session.user) {
+          const u = session.user;
+          // Solo si vino por Google (proveedor google)
+          const prov = (u.app_metadata && u.app_metadata.provider) || '';
+          if (prov !== 'google') return;
+          aplicarUsuarioGoogle(u);
+        }
+      });
+    } catch (e) {
+      console.warn('[INSC] No se pudo suscribir a onAuthStateChange:', e);
+    }
+  })();
+
+  function obtenerSupabaseInsc() {
+    if (window.obtenerSupabase) return window.obtenerSupabase();
+    return obtenerSB();
+  }
+
+  function aplicarUsuarioGoogle(u) {
+    if (window.USUARIO_GOOGLE) return;  // ya aplicado, evitar repetición
+    window.USUARIO_GOOGLE = u;  // bandera que el submit usará para saltear signUp
+    const meta = u.user_metadata || {};
+    const nombreG = meta.full_name || meta.name || (u.email ? u.email.split('@')[0] : '');
+    const inpNombre = document.getElementById('inp-nombre');
+    const inpEmail = document.getElementById('inp-email');
+    if (inpNombre && nombreG) { inpNombre.value = nombreG; inpNombre.readOnly = true; }
+    if (inpEmail && u.email) { inpEmail.value = u.email; inpEmail.readOnly = true; }
+
+    // Ocultar los campos de contraseña (con Google no hacen falta)
+    const filaPwd = document.querySelector('.pwd-aviso');
+    if (filaPwd) filaPwd.style.display = 'none';
+    const inpsPwd = [document.getElementById('inp-password'), document.getElementById('inp-password2')];
+    inpsPwd.forEach(el => { if (el) { const cont = el.closest('.form-row-2'); if (cont) cont.style.display='none'; el.removeAttribute('required'); } });
+
+    // Mostrar aviso verde de conexión
+    const ok = document.getElementById('insc-google-ok');
+    if (ok) ok.style.display = 'block';
+    const btnG = document.getElementById('btn-google-insc');
+    if (btnG) btnG.style.display = 'none';
+    console.log('[INSC] Usuario Google aplicado:', u.email);
+    if (window.chequearRevelarEleccion) window.chequearRevelarEleccion();
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  //  DETECTAR SESIÓN EXISTENTE (alumno ya logueado con contraseña o Google)
+  //  Trae el perfil guardado y pre-rellena SIN pedir datos de nuevo.
+  //  WhatsApp fijo: se toma del perfil, no se puede editar acá.
+  // ══════════════════════════════════════════════════════════════
+  async function detectarSesionExistente() {
+    try {
+      const sb = obtenerSupabaseInsc();
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session || !session.user) return;  // no logueado: formulario normal
+
+      const u = session.user;
+      // Traer el perfil guardado (nombre, apellido, telefono)
+      let perfil = null;
+      try {
+        const { data } = await sb.from('perfiles')
+          .select('nombre, apellido, telefono')
+          .eq('id', u.id).single();
+        perfil = data;
+      } catch(e) { console.warn('[INSC] No se pudo leer perfil:', e); }
+
+      window.ALUMNO_LOGUEADO = u;  // bandera: el submit saltea signUp
+
+      const nombreCompleto = perfil
+        ? [perfil.nombre, perfil.apellido].filter(Boolean).join(' ').trim()
+        : (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || '';
+      const telGuardado = perfil && perfil.telefono && perfil.telefono !== 'PENDIENTE' ? perfil.telefono : '';
+
+      // Pre-rellenar y bloquear nombre + email
+      const inpNombre = document.getElementById('inp-nombre');
+      const inpEmail  = document.getElementById('inp-email');
+      if (inpNombre && nombreCompleto) { inpNombre.value = nombreCompleto; inpNombre.readOnly = true; }
+      if (inpEmail && u.email)         { inpEmail.value = u.email; inpEmail.readOnly = true; }
+
+      // WhatsApp: si ya lo tiene guardado, fijarlo y bloquearlo.
+      const inpWa = document.getElementById('inp-whatsapp');
+      if (inpWa) {
+        if (telGuardado) { inpWa.value = telGuardado; inpWa.readOnly = true; }
+        // si no tiene teléfono guardado, lo dejamos editable para que lo cargue esta vez
+      }
+
+      // Ocultar contraseña (ya tiene cuenta)
+      const filaPwd = document.querySelector('.pwd-aviso');
+      if (filaPwd) filaPwd.style.display = 'none';
+      [document.getElementById('inp-password'), document.getElementById('inp-password2')].forEach(el => {
+        if (el) { const cont = el.closest('.form-row-2'); if (cont) cont.style.display='none'; el.removeAttribute('required'); }
+      });
+
+      // Ocultar botón de Google y separador (ya está adentro)
+      const btnG = document.getElementById('btn-google-insc');
+      if (btnG) btnG.style.display = 'none';
+      const divisor = document.querySelector('.insc-divider');
+      if (divisor) divisor.style.display = 'none';
+
+      // Aviso de bienvenida
+      const okBox = document.getElementById('insc-google-ok');
+      if (okBox) {
+        okBox.textContent = '✅ Ya tenés cuenta en APPLENDE (' + u.email + '). Solo elegí tu grupo y confirmá tu inscripción.';
+        okBox.style.display = 'block';
+      }
+      console.log('[INSC] Alumno logueado detectado:', u.email, '| tel:', telGuardado || '(sin guardar)');
+      if (window.chequearRevelarEleccion) window.chequearRevelarEleccion();
+    } catch (e) {
+      console.warn('[INSC] Error al detectar sesión:', e);
+    }
+  }
+  _qrWiring();
+});
+
+
+/* ════════════════════════════════════════════════════════════════
+   PAGO CON QR — Red Enlace (llama a Edge Functions)
+   ════════════════════════════════════════════════════════════════ */
+const QR_FUNCS_BASE = (typeof APPLENDE !== 'undefined' && APPLENDE.SUPABASE_URL)
+  ? APPLENDE.SUPABASE_URL + '/functions/v1'
+  : 'https://wdoqzsmwuvozhkclqbjk.supabase.co/functions/v1';
+
+let _qrPollTimer = null;
+let _qrCountdownTimer = null;
+
+function _qrMostrarEstado(id) {
+  ['inicial','cargando','listo','exito','error'].forEach(function(e){
+    var el = document.getElementById('qr-estado-' + e);
+    if (el) el.style.display = (e === id) ? 'block' : 'none';
+  });
+}
+
+async function generarQRPago() {
+  var pendienteId = (inscripcionCreada && inscripcionCreada.id) ? inscripcionCreada.id : null;
+  if (!pendienteId) {
+    document.getElementById('qr-err-msg').textContent =
+      'No encontramos tu inscripción. Recargá la página o usá WhatsApp.';
+    _qrMostrarEstado('error');
+    return;
+  }
+
+  _qrMostrarEstado('cargando');
+
+  try {
+    var resp = await fetch(QR_FUNCS_BASE + '/generar-qr', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': (typeof APPLENDE !== 'undefined' ? APPLENDE.SUPABASE_KEY : '')
+      },
+      body: JSON.stringify({ pendienteId: pendienteId })
+    });
+
+    var data = await resp.json();
+    if (!resp.ok || !data.ok) {
+      throw new Error(data.error || 'Error al generar QR');
+    }
+
+    // Mostrar el QR (imagen base64 de Red Enlace)
+    var img = document.getElementById('qr-imagen');
+    var src = String(data.imagen || '');
+    img.src = src.startsWith('data:') ? src : ('data:image/png;base64,' + src);
+
+    document.getElementById('qr-monto').textContent =
+      (data.moneda || 'Bs') + ' ' + Math.round(Number(data.monto || 0));
+
+    _qrMostrarEstado('listo');
+    _qrIniciarCuentaRegresiva(15 * 60);   // 15 min visual
+    _qrIniciarPolling(pendienteId);
+
+  } catch (err) {
+    console.error('[QR] Error:', err);
+    document.getElementById('qr-err-msg').textContent =
+      'No pudimos generar el QR en este momento. Probá de nuevo o coordiná por WhatsApp.';
+    _qrMostrarEstado('error');
+  }
+}
+
+function _qrIniciarCuentaRegresiva(segundos) {
+  clearInterval(_qrCountdownTimer);
+  var restante = segundos;
+  var el = document.getElementById('qr-timer');
+  function tick() {
+    var m = Math.floor(restante / 60);
+    var s = restante % 60;
+    el.textContent = '⏱️ El QR vence en ' + m + ':' + (s < 10 ? '0' : '') + s;
+    if (restante <= 0) {
+      clearInterval(_qrCountdownTimer);
+      el.textContent = '⌛ El QR venció. Generá uno nuevo.';
+    }
+    restante--;
+  }
+  tick();
+  _qrCountdownTimer = setInterval(tick, 1000);
+}
+
+function _qrIniciarPolling(pendienteId) {
+  clearInterval(_qrPollTimer);
+  _qrPollTimer = setInterval(async function() {
+    try {
+      var resp = await fetch(QR_FUNCS_BASE + '/verificar-pago', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': (typeof APPLENDE !== 'undefined' ? APPLENDE.SUPABASE_KEY : '')
+        },
+        body: JSON.stringify({ pendienteId: pendienteId })
+      });
+      var data = await resp.json();
+      if (data.listo) {
+        clearInterval(_qrPollTimer);
+        clearInterval(_qrCountdownTimer);
+        _qrMostrarEstado('exito');
+      }
+    } catch (e) {
+      // silencioso: el polling reintenta solo
+    }
+  }, 5000);  // cada 5 segundos
+}
+
+function _qrWiring() {
+  var btnGen = document.getElementById('btn-generar-qr');
+  var btnRe  = document.getElementById('btn-reintentar-qr');
+  if (btnGen) btnGen.addEventListener('click', generarQRPago);
+  if (btnRe)  btnRe.addEventListener('click', generarQRPago);
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   PAGO CON TARJETA — CyberSource (llama a pago-iniciar / pago-finalizar)
+   ════════════════════════════════════════════════════════════════ */
+const TJ_FUNCS_BASE = (typeof APPLENDE !== 'undefined' && APPLENDE.SUPABASE_URL)
+  ? APPLENDE.SUPABASE_URL + '/functions/v1'
+  : 'https://wdoqzsmwuvozhkclqbjk.supabase.co/functions/v1';
+const TJ_KEY = (typeof APPLENDE !== 'undefined' && APPLENDE.SUPABASE_KEY) ? APPLENDE.SUPABASE_KEY : '';
+const TJ_ORG_FP = '1snn5n9w'; // org_id device fingerprint (test)
+let TJ_DATOS = null;
+let TJ_CHALLENGE_TX = null;
+
+// Generar session_id y cargar device fingerprint
+const TJ_SESSION = ('redenlace_' + Math.random().toString(36).substring(2,12)).substring(0,88);
+let TJ_FP_LISTO = null; // promesa que se resuelve tras 11s (Data Collector)
+function tjCargarFingerprint(){
+  const s = document.createElement('script');
+  s.src = 'https://h.online-metrix.net/fp/tags.js?org_id=' + TJ_ORG_FP + '&session_id=' + TJ_SESSION;
+  document.head.appendChild(s);
+  // OBS.5: esperar 11 segundos a que el Data Collector termine de perfilar el dispositivo.
+  TJ_FP_LISTO = new Promise(function(resolve){ setTimeout(resolve, 11000); });
+}
+
+function tjBrowserInfo(){
+  return {
+    acceptHeader: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    acceptContent: 'application/json',
+    language: navigator.language || 'es-BO',
+    colorDepth: String(screen.colorDepth || 24),
+    screenHeight: String(screen.height || 0),
+    screenWidth: String(screen.width || 0),
+    timeZoneOffset: String(new Date().getTimezoneOffset()),
+    userAgent: navigator.userAgent,
+    javaEnabled: 'false',
+  };
+}
+
+function tjEstado(tipo, htmlMsg){
+  const e = document.getElementById('tj-estado');
+  e.className = 'tj-estado ' + tipo;
+  e.innerHTML = htmlMsg;
+}
+function tjCargando(cargando, texto){
+  const btn = document.getElementById('btn-pagar-tarjeta');
+  if(btn) btn.disabled = cargando;
+  if(cargando) tjEstado('info', '<span class="tj-spin"></span>' + texto);
+}
+
+async function tjLlamar(fn, payload){
+  const r = await fetch(TJ_FUNCS_BASE + '/' + fn, {
+    method:'POST',
+    headers:{ 'Authorization':'Bearer ' + TJ_KEY, 'apikey': TJ_KEY, 'Content-Type':'application/json' },
+    body: JSON.stringify(payload),
+  });
+  return await r.json();
+}
+
+// Detecta el cardType de CyberSource según el número: 001=VISA, 002=Mastercard, 003=AMEX
+function tjDetectarMarca(numero){
+  const n = String(numero).replace(/\s/g,'');
+  if(/^4/.test(n)) return '001';            // VISA
+  if(/^5[1-5]/.test(n) || /^2[2-7]/.test(n)) return '002'; // Mastercard
+  if(/^3[47]/.test(n)) return '003';        // AMEX
+  return '001'; // por defecto VISA
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DEVICE DATA COLLECTION (DDC) — flujo oficial CyberSource 3DS 2.x
+// 1) Llama al setup → obtiene accessToken (JWT) + deviceDataCollectionUrl
+// 2) Crea un iframe oculto y le hace POST del JWT a esa URL (Cardinal)
+// 3) Escucha el postMessage de Cardinal (el "listener TRUE" que pide Red Enlace)
+// 4) Resuelve cuando el DDC terminó, o a los 11s como respaldo
+// Devuelve el referenceId para el enrollment.
+// ═══════════════════════════════════════════════════════════════
+async function tjEjecutarDDC(datosTarjeta){
+  // 1) Setup
+  const setup = await tjLlamar('pago-iniciar', Object.assign({}, datosTarjeta, { paso: 'setup' }));
+  if(!setup || !setup.ok){
+    throw new Error('DDC setup falló: ' + (setup && setup.error ? setup.error : 'sin respuesta'));
+  }
+  const { accessToken, deviceDataCollectionUrl, referenceId } = setup;
+
+  // Si CyberSource no devolvió DDC, seguimos igual (algunos perfiles no lo requieren)
+  if(!accessToken || !deviceDataCollectionUrl){
+    return { referenceId: referenceId };
+  }
+
+  // 2) iframe oculto + form POST del JWT
+  return await new Promise(function(resolve){
+    let resuelto = false;
+    let profileCompleto = false;     // FIX Kenneth: marca si Cardinal confirmó TRUE
+    const T_INICIO = Date.now();
+    const PISO_MS = 6000;            // espera mínima para que Cardinal procese en su servidor
+    const TECHO_MS = 11000;          // cronómetro de 11s (recomendación Kenneth)
+
+    const finalizar = function(){
+      if(resuelto) return;
+      resuelto = true;
+      window.removeEventListener('message', onMsg);
+      console.log('[DIAG] DDC finalizado. profile.completed recibido:', profileCompleto, '· tiempo:', (Date.now()-T_INICIO)+'ms');
+      resolve({ referenceId: referenceId });
+    };
+
+    // 3) Listener del postMessage de Cardinal (respuesta del Data Collector).
+    //    FIX Kenneth: NO resolvemos al instante. Marcamos el TRUE y esperamos
+    //    el PISO mínimo, para que Cardinal termine de procesar del lado servidor.
+    function onMsg(ev){
+      if(typeof ev.origin === 'string' &&
+         (ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('cardinaltrusted') !== -1 || ev.origin.indexOf('centinelapistag') !== -1 || ev.origin.indexOf('centinelapi') !== -1)){
+        try{
+          const data = typeof ev.data === 'string' ? JSON.parse(ev.data) : ev.data;
+          if(data && (data.Status === true || data.MessageType === 'profile.completed')){
+            profileCompleto = true;
+            // Si ya pasó el piso, cerramos; si no, esperamos a completarlo.
+            const transcurrido = Date.now() - T_INICIO;
+            if(transcurrido >= PISO_MS){
+              finalizar();
+            }else{
+              setTimeout(finalizar, PISO_MS - transcurrido);
+            }
+          }
+        }catch(e){ /* mensajes no-JSON de otros orígenes, ignorar */ }
+      }
+    }
+    window.addEventListener('message', onMsg);
+
+    const iframe = document.createElement('iframe');
+    iframe.name = 'tj_ddc_iframe';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    const form = document.createElement('form');
+    form.target = 'tj_ddc_iframe';
+    form.method = 'POST';
+    form.action = deviceDataCollectionUrl;
+    const inp = document.createElement('input');
+    inp.type = 'hidden';
+    inp.name = 'JWT';
+    inp.value = accessToken;
+    form.appendChild(inp);
+    document.body.appendChild(form);
+    form.submit();
+
+    // 4) Cronómetro de 11s (techo): si Cardinal nunca manda el TRUE,
+    //    igual cerramos a los 11s para no colgar el flujo.
+    setTimeout(finalizar, TECHO_MS);
+  });
+}
+
+async function tjPagar(){
+  const numero = document.getElementById('tj-numero').value.replace(/\s/g,'');
+  const nombre = document.getElementById('tj-nombre').value.trim();
+  const mes = document.getElementById('tj-mes').value.trim();
+  const anio = document.getElementById('tj-anio').value.trim();
+  const cvv = document.getElementById('tj-cvv').value.trim();
+  const marca = tjDetectarMarca(numero); // ← cardType correcto según la tarjeta
+
+  if(numero.length < 13 || !mes || !anio || !cvv){
+    tjEstado('err','⚠️ Completá todos los datos de la tarjeta.');
+    return;
+  }
+  // pendienteId: el ID de la inscripción pendiente creada al registrarse
+  const pendienteId = (typeof inscripcionCreada !== 'undefined' && inscripcionCreada) ? inscripcionCreada.id : null;
+  if(!pendienteId){
+    tjEstado('err','⚠️ No se encontró tu inscripción. Recargá la página e intentá de nuevo.');
+    return;
+  }
+
+  const precio = obtenerPrecioAplicable();
+  const moneda = (cursoActual && cursoActual.moneda) ? cursoActual.moneda : 'BOB';
+  const partes = nombre.split(' ');
+  const firstName = partes[0] || 'Cliente';
+  const lastName = partes.slice(1).join(' ') || 'APPLENDE';
+  const emailAlumno = (inscripcionCreada && inscripcionCreada.email_alumno) ? inscripcionCreada.email_alumno : 'cliente@applende.com';
+
+  TJ_DATOS = { numero, mes, anio, cvv, firstName, lastName, pendienteId, precio, moneda, emailAlumno };
+
+  try{
+    tjCargando(true,'Verificando la seguridad de tu dispositivo…');
+    // DDC: ejecutar el Device Data Collection oficial de CyberSource antes del enrollment.
+    const datosBase = {
+      cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
+      amount:String(precio), currency:moneda,
+      firstName, lastName, email:emailAlumno, phone:'00000000',
+      address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
+      referenceCode:'INSC-' + pendienteId,
+    };
+    // FIX v11: capturamos el referenceId que genera el DDC.
+    const ddc = await tjEjecutarDDC(datosBase);
+    const refIdDDC = (ddc && ddc.referenceId) ? ddc.referenceId : null;
+    console.log('[DIAG] referenceId del DDC que se reenvía al enrollment:', refIdDDC);
+    tjCargando(true,'Verificando tu tarjeta…');
+    const ini = await tjLlamar('pago-iniciar',{
+      cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
+      amount:String(precio), currency:moneda,
+      firstName, lastName, email:emailAlumno, phone:'00000000',
+      address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
+      referenceCode:'INSC-' + pendienteId,
+      browserInfo: tjBrowserInfo(),
+      fingerprintSessionId: TJ_SESSION,
+      referenceId: refIdDDC,                 // ← EL MISMO referenceId del DDC (clave del fix)
+      returnUrl: window.location.origin + '/inscripcion.html',
+    });
+    console.log('[DIAG] Respuesta del enrollment (pago-iniciar):', JSON.stringify(ini));
+
+    if(!ini.ok){ tjEstado('err','❌ No se pudo validar la tarjeta. ' + (ini.error||'')); tjCargando(false); return; }
+
+    if(ini.requiereChallenge){
+      tjEstado('info','🔐 Tu banco requiere verificación. Seguí los pasos en la ventana.');
+      tjMostrarChallenge(ini.stepUpUrl, ini.accessToken, ini.authenticationTransactionId);
+      return;
+    }
+
+    tjCargando(true,'Procesando el pago…');
+    const fin = await tjLlamar('pago-finalizar',{
+      cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca, cvv,
+      amount:String(precio), currency:moneda,
+      firstName, lastName, email:emailAlumno, phone:'00000000',
+      address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
+      refCode:'INSC-' + pendienteId,
+      pendienteId,
+      cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
+      hadChallenge:false,
+      cavv:ini.cavv, xid:ini.xid, eci:ini.eci,
+      commerceIndicator: ini.commerceIndicator,
+      directoryServerTransactionId:ini.directoryServerTransactionId,
+      paSpecificationVersion:ini.paSpecificationVersion,
+    });
+    tjFinalizar(fin);
+  }catch(err){
+    tjEstado('err','❌ Error de conexión: ' + err.message);
+    tjCargando(false);
+  }
+}
+
+function tjMostrarChallenge(stepUpUrl, accessToken, txId){
+  document.getElementById('challenge-modal-insc').style.display = 'flex';
+  const form = document.createElement('form');
+  form.method='POST'; form.action=stepUpUrl; form.target='challenge-iframe-insc';
+  const inp = document.createElement('input');
+  inp.type='hidden'; inp.name='JWT'; inp.value=accessToken;
+  form.appendChild(inp); document.body.appendChild(form); form.submit(); document.body.removeChild(form);
+  TJ_CHALLENGE_TX = txId;
+}
+
+window.addEventListener('message', async function(ev){
+  if(ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('cardinal') !== -1){
+    document.getElementById('challenge-modal-insc').style.display = 'none';
+    tjCargando(true,'Confirmando tu pago…');
+    const d = TJ_DATOS;
+    const fin = await tjLlamar('pago-finalizar',{
+      cardNumber:d.numero, expMonth:d.mes, expYear:d.anio, cardType:tjDetectarMarca(d.numero), cvv:d.cvv,
+      amount:String(d.precio), currency:d.moneda,
+      firstName:d.firstName, lastName:d.lastName, email:d.emailAlumno, phone:'00000000',
+      address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
+      refCode:'INSC-' + d.pendienteId,
+      pendienteId:d.pendienteId,
+      cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
+      hadChallenge:true,
+      authenticationTransactionId: TJ_CHALLENGE_TX,
+    });
+    tjFinalizar(fin);
+  }
+});
+
+function tjFinalizar(fin){
+  if(fin.ok && fin.status === 'AUTHORIZED'){
+    const btn = document.getElementById('btn-pagar-tarjeta');
+    if(btn) btn.textContent = 'Pago completado ✓';
+    if(fin.inscripcionActivada){
+      // Pago + inscripción OK → mostrar éxito y redirigir solo al dashboard
+      tjEstado('ok','✅ <b>¡Pago aprobado!</b> Tu curso ya está activo. Te llevamos a tu dashboard…');
+      setTimeout(function(){ window.location.href = 'alumno/dashboard.html'; }, 2000);
+    }else{
+      // Pago OK pero la inscripción no se activó automáticamente → no redirigir, mostrar ayuda
+      tjEstado('ok','✅ <b>¡Pago aprobado!</b> Tu pago fue aprobado. Si no ves el curso en un minuto, escribinos por WhatsApp.<br><a href="alumno/dashboard.html" style="color:#1faa59;font-weight:700;text-decoration:underline;">Ir a mi curso →</a>');
+    }
+  }else{
+    tjEstado('err','❌ El pago no fue aprobado. ' + (fin.mensaje || fin.status || '') + ' Probá otra tarjeta o usá WhatsApp.');
+    tjCargando(false);
+  }
+}
+
+// Wiring de los botones de tarjeta
+function tjWiring(){
+  const btnMostrar = document.getElementById('btn-mostrar-tarjeta');
+  const btnPagar = document.getElementById('btn-pagar-tarjeta');
+  if(btnMostrar){
+    btnMostrar.addEventListener('click', function(){
+      document.getElementById('tarjeta-form').style.display = 'block';
+      btnMostrar.style.display = 'none';
+      // poner el monto en el botón de pagar
+      const precio = obtenerPrecioAplicable();
+      const moneda = (cursoActual && cursoActual.moneda) ? cursoActual.moneda : 'Bs';
+      const simbolo = moneda === 'USD' ? '$' : 'Bs';
+      document.getElementById('tj-monto-btn').textContent = simbolo + ' ' + Math.round(Number(precio));
+      tjCargarFingerprint(); // arranca el fingerprint al abrir el form
+    });
+  }
+  if(btnPagar) btnPagar.addEventListener('click', tjPagar);
+}
+document.addEventListener('DOMContentLoaded', tjWiring);
+
+</script>
+
+<!-- Modal del challenge de la tarjeta (step-up del banco) -->
+<div id="challenge-modal-insc">
+  <div>
+    <h3 style="color:var(--navy);font-size:16px;margin:0 0 6px;">🔐 Verificación de tu banco</h3>
+    <p style="font-size:13px;color:var(--muted);margin:0 0 12px;">Ingresá el código que te envió tu banco para confirmar el pago.</p>
+    <iframe id="challenge-iframe-insc" name="challenge-iframe-insc"></iframe>
+  </div>
+</div>
+
+</body>
+</html>
