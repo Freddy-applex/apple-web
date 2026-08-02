@@ -547,11 +547,8 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 
     <div class="pago-card">
       <h1 class="pago-tit">¡Cuenta creada, <span id="pago-nombre">amigo</span>! 🎉</h1>
-      <p class="pago-desc" id="pago-desc-elegir">Tu cuenta ya está lista. Ahora elegí tu grupo y tipo de inscripción para reservar tu cupo.</p>
-      <p class="pago-desc" id="pago-desc-pagar" style="display:none;">Para reservar tu cupo, realizá el pago de <strong id="pago-monto">Bs 200</strong>.</p>
+      <p class="pago-desc">Elegí tu grupo y tipo de inscripción, y realizá el pago de <strong id="pago-monto">Bs 200</strong> para reservar tu cupo.</p>
 
-      <!-- ═══ SUB-PASO 2A: ELEGIR grupo + modalidad + tipo (se completa acá, después de crear cuenta) ═══ -->
-      <div id="eleccion-wrap">
         <div class="cohorte-block" id="cohorte-block">
           <div class="cohorte-tit">Elegí tu grupo</div>
           <div class="cohorte-sub">Este curso tiene varios horarios disponibles. Seleccioná el que mejor se ajuste a tu agenda.</div>
@@ -626,12 +623,7 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
         </div>
 
 
-        <button type="button" class="form-btn" id="btn-confirmar-inscripcion">Confirmar e ir al pago →</button>
-        <div class="form-err" id="err-confirmar" style="margin-top:10px;"></div>
-      </div>
 
-      <!-- ═══ SUB-PASO 2B: PAGO (oculto hasta confirmar inscripción) ═══ -->
-      <div id="pago-wrap" style="display:none;">
       <div class="pago-confirm">
         <div class="pago-confirm-tit">📋 Cuenta creada · Inscripción registrada</div>
         <div class="pago-confirm-desc">Tu cupo se confirma automáticamente cuando verificamos tu pago. Tenés 48 horas para realizar la transferencia. Después del pago, vas a poder acceder al aula virtual con tu email y contraseña.</div>
@@ -762,7 +754,6 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
           </div>
         </div>
       </div>
-      </div><!-- /pago-wrap -->
 
       <a href="cursos.html" class="pago-back">← Volver al catálogo de cursos</a>
       <a href="alumno/dashboard.html" class="pago-back" style="margin-top:8px;color:var(--navy);font-weight:700;">Ir a mi dashboard →</a>
@@ -1331,7 +1322,7 @@ function escapar(txt) {
 /* ════════════════════════════════════════════════════════════════
    VALIDACIÓN DE FORMULARIO
    ════════════════════════════════════════════════════════════════ */
-function validarDatosPersonales() {
+function validarFormulario() {
   let ok = true;
   ['nombre', 'ci', 'email', 'whatsapp', 'password', 'password2'].forEach(c => {
     const err = document.getElementById('err-' + c);
@@ -1382,18 +1373,19 @@ function validarDatosPersonales() {
     }
   }
 
-  return ok;
-}
-
-function validarEleccion() {
-  let ok = true;
-  document.getElementById('error-general').classList.remove('show');
-
   const terminos = document.getElementById('inp-terminos').checked;
   if (!terminos) {
     mostrarErrorGeneral('Debés aceptar los términos y condiciones para continuar.');
     ok = false;
   }
+
+  return ok;
+}
+
+// Validación del PASO 2 (grupo, modalidad, carnet)
+function validarEleccion() {
+  let ok = true;
+  document.getElementById('error-general').classList.remove('show');
 
   // Validación de cohorte: si el bloque está visible, debe haber una elegida
   const cohorteBlock = document.getElementById('cohorte-block');
@@ -1464,7 +1456,7 @@ let procesandoInscripcion = false;
 async function procesarInscripcion(ev) {
   ev.preventDefault();
   if (procesandoInscripcion) { console.warn('[INSC] Ya se está procesando, ignoro doble clic'); return; }
-  if (!validarDatosPersonales()) return;
+  if (!validarFormulario()) return;
   procesandoInscripcion = true;
   if (!cursoActual) {
     mostrarErrorGeneral('No se cargó el curso correctamente. Recargá la página.');
@@ -1483,15 +1475,18 @@ async function procesarInscripcion(ev) {
     ciudad: document.getElementById('inp-departamento').value || 'Santa Cruz',
     password: document.getElementById('inp-password').value
   };
-  // Guardar datos para el paso 2 (confirmarInscripcion)
-  window.DATOS_ALUMNO = datosAlumno;
+
+  // Valores por defecto para crear la inscripción temprano (correo de bienvenida).
+  // El alumno ajusta tipo/grupo en el paso 2 (se hace UPDATE).
+  const tipoAlumno = 'profesional';
+  const precioAplicable = obtenerPrecioAplicable();
 
   const sb = obtenerSupabase();
 
   try {
-    // ────── Crear SOLO la cuenta (la inscripción se crea en el paso 2) ──────
+    let urlCarnet = null;
 
-    // ────── PASO 2: Crear cuenta en auth.users ──────
+    // ────── Crear cuenta en auth.users ──────
     btn.innerHTML = '<span class="form-btn-loader"></span>Creando cuenta...';
     
     const partesNombre = datosAlumno.nombre.split(/\s+/).filter(p => p.length > 0);
@@ -1572,10 +1567,76 @@ async function procesarInscripcion(ev) {
       }
     }
 
-    // ────── Cuenta creada OK. Avanzar al PASO 2 (elegir grupo + tipo + pagar) ──────
-    console.log('[APPLENDE] Cuenta lista, avanzando al paso 2 (elección)');
-    procesandoInscripcion = false;
-    avanzarAPasoEleccion(datosAlumno);
+    // ────── PASO 3: Crear inscripción pendiente vía RPC ──────
+    btn.innerHTML = '<span class="form-btn-loader"></span>Registrando inscripción...';
+
+    const { data: inscripcionId, error: errInsc } = await sb.rpc(
+      'crear_inscripcion_pendiente',
+      {
+        p_curso_id:                   cursoActual.id,
+        p_cohorte_id:                 cohorteActual ? cohorteActual.id : null,
+        p_nombre:                     datosAlumno.nombre,
+        p_ci:                         datosAlumno.ci,
+        p_email:                      datosAlumno.email,
+        p_whatsapp:                   datosAlumno.whatsapp,
+        p_ciudad:                     datosAlumno.ciudad,
+        p_precio:                     precioAplicable,
+        p_tipo_alumno:                tipoAlumno,
+        p_modalidad:                  obtenerModalidadElegida(),
+        p_url_documento_validacion:   urlCarnet
+      }
+    );
+
+    if (errInsc) {
+      console.error('[APPLENDE] Error al crear inscripción:', errInsc);
+      const msgLower = (errInsc.message || '').toLowerCase();
+
+      // Caso: curso no disponible (raro, ya lo validamos antes)
+      if (msgLower.includes('curso no disponible')) {
+        mostrarErrorGeneral('El curso ya no está disponible. Volvé al catálogo.');
+        btn.disabled = false; procesandoInscripcion = false;
+        btn.innerHTML = 'Crear mi cuenta →';
+        return;
+      }
+
+      // Caso: duplicado (inscripción pendiente ya existe)
+      if (errInsc.code === '23505' || msgLower.includes('duplicate') || msgLower.includes('unique')) {
+        console.warn('[APPLENDE] Ya existe inscripción pendiente, buscando su ID...');
+        // Buscar la inscripción pendiente existente para recuperar su ID (necesario para activar tras el pago)
+        let idExistente = null;
+        try {
+          const { data: pendExist } = await sb
+            .from('inscripciones_pendientes')
+            .select('id')
+            .eq('email_alumno', datosAlumno.email)
+            .eq('curso_id', cursoActual.id)
+            .eq('estado', 'pendiente_pago')
+            .order('creado_en', { ascending: false })
+            .limit(1)
+            .maybeSingle();
+          if (pendExist && pendExist.id) idExistente = pendExist.id;
+        } catch (e) {
+          console.warn('[APPLENDE] No se pudo recuperar el ID de la pendiente:', e);
+        }
+        inscripcionCreada = { id: idExistente, email_alumno: datosAlumno.email };
+        avanzarAPago(datosAlumno);
+        return;
+      }
+
+      // Cualquier otro error: cuenta creada pero inscripción falló
+      mostrarErrorGeneral(
+        `Tu cuenta se creó correctamente, pero tuvimos un problema al registrar la inscripción. Por favor escribinos por WhatsApp al <a href="https://wa.me/${WA_KARINA}" target="_blank" style="color:#991B1B;font-weight:700;text-decoration:underline;">+591 57388229</a> y te ayudamos a completar el proceso.`,
+        '⚠️ Inscripción incompleta'
+      );
+      btn.disabled = false; procesandoInscripcion = false;
+      btn.innerHTML = 'Crear mi cuenta →';
+      return;
+    }
+
+    // Éxito: inscripcionId contiene el UUID devuelto por la RPC
+    inscripcionCreada = { id: inscripcionId, email_alumno: datosAlumno.email };
+    console.log('[APPLENDE] Inscripción creada OK:', inscripcionId);
+    avanzarAPago(datosAlumno);
 
   } catch (err) {
     console.error('[APPLENDE] Error inesperado:', err);
@@ -1663,132 +1724,59 @@ async function configurarMetodosPagoPorPais() {
 }
 
 // ════════════════════════════════════════════════════════════════
-//  PASO 2 — Mostrar la pantalla de elección (grupo + tipo), sin pago aún.
-//  La cuenta ya fue creada. Acá el alumno elige y confirma.
+//  PASO 2 — Sincronizar la inscripción con lo elegido (grupo, tipo, carnet).
+//  Se llama antes de pagar. Hace UPDATE de la inscripción ya creada.
+//  Devuelve true si OK, false si falta algo (validación).
 // ════════════════════════════════════════════════════════════════
-function avanzarAPasoEleccion(datos) {
-  document.body.classList.add('pantalla-pago');
-  document.getElementById('pago-nombre').textContent = extraerPrimerNombre(datos.nombre);
-  // Mostrar elección, ocultar pago
-  const eleccion = document.getElementById('eleccion-wrap');
-  const pagoWrap = document.getElementById('pago-wrap');
-  const descElegir = document.getElementById('pago-desc-elegir');
-  const descPagar = document.getElementById('pago-desc-pagar');
-  if (eleccion) eleccion.style.display = 'block';
-  if (pagoWrap) pagoWrap.style.display = 'none';
-  if (descElegir) descElegir.style.display = 'block';
-  if (descPagar) descPagar.style.display = 'none';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// ════════════════════════════════════════════════════════════════
-//  Confirmar inscripción (botón del paso 2): valida elección,
-//  sube carnet si estudiante, crea la inscripción, y muestra el pago.
-// ════════════════════════════════════════════════════════════════
-let procesandoConfirmacion = false;
-async function confirmarInscripcion() {
-  if (procesandoConfirmacion) return;
-  if (!validarEleccion()) return;
-  procesandoConfirmacion = true;
-
-  const datosAlumno = window.DATOS_ALUMNO;
-  if (!datosAlumno) {
-    mostrarErrorGeneral('Se perdieron tus datos. Recargá la página e intentá de nuevo.');
-    procesandoConfirmacion = false;
-    return;
+let sincronizando = false;
+async function sincronizarInscripcion() {
+  if (!validarEleccion()) return false;
+  if (sincronizando) return true;
+  if (!inscripcionCreada || !inscripcionCreada.id) {
+    console.warn('[APPLENDE] No hay inscripción para sincronizar');
+    return true; // no bloquear el pago si por alguna razón no hay id
   }
-
-  const btn = document.getElementById('btn-confirmar-inscripcion');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="form-btn-loader"></span>Registrando inscripción...';
+  sincronizando = true;
 
   const sb = obtenerSupabase();
   const tipoAlumno = obtenerTipoAlumno();
   const precioAplicable = obtenerPrecioAplicable();
+  const datosAlumno = window.DATOS_ALUMNO || {};
 
   try {
-    // Subir carnet si es estudiante
+    // Subir carnet si es estudiante y aún no se subió
     let urlCarnet = null;
     if (tipoAlumno === 'estudiante') {
-      btn.innerHTML = '<span class="form-btn-loader"></span>Subiendo carnet...';
       const carnetFile = document.getElementById('inp-carnet').files[0];
-      const emailSanit = datosAlumno.email.replace(/[^a-z0-9]/g, '-');
-      const ext = carnetFile.name.split('.').pop().toLowerCase();
-      const nombreArchivo = `${emailSanit}-${Date.now()}.${ext}`;
-      const { data: uploadData, error: errUpload } = await sb.storage
-        .from('carnets-estudiantes')
-        .upload(nombreArchivo, carnetFile, { cacheControl: '3600', upsert: false });
-      if (errUpload) {
-        console.error('[APPLENDE] Error al subir carnet:', errUpload);
-        mostrarErrorGeneral('No pudimos subir tu carnet. Verificá el archivo y reintentá.', '⚠️ Error al subir carnet');
-        btn.disabled = false; procesandoConfirmacion = false;
-        btn.innerHTML = 'Confirmar e ir al pago →';
-        return;
+      if (carnetFile) {
+        const emailSanit = (datosAlumno.email || 'alumno').replace(/[^a-z0-9]/g, '-');
+        const ext = carnetFile.name.split('.').pop().toLowerCase();
+        const nombreArchivo = `${emailSanit}-${Date.now()}.${ext}`;
+        const { data: up, error: errUp } = await sb.storage
+          .from('carnets-estudiantes')
+          .upload(nombreArchivo, carnetFile, { cacheControl: '3600', upsert: false });
+        if (errUp) { console.error('[APPLENDE] Error carnet:', errUp); }
+        else { urlCarnet = up.path; }
       }
-      urlCarnet = uploadData.path;
     }
 
-    // Crear inscripción pendiente
-    btn.innerHTML = '<span class="form-btn-loader"></span>Registrando inscripción...';
-    const { data: inscripcionId, error: errInsc } = await sb.rpc('crear_inscripcion_pendiente', {
-      p_curso_id:                 cursoActual.id,
+    const { error: errUpd } = await sb.rpc('actualizar_inscripcion_pendiente', {
+      p_inscripcion_id:           inscripcionCreada.id,
       p_cohorte_id:               cohorteActual ? cohorteActual.id : null,
-      p_nombre:                   datosAlumno.nombre,
-      p_ci:                       datosAlumno.ci,
-      p_email:                    datosAlumno.email,
-      p_whatsapp:                 datosAlumno.whatsapp,
-      p_ciudad:                   datosAlumno.ciudad,
       p_precio:                   precioAplicable,
       p_tipo_alumno:              tipoAlumno,
-      p_modalidad:                obtenerModalidadElegida(),
-      p_url_documento_validacion: urlCarnet
+      p_url_documento_validacion: urlCarnet,
+      p_modalidad:                obtenerModalidadElegida()
     });
-
-    if (errInsc) {
-      console.error('[APPLENDE] Error al crear inscripción:', errInsc);
-      const msgLower = (errInsc.message || '').toLowerCase();
-      if (errInsc.code === '23505' || msgLower.includes('duplicate') || msgLower.includes('unique')) {
-        // Ya existe pendiente: recuperar su ID y seguir al pago
-        let idExistente = null;
-        try {
-          const { data: pendExist } = await sb.from('inscripciones_pendientes')
-            .select('id').eq('email_alumno', datosAlumno.email).eq('curso_id', cursoActual.id)
-            .eq('estado', 'pendiente_pago').order('creado_en', { ascending: false }).limit(1).maybeSingle();
-          if (pendExist && pendExist.id) idExistente = pendExist.id;
-        } catch (e) { console.warn('[APPLENDE] No se pudo recuperar ID pendiente:', e); }
-        inscripcionCreada = { id: idExistente, email_alumno: datosAlumno.email };
-        mostrarPago(datosAlumno);
-        return;
-      }
-      mostrarErrorGeneral(`Tuvimos un problema al registrar la inscripción. Escribinos por WhatsApp al <a href="https://wa.me/${WA_KARINA}" target="_blank" style="color:#991B1B;font-weight:700;text-decoration:underline;">+591 57388229</a>.`, '⚠️ Inscripción incompleta');
-      btn.disabled = false; procesandoConfirmacion = false;
-      btn.innerHTML = 'Confirmar e ir al pago →';
-      return;
-    }
-
-    inscripcionCreada = { id: inscripcionId, email_alumno: datosAlumno.email };
-    console.log('[APPLENDE] Inscripción creada OK:', inscripcionId);
-    mostrarPago(datosAlumno);
-
-  } catch (err) {
-    console.error('[APPLENDE] Error inesperado:', err);
-    mostrarErrorGeneral('Error de conexión. Verificá tu internet y reintentá.');
-    btn.disabled = false; procesandoConfirmacion = false;
-    btn.innerHTML = 'Confirmar e ir al pago →';
+    if (errUpd) { console.error('[APPLENDE] Error al actualizar inscripción:', errUpd); }
+    else { console.log('[APPLENDE] Inscripción sincronizada con la elección'); }
+    sincronizando = false;
+    return true;
+  } catch (e) {
+    console.error('[APPLENDE] Error al sincronizar:', e);
+    sincronizando = false;
+    return true; // no bloquear el pago por un fallo de sync
   }
-}
-
-// Muestra el sub-paso de pago (oculta la elección, revela el pago)
-function mostrarPago(datos) {
-  const eleccion = document.getElementById('eleccion-wrap');
-  const pagoWrap = document.getElementById('pago-wrap');
-  const descElegir = document.getElementById('pago-desc-elegir');
-  const descPagar = document.getElementById('pago-desc-pagar');
-  if (eleccion) eleccion.style.display = 'none';
-  if (pagoWrap) pagoWrap.style.display = 'block';
-  if (descElegir) descElegir.style.display = 'none';
-  if (descPagar) descPagar.style.display = 'block';
-  avanzarAPago(datos);
 }
 
 function avanzarAPago(datos) {
@@ -1938,9 +1926,6 @@ document.addEventListener('DOMContentLoaded', function() {
   setupTogglesPassword();
   setupCarnetUpload();
   document.getElementById('form-inscripcion').addEventListener('submit', procesarInscripcion);
-  // Botón del paso 2: confirmar inscripción (crea la inscripción y muestra el pago)
-  const btnConfirmar = document.getElementById('btn-confirmar-inscripcion');
-  if (btnConfirmar) btnConfirmar.addEventListener('click', confirmarInscripcion);
 
   // ══════════════════════════════════════════════════════════════
   //  ALUMNO YA LOGUEADO: si al entrar ya hay sesión activa,
@@ -2112,6 +2097,10 @@ function _qrMostrarEstado(id) {
 }
 
 async function generarQRPago() {
+  // PASO 2: sincronizar la inscripción con lo elegido (grupo, tipo, carnet) antes de pagar
+  const syncOk = await sincronizarInscripcion();
+  if (!syncOk) return; // faltó elegir algo (grupo/carnet)
+
   var pendienteId = (inscripcionCreada && inscripcionCreada.id) ? inscripcionCreada.id : null;
   if (!pendienteId) {
     document.getElementById('qr-err-msg').textContent =
@@ -2203,6 +2192,17 @@ function _qrWiring() {
   var btnGen = document.getElementById('btn-generar-qr');
   var btnRe  = document.getElementById('btn-reintentar-qr');
   if (btnGen) btnGen.addEventListener('click', generarQRPago);
+
+  // Sincronizar inscripción (grupo/tipo/carnet elegidos) antes de abrir WhatsApp
+  ['btn-whatsapp-pago', 'btn-whatsapp'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('click', function(ev){
+      // Validar elección; si falta algo, no abrir WhatsApp
+      if (!validarEleccion()) { ev.preventDefault(); return; }
+      // Sincronizar en segundo plano (no bloquea la apertura de WhatsApp)
+      sincronizarInscripcion();
+    });
+  });
   if (btnRe)  btnRe.addEventListener('click', generarQRPago);
 }
 
