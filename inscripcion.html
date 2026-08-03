@@ -2033,7 +2033,7 @@ document.addEventListener('DOMContentLoaded', function() {
       let perfil = null;
       try {
         const { data } = await sb.from('perfiles')
-          .select('nombre, apellido, telefono')
+          .select('nombre, apellido, telefono, ciudad')
           .eq('id', u.id).single();
         perfil = data;
       } catch(e) { console.warn('[INSC] No se pudo leer perfil:', e); }
@@ -2057,6 +2057,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (telGuardado) { inpWa.value = telGuardado; inpWa.readOnly = true; }
         // si no tiene teléfono guardado, lo dejamos editable para que lo cargue esta vez
       }
+
+      // Departamento: si ya lo tiene guardado de una inscripción anterior, precargarlo
+      // (queda editable por si el alumno cambió de ciudad).
+      const inpDep = document.getElementById('inp-departamento');
+      if (inpDep && perfil && perfil.ciudad) { inpDep.value = perfil.ciudad; }
 
       // Ocultar contraseña (ya tiene cuenta)
       const filaPwd = document.querySelector('.pwd-aviso');
