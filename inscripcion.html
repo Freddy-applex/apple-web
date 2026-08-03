@@ -885,6 +885,7 @@ function aplicarPromoEnInscripcion(curso) {
 let cursoActual = null;
 let cohorteActual = null;
 let inscripcionCreada = null;
+let datosAlumnoActual = null; // guarda los datos del alumno para poder reconstruir los links de WhatsApp si cambia el tipo
 
 function obtenerSlug() {
   return new URLSearchParams(window.location.search).get('slug');
@@ -1047,7 +1048,10 @@ function mostrarSelectorTipoAlumno(curso) {
   document.querySelectorAll('input[name="tipo-alumno"]').forEach(r => {
     r.addEventListener('change', () => {
       actualizarPrecioSegunTipo(curso);
-      if (document.body.classList.contains('pantalla-pago')) configurarMetodosPagoPorPais();
+      if (document.body.classList.contains('pantalla-pago')) {
+        configurarMetodosPagoPorPais();
+        actualizarLinksWhatsApp();
+      }
     });
   });
 }
@@ -1735,7 +1739,7 @@ async function sincronizarInscripcion() {
   const sb = obtenerSupabase();
   const tipoAlumno = obtenerTipoAlumno();
   const precioAplicable = obtenerPrecioAplicable();
-  const datosAlumno = window.DATOS_ALUMNO || {};
+  const datosAlumno = datosAlumnoActual || {};
 
   try {
     // Subir carnet si es estudiante y aún no se subió
@@ -1776,21 +1780,30 @@ async function sincronizarInscripcion() {
 function avanzarAPago(datos) {
   document.body.classList.add('pantalla-pago');
   document.getElementById('pago-nombre').textContent = extraerPrimerNombre(datos.nombre);
+  datosAlumnoActual = datos;
 
   // Decide qué método de pago mostrar según el país del visitante.
   configurarMetodosPagoPorPais();
 
-  // Mensaje para el botón "Enviar comprobante" (post-pago)
-  const mensajeWA = construirMensajeWA(datos, cursoActual);
+  // Links de WhatsApp (con el tipo/monto vigentes en ese momento)
+  actualizarLinksWhatsApp();
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Reconstruye los links de WhatsApp con el tipo de alumno y precio ACTUALES.
+// Se llama al entrar a Paso 2 y cada vez que cambia el tipo de inscripción,
+// para que el mensaje prellenado (Profesional/Estudiante, monto) nunca quede desactualizado.
+function actualizarLinksWhatsApp() {
+  if (!datosAlumnoActual) return;
+
+  const mensajeWA = construirMensajeWA(datosAlumnoActual, cursoActual);
   const urlWA = 'https://wa.me/' + WA_KARINA + '?text=' + encodeURIComponent(mensajeWA);
   document.getElementById('btn-whatsapp').href = urlWA;
 
-  // Mensaje para el botón "Coordinar pago" (pre-pago)
-  const mensajePagoWA = construirMensajeWAPrepago(datos, cursoActual);
+  const mensajePagoWA = construirMensajeWAPrepago(datosAlumnoActual, cursoActual);
   const urlPagoWA = 'https://wa.me/' + WA_KARINA + '?text=' + encodeURIComponent(mensajePagoWA);
   document.getElementById('btn-whatsapp-pago').href = urlPagoWA;
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function construirMensajeWAPrepago(datos, curso) {
