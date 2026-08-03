@@ -850,6 +850,12 @@
           <li>El alumno tendrá acceso al contenido del curso</li>
           <li>Se registrará tu nombre como aprobador</li>
         </ul>
+        <div id="uagrmCheckboxRow" style="display:none;margin:4px 0 14px;padding:12px 14px;background:rgba(107,107,187,0.08);border:1px solid rgba(107,107,187,0.25);border-radius:8px;">
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:13px;color:var(--navy,#1A2744);font-weight:600;">
+            <input type="checkbox" id="approveEsUagrm" style="margin-top:2px;">
+            🎓 Es estudiante UAGRM (inscripción gratuita, cobro de certificado pendiente)
+          </label>
+        </div>
         <label for="approveNotes">Notas internas (opcional)</label>
         <textarea id="approveNotes" placeholder="Ej: Pago verificado por WhatsApp con captura del banco..."></textarea>
       </div>
@@ -1531,6 +1537,8 @@
         `<strong>${escapar(p.nombre_alumno)}</strong> · ${escapar(p.email_alumno)}<br>
          Curso: <strong>${escapar(p.curso_nombre)}</strong>${tipoTag}`;
       document.getElementById('approveNotes').value = '';
+      document.getElementById('uagrmCheckboxRow').style.display = (p.tipo_alumno === 'estudiante') ? 'block' : 'none';
+      document.getElementById('approveEsUagrm').checked = false;
       document.getElementById('modalApprove').classList.add('open');
     }
 
@@ -1561,12 +1569,14 @@
       const p = estado.pendienteSeleccionada;
       if(!p) return;
       const notas = document.getElementById('approveNotes').value.trim();
+      const esUagrm = document.getElementById('approveEsUagrm').checked;
       const btn = document.getElementById('btnConfirmApprove');
       btn.disabled = true; btn.textContent = 'Procesando…';
 
       const {data, error} = await supabaseClient.rpc('aprobar_inscripcion', {
         pendiente_id: p.id,
-        notas_internas: notas || null
+        notas_internas: notas || null,
+        es_uagrm: esUagrm
       });
 
       btn.disabled = false; btn.innerHTML = '✓ Aprobar';
