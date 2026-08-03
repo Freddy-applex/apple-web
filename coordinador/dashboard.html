@@ -801,7 +801,7 @@
       <!-- Filtros + Exportar -->
       <div class="filters">
         <input type="text" class="filter-input" id="estSearch"
-               placeholder="🔍 Buscar por nombre, CI o teléfono...">
+               placeholder="🔍 Buscar por nombre, email, CI o teléfono...">
         <select class="filter-select" id="estCurso"><option value="">Todos los cursos</option></select>
         <select class="filter-select" id="estModalidad">
           <option value="">Todas las modalidades</option>
@@ -1763,17 +1763,10 @@
     async function cargarEstudiantes(){
       const list = document.getElementById('estList');
 
-      // 1) Inscripciones activas + datos del alumno (perfiles)
-      const { data, error } = await supabaseClient
-        .from('inscripciones')
-        .select(`
-          id, alumno_id, curso_id, cohorte_id, modalidad,
-          estado_pago, acceso_activo, fecha_activacion,
-          precio_pagado, moneda_pago,
-          perfiles:alumno_id ( nombre, apellido, ci, telefono, ciudad, profesion )
-        `)
-        .eq('acceso_activo', true)
-        .order('fecha_activacion', { ascending: false });
+      // 1) Inscripciones activas + datos del alumno + EMAIL, vía RPC segura
+      //    (el email vive en auth.users, no en perfiles; esta función lo trae
+      //    solo para admin/coordinador, para que Karina pueda buscar por correo).
+      const { data, error } = await supabaseClient.rpc('listar_estudiantes_admin');
 
       if(error){
         console.error('Error cargando estudiantes:', error);
@@ -1794,11 +1787,12 @@
         ...i,
         modalidad: i.modalidad || 'virtual',
         tipo_alumno: tipoPorInscripcion[i.id] || 'profesional',
-        nombre: i.perfiles ? `${i.perfiles.nombre || ''} ${i.perfiles.apellido || ''}`.trim() : 'Sin nombre',
-        ci: i.perfiles?.ci || '',
-        telefono: i.perfiles?.telefono || '',
-        ciudad: i.perfiles?.ciudad || '',
-        profesion: i.perfiles?.profesion || '',
+        nombre: `${i.nombre || ''} ${i.apellido || ''}`.trim() || 'Sin nombre',
+        ci: i.ci || '',
+        telefono: i.telefono || '',
+        ciudad: i.ciudad || '',
+        profesion: i.profesion || '',
+        email: i.email || '',
         curso_nombre: estado.cursos.find(c => c.id === i.curso_id)?.titulo || 'Curso desconocido',
         cohorte_nombre: estado.cohortes.find(c => c.id === i.cohorte_id)?.nombre || 'Sin grupo'
       }));
@@ -1819,7 +1813,7 @@
     function aplicarFiltrosEst(){
       let f = estado.estudiantes;
       const q = estado.estFiltroBusqueda.toLowerCase().trim();
-      if(q) f = f.filter(e => e.nombre.toLowerCase().includes(q) || (e.ci&&e.ci.toLowerCase().includes(q)) || (e.telefono&&e.telefono.toLowerCase().includes(q)));
+      if(q) f = f.filter(e => e.nombre.toLowerCase().includes(q) || (e.ci&&e.ci.toLowerCase().includes(q)) || (e.telefono&&e.telefono.toLowerCase().includes(q)) || (e.email&&e.email.toLowerCase().includes(q)));
       if(estado.estFiltroCurso) f = f.filter(e => e.curso_id === estado.estFiltroCurso);
       if(estado.estFiltroModalidad) f = f.filter(e => e.modalidad === estado.estFiltroModalidad);
       if(estado.estFiltroTipo) f = f.filter(e => e.tipo_alumno === estado.estFiltroTipo);
@@ -1889,6 +1883,7 @@
             <div>
               <div class="insc-name">${escapar(e.nombre)}</div>
               <div class="insc-meta-top">
+                ${e.email?`<span>✉️ ${escapar(e.email)}</span>`:''}
                 ${e.ci?`<span>🪪 CI ${escapar(e.ci)}</span>`:''}
                 ${e.telefono?`<span>📱 ${escapar(e.telefono)}</span>`:''}
                 ${e.ciudad?`<span>📍 ${escapar(e.ciudad)}</span>`:''}
@@ -1918,7 +1913,7 @@
       const filtrados = aplicarFiltrosEst();
       if(filtrados.length === 0){ showToast('No hay alumnos para exportar', 'error'); return; }
 
-      const headers = ['Nombre','CI','Telefono','Ciudad','Profesion','Curso','Grupo','Modalidad','Tipo','Monto pagado','Moneda'];
+      const headers = ['Nombre','Email','CI','Telefono','Ciudad','Profesion','Curso','Grupo','Modalidad','Tipo','Monto pagado','Moneda'];
       const esc = v => {
         const s = (v==null?'':String(v));
         return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -1930,6 +1925,7 @@
       const filasHTML = filtrados.map(e => `
         <tr>
           <td>${esc(e.nombre)}</td>
+          <td>${esc(e.email)}</td>
           <td style="mso-number-format:'\@'">${esc(e.ci)}</td>
           <td style="mso-number-format:'\@'">${esc(e.telefono)}</td>
           <td>${esc(e.ciudad)}</td>
