@@ -131,6 +131,48 @@
     .btn-wa:hover{background:#1ebe5a;}
 
     /* Error */
+    /* ─── PREGUNTAS Y RESPUESTAS ─── */
+    .qa-section{
+      max-width:1240px;margin:0 auto 24px auto;padding:0 5%;
+    }
+    .qa-card{
+      background:#fff;border:1px solid var(--border);border-radius:14px;
+      padding:24px 26px;
+    }
+    .qa-card-head{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+    .qa-card-head span{font-size:20px;}
+    .qa-card-head h3{font-size:16px;color:var(--navy);}
+    .qa-form{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+    .qa-textarea{
+      width:100%;border:1.5px solid var(--border);border-radius:10px;
+      padding:12px 14px;font-family:inherit;font-size:13.5px;color:var(--text);
+      resize:vertical;min-height:70px;
+    }
+    .qa-textarea:focus{outline:none;border-color:var(--purple);}
+    .qa-btn{
+      align-self:flex-end;background:var(--green);color:var(--navy-dark);
+      border:none;padding:11px 22px;border-radius:10px;font-weight:800;
+      font-size:13px;letter-spacing:.5px;cursor:pointer;transition:all .2s;
+      font-family:inherit;
+    }
+    .qa-btn:hover{background:var(--green-dark);color:#fff;transform:translateY(-1px);}
+    .qa-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+    .qa-empty{text-align:center;color:var(--muted);font-size:13px;padding:18px 0;}
+    .qa-item{border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:12px;}
+    .qa-item:last-child{margin-bottom:0;}
+    .qa-item-p{font-size:13.5px;color:var(--text);line-height:1.5;}
+    .qa-item-meta{margin-top:6px;font-size:11.5px;color:var(--muted);}
+    .qa-item-r{
+      margin-top:12px;padding:12px 14px;background:var(--offwhite);
+      border-left:3px solid var(--green);border-radius:0 8px 8px 0;
+    }
+    .qa-item-r-label{
+      font-size:11px;font-weight:800;color:var(--purple);
+      letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;
+    }
+    .qa-item-r-txt{font-size:13.5px;color:var(--text);line-height:1.5;}
+    .qa-item-pending{margin-top:10px;font-size:12px;color:var(--muted);font-style:italic;}
+
     .err-screen{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px;max-width:520px;margin:0 auto;}
     .err-screen .emoji{font-size:56px;margin-bottom:16px;}
     .err-screen h2{font-family:'Josefin Sans',sans-serif;font-size:24px;font-weight:700;color:var(--navy);margin-bottom:12px;}
@@ -227,6 +269,20 @@
       </aside>
 
     </div>
+
+    <!-- PREGUNTAS Y RESPUESTAS -->
+    <div class="qa-section">
+      <div class="qa-card">
+        <div class="qa-card-head"><span>💬</span><h3>Preguntas y respuestas</h3></div>
+        <div class="qa-form">
+          <textarea id="qaInput" class="qa-textarea" placeholder="Escribí tu pregunta sobre el curso..." rows="3" maxlength="500"></textarea>
+          <button id="qaBtn" class="qa-btn">Enviar pregunta</button>
+        </div>
+        <div id="qaList">
+          <div class="qa-empty">Todavía no hay preguntas. ¡Sé el primero en preguntar!</div>
+        </div>
+      </div>
+    </div>
   </main>
 
   <div id="errScreen" class="err-screen">
@@ -247,7 +303,7 @@
     const LOGIN_URL = '/login.html';
     const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    let estado = { user:null, curso:null, inscripcion:null, clases:[], progreso:{}, materiales:[], activa:0, certificado:null };
+    let estado = { user:null, curso:null, inscripcion:null, clases:[], progreso:{}, materiales:[], activa:0, certificado:null, preguntas:[] };
 
     (async function init(){
       const params = new URLSearchParams(window.location.search);
@@ -301,10 +357,17 @@
         .eq('inscripcion_id', insc.id).maybeSingle();
       estado.certificado = cert || null;
 
+      // Preguntas y respuestas (visibles a todos los inscritos del curso)
+      const { data:preguntas } = await sb.from('preguntas_curso')
+        .select('id, alumno_id, nombre_alumno, pregunta, respuesta, respondido_por_nombre, respondido_en, creado_en')
+        .eq('curso_id', curso.id).order('creado_en', { ascending:false });
+      estado.preguntas = preguntas || [];
+
       renderClases();
       renderMateriales();
       actualizarProgreso();
       renderCertificado();
+      renderPreguntas();
 
       // Abrir primera no-completada (o la primera)
       let idx = estado.clases.findIndex(c => !estado.progreso[c.id]);
@@ -467,6 +530,52 @@
         };
       }
     }
+
+    // ── PREGUNTAS Y RESPUESTAS ──
+    function renderPreguntas(){
+      const cont = document.getElementById('qaList');
+      if(!cont) return;
+      if(!estado.preguntas.length){
+        cont.innerHTML = '<div class="qa-empty">Todavía no hay preguntas. ¡Sé el primero en preguntar!</div>';
+        return;
+      }
+      cont.innerHTML = '';
+      estado.preguntas.forEach(q => {
+        const div = document.createElement('div');
+        div.className = 'qa-item';
+        const fecha = new Date(q.creado_en).toLocaleDateString('es-BO', { day:'numeric', month:'short', year:'numeric' });
+        div.innerHTML =
+          '<div class="qa-item-p">' + escapar(q.pregunta) + '</div>' +
+          '<div class="qa-item-meta">' + escapar(q.nombre_alumno || 'Alumno') + ' · ' + fecha + '</div>' +
+          (q.respuesta
+            ? '<div class="qa-item-r"><div class="qa-item-r-label">Respuesta · ' + escapar(q.respondido_por_nombre || 'APPLENDE') + '</div><div class="qa-item-r-txt">' + escapar(q.respuesta) + '</div></div>'
+            : '<div class="qa-item-pending">Aún sin responder</div>');
+        cont.appendChild(div);
+      });
+    }
+
+    async function enviarPregunta(){
+      const input = document.getElementById('qaInput');
+      const btn = document.getElementById('qaBtn');
+      const texto = input.value.trim();
+      if(!texto){ mostrarToast('Escribí tu pregunta antes de enviar', 'err'); return; }
+
+      btn.disabled = true;
+      const nombreAlumno = document.getElementById('userName').textContent || 'Alumno';
+      const { data, error } = await sb.from('preguntas_curso')
+        .insert({ curso_id: estado.curso.id, alumno_id: estado.user.id, nombre_alumno: nombreAlumno, pregunta: texto })
+        .select().single();
+      btn.disabled = false;
+
+      if(error){ mostrarToast('No se pudo enviar la pregunta', 'err'); return; }
+
+      input.value = '';
+      estado.preguntas.unshift(data);
+      renderPreguntas();
+      mostrarToast('Pregunta enviada ✓', 'ok');
+    }
+
+    document.getElementById('qaBtn').addEventListener('click', enviarPregunta);
 
     function escapar(t){ const d=document.createElement('div'); d.textContent=t||''; return d.innerHTML; }
     function mostrarToast(msg, tipo){
