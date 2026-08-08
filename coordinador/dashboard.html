@@ -397,6 +397,25 @@
     }
     .btn-refresh:hover{background:var(--navy-dark);}
 
+    /* ─── PREGUNTAS ─── */
+    .preg-pregunta{font-size:14px;color:var(--text);line-height:1.5;margin:10px 0;}
+    .preg-respuesta-box{
+      margin-top:10px;padding:12px 14px;background:rgba(141,198,63,0.08);
+      border-left:3px solid var(--green);border-radius:0 8px 8px 0;
+    }
+    .preg-respuesta-label{
+      font-size:10px;font-weight:800;color:var(--green-dark);
+      letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;
+    }
+    .preg-form{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+    .preg-textarea{
+      width:100%;border:1.5px solid var(--border);border-radius:8px;
+      padding:10px 12px;font-family:inherit;font-size:13px;color:var(--text);
+      resize:vertical;min-height:60px;
+    }
+    .preg-textarea:focus{outline:none;border-color:var(--purple);}
+    .preg-btn-responder{align-self:flex-end;}
+
     /* ─── INSCRIPCIÓN CARD ─── */
     .insc-list{display:flex;flex-direction:column;gap:14px;}
     .insc-card{
@@ -691,6 +710,10 @@
       </button>
       <button class="tab" data-tab="estudiantes">Estudiantes</button>
       <button class="tab" data-tab="cohortes">Cohortes</button>
+      <button class="tab" data-tab="preguntas">
+        Preguntas
+        <span class="count" id="tabCountPreguntas">0</span>
+      </button>
     </nav>
 
     <!-- ─── TAB: INSCRIPCIONES ─── -->
@@ -830,6 +853,37 @@
         <h2>Cohortes y Clases en Vivo</h2>
         <p>Próximo bloque: crear y gestionar cohortes, programar clases en vivo, asignar instructores.</p>
       </div>
+    </section>
+
+    <!-- ─── TAB: PREGUNTAS ─── -->
+    <section class="tab-content" id="tab-preguntas">
+
+      <div class="stats-row">
+        <div class="stat-mini amber">
+          <div class="icon">⏳</div>
+          <div class="data"><div class="num" id="pregPendientes">—</div><div class="label">Sin responder</div></div>
+        </div>
+        <div class="stat-mini green">
+          <div class="icon">✅</div>
+          <div class="data"><div class="num" id="pregRespondidas">—</div><div class="label">Respondidas</div></div>
+        </div>
+      </div>
+
+      <div class="filters">
+        <input type="text" class="filter-input" id="pregSearch"
+               placeholder="🔍 Buscar por alumno, curso o texto de la pregunta...">
+        <select class="filter-select" id="pregEstado">
+          <option value="">Todas</option>
+          <option value="pendiente">⏳ Sin responder</option>
+          <option value="respondida">✅ Respondidas</option>
+        </select>
+        <button class="btn-refresh" id="pregRefresh" title="Refrescar">↻ Refrescar</button>
+      </div>
+
+      <div id="pregList" class="insc-list">
+        <div class="cupos-empty">Cargando preguntas…</div>
+      </div>
+
     </section>
 
   </main>
@@ -1691,6 +1745,7 @@
         tab.classList.add('active');
         document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
         if(tab.dataset.tab === 'estudiantes' && !estudiantesCargados){ cargarEstudiantes(); }
+        if(tab.dataset.tab === 'preguntas' && !preguntasCargadas){ cargarPreguntas(); }
       };
     });
 
@@ -1971,6 +2026,123 @@
     document.getElementById('estTipo').addEventListener('change', e => { estado.estFiltroTipo = e.target.value; renderEstudiantes(); });
     document.getElementById('estRefresh').onclick = async () => { estudiantesCargados=false; await cargarEstudiantes(); showToast('Alumnos actualizados','success'); };
     document.getElementById('estExport').onclick = exportarEstudiantesCSV;
+
+    // ═══════════════════════════════════════════════════════════════
+    // GESTIÓN DE PREGUNTAS Y RESPUESTAS (todos los cursos)
+    // ═══════════════════════════════════════════════════════════════
+    estado.preguntas = [];
+    estado.pregFiltroBusqueda = '';
+    estado.pregFiltroEstado = '';
+    let preguntasCargadas = false;
+
+    async function cargarPreguntas(){
+      const list = document.getElementById('pregList');
+      const { data, error } = await supabaseClient.rpc('listar_preguntas_admin');
+
+      if(error){
+        console.error('Error cargando preguntas:', error);
+        if(list) list.innerHTML = '<div class="cupos-empty">Error al cargar preguntas.</div>';
+        return;
+      }
+
+      estado.preguntas = data || [];
+      preguntasCargadas = true;
+
+      const pendientes = estado.preguntas.filter(p => !p.respuesta).length;
+      document.getElementById('pregPendientes').textContent = pendientes;
+      document.getElementById('pregRespondidas').textContent = estado.preguntas.length - pendientes;
+      document.getElementById('tabCountPreguntas').textContent = pendientes;
+
+      renderPreguntasAdmin();
+    }
+
+    function aplicarFiltrosPreg(){
+      const q = estado.pregFiltroBusqueda.toLowerCase().trim();
+      return estado.preguntas.filter(p => {
+        if(estado.pregFiltroEstado === 'pendiente' && p.respuesta) return false;
+        if(estado.pregFiltroEstado === 'respondida' && !p.respuesta) return false;
+        if(!q) return true;
+        return (p.nombre_alumno||'').toLowerCase().includes(q) ||
+               (p.curso_titulo||'').toLowerCase().includes(q) ||
+               (p.pregunta||'').toLowerCase().includes(q);
+      });
+    }
+
+    function renderPreguntasAdmin(){
+      const list = document.getElementById('pregList');
+      const filtradas = aplicarFiltrosPreg();
+      if(!filtradas.length){
+        list.innerHTML = '<div class="cupos-empty">No hay preguntas que coincidan con el filtro.</div>';
+        return;
+      }
+      list.innerHTML = filtradas.map(renderPregCard).join('');
+
+      filtradas.filter(p => !p.respuesta).forEach(p => {
+        const btn = document.querySelector(`[data-responder="${p.id}"]`);
+        if(btn) btn.onclick = () => enviarRespuestaPregunta(p.id);
+      });
+    }
+
+    function renderPregCard(p){
+      const fecha = new Date(p.creado_en).toLocaleDateString('es-BO', { day:'numeric', month:'short', year:'numeric' });
+      return `
+        <article class="insc-card" data-id="${p.id}">
+          <div class="insc-header">
+            <div>
+              <div class="insc-name">${escapar(p.nombre_alumno)}</div>
+              <div class="insc-meta-top">
+                <span>📚 ${escapar(p.curso_titulo)}</span>
+                <span>📅 ${fecha}</span>
+              </div>
+            </div>
+            <div class="insc-badges-row">
+              ${p.respuesta
+                ? '<span class="insc-badge aprobada">✅ RESPONDIDA</span>'
+                : '<span class="insc-badge pendiente">⏳ SIN RESPONDER</span>'}
+            </div>
+          </div>
+          <div class="preg-pregunta">${escapar(p.pregunta)}</div>
+          ${p.respuesta ? `
+          <div class="preg-respuesta-box">
+            <div class="preg-respuesta-label">Respuesta · ${escapar(p.respondido_por_nombre||'APPLENDE')}</div>
+            <div>${escapar(p.respuesta)}</div>
+          </div>` : `
+          <div class="preg-form">
+            <textarea class="preg-textarea" id="pregResp-${p.id}" placeholder="Escribí la respuesta para el alumno..."></textarea>
+            <button class="btn-action btn-approve preg-btn-responder" data-responder="${p.id}">✓ Responder</button>
+          </div>`}
+        </article>`;
+    }
+
+    async function enviarRespuestaPregunta(pregId){
+      const textarea = document.getElementById('pregResp-' + pregId);
+      const texto = textarea.value.trim();
+      if(!texto){ showToast('Escribí una respuesta antes de enviar', 'error'); return; }
+
+      const btn = document.querySelector(`[data-responder="${pregId}"]`);
+      btn.disabled = true;
+      btn.textContent = 'Enviando…';
+
+      const { data, error } = await supabaseClient.rpc('responder_pregunta_curso', {
+        pregunta_id: pregId,
+        texto_respuesta: texto
+      });
+
+      if(error || !data || !data.success){
+        showToast((data && data.error) || 'No se pudo enviar la respuesta', 'error');
+        btn.disabled = false;
+        btn.textContent = '✓ Responder';
+        return;
+      }
+
+      showToast('Respuesta enviada ✓', 'success');
+      preguntasCargadas = false;
+      await cargarPreguntas();
+    }
+
+    document.getElementById('pregSearch').addEventListener('input', e => { estado.pregFiltroBusqueda = e.target.value; renderPreguntasAdmin(); });
+    document.getElementById('pregEstado').addEventListener('change', e => { estado.pregFiltroEstado = e.target.value; renderPreguntasAdmin(); });
+    document.getElementById('pregRefresh').onclick = async () => { preguntasCargadas=false; await cargarPreguntas(); showToast('Preguntas actualizadas','success'); };
 
   </script>
 
