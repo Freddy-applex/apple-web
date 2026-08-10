@@ -397,25 +397,6 @@
     }
     .btn-refresh:hover{background:var(--navy-dark);}
 
-    /* ─── PREGUNTAS ─── */
-    .preg-pregunta{font-size:14px;color:var(--text);line-height:1.5;margin:10px 0;}
-    .preg-respuesta-box{
-      margin-top:10px;padding:12px 14px;background:rgba(141,198,63,0.08);
-      border-left:3px solid var(--green);border-radius:0 8px 8px 0;
-    }
-    .preg-respuesta-label{
-      font-size:10px;font-weight:800;color:var(--green-dark);
-      letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;
-    }
-    .preg-form{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
-    .preg-textarea{
-      width:100%;border:1.5px solid var(--border);border-radius:8px;
-      padding:10px 12px;font-family:inherit;font-size:13px;color:var(--text);
-      resize:vertical;min-height:60px;
-    }
-    .preg-textarea:focus{outline:none;border-color:var(--purple);}
-    .preg-btn-responder{align-self:flex-end;}
-
     /* ─── INSCRIPCIÓN CARD ─── */
     .insc-list{display:flex;flex-direction:column;gap:14px;}
     .insc-card{
@@ -670,7 +651,36 @@
       .filters{flex-direction:column;align-items:stretch;}
       .filter-input,.filter-select{min-width:0;width:100%;}
     }
-  </style>
+  
+    .modal-body input, .modal-body select{
+      width:100%;padding:12px 14px;border:1.5px solid var(--border);
+      border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;
+      outline:none;background:var(--offwhite);
+    }
+    .modal-body input:focus, .modal-body select:focus{border-color:var(--green);background:#fff;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+    .form-field{margin-bottom:14px;}
+    .form-field:last-child{margin-bottom:0;}
+    .cohortes-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:10px;flex-wrap:wrap;}
+    .btn-nueva-cohorte{padding:10px 20px;background:var(--green);color:var(--navy);border:none;border-radius:8px;font-family:'Barlow',sans-serif;font-weight:800;font-size:13px;cursor:pointer;}
+    .btn-nueva-cohorte:hover{background:var(--green-dark);color:#fff;}
+    .cohorte-grupo-tit{font-size:13px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.5px;margin:22px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+    .cohorte-grupo-tit:first-child{margin-top:0;}
+    .cohorte-card{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;flex-wrap:wrap;}
+    .cohorte-card .cc-info{flex:1;min-width:220px;}
+    .cohorte-card .cc-nombre{font-weight:700;color:var(--navy);font-size:14px;margin-bottom:4px;}
+    .cohorte-card .cc-meta{font-size:12.5px;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+    .cohorte-badge{font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;}
+    .cohorte-badge.abiertas{background:rgba(141,198,63,0.15);color:var(--green-dark);}
+    .cohorte-badge.en_curso{background:rgba(46,74,142,0.12);color:var(--blue);}
+    .cohorte-badge.finalizada{background:rgba(107,122,144,0.15);color:var(--muted);}
+    .cohorte-badge.cancelada{background:var(--red-soft);color:var(--red);}
+    .cohorte-actions{display:flex;gap:8px;}
+    .btn-cohorte-action{padding:8px 14px;border-radius:7px;border:1.5px solid var(--border);background:#fff;font-family:'Barlow',sans-serif;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;}
+    .btn-cohorte-action:hover{border-color:var(--muted);}
+    .btn-cohorte-action.finalizar:hover{border-color:var(--red);color:var(--red);}
+    .btn-cohorte-action.reactivar:hover{border-color:var(--green-dark);color:var(--green-dark);}
+    </style>
 </head>
 <body>
 
@@ -710,10 +720,6 @@
       </button>
       <button class="tab" data-tab="estudiantes">Estudiantes</button>
       <button class="tab" data-tab="cohortes">Cohortes</button>
-      <button class="tab" data-tab="preguntas">
-        Preguntas
-        <span class="count" id="tabCountPreguntas">0</span>
-      </button>
     </nav>
 
     <!-- ─── TAB: INSCRIPCIONES ─── -->
@@ -824,7 +830,7 @@
       <!-- Filtros + Exportar -->
       <div class="filters">
         <input type="text" class="filter-input" id="estSearch"
-               placeholder="🔍 Buscar por nombre, email, CI o teléfono...">
+               placeholder="🔍 Buscar por nombre, CI o teléfono...">
         <select class="filter-select" id="estCurso"><option value="">Todos los cursos</option></select>
         <select class="filter-select" id="estModalidad">
           <option value="">Todas las modalidades</option>
@@ -846,44 +852,15 @@
 
     </section>
 
-    <!-- ─── TAB: COHORTES (placeholder) ─── -->
+    <!-- ─── TAB: COHORTES ─── -->
     <section class="tab-content" id="tab-cohortes">
-      <div class="placeholder-tab">
-        <div class="emoji">📅</div>
-        <h2>Cohortes y Clases en Vivo</h2>
-        <p>Próximo bloque: crear y gestionar cohortes, programar clases en vivo, asignar instructores.</p>
+      <div class="cohortes-head">
+        <button class="btn-refresh" id="btnRefreshCohortes" title="Refrescar">↻ Refrescar</button>
+        <button class="btn-nueva-cohorte" id="btnNuevaCohorte">+ Nueva cohorte</button>
       </div>
-    </section>
-
-    <!-- ─── TAB: PREGUNTAS ─── -->
-    <section class="tab-content" id="tab-preguntas">
-
-      <div class="stats-row">
-        <div class="stat-mini amber">
-          <div class="icon">⏳</div>
-          <div class="data"><div class="num" id="pregPendientes">—</div><div class="label">Sin responder</div></div>
-        </div>
-        <div class="stat-mini green">
-          <div class="icon">✅</div>
-          <div class="data"><div class="num" id="pregRespondidas">—</div><div class="label">Respondidas</div></div>
-        </div>
+      <div id="cohortesLista">
+        <div class="cupos-empty">Cargando cohortes…</div>
       </div>
-
-      <div class="filters">
-        <input type="text" class="filter-input" id="pregSearch"
-               placeholder="🔍 Buscar por alumno, curso o texto de la pregunta...">
-        <select class="filter-select" id="pregEstado">
-          <option value="">Todas</option>
-          <option value="pendiente">⏳ Sin responder</option>
-          <option value="respondida">✅ Respondidas</option>
-        </select>
-        <button class="btn-refresh" id="pregRefresh" title="Refrescar">↻ Refrescar</button>
-      </div>
-
-      <div id="pregList" class="insc-list">
-        <div class="cupos-empty">Cargando preguntas…</div>
-      </div>
-
     </section>
 
   </main>
@@ -937,6 +914,75 @@
       <div class="modal-foot">
         <button class="btn-cancel" data-close="modalReject">Cancelar</button>
         <button class="btn-confirm red" id="btnConfirmReject">✗ Rechazar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MODAL NUEVA COHORTE ─── -->
+  <div class="modal-overlay" id="modalNuevaCohorte">
+    <div class="modal-box">
+      <div class="modal-head">
+        <button class="modal-close" data-close="modalNuevaCohorte">✕</button>
+        <p class="kicker">Cohortes</p>
+        <h3>Nueva cohorte</h3>
+      </div>
+      <div class="modal-body">
+        <div class="form-field">
+          <label for="ncCurso">Curso *</label>
+          <select id="ncCurso"><option value="">Seleccioná un curso...</option></select>
+        </div>
+        <div class="form-field">
+          <label for="ncNombre">Nombre del grupo *</label>
+          <input type="text" id="ncNombre" placeholder="Ej: Grupo Único · Septiembre 2026 · En vivo Zoom (Noche)">
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="ncFechaInicio">Inicio (fecha y hora, Bolivia) *</label>
+            <input type="datetime-local" id="ncFechaInicio">
+          </div>
+          <div class="form-field">
+            <label for="ncFechaFin">Fin (última clase) *</label>
+            <input type="date" id="ncFechaFin">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="ncDias">Días de clase</label>
+            <input type="text" id="ncDias" value="Lunes a Viernes">
+          </div>
+          <div class="form-field">
+            <label for="ncPlataforma">Plataforma</label>
+            <select id="ncPlataforma">
+              <option value="zoom">Zoom</option>
+              <option value="meet">Google Meet</option>
+              <option value="presencial">Presencial</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="ncCupos">Cupos totales</label>
+            <input type="number" id="ncCupos" value="35" min="1">
+          </div>
+          <div class="form-field">
+            <label for="ncFechaLimitePromo">Fecha límite de promo</label>
+            <input type="date" id="ncFechaLimitePromo">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="ncPrecio">Precio profesional (Bs) *</label>
+            <input type="number" id="ncPrecio" placeholder="200">
+          </div>
+          <div class="form-field">
+            <label for="ncPrecioEstudiante">Precio estudiante (Bs)</label>
+            <input type="number" id="ncPrecioEstudiante" placeholder="150">
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn-cancel" data-close="modalNuevaCohorte">Cancelar</button>
+        <button class="btn-confirm green" id="btnConfirmNuevaCohorte">✓ Crear cohorte</button>
       </div>
     </div>
   </div>
@@ -1085,6 +1131,167 @@
 
       poblarSelectorMeses();
       await cargarGrabados();
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // GESTIÓN DE COHORTES (crear / marcar finalizada / reactivar)
+    // ═══════════════════════════════════════════════════════════════
+    const ESTADO_LABELS = {
+      inscripciones_abiertas: {texto:'Inscripciones abiertas', clase:'abiertas'},
+      en_curso:               {texto:'En curso',               clase:'en_curso'},
+      finalizada:             {texto:'Finalizada',             clase:'finalizada'},
+      cancelada:              {texto:'Cancelada',               clase:'cancelada'}
+    };
+
+    function renderCohortes(){
+      const cont = document.getElementById('cohortesLista');
+      if(!cont) return;
+      if(estado.cohortes.length === 0){
+        cont.innerHTML = '<div class="cupos-empty">Todavía no hay cohortes cargadas.</div>';
+        return;
+      }
+      const porCurso = {};
+      estado.cohortes.forEach(c => {
+        const key = c.curso_titulo || 'Sin curso';
+        (porCurso[key] = porCurso[key] || []).push(c);
+      });
+
+      cont.innerHTML = Object.entries(porCurso).map(([curso, lista]) => `
+        <div class="cohorte-grupo-tit">${escapar(curso)}</div>
+        ${lista.map(c => {
+          const info = ESTADO_LABELS[c.estado] || {texto:c.estado||'—', clase:''};
+          const fIni = c.fecha_inicio ? new Date(c.fecha_inicio).toLocaleDateString('es-BO',{day:'numeric',month:'long',year:'numeric'}) : 'Sin fecha';
+          const fFin = c.fecha_fin ? new Date(c.fecha_fin).toLocaleDateString('es-BO',{day:'numeric',month:'long',year:'numeric'}) : '—';
+          const ocupados = (c.ocupados_virtuales||0) + (c.ocupados_presenciales||0);
+          const cupos = (c.cupos_virtuales||0) + (c.cupos_presenciales||0);
+          const puedeFinalizar = c.estado === 'inscripciones_abiertas' || c.estado === 'en_curso';
+          const puedeReactivar = c.estado === 'finalizada';
+          return `
+            <div class="cohorte-card">
+              <div class="cc-info">
+                <div class="cc-nombre">${escapar(c.nombre || 'Sin nombre')}</div>
+                <div class="cc-meta">
+                  <span>📅 ${fIni} → ${fFin}</span>
+                  <span>⚡ ${ocupados} de ${cupos} cupos</span>
+                  <span class="cohorte-badge ${info.clase}">${info.texto}</span>
+                </div>
+              </div>
+              <div class="cohorte-actions">
+                ${puedeFinalizar ? `<button class="btn-cohorte-action finalizar" data-finalizar="${c.id}">Marcar finalizada</button>` : ''}
+                ${puedeReactivar ? `<button class="btn-cohorte-action reactivar" data-reactivar="${c.id}">Reactivar</button>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      `).join('');
+
+      cont.querySelectorAll('[data-finalizar]').forEach(btn => {
+        btn.onclick = () => marcarCohorteFinalizada(btn.dataset.finalizar);
+      });
+      cont.querySelectorAll('[data-reactivar]').forEach(btn => {
+        btn.onclick = () => reactivarCohorte(btn.dataset.reactivar);
+      });
+    }
+
+    async function marcarCohorteFinalizada(id){
+      if(!confirm('¿Marcar esta cohorte como finalizada? Va a dejar de mostrarse como "próxima" en la página del curso.')) return;
+      const {error} = await supabaseClient.from('cohortes').update({estado:'finalizada'}).eq('id', id);
+      if(error){ console.error(error); showToast('Error al marcar como finalizada','error'); return; }
+      showToast('Cohorte marcada como finalizada','success');
+      await cargarCohortes();
+      renderCohortes();
+    }
+
+    async function reactivarCohorte(id){
+      const {error} = await supabaseClient.from('cohortes').update({estado:'inscripciones_abiertas'}).eq('id', id);
+      if(error){ console.error(error); showToast('Error al reactivar','error'); return; }
+      showToast('Cohorte reactivada','success');
+      await cargarCohortes();
+      renderCohortes();
+    }
+
+    function abrirModalNuevaCohorte(){
+      const sel = document.getElementById('ncCurso');
+      sel.innerHTML = '<option value="">Seleccioná un curso...</option>' +
+        estado.cursos.map(c => `<option value="${c.id}">${escapar(c.titulo)}</option>`).join('');
+      document.getElementById('ncNombre').value = '';
+      document.getElementById('ncFechaInicio').value = '';
+      document.getElementById('ncFechaFin').value = '';
+      document.getElementById('ncDias').value = 'Lunes a Viernes';
+      document.getElementById('ncPlataforma').value = 'zoom';
+      document.getElementById('ncCupos').value = 35;
+      document.getElementById('ncFechaLimitePromo').value = '';
+      document.getElementById('ncPrecio').value = '';
+      document.getElementById('ncPrecioEstudiante').value = '';
+      document.getElementById('modalNuevaCohorte').classList.add('open');
+    }
+
+    async function crearCohorte(){
+      const cursoId = document.getElementById('ncCurso').value;
+      const nombre = document.getElementById('ncNombre').value.trim();
+      const fechaInicioLocal = document.getElementById('ncFechaInicio').value;
+      const fechaFinLocal = document.getElementById('ncFechaFin').value;
+      const dias = document.getElementById('ncDias').value.trim() || 'Lunes a Viernes';
+      const plataforma = document.getElementById('ncPlataforma').value;
+      const cupos = parseInt(document.getElementById('ncCupos').value, 10) || 0;
+      const fechaLimitePromo = document.getElementById('ncFechaLimitePromo').value;
+      const precio = parseFloat(document.getElementById('ncPrecio').value) || 0;
+      const precioEstInput = document.getElementById('ncPrecioEstudiante').value;
+      const precioEst = precioEstInput ? parseFloat(precioEstInput) : null;
+
+      if(!cursoId || !nombre || !fechaInicioLocal || !fechaFinLocal || !precio){
+        showToast('Completá curso, nombre, fechas y precio', 'error');
+        return;
+      }
+
+      // Bolivia = UTC-4 todo el año (sin horario de verano)
+      const fechaInicioISO = fechaInicioLocal + ':00-04:00';
+      const fechaFinISO = fechaFinLocal + 'T19:30:00-04:00';
+      const horaInicio = (fechaInicioLocal.split('T')[1] || '19:30') + ':00';
+
+      const slug = nombre.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+        .replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'') + '-' + Date.now();
+
+      const payload = {
+        curso_id: cursoId,
+        nombre,
+        slug,
+        fecha_inicio: fechaInicioISO,
+        fecha_fin: fechaFinISO,
+        zona_horaria: 'America/La_Paz',
+        dias_clase: dias,
+        hora_inicio_clase: horaInicio,
+        duracion_clase_minutos: 120,
+        plataforma,
+        cupos_totales: cupos,
+        cupos_ocupados: 0,
+        precio_bs: precio,
+        precio_original_bs: precio,
+        precio_estudiante_bs: precioEst,
+        fecha_apertura_inscripcion: new Date().toISOString(),
+        fecha_cierre_inscripcion: fechaLimitePromo ? (fechaLimitePromo + 'T23:59:00-04:00') : null,
+        estado: 'inscripciones_abiertas',
+        cupos_virtuales: cupos,
+        cupos_presenciales: 0,
+        ocupados_virtuales: 0,
+        ocupados_presenciales: 0,
+        cupos_virtual_totales: cupos,
+        cupos_virtual_ocupados: 0,
+        cupos_presencial_totales: 0,
+        cupos_presencial_ocupados: 0
+      };
+
+      const {error} = await supabaseClient.from('cohortes').insert(payload);
+      if(error){
+        console.error(error);
+        showToast('Error al crear la cohorte: ' + error.message, 'error');
+        return;
+      }
+      showToast('Cohorte creada ✓', 'success');
+      cerrarModales();
+      await cargarCohortes();
+      renderCohortes();
     }
 
     // Arma el selector de meses con los que realmente tienen grupos
@@ -1745,9 +1952,17 @@
         tab.classList.add('active');
         document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
         if(tab.dataset.tab === 'estudiantes' && !estudiantesCargados){ cargarEstudiantes(); }
-        if(tab.dataset.tab === 'preguntas' && !preguntasCargadas){ cargarPreguntas(); }
+        if(tab.dataset.tab === 'cohortes'){ renderCohortes(); }
       };
     });
+
+    document.getElementById('btnNuevaCohorte').onclick = abrirModalNuevaCohorte;
+    document.getElementById('btnConfirmNuevaCohorte').onclick = crearCohorte;
+    document.getElementById('btnRefreshCohortes').onclick = async () => {
+      await cargarCohortes();
+      renderCohortes();
+      showToast('Cohortes actualizadas','success');
+    };
 
     // ═══════════════════════════════════════════════════════════════
     // REALTIME (auto-actualiza si entran nuevas inscripciones)
@@ -1818,10 +2033,17 @@
     async function cargarEstudiantes(){
       const list = document.getElementById('estList');
 
-      // 1) Inscripciones activas + datos del alumno + EMAIL, vía RPC segura
-      //    (el email vive en auth.users, no en perfiles; esta función lo trae
-      //    solo para admin/coordinador, para que Karina pueda buscar por correo).
-      const { data, error } = await supabaseClient.rpc('listar_estudiantes_admin');
+      // 1) Inscripciones activas + datos del alumno (perfiles)
+      const { data, error } = await supabaseClient
+        .from('inscripciones')
+        .select(`
+          id, alumno_id, curso_id, cohorte_id, modalidad,
+          estado_pago, acceso_activo, fecha_activacion,
+          precio_pagado, moneda_pago,
+          perfiles:alumno_id ( nombre, apellido, ci, telefono, ciudad, profesion )
+        `)
+        .eq('acceso_activo', true)
+        .order('fecha_activacion', { ascending: false });
 
       if(error){
         console.error('Error cargando estudiantes:', error);
@@ -1842,12 +2064,11 @@
         ...i,
         modalidad: i.modalidad || 'virtual',
         tipo_alumno: tipoPorInscripcion[i.id] || 'profesional',
-        nombre: `${i.nombre || ''} ${i.apellido || ''}`.trim() || 'Sin nombre',
-        ci: i.ci || '',
-        telefono: i.telefono || '',
-        ciudad: i.ciudad || '',
-        profesion: i.profesion || '',
-        email: i.email || '',
+        nombre: i.perfiles ? `${i.perfiles.nombre || ''} ${i.perfiles.apellido || ''}`.trim() : 'Sin nombre',
+        ci: i.perfiles?.ci || '',
+        telefono: i.perfiles?.telefono || '',
+        ciudad: i.perfiles?.ciudad || '',
+        profesion: i.perfiles?.profesion || '',
         curso_nombre: estado.cursos.find(c => c.id === i.curso_id)?.titulo || 'Curso desconocido',
         cohorte_nombre: estado.cohortes.find(c => c.id === i.cohorte_id)?.nombre || 'Sin grupo'
       }));
@@ -1868,7 +2089,7 @@
     function aplicarFiltrosEst(){
       let f = estado.estudiantes;
       const q = estado.estFiltroBusqueda.toLowerCase().trim();
-      if(q) f = f.filter(e => e.nombre.toLowerCase().includes(q) || (e.ci&&e.ci.toLowerCase().includes(q)) || (e.telefono&&e.telefono.toLowerCase().includes(q)) || (e.email&&e.email.toLowerCase().includes(q)));
+      if(q) f = f.filter(e => e.nombre.toLowerCase().includes(q) || (e.ci&&e.ci.toLowerCase().includes(q)) || (e.telefono&&e.telefono.toLowerCase().includes(q)));
       if(estado.estFiltroCurso) f = f.filter(e => e.curso_id === estado.estFiltroCurso);
       if(estado.estFiltroModalidad) f = f.filter(e => e.modalidad === estado.estFiltroModalidad);
       if(estado.estFiltroTipo) f = f.filter(e => e.tipo_alumno === estado.estFiltroTipo);
@@ -1938,7 +2159,6 @@
             <div>
               <div class="insc-name">${escapar(e.nombre)}</div>
               <div class="insc-meta-top">
-                ${e.email?`<span>✉️ ${escapar(e.email)}</span>`:''}
                 ${e.ci?`<span>🪪 CI ${escapar(e.ci)}</span>`:''}
                 ${e.telefono?`<span>📱 ${escapar(e.telefono)}</span>`:''}
                 ${e.ciudad?`<span>📍 ${escapar(e.ciudad)}</span>`:''}
@@ -1968,7 +2188,7 @@
       const filtrados = aplicarFiltrosEst();
       if(filtrados.length === 0){ showToast('No hay alumnos para exportar', 'error'); return; }
 
-      const headers = ['Nombre','Email','CI','Telefono','Ciudad','Profesion','Curso','Grupo','Modalidad','Tipo','Monto pagado','Moneda'];
+      const headers = ['Nombre','CI','Telefono','Ciudad','Profesion','Curso','Grupo','Modalidad','Tipo','Monto pagado','Moneda'];
       const esc = v => {
         const s = (v==null?'':String(v));
         return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -1980,7 +2200,6 @@
       const filasHTML = filtrados.map(e => `
         <tr>
           <td>${esc(e.nombre)}</td>
-          <td>${esc(e.email)}</td>
           <td style="mso-number-format:'\@'">${esc(e.ci)}</td>
           <td style="mso-number-format:'\@'">${esc(e.telefono)}</td>
           <td>${esc(e.ciudad)}</td>
@@ -2026,123 +2245,6 @@
     document.getElementById('estTipo').addEventListener('change', e => { estado.estFiltroTipo = e.target.value; renderEstudiantes(); });
     document.getElementById('estRefresh').onclick = async () => { estudiantesCargados=false; await cargarEstudiantes(); showToast('Alumnos actualizados','success'); };
     document.getElementById('estExport').onclick = exportarEstudiantesCSV;
-
-    // ═══════════════════════════════════════════════════════════════
-    // GESTIÓN DE PREGUNTAS Y RESPUESTAS (todos los cursos)
-    // ═══════════════════════════════════════════════════════════════
-    estado.preguntas = [];
-    estado.pregFiltroBusqueda = '';
-    estado.pregFiltroEstado = '';
-    let preguntasCargadas = false;
-
-    async function cargarPreguntas(){
-      const list = document.getElementById('pregList');
-      const { data, error } = await supabaseClient.rpc('listar_preguntas_admin');
-
-      if(error){
-        console.error('Error cargando preguntas:', error);
-        if(list) list.innerHTML = '<div class="cupos-empty">Error al cargar preguntas.</div>';
-        return;
-      }
-
-      estado.preguntas = data || [];
-      preguntasCargadas = true;
-
-      const pendientes = estado.preguntas.filter(p => !p.respuesta).length;
-      document.getElementById('pregPendientes').textContent = pendientes;
-      document.getElementById('pregRespondidas').textContent = estado.preguntas.length - pendientes;
-      document.getElementById('tabCountPreguntas').textContent = pendientes;
-
-      renderPreguntasAdmin();
-    }
-
-    function aplicarFiltrosPreg(){
-      const q = estado.pregFiltroBusqueda.toLowerCase().trim();
-      return estado.preguntas.filter(p => {
-        if(estado.pregFiltroEstado === 'pendiente' && p.respuesta) return false;
-        if(estado.pregFiltroEstado === 'respondida' && !p.respuesta) return false;
-        if(!q) return true;
-        return (p.nombre_alumno||'').toLowerCase().includes(q) ||
-               (p.curso_titulo||'').toLowerCase().includes(q) ||
-               (p.pregunta||'').toLowerCase().includes(q);
-      });
-    }
-
-    function renderPreguntasAdmin(){
-      const list = document.getElementById('pregList');
-      const filtradas = aplicarFiltrosPreg();
-      if(!filtradas.length){
-        list.innerHTML = '<div class="cupos-empty">No hay preguntas que coincidan con el filtro.</div>';
-        return;
-      }
-      list.innerHTML = filtradas.map(renderPregCard).join('');
-
-      filtradas.filter(p => !p.respuesta).forEach(p => {
-        const btn = document.querySelector(`[data-responder="${p.id}"]`);
-        if(btn) btn.onclick = () => enviarRespuestaPregunta(p.id);
-      });
-    }
-
-    function renderPregCard(p){
-      const fecha = new Date(p.creado_en).toLocaleDateString('es-BO', { day:'numeric', month:'short', year:'numeric' });
-      return `
-        <article class="insc-card" data-id="${p.id}">
-          <div class="insc-header">
-            <div>
-              <div class="insc-name">${escapar(p.nombre_alumno)}</div>
-              <div class="insc-meta-top">
-                <span>📚 ${escapar(p.curso_titulo)}</span>
-                <span>📅 ${fecha}</span>
-              </div>
-            </div>
-            <div class="insc-badges-row">
-              ${p.respuesta
-                ? '<span class="insc-badge aprobada">✅ RESPONDIDA</span>'
-                : '<span class="insc-badge pendiente">⏳ SIN RESPONDER</span>'}
-            </div>
-          </div>
-          <div class="preg-pregunta">${escapar(p.pregunta)}</div>
-          ${p.respuesta ? `
-          <div class="preg-respuesta-box">
-            <div class="preg-respuesta-label">Respuesta · ${escapar(p.respondido_por_nombre||'APPLENDE')}</div>
-            <div>${escapar(p.respuesta)}</div>
-          </div>` : `
-          <div class="preg-form">
-            <textarea class="preg-textarea" id="pregResp-${p.id}" placeholder="Escribí la respuesta para el alumno..."></textarea>
-            <button class="btn-action btn-approve preg-btn-responder" data-responder="${p.id}">✓ Responder</button>
-          </div>`}
-        </article>`;
-    }
-
-    async function enviarRespuestaPregunta(pregId){
-      const textarea = document.getElementById('pregResp-' + pregId);
-      const texto = textarea.value.trim();
-      if(!texto){ showToast('Escribí una respuesta antes de enviar', 'error'); return; }
-
-      const btn = document.querySelector(`[data-responder="${pregId}"]`);
-      btn.disabled = true;
-      btn.textContent = 'Enviando…';
-
-      const { data, error } = await supabaseClient.rpc('responder_pregunta_curso', {
-        pregunta_id: pregId,
-        texto_respuesta: texto
-      });
-
-      if(error || !data || !data.success){
-        showToast((data && data.error) || 'No se pudo enviar la respuesta', 'error');
-        btn.disabled = false;
-        btn.textContent = '✓ Responder';
-        return;
-      }
-
-      showToast('Respuesta enviada ✓', 'success');
-      preguntasCargadas = false;
-      await cargarPreguntas();
-    }
-
-    document.getElementById('pregSearch').addEventListener('input', e => { estado.pregFiltroBusqueda = e.target.value; renderPreguntasAdmin(); });
-    document.getElementById('pregEstado').addEventListener('change', e => { estado.pregFiltroEstado = e.target.value; renderPreguntasAdmin(); });
-    document.getElementById('pregRefresh').onclick = async () => { preguntasCargadas=false; await cargarPreguntas(); showToast('Preguntas actualizadas','success'); };
 
   </script>
 
