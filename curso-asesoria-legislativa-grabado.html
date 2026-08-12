@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Curso GRABADO de Asesoría y Técnica Legislativa · Redacción de normas, procedimiento parlamentario e IA aplicada al trabajo legislativo · 16 horas grabadas, acceso inmediato · Dr. Dennys Peredo Borda · Academia APPLENDE · Bolivia">
+<title>Curso de Asesoría y Técnica Legislativa (Grabado) · Academia APPLENDE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1A2744; --navy-dark:#0E1A30; --blue:#2E4A8E;
+  --green:#8DC63F; --green-dark:#6aaa2a; --purple:#6B6BBB;
+  --gray:#BFBFBF; --white:#fff; --offwhite:#F5F7FA;
+  --text:#2C3A52; --muted:#6B7A90; --border:#E2E8F0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;color:var(--text);background:var(--white);overflow-x:hidden;}
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:200;background:var(--navy);height:68px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.3);}
+.nav-logo-link{display:block;flex-shrink:0;}
+.nav-logo-img{height:44px;width:auto;display:block;}
+@media(max-width:600px){.nav-logo-img{height:36px;}}
+.nav-links{display:flex;align-items:center;gap:10px;}
+.nav-link{color:rgba(255,255,255,.72);font-size:13px;font-weight:500;padding:8px 14px;border-radius:0;border:none;background:transparent;transition:all .2s;white-space:nowrap;position:relative;}.nav-link::after{content:'';position:absolute;bottom:0;left:14px;right:14px;height:2px;background:var(--green);transform:scaleX(0);transition:transform .2s;}.nav-link:hover::after{transform:scaleX(1);}
+.nav-link:hover{color:#fff;}
+.nav-btn{background:var(--green);color:var(--navy);padding:9px 20px;border-radius:20px;font-weight:800;font-size:13px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;text-decoration:none;}
+.nav-btn:hover{background:#9ed648;}
+
+/* HERO */
+.hero-foto-wrap{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy-dark),var(--navy),#3d2d6b);min-height:380px;}
+.hero-foto{width:100%;height:380px;object-fit:cover;object-position:center;display:block;opacity:0.35;}
+.hero-foto-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,39,68,0.4) 0%,rgba(26,39,68,0.92) 100%);display:flex;align-items:flex-end;padding:24px 5%;}
+.hero-foto-text{max-width:900px;}
+.hero-foto-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(141,198,63,0.9);color:var(--navy);font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:14px;}
+.hero-dot{width:8px;height:8px;border-radius:50%;background:var(--navy);}
+.hero-foto-text h1{font-family:'Josefin Sans',sans-serif;font-size:clamp(26px,4vw,42px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:10px;}
+.hero-foto-text h1 span{color:var(--green);}
+.hero-foto-text p{font-size:14px;color:rgba(255,255,255,0.85);max-width:720px;line-height:1.55;}
+.hero-mods{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
+.hero-mod{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;}
+.hero-mod.grabado{background:rgba(141,198,63,.4);color:#fff;border:1px solid rgba(141,198,63,.6);}
+.hero-mod.bonus-ia{background:rgba(107,107,187,.45);color:#fff;border:1px solid rgba(107,107,187,.7);}
+
+/* INFO BAR */
+.info-bar{background:var(--navy);padding:12px 5%;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;border-top:1px solid rgba(141,198,63,0.2);}
+.ibadge{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:5px 11px;font-size:11.5px;color:rgba(255,255,255,0.85);font-weight:500;}
+.ibadge.highlight{background:rgba(141,198,63,0.18);color:#bce28a;border-color:rgba(141,198,63,0.35);font-weight:700;}
+
+/* ACCESO INMEDIATO BAR (reemplaza countdown) */
+.acceso-bar{background:linear-gradient(135deg,var(--navy-dark),var(--blue));padding:14px 5%;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--green);text-align:center;}
+.acceso-bar .ab-ic{font-size:20px;}
+.acceso-bar .ab-txt{font-size:14px;font-weight:700;color:#fff;}
+.acceso-bar .ab-sub{font-size:12px;color:rgba(255,255,255,0.65);}
+
+/* MAIN LAYOUT */
+.main-layout{max-width:1180px;margin:0 auto;padding:44px 5%;display:grid;grid-template-columns:1fr 360px;gap:44px;align-items:start;}
+
+/* CARD INSCRIPCION */
+.inscripcion-card{background:var(--white);border:2px solid var(--border);border-radius:14px;padding:22px;position:sticky;top:80px;box-shadow:0 8px 32px rgba(0,0,0,0.1);}
+
+.precio-section-tit{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;text-align:center;}
+
+.modalidad-block{margin-bottom:14px;border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;}
+.modalidad-block.grabado{background:linear-gradient(135deg,rgba(141,198,63,.07),rgba(141,198,63,.02));border-color:rgba(141,198,63,.4);}
+.mod-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed var(--border);}
+.mod-icon{font-size:16px;}
+.mod-titulo{font-family:'Josefin Sans',sans-serif;font-size:13px;font-weight:700;color:var(--navy);letter-spacing:.5px;text-transform:uppercase;}
+.mod-cupos{margin-left:auto;font-size:10.5px;color:var(--muted);font-weight:600;}
+.precio-fila{display:flex;align-items:center;justify-content:space-between;padding:6px 0;}
+.precio-fila + .precio-fila{border-top:1px dashed rgba(0,0,0,.04);}
+.precio-tipo{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text);}
+.precio-tipo-est{font-weight:600;color:var(--navy);}
+.precio-monto{display:flex;align-items:center;gap:8px;}
+.precio-bs{font-family:'Josefin Sans',sans-serif;font-size:18px;font-weight:700;color:var(--navy);line-height:1;}
+.precio-bs.estudiante{color:var(--green-dark);}
+.precio-nota{font-size:10.5px;color:var(--muted);text-align:center;font-style:italic;margin:8px 0 14px;line-height:1.4;}
+
+.ic-btn-main{display:block;width:100%;background:linear-gradient(135deg,var(--green),var(--green-dark));color:var(--navy);padding:14px;border-radius:10px;font-weight:800;font-size:15px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .3s;margin-bottom:10px;box-shadow:0 4px 16px rgba(141,198,63,0.3);text-decoration:none;text-align:center;}
+.ic-btn-main:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(141,198,63,0.4);}
+.ic-btn-wa{display:flex;width:100%;background:#25D366;color:#fff;padding:12px;border-radius:10px;font-weight:700;font-size:14px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;align-items:center;justify-content:center;gap:8px;margin-bottom:18px;text-decoration:none;}
+.ic-btn-wa:hover{background:#1ebe5a;}
+
+.ic-features{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--border);padding-top:14px;}
+.ic-feat{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;color:var(--text);line-height:1.4;}
+.ic-feat::before{content:'✓';color:var(--green);font-weight:800;font-size:13px;flex-shrink:0;}
+.ic-garantia{text-align:center;font-size:11px;color:var(--muted);margin-top:12px;padding-top:12px;border-top:1px solid var(--border);line-height:1.5;}
+.ic-garantia strong{color:var(--navy);}
+
+/* CONTENIDO */
+.section-tag{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--green);display:block;margin-bottom:10px;}
+.contenido h2{font-family:'Josefin Sans',sans-serif;font-size:clamp(22px,2.5vw,30px);font-weight:700;color:var(--navy);margin-bottom:14px;line-height:1.2;}
+.contenido > p{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:16px;}
+.contenido > p strong{color:var(--text);font-weight:700;}
+.separador{height:1px;background:var(--border);margin:36px 0;}
+
+/* APRENDERAS grid */
+.aprenderas-box{background:var(--offwhite);border:1px solid var(--border);border-radius:12px;padding:24px 26px;margin-top:8px;}
+.aprenderas-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;}
+.aprenderas-item{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--text);line-height:1.55;}
+.aprenderas-item::before{content:'✓';color:var(--green);font-weight:800;font-size:13px;flex-shrink:0;margin-top:2px;}
+
+/* GRUPOS (reutilizado para "acceso") */
+.grupos-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px;}
+.grupo-card{background:var(--offwhite);border:1.5px solid var(--border);border-radius:12px;padding:22px;}
+.gr-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;background:var(--green);padding:4px 10px;border-radius:4px;margin-bottom:10px;}
+.gr-tit{font-family:'Josefin Sans',sans-serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:12px;}
+.gr-info{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.gr-row{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);line-height:1.5;}
+.gr-row b{color:var(--navy);min-width:70px;display:inline-block;font-weight:700;}
+.gr-fechas{font-size:12.5px;color:var(--muted);background:#fff;border:1px dashed var(--border);border-radius:8px;padding:11px 13px;line-height:1.7;}
+.gr-fechas strong{color:var(--navy);}
+
+/* TEMARIO MÓDULOS */
+.temario-modulos{display:flex;flex-direction:column;gap:12px;margin-top:18px;}
+.tm-mod{background:var(--offwhite);border:1px solid var(--border);border-radius:10px;padding:18px 20px;transition:all .2s;}
+.tm-mod:hover{border-color:var(--green);background:var(--white);box-shadow:0 4px 12px rgba(141,198,63,0.1);}
+.tm-mod-head{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
+.tm-num{width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;}
+.tm-num.purple{background:var(--purple);}
+.tm-tit{font-family:'Josefin Sans',sans-serif;font-size:16px;font-weight:700;color:var(--navy);}
+.tm-list{padding-left:48px;display:flex;flex-direction:column;gap:6px;}
+.tm-item{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;color:var(--text);line-height:1.5;}
+.tm-item::before{content:'•';color:var(--green);font-weight:800;flex-shrink:0;}
+.tm-mod.bonus{border:2px solid var(--green);background:rgba(141,198,63,.05);border-radius:12px;padding:18px 20px;}
+.tm-mod.bonus .tm-num{background:var(--green);}
+.tm-bonus-tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#fff;background:var(--purple);padding:3px 10px;border-radius:4px;margin-bottom:8px;}
+
+/* INSTRUCTOR */
+.inst-card{display:flex;gap:24px;align-items:flex-start;background:var(--offwhite);border:1px solid var(--border);border-radius:14px;padding:24px;margin-top:18px;}
+.inst-av{width:140px;height:140px;border-radius:14px;flex-shrink:0;object-fit:cover;border:3px solid rgba(141,198,63,0.3);box-shadow:0 6px 20px rgba(26,39,68,0.15);display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--purple),var(--blue));font-family:'Josefin Sans',sans-serif;font-size:44px;font-weight:700;color:#fff;}
+.inst-info{flex:1;min-width:0;}
+.inst-nombre{font-family:'Josefin Sans',sans-serif;font-size:20px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.inst-cargo{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:14px;display:block;}
+.inst-bio{font-size:13.5px;color:var(--muted);line-height:1.7;margin-bottom:14px;}
+.inst-tags{display:flex;gap:8px;flex-wrap:wrap;}
+.inst-tag{font-size:12px;color:var(--text);background:#fff;border:1px solid var(--border);padding:5px 11px;border-radius:6px;font-weight:600;}
+
+/* Respaldo / confianza */
+.respaldo-box{background:linear-gradient(135deg,var(--navy),var(--navy-dark));border-radius:16px;padding:34px 28px;text-align:center;color:#fff;margin-top:18px;}
+.respaldo-box h3{font-family:'Josefin Sans',sans-serif;font-size:21px;font-weight:700;margin-bottom:14px;color:#fff;}
+.respaldo-box p{font-size:14px;line-height:1.7;color:rgba(255,255,255,0.82);max-width:600px;margin:0 auto 20px;}
+.respaldo-box p strong{color:var(--green);}
+.respaldo-stats{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:8px;}
+.respaldo-stat{background:rgba(255,255,255,0.08);border:1px solid rgba(141,198,63,0.3);border-radius:10px;padding:12px 20px;font-size:14px;font-weight:600;}
+
+/* FAQ */
+.faq-box{margin-top:18px;}
+.faq-item{background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden;}
+.faq-q{padding:18px 22px;font-weight:700;font-size:15px;color:var(--navy);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.faq-q::after{content:'+';font-size:22px;color:var(--green-dark);flex-shrink:0;transition:transform .2s;}
+.faq-item.open .faq-q::after{transform:rotate(45deg);}
+.faq-a{padding:0 22px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;font-size:14px;line-height:1.7;color:var(--muted);}
+.faq-item.open .faq-a{padding:0 22px 18px;max-height:300px;}
+
+/* Garantía */
+.garantia-box{background:linear-gradient(135deg,rgba(141,198,63,0.12),rgba(141,198,63,0.04));border:2px solid var(--green);border-radius:16px;padding:28px 26px;text-align:center;margin-top:18px;}
+.garantia-box .g-ic{font-size:38px;margin-bottom:10px;}
+.garantia-box h3{font-family:'Josefin Sans',sans-serif;font-size:19px;font-weight:700;color:var(--navy);margin-bottom:10px;}
+.garantia-box p{font-size:14px;line-height:1.7;color:var(--text);max-width:520px;margin:0 auto;}
+
+/* CTA FINAL */
+.cta-section{background:var(--navy);padding:60px 5%;text-align:center;}
+.cta-section h2{font-family:'Josefin Sans',sans-serif;font-size:clamp(22px,3vw,34px);font-weight:700;color:#fff;margin-bottom:14px;}
+.cta-section p{font-size:15px;color:rgba(255,255,255,0.7);max-width:540px;margin:0 auto 30px;line-height:1.6;}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.btn-cta{background:var(--green);color:var(--navy);padding:15px 36px;border-radius:10px;font-weight:800;font-size:15px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;text-decoration:none;display:inline-block;}
+.btn-cta:hover{background:#9ed648;transform:translateY(-2px);}
+.btn-cta-wa{background:#25D366;color:#fff;padding:15px 36px;border-radius:10px;font-weight:800;font-size:15px;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-cta-wa:hover{background:#1ebe5a;transform:translateY(-2px);}
+
+/* FOOTER */
+footer{background:var(--navy-dark);border-top:1px solid rgba(141,198,63,0.12);padding:24px 5%;text-align:center;}
+footer p{font-size:12px;color:rgba(255,255,255,0.4);margin:0;}
+footer a{color:var(--green);}
+
+/* RESPONSIVE */
+@media(max-width:980px){
+  .main-layout{grid-template-columns:1fr;}
+  .inscripcion-card{position:static;max-height:none;}
+  .grupos-grid,.aprenderas-grid{grid-template-columns:1fr;}
+  .acceso-bar{flex-direction:column;text-align:center;}
+}
+@media(max-width:680px){
+  .nav-links .nav-link{display:none;}
+  .hero-foto{position:absolute;inset:0;width:100%;height:100%;}
+  .hero-foto-wrap{min-height:auto;}
+  .hero-foto-overlay{position:relative;padding:32px 5% 24px;}
+  .info-bar{padding:14px 5%;gap:8px;}
+  .ibadge{font-size:11px;padding:5px 10px;}
+  .inst-card{flex-direction:column;align-items:center;text-align:center;}
+  .inst-av{width:120px;height:120px;}
+  .tm-list{padding-left:0;}
+  .cta-btns{flex-direction:column;align-items:center;}
+  .btn-cta,.btn-cta-wa{width:100%;justify-content:center;}
+}
+
+/* CERTIFICADO destacado */
+.cert-bloque{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 50%,#3d2d6b 100%);border:1px solid rgba(141,198,63,0.3);border-radius:14px;padding:32px 28px;margin-top:18px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;position:relative;overflow:hidden;}
+.cert-bloque::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(141,198,63,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(141,198,63,.04) 1px,transparent 1px);background-size:30px 30px;pointer-events:none;}
+.cert-icon-wrap{position:relative;z-index:2;flex-shrink:0;}
+.cert-medalla{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-dark));display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 8px 28px rgba(141,198,63,0.4);border:3px solid rgba(255,255,255,0.15);}
+.cert-info{position:relative;z-index:2;}
+.cert-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);background:rgba(141,198,63,0.15);padding:5px 12px;border-radius:20px;margin-bottom:10px;border:1px solid rgba(141,198,63,0.3);}
+.cert-tit{font-family:'Josefin Sans',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:8px;line-height:1.2;}
+.cert-desc{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.6;margin-bottom:14px;}
+.cert-features{display:flex;flex-direction:column;gap:8px;}
+.cert-feat{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(255,255,255,0.85);line-height:1.5;}
+.cert-feat::before{content:'✓';color:var(--green);font-weight:800;font-size:14px;flex-shrink:0;background:rgba(141,198,63,0.18);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.cert-feat strong{color:#fff;font-weight:700;}
+@media(max-width:680px){
+  .cert-bloque{grid-template-columns:1fr;text-align:center;padding:26px 20px;}
+  .cert-medalla{margin:0 auto;width:80px;height:80px;font-size:36px;}
+  .cert-features{align-items:flex-start;text-align:left;}
+}
+
+*{box-sizing:border-box;}
+img{max-width:100%;height:auto;}
+@media(max-width:480px){
+  .nav{height:60px;padding:0 16px;}
+  .nav-btn{padding:8px 14px;font-size:12px;}
+  .main-layout{padding:26px 16px;gap:26px;}
+  .hero-foto{height:300px;}
+  .hero-foto-wrap{min-height:300px;}
+  .hero-foto-overlay{padding:18px 16px;}
+  .hero-foto-text h1{font-size:24px;}
+  .info-bar,.acceso-bar{padding:12px 16px;}
+  .info-bar{flex-wrap:wrap;gap:7px;}
+  .ibadge{font-size:10.5px;padding:5px 9px;}
+  .respaldo-box,.garantia-box{padding:24px 16px;}
+  .respaldo-box h3{font-size:18px;}
+  .respaldo-stats{gap:10px;}
+  .respaldo-stat{padding:10px 14px;font-size:13px;width:100%;text-align:center;}
+  .faq-q{padding:15px 16px;font-size:14px;}
+  .faq-item.open .faq-a{padding:0 16px 15px;}
+  .faq-a{font-size:13.5px;}
+  .cert-bloque{padding:22px 16px;}
+  .cert-tit{font-size:19px;}
+  .cert-desc{font-size:13px;}
+  .inscripcion-card{padding:18px;}
+  .inst-card{padding:20px 16px;}
+  .inst-bio{font-size:13px;}
+}
+</style>
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1755970185870076');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1755970185870076&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="cursos.html" class="nav-logo-link"><img src="logo_APPLENDE.png" alt="APPLENDE Academia" class="nav-logo-img"></a>
+  <div class="nav-links">
+    <a href="cursos.html" class="nav-link">← Todos los cursos</a>
+    <a href="login.html" class="nav-link">Iniciar sesión</a>
+    <a href="inscripcion.html?slug=asesoria-tecnica-legislativa-grabado" class="nav-btn">🎓 Inscribirme</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero-foto-wrap">
+  <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=1600&q=80" class="hero-foto" alt="Hemiciclo parlamentario — Asesoría y Técnica Legislativa · APPLENDE">
+  <div class="hero-foto-overlay">
+    <div class="hero-foto-text">
+      <div class="hero-foto-badge"><div class="hero-dot"></div> GRABADO · ACCESO INMEDIATO</div>
+      <h1>Asesoría y <span>Técnica Legislativa</span> + <span>IA</span></h1>
+      <p>Aprendé a redactar normas con técnica legislativa profesional y a desenvolverte en el trabajo de asesoría parlamentaria en los tres niveles del Estado boliviano: Asamblea Legislativa Plurinacional, Asambleas Departamentales y Concejos Municipales. Estructura de la norma, procedimiento parlamentario, asesoría estratégica y fiscalización, anclado en la CPE 2009 y los reglamentos legislativos vigentes. <strong>BONUS:</strong> aprendé a usar <strong>Inteligencia Artificial</strong> de forma supervisada para acelerar el análisis normativo y la redacción de borradores legislativos.</p>
+      <div class="hero-mods">
+        <span class="hero-mod grabado">🎥 100% Grabado · A tu propio ritmo</span>
+        <span class="hero-mod bonus-ia">🤖 Bonus: IA aplicada al trabajo legislativo</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INFO BAR -->
+<div class="info-bar">
+  <div class="ibadge">👨‍🏫 Dr. Dennys Peredo Borda</div>
+  <div class="ibadge">⏱ 16 horas grabadas</div>
+  <div class="ibadge">🏛️ Trabajo legislativo</div>
+  <div class="ibadge">📜 Certificado oficial</div>
+  <div class="ibadge">🇧🇴 Curso virtual · Toda Bolivia</div>
+  <div class="ibadge highlight">⚡ Acceso inmediato tras el pago</div>
+</div>
+
+<!-- ACCESO INMEDIATO (reemplaza countdown) -->
+<div class="acceso-bar">
+  <span class="ab-ic">🎥</span>
+  <span class="ab-txt">Sin fechas ni horarios fijos</span>
+  <span class="ab-sub">Mirá las 8 clases cuando quieras, cuantas veces quieras</span>
+</div>
+
+<!-- MAIN -->
+<div class="main-layout">
+
+  <!-- CONTENIDO -->
+  <div class="contenido">
+
+    <!-- DESCRIPCIÓN -->
+    <span class="section-tag">Sobre el curso</span>
+    <h2>¿Qué aprenderás?</h2>
+    <p>Vas a aprender a <strong>redactar normas con técnica legislativa profesional y a ejercer el oficio de la asesoría parlamentaria</strong> en los tres niveles del Estado Plurinacional de Bolivia: la <strong>Asamblea Legislativa Plurinacional</strong>, las nueve <strong>Asambleas Legislativas Departamentales</strong> y los <strong>Concejos Municipales</strong>.</p>
+    <p>No es un curso teórico suelto: el eje es la <strong>producción real de instrumentos normativos</strong> — anteproyectos de ley, ordenanzas, exposiciones de motivos, peticiones de informe — y la <strong>práctica del procedimiento parlamentario</strong>, desde la iniciativa hasta la promulgación. Trabajamos con el marco vigente: <strong>Constitución Política del Estado (2009)</strong>, Ley 031 de Autonomías, Ley 482 de Gobiernos Municipales y los reglamentos legislativos en sus tres niveles.</p>
+    <p>El curso recorre el oficio completo en <strong>8 clases grabadas</strong>: desde el <strong>Poder Legislativo boliviano y sus tres niveles</strong>, pasando por la <strong>técnica de redacción de normas</strong>, el <strong>procedimiento parlamentario</strong>, la <strong>asesoría estratégica</strong> y la <strong>fiscalización y control político</strong>, hasta un bloque diferenciador sobre <strong>uso supervisado de Inteligencia Artificial</strong> aplicada al trabajo legislativo. Cierra con un <strong>taller práctico</strong> donde redactás tu primer proyecto normativo. Al terminar vas a poder incorporarte con criterio profesional a un equipo de asesoría legislativa.</p>
+
+    <!-- LO QUE VAS A APRENDER -->
+    <div class="aprenderas-box">
+      <div class="aprenderas-grid">
+        <div class="aprenderas-item">Comprender la estructura del Órgano Legislativo Plurinacional y sus tres niveles (nacional, departamental y municipal)</div>
+        <div class="aprenderas-item">Dominar el marco constitucional (CPE 2009) y el régimen de autonomías aplicado a la función legislativa</div>
+        <div class="aprenderas-item">Estructurar técnicamente una norma: encabezado, considerandos, articulado y disposiciones transitorias, finales y derogatorias</div>
+        <div class="aprenderas-item">Redactar articulado claro, preciso y sistemático, y elaborar exposiciones de motivos rigurosas</div>
+        <div class="aprenderas-item">Conducir el procedimiento parlamentario completo: iniciativa, comisión, plenario, segunda cámara y promulgación</div>
+        <div class="aprenderas-item">Ejercer la asesoría parlamentaria estratégica: mapeo de actores, construcción de mayorías, agenda y vocería</div>
+        <div class="aprenderas-item">Operar mecanismos de fiscalización: peticiones de informe, interpelación y comisiones de investigación</div>
+        <div class="aprenderas-item">Usar IA generativa de forma supervisada y ética para redacción asistida y análisis normativo comparado</div>
+        <div class="aprenderas-item">Redactar tu primer proyecto normativo (anteproyecto de ley u ordenanza) con apoyo guiado de IA</div>
+      </div>
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- MODALIDAD -->
+    <span class="section-tag">Cómo funciona</span>
+    <h2>Grabado · A tu propio ritmo</h2>
+    <p>Contenido completo en <strong>16 horas grabadas</strong> (8 clases de 2 horas), dictadas originalmente por el Dr. Dennys Peredo Borda. Accedés a todas las clases apenas confirmamos tu pago, sin esperar que abra un grupo ni coincidir con un horario fijo.</p>
+
+    <div class="grupos-grid">
+      <div class="grupo-card">
+        <div class="gr-tag">Modalidad Grabado</div>
+        <div class="gr-tit">Acceso inmediato</div>
+        <div class="gr-info">
+          <div class="gr-row"><b>Formato</b><span>8 clases grabadas × 2 horas</span></div>
+          <div class="gr-row"><b>Duración</b><span>16 horas de contenido</span></div>
+          <div class="gr-row"><b>Ritmo</b><span>Vos elegís cuándo verlas</span></div>
+        </div>
+        <div class="gr-fechas">
+          <strong>🎥 Disponibilidad:</strong> Inmediata tras el pago<br>
+          <strong>♾️ Acceso:</strong> Permanente en tu aula virtual<br>
+          <small style="color:var(--muted);font-size:11px;">Repasá cada clase las veces que necesites, desde cualquier dispositivo.</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- TEMARIO -->
+    <span class="section-tag">Contenido del curso</span>
+    <h2>El oficio legislativo, de la teoría a la práctica · 16 horas grabadas</h2>
+    <p style="font-size:15px;line-height:1.8;color:var(--text);">🏛️ <strong>Trabajamos con casos legislativos reales bolivianos, no con teoría abstracta.</strong> Vas a recorrer el oficio completo: la estructura del Poder Legislativo en sus tres niveles, la técnica de redacción de normas, el procedimiento parlamentario, la asesoría estratégica, la fiscalización y el uso supervisado de IA. Todo anclado en la Constitución Política del Estado (2009), la Ley 031 de Autonomías, la Ley 482 de Gobiernos Municipales y los reglamentos legislativos vigentes. Al terminar vas a poder <strong>redactar, asesorar y fiscalizar</strong> con criterio profesional.</p>
+
+    <div class="temario-modulos">
+
+      <div class="tm-mod">
+        <div class="tm-mod-head">
+          <div class="tm-num">1</div>
+          <div class="tm-tit">El Poder Legislativo boliviano y sus tres niveles</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">La función legislativa: legislar, deliberar, fiscalizar y representar</div>
+          <div class="tm-item">Estructura del Órgano Legislativo Plurinacional en la CPE 2009: Cámara de Diputados y de Senadores</div>
+          <div class="tm-item">Asambleas Legislativas Departamentales y Concejos Municipales: competencias y particularidades</div>
+          <div class="tm-item">Régimen de autonomías (Ley 031) y articulación competencial entre los tres niveles</div>
+        </div>
+      </div>
+
+      <div class="tm-mod">
+        <div class="tm-mod-head">
+          <div class="tm-num purple">2</div>
+          <div class="tm-tit">Técnica legislativa I: estructura de la norma</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">Concepto y principios de la técnica legislativa: claridad, precisión y sistematicidad</div>
+          <div class="tm-item">Partes de una ley: encabezado, considerandos, parte dispositiva y disposiciones finales</div>
+          <div class="tm-item">Articulado y estructura jerárquica: títulos, capítulos, artículos, parágrafos e incisos</div>
+          <div class="tm-item">Disposiciones transitorias, finales, derogatorias y abrogatorias</div>
+        </div>
+      </div>
+
+      <div class="tm-mod">
+        <div class="tm-mod-head">
+          <div class="tm-num">3</div>
+          <div class="tm-tit">Técnica legislativa II: redacción y exposición de motivos</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">Lenguaje normativo vs. lenguaje académico: uso correcto del verbo y el estilo</div>
+          <div class="tm-item">Definiciones legales, remisiones internas y externas, y técnica de citación</div>
+          <div class="tm-item">Cómo evitar la ambigüedad, la sinonimia y la polisemia en el texto normativo</div>
+          <div class="tm-item">Estructura y redacción de la exposición de motivos</div>
+        </div>
+      </div>
+
+      <div class="tm-mod">
+        <div class="tm-mod-head">
+          <div class="tm-num purple">4</div>
+          <div class="tm-tit">Procedimiento parlamentario y práctica legislativa</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">Iniciativa legislativa: sujetos, tipos y ciclo de formación de la ley</div>
+          <div class="tm-item">Tratamiento en comisión y en plenario: en grande y en detalle</div>
+          <div class="tm-item">Segunda cámara, observaciones, reconsideraciones y promulgación</div>
+          <div class="tm-item">Comisiones, comités y bancadas: dinámica institucional real</div>
+        </div>
+      </div>
+
+      <div class="tm-mod">
+        <div class="tm-mod-head">
+          <div class="tm-num">5</div>
+          <div class="tm-tit">Asesoría parlamentaria estratégica</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">El oficio del asesor legislativo: análisis, redacción, agenda y vocería</div>
+          <div class="tm-item">Mapeo de actores y construcción de mayorías y coaliciones parlamentarias</div>
+          <div class="tm-item">Gestión de la agenda legislativa y comunicación con medios y sociedad civil</div>
+          <div class="tm-item">Cabildeo ético, representación de intereses y manejo de conflictos de interés</div>
+        </div>
+      </div>
+
+      <div class="tm-mod">
+        <div class="tm-mod-head">
+          <div class="tm-num purple">6</div>
+          <div class="tm-tit">IA aplicada al trabajo legislativo ⭐</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">Uso supervisado de IA generativa: redacción asistida de borradores y análisis comparado</div>
+          <div class="tm-item">Sistematización de antecedentes normativos e identificación de inconsistencias en articulados</div>
+          <div class="tm-item">Riesgos críticos: alucinaciones, fabricación de citas legales y manejo de información sensible</div>
+          <div class="tm-item">Marcos éticos (UNESCO, OCDE) y protocolos de validación humana obligatoria</div>
+        </div>
+      </div>
+
+      <div class="tm-mod">
+        <div class="tm-mod-head">
+          <div class="tm-num">7</div>
+          <div class="tm-tit">Fiscalización, control político y rendición de cuentas</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">Función fiscalizadora del Legislativo y tipologías de control</div>
+          <div class="tm-item">Mecanismos formales: petición de informe escrito y oral, interpelación y voto de censura</div>
+          <div class="tm-item">Comisiones de investigación: conformación, atribuciones e informe final</div>
+          <div class="tm-item">Análisis presupuestario aplicado y transparencia legislativa (gobierno abierto)</div>
+        </div>
+      </div>
+
+      <div class="tm-mod">
+        <div class="tm-mod-head">
+          <div class="tm-num purple">8</div>
+          <div class="tm-tit">Taller práctico: tu primer proyecto normativo</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">Elección del proyecto: anteproyecto de ley, ordenanza municipal o reforma de reglamento</div>
+          <div class="tm-item">Redacción guiada del articulado y la exposición de motivos, con apoyo supervisado de IA</div>
+          <div class="tm-item">Diseño de la ruta procedimental y la estrategia política del proyecto</div>
+          <div class="tm-item">Revisión técnica final y criterios de viabilidad jurídica, política y técnica</div>
+        </div>
+      </div>
+
+      <!-- BLOQUE BONUS · IA -->
+      <div class="tm-mod bonus">
+        <span class="tm-bonus-tag">Bonus exclusivo</span>
+        <div class="tm-mod-head">
+          <div class="tm-num">🤖</div>
+          <div class="tm-tit">Pack de IA para el trabajo legislativo</div>
+        </div>
+        <div class="tm-list">
+          <div class="tm-item">Pack descargable de prompts plantilla para redacción de articulado, exposición de motivos y análisis comparado</div>
+          <div class="tm-item">Protocolo de uso responsable: qué información NUNCA cargar a una IA y cómo verificar citas normativas</div>
+          <div class="tm-item">Checklist de validación humana antes de cualquier uso oficial del texto generado</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- REQUISITOS -->
+    <span class="section-tag">Antes de empezar</span>
+    <h2>Requisitos previos</h2>
+    <p style="font-size:14px;line-height:1.8;color:var(--text);">
+      ✓ Interés o vínculo con el ámbito legislativo, jurídico o de gestión pública<br>
+      ✓ Formación o experiencia en derecho, ciencia política, administración pública o áreas afines — recomendado, no obligatorio<br>
+      ✓ Computadora con conexión a internet estable para ver las clases<br>
+      ✓ Disposición para redactar y realizar ejercicios prácticos de técnica legislativa
+    </p>
+
+    <div class="separador"></div>
+
+    <!-- PARA QUIÉN -->
+    <span class="section-tag">Audiencia</span>
+    <h2>¿Para quién es este curso?</h2>
+    <p style="font-size:14px;line-height:1.8;color:var(--text);">
+      • Asesores de diputados, senadores, asambleístas departamentales y concejales municipales<br>
+      • Técnicos de comisiones, comités, bancadas y secretarías legislativas<br>
+      • Asambleístas y concejales electos y sus equipos técnicos<br>
+      • Profesionales en derecho, ciencia política, administración pública y comunicación política<br>
+      • Consultores, periodistas parlamentarios y representantes de gremios y cámaras<br>
+      • Estudiantes y egresados que quieren especializarse en estudios legislativos
+    </p>
+
+    <div class="separador"></div>
+
+    <!-- INSTRUCTOR -->
+    <span class="section-tag">Tu instructor</span>
+    <h2>Dr. Dennys Peredo Borda</h2>
+    <div class="inst-card">
+      <div class="inst-av">DP</div>
+      <div class="inst-info">
+        <div class="inst-nombre">Dr. Dennys Peredo Borda</div>
+        <span class="inst-cargo">Politólogo y Abogado · Comunicación Estratégica y Marketing Político</span>
+        <p class="inst-bio">Politólogo y Abogado especializado en <strong>comunicación estratégica, marketing político y análisis de opinión pública</strong>, con amplia experiencia en gestión institucional y análisis electoral. Ejerció como <strong>Jefe de Comunicación Institucional</strong> en instituciones públicas y fue <strong>vicepresidente del Colegio de Politólogos de Santa Cruz</strong>. Conferencista sobre comunicación y marketing político en la era de la inteligencia artificial, con participación en foros y capacitaciones para jóvenes y actores políticos. Actualmente es <strong>CEO de una consultora</strong> especializada en análisis de datos, comunicación política y estrategia electoral.</p>
+        <div class="inst-tags">
+          <span class="inst-tag">Comunicación estratégica</span>
+          <span class="inst-tag">Marketing político</span>
+          <span class="inst-tag">Análisis electoral</span>
+          <span class="inst-tag">Gestión institucional</span>
+          <span class="inst-tag">Big data aplicada a campañas</span>
+          <span class="inst-tag">Análisis de opinión pública</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- CERTIFICADO DESTACADO -->
+    <span class="section-tag">Tu acreditación</span>
+    <h2>Certificado Oficial APPLENDE</h2>
+    <div class="cert-bloque">
+      <div class="cert-icon-wrap">
+        <div class="cert-medalla">📜</div>
+      </div>
+      <div class="cert-info">
+        <span class="cert-tag">Al finalizar el curso</span>
+        <div class="cert-tit">Recibirás tu Certificado Oficial</div>
+        <p class="cert-desc">Acreditación profesional de "Asesoría y Técnica Legislativa" emitida por la Academia APPLENDE, parte del ecosistema APPLE Construcciones &amp; Servicios.</p>
+        <div class="cert-features">
+          <div class="cert-feat"><span><strong>16 horas grabadas</strong> de formación con instructor</span></div>
+          <div class="cert-feat"><span>Avalado por <strong>APPLE Construcciones &amp; Servicios</strong></span></div>
+          <div class="cert-feat"><span>Suma a tu <strong>CV y perfil de LinkedIn</strong> como formación profesional certificada</span></div>
+          <div class="cert-feat"><span>Entrega en <strong>PDF con código QR verificable</strong></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- RESPALDO / CONFIANZA -->
+    <span class="section-tag">Por qué elegirnos</span>
+    <h2>Formación anclada en la normativa vigente</h2>
+    <div class="respaldo-box">
+      <h3>📑 No enseñamos teoría suelta</h3>
+      <p>El curso se construye sobre el <strong>marco constitucional y reglamentario vigente</strong>: la Constitución Política del Estado (2009), la Ley 031 de Autonomías, la Ley 482 de Gobiernos Municipales y los reglamentos legislativos de los tres niveles. Aprendés el oficio tal como se ejerce en la Asamblea Legislativa Plurinacional, las Asambleas Departamentales y los Concejos Municipales.</p>
+      <div class="respaldo-stats">
+        <div class="respaldo-stat">📑 Marco: CPE 2009, Ley 031 y Ley 482</div>
+        <div class="respaldo-stat">⚖️ 8 clases · oficio legislativo completo</div>
+        <div class="respaldo-stat">🇧🇴 Enfoque 100% boliviano · tres niveles</div>
+      </div>
+    </div>
+
+    <!-- PREGUNTAS FRECUENTES -->
+    <span class="section-tag">Preguntas frecuentes</span>
+    <h2>Resolvemos tus dudas</h2>
+    <div class="faq-box">
+      <div class="faq-item">
+        <div class="faq-q">¿Cuándo puedo empezar a ver las clases?</div>
+        <div class="faq-a">Apenas se confirma tu pago recibís acceso inmediato a las 8 clases en tu aula virtual. No hay que esperar a que abra un grupo.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿El certificado tiene validez?</div>
+        <div class="faq-a">Sí. Recibís un certificado oficial de APPLENDE al completar el curso, que acredita 16 horas de formación en Asesoría y Técnica Legislativa.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Necesito experiencia previa?</div>
+        <div class="faq-a">No es indispensable. El curso parte de los fundamentos del trabajo legislativo; te ayuda tener algún vínculo con el ámbito jurídico, político o de gestión pública, pero no es obligatorio.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Por cuánto tiempo tengo acceso a las clases?</div>
+        <div class="faq-a">El acceso es permanente. Podés repasar cada clase las veces que quieras, cuando quieras, desde tu aula virtual.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Cómo realizo el pago?</div>
+        <div class="faq-a">Por QR Simple, transferencia bancaria o depósito. Una vez confirmado el pago, recibís acceso inmediato al aula virtual.</div>
+      </div>
+    </div>
+
+    <!-- GARANTÍA -->
+    <div class="garantia-box">
+      <div class="g-ic">🛡️</div>
+      <h3>Garantía de satisfacción</h3>
+      <p>Mirá la primera clase. Si no es lo que esperabas, te devolvemos el 100% de tu inversión. Sin preguntas. Tu confianza es lo primero.</p>
+    </div>
+
+  </div>
+
+  <!-- TARJETA INSCRIPCION -->
+  <aside>
+    <div class="inscripcion-card">
+
+      <div class="precio-section-tit">💰 Inversión</div>
+
+      <div class="modalidad-block grabado">
+        <div class="mod-head">
+          <span class="mod-icon">🎥</span>
+          <span class="mod-titulo">Grabado · Acceso inmediato</span>
+          <span class="mod-cupos">Sin cupos limitados</span>
+        </div>
+        <div class="precio-fila">
+          <div class="precio-tipo">👔 Profesional</div>
+          <div class="precio-monto">
+            <span class="precio-bs" id="precioProf">Bs 150</span>
+          </div>
+        </div>
+        <div class="precio-fila">
+          <div class="precio-tipo precio-tipo-est">🎓 Estudiante</div>
+          <div class="precio-monto">
+            <span class="precio-bs estudiante" id="precioEst">Bs 100</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="precio-nota">Tarifa estudiantil con carnet vigente · Pago único · Acceso permanente a las 8 clases grabadas</p>
+
+      <a href="inscripcion.html?slug=asesoria-tecnica-legislativa-grabado" class="ic-btn-main">🎓 Inscribirme →</a>
+      <a href="https://wa.me/59157388229?text=Hola,%20quiero%20información%20sobre%20el%20curso%20grabado%20de%20Asesoría%20y%20Técnica%20Legislativa" target="_blank" class="ic-btn-wa">💬 Consultar por WhatsApp</a>
+
+      <div class="ic-features">
+        <div class="ic-feat">8 clases grabadas de 2 horas cada una</div>
+        <div class="ic-feat">Acceso inmediato tras el pago</div>
+        <div class="ic-feat">Repetí cada clase las veces que quieras</div>
+        <div class="ic-feat">Material: plantillas de articulado y exposición de motivos</div>
+        <div class="ic-feat">Pack de prompts de IA para el trabajo legislativo</div>
+        <div class="ic-feat">Ejercicios prácticos de redacción normativa</div>
+        <div class="ic-feat">Certificado oficial APPLENDE</div>
+        <div class="ic-feat">Soporte por WhatsApp</div>
+      </div>
+
+      <div class="ic-garantia">
+        <strong>🛡️ Garantía 24h post-primera clase</strong><br>
+        Si no te convence, te devolvemos tu dinero
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <h2>¿Listo para dominar el oficio legislativo?</h2>
+  <p>Acceso inmediato, a tu propio ritmo. Inscribite ahora y empezá cuando quieras.</p>
+  <div class="cta-btns">
+    <a href="inscripcion.html?slug=asesoria-tecnica-legislativa-grabado" class="btn-cta">🎓 Inscribirme →</a>
+    <a href="https://wa.me/59157388229?text=Hola,%20quiero%20inscribirme%20al%20curso%20grabado%20de%20Asesoría%20y%20Técnica%20Legislativa" target="_blank" class="btn-cta-wa">💬 Hablar por WhatsApp</a>
+  </div>
+  <p style="color:rgba(255,255,255,0.45);font-size:12px;margin-top:22px;">🛡️ Garantía 24h post-primera clase · Acceso permanente</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <a href="index.html">APPLE Construcciones &amp; Servicios</a> · Academia APPLENDE · Bolivia · NIT 2989818012</p>
+  <p style="margin-top:6px;"><a href="https://wa.me/59157388229" target="_blank">💬 +591 57388229</a></p>
+</footer>
+
+<script>
+// FAQ acordeón
+document.querySelectorAll('.faq-q').forEach(function(q){
+  q.addEventListener('click', function(){
+    var item = q.parentElement;
+    item.classList.toggle('open');
+  });
+});
+</script>
+
+  <!-- Meta Pixel: evento Contact en clics a WhatsApp -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href*="wa.me"], a[href*="api.whatsapp.com"]').forEach(function(a) {
+      a.addEventListener('click', function() {
+        if (typeof fbq === 'function') { fbq('track', 'Contact'); }
+      });
+    });
+  });
+  </script>
+</body>
+</html>
