@@ -188,6 +188,11 @@
 .curso-proximamente:hover{transform:none;box-shadow:none;}
 .curso-proximamente .curso-thumb-inner{filter:grayscale(35%);}
 .curso-badge.bd-prox{background:var(--purple);color:#fff;}
+.curso-badge.bd-finalizado{background:#6B7A90;color:#fff;}
+.curso-finalizado .curso-thumb-inner{filter:grayscale(55%);}
+.curso-btn-finalizado{display:block;width:100%;background:#25D366;color:#fff;text-align:center;padding:10px;border-radius:8px;font-weight:800;font-size:12px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;margin-top:10px;transition:all .2s;}
+.curso-btn-finalizado:hover{background:#1ebe5a;}
+#seccion-finalizado .sub-head{border-bottom-color:rgba(107,122,144,0.25);}
 
 /* ═══ POR QUÉ APPLENDE ═══ */
 .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
@@ -508,6 +513,19 @@
     </div>
     <p class="sub-desc">Estudiá cuándo y cómo quieras, sin horarios fijos. Grabaciones disponibles para repasar las veces que necesites.</p>
     <div class="cg" id="grid-grabado"></div>
+  </div>
+</section>
+
+<!-- SECCION FINALIZADOS (cursos en vivo cuya cohorte ya terminó y todavía no tienen fecha nueva) -->
+<section class="sec sec-white" id="seccion-finalizado" style="display:none">
+  <div class="max-w">
+    <div class="sub-head sub-head-grabado">
+      <span class="sub-dot" style="background:#6B7A90"></span>
+      <h3 class="sub-h3">Finalizado <span class="sub-h3-meta">(próxima fecha por confirmar)</span></h3>
+      <span class="sub-badge" style="background:rgba(107,122,144,0.15);color:#6B7A90"><span id="count-finalizado">0</span> cursos</span>
+    </div>
+    <p class="sub-desc">Estos grupos ya dictaron todas sus clases. Escribinos para enterarte cuándo abre el próximo grupo.</p>
+    <div class="cg" id="grid-finalizado"></div>
   </div>
 </section>
 
@@ -859,6 +877,7 @@ function urlCurso(slug) {
   if (s.includes('poa'))          return 'curso-poa.html';
   if (s.includes('licitacion'))   return 'curso-licitacion-obras.html';
   if (s.includes('vivienda'))     return 'curso-vivienda.html';
+  if (s.includes('legislativa-grabado')) return 'curso-asesoria-legislativa-grabado.html';
   if (s.includes('legislativa'))  return 'curso-asesoria-legislativa.html';
   // Modelación y cualquier otro curso usan el template (estático para Modelación)
   return `curso-detalle.html?slug=${slug}`;
@@ -878,33 +897,38 @@ function cintaIniciadoHTML(curso) {
   return '<div class="curso-iniciado-wrap"><div class="curso-iniciado-cinta"><span class="ci-dot"></span>EN VIVO · YA INICIADO</div></div>';
 }
 
-function cardCursoHTML(curso) {
+function cardCursoHTML(curso, opts) {
+  opts = opts || {};
+  const esFinalizado = !!opts.finalizado;
   const precioFmt = APPLENDE_UI.formatearPrecio(curso.precio_bs, curso.precio_original_bs);
   const stars = APPLENDE_UI.estrellasRating(curso.rating_promedio);
   const imagen = curso.imagen_portada || APPLENDE_UI.imagenCursoFallback(curso.categoria_slug);
   const ratingNum = (curso.rating_promedio || 0).toFixed(1);
   const reviews = curso.cantidad_reviews || 0;
-  const esVivo = curso.modalidad === 'en_vivo';
+  const esVivo = curso.modalidad === 'en_vivo' && !esFinalizado;
 
   // ── [NUEVO 28/05/2026] Cursos GRABADOS aún no disponibles ──
   // Mientras las páginas de los grabados no estén listas, se muestran
   // como "PRÓXIMAMENTE" con el botón deshabilitado y la tarjeta no clickeable.
   // Los cursos EN VIVO (Edificios, Modelación, Vectorworks) NO se ven afectados.
   // [30/05/2026] Cómputo+PRESCOM+APPLEX ya tiene su página estática => habilitado.
-  const grabadoProximamente = !esVivo && !((curso.slug||'').toLowerCase().includes('computo')) && !((curso.slug||'').toLowerCase().includes('licitacion')) && !((curso.slug||'').toLowerCase().includes('edificios'));
+  const grabadoProximamente = !esVivo && !((curso.slug||'').toLowerCase().includes('computo')) && !((curso.slug||'').toLowerCase().includes('licitacion')) && !((curso.slug||'').toLowerCase().includes('edificios')) && !((curso.slug||'').toLowerCase().includes('legislativa-grabado'));
 
-  const textoBoton = esVivo
-    ? '🎓 Reservar mi cupo →'
-    : (grabadoProximamente ? '🔒 Próximamente' : 'Ver curso →');
+  const textoBoton = esFinalizado
+    ? '💬 Consultar próxima fecha'
+    : (esVivo
+        ? '🎓 Reservar mi cupo →'
+        : (grabadoProximamente ? '🔒 Próximamente' : 'Ver curso →'));
   const dataTitulo = (curso.titulo + ' ' + (curso.instructor_nombre||'')).toLowerCase();
   const tipoMetaIcono = esVivo ? '📺 Zoom en vivo' : '📜 Certificado';
 
   // onclick solo si NO es un grabado en estado "próximamente"
-  const onclickAttr = grabadoProximamente
-    ? ''
-    : `onclick="window.location.href=urlCurso('${curso.slug}')"`;
-  const claseProximo = grabadoProximamente ? ' curso-proximamente' : '';
-  const claseBtn = grabadoProximamente ? 'curso-btn curso-btn-disabled' : 'curso-btn';
+  const waTexto = encodeURIComponent('Hola, quiero saber cuándo abre el próximo grupo del curso: ' + curso.titulo);
+  const onclickAttr = esFinalizado
+    ? `onclick="window.open('https://wa.me/59157388229?text=${waTexto}','_blank')"`
+    : (grabadoProximamente ? '' : `onclick="window.location.href=urlCurso('${curso.slug}')"`);
+  const claseProximo = esFinalizado ? ' curso-finalizado' : (grabadoProximamente ? ' curso-proximamente' : '');
+  const claseBtn = esFinalizado ? 'curso-btn-finalizado' : (grabadoProximamente ? 'curso-btn curso-btn-disabled' : 'curso-btn');
   const btnDisabled = grabadoProximamente ? 'disabled' : '';
 
   return `
@@ -915,8 +939,8 @@ function cardCursoHTML(curso) {
              ${onclickAttr}>
       <div class="curso-thumb">
         <div class="curso-thumb-inner" style="background-image:url('${imagen}')"></div>
-        ${grabadoProximamente ? '<span class="curso-badge bd-prox">🔒 PRÓXIMAMENTE</span>' : badgeHTML(curso.badge, esVivo)}
-        ${cintaIniciadoHTML(curso)}
+        ${esFinalizado ? '<span class="curso-badge bd-finalizado">FINALIZADO</span>' : (grabadoProximamente ? '<span class="curso-badge bd-prox">🔒 PRÓXIMAMENTE</span>' : badgeHTML(curso.badge, esVivo))}
+        ${esFinalizado ? '' : cintaIniciadoHTML(curso)}
         <span class="curso-nivel">${curso.nivel || 'Básico'}</span>
       </div>
       <div class="curso-body">
@@ -929,7 +953,7 @@ function cardCursoHTML(curso) {
           <span class="curso-rcount">(${reviews})</span>
         </div>
         <div class="curso-meta"><span>⏱ ${curso.duracion_horas || 0}h</span><span>${tipoMetaIcono}</span></div>
-        ${cohorteInfoHTML(curso)}
+        ${esFinalizado ? '<div class="curso-cohorte-info"><div class="cci-fecha">✅ Este grupo ya finalizó</div></div>' : cohorteInfoHTML(curso)}
         <div class="curso-precio">
           <span class="curso-pact">Bs ${precioFmt.precio}</span>
           ${precioFmt.original ? `<span class="curso-porig">Bs ${precioFmt.original}</span>` : ''}
@@ -982,25 +1006,37 @@ async function cargarCursos() {
     // Dividir cursos por modalidad
     const cursosVivo = data.filter(c => c.modalidad === 'en_vivo' && c.cohorte_proxima_id);
     const cursosGrabado = data.filter(c => c.modalidad !== 'en_vivo');
+    // Finalizados: siguen siendo 'en_vivo' pero ya no tienen cohorte próxima enganchada
+    // (cohorte_proxima_id en null) -> antes quedaban invisibles, ahora se muestran acá.
+    const cursosFinalizado = data.filter(c => c.modalidad === 'en_vivo' && !c.cohorte_proxima_id);
     
     // Pintar en cada grid
     const gridVivo = document.getElementById('grid-vivo');
     const gridGrabado = document.getElementById('grid-grabado');
+    const gridFinalizado = document.getElementById('grid-finalizado');
     const seccionVivo = document.getElementById('seccion-vivo');
     const seccionGrabado = document.getElementById('seccion-grabado');
+    const seccionFinalizado = document.getElementById('seccion-finalizado');
     
     if (cursosVivo.length > 0 && gridVivo && seccionVivo) {
-      gridVivo.innerHTML = cursosVivo.map(cardCursoHTML).join('');
+      gridVivo.innerHTML = cursosVivo.map(c => cardCursoHTML(c)).join('');
       seccionVivo.style.display = 'block';
       const cv = document.getElementById('count-vivo');
       if (cv) cv.textContent = cursosVivo.length;
     }
     
     if (cursosGrabado.length > 0 && gridGrabado && seccionGrabado) {
-      gridGrabado.innerHTML = cursosGrabado.map(cardCursoHTML).join('');
+      gridGrabado.innerHTML = cursosGrabado.map(c => cardCursoHTML(c)).join('');
       seccionGrabado.style.display = 'block';
       const cg = document.getElementById('count-grabado');
       if (cg) cg.textContent = cursosGrabado.length;
+    }
+
+    if (cursosFinalizado.length > 0 && gridFinalizado && seccionFinalizado) {
+      gridFinalizado.innerHTML = cursosFinalizado.map(c => cardCursoHTML(c, { finalizado: true })).join('');
+      seccionFinalizado.style.display = 'block';
+      const cf = document.getElementById('count-finalizado');
+      if (cf) cf.textContent = cursosFinalizado.length;
     }
     
     actualizarContadoresFiltros(data);
