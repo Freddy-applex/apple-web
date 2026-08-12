@@ -2464,7 +2464,7 @@ function tjMostrarChallenge(stepUpUrl, accessToken, txId){
 }
 
 window.addEventListener('message', async function(ev){
-  if(ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('cardinal') !== -1 || (ev.data && ev.data.MessageType === 'challenge.completed')){
+  if(ev.data && ev.data.MessageType === 'challenge.completed'){
     document.getElementById('challenge-modal-insc').style.display = 'none';
     tjCargando(true,'Confirmando tu pago…');
     const d = TJ_DATOS;
