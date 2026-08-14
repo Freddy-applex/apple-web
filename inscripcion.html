@@ -2446,6 +2446,7 @@ async function tjPagar(){
       directoryServerTransactionId:ini.directoryServerTransactionId,
       paSpecificationVersion:ini.paSpecificationVersion,
       ucafCollectionIndicator:ini.ucafCollectionIndicator,
+      fingerprintSessionId: TJ_SESSION,
     });
     tjFinalizar(fin);
   }catch(err){
@@ -2479,6 +2480,7 @@ window.addEventListener('message', async function(ev){
       cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
       hadChallenge:true,
       authenticationTransactionId: TJ_CHALLENGE_TX,
+      fingerprintSessionId: TJ_SESSION,
     });
     tjFinalizar(fin);
   }
