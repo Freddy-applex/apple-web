@@ -1040,11 +1040,12 @@ async function cargarHistorialFinalizados(data) {
     const sb = obtenerSupabase();
     if (!sb) return;
 
+    // Orden descendente: el mes más reciente ya dictado primero (ej: Julio antes que Junio).
     const { data: cohortesFin, error: errCF } = await sb
       .from('cohortes')
       .select('curso_id, nombre, fecha_inicio, fecha_fin')
       .eq('estado', 'finalizada')
-      .order('fecha_inicio', { ascending: true });
+      .order('fecha_inicio', { ascending: false });
 
     if (errCF) throw errCF;
     if (!cohortesFin || cohortesFin.length === 0) return;
