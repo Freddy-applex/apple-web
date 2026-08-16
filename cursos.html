@@ -336,9 +336,11 @@
 .sub-head{display:flex;align-items:center;gap:12px;padding-bottom:12px;margin-bottom:8px;border-bottom:2px solid var(--border);flex-wrap:wrap;}
 #seccion-vivo .sub-head{border-bottom-color:rgba(255,68,68,0.2);}
 #seccion-grabado .sub-head{border-bottom-color:rgba(141,198,63,0.25);}
+#seccion-finalizados .sub-head{border-bottom-color:rgba(107,107,187,0.25);}
 .sub-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 .sub-dot-vivo{background:#FF4444;animation:pulse-dot 2s infinite;}
 .sub-dot-grabado{background:var(--green);}
+.sub-dot-finalizados{background:var(--purple);}
 .sub-h3{font-family:'Josefin Sans',sans-serif;font-size:22px;font-weight:600;color:var(--navy);margin:0;line-height:1.2;}
 .sub-h3-meta{font-size:14px;color:var(--muted);font-weight:400;}
 .sub-badge{font-size:11px;font-weight:800;padding:4px 12px 4px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:6px;letter-spacing:.3px;}
@@ -347,6 +349,8 @@
 .sub-badge-vivo::before{background:#fff;animation:pulse-vivo 1.5s infinite;}
 .sub-badge-grabado{background:var(--green);color:var(--navy);}
 .sub-badge-grabado::before{background:var(--navy);}
+.sub-badge-finalizados{background:var(--purple);color:#fff;}
+.sub-badge-finalizados::before{background:#fff;}
 .sub-desc{font-size:14px;color:var(--muted);margin:0 0 20px;line-height:1.5;}
 @media(max-width:600px){.sub-h3{font-size:18px;}.sub-h3-meta{display:block;font-size:12px;margin-top:2px;}}
 
@@ -370,6 +374,9 @@
 .ft-apple-link{display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:var(--green);font-size:13px;font-weight:600;text-decoration:none;border:1px solid rgba(141,198,63,.3);border-radius:8px;padding:8px 14px;transition:all .2s;}
 .ft-apple-link:hover{background:rgba(141,198,63,.1);border-color:var(--green);transform:translateY(-1px);}
 .ft-apple-link span{font-size:12px;}
+.curso-finalizado{cursor:default;opacity:.92;}
+.curso-finalizado:hover{transform:none;box-shadow:none;}
+.curso-fin-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--purple);background:rgba(107,107,187,.1);border:1px solid rgba(107,107,187,.3);border-radius:20px;padding:5px 12px;margin-top:10px;}
 </style>
 </head>
 <body>
@@ -508,6 +515,19 @@
     </div>
     <p class="sub-desc">Estudiá cuándo y cómo quieras, sin horarios fijos. Grabaciones disponibles para repasar las veces que necesites.</p>
     <div class="cg" id="grid-grabado"></div>
+  </div>
+</section>
+
+<!-- SECCION CURSOS DICTADOS / FINALIZADOS (solo vitrina, sin boton de compra) -->
+<section class="sec sec-white" id="seccion-finalizados" style="display:none">
+  <div class="max-w">
+    <div class="sub-head">
+      <span class="sub-dot sub-dot-finalizados"></span>
+      <h3 class="sub-h3">Cursos dictados o finalizados</h3>
+      <span class="sub-badge sub-badge-finalizados"><span id="count-finalizados">0</span> cursos</span>
+    </div>
+    <p class="sub-desc">Grupos en vivo que ya se dictaron. Escribinos por WhatsApp si te interesa la próxima edición.</p>
+    <div class="cg" id="grid-finalizados"></div>
   </div>
 </section>
 
@@ -855,10 +875,15 @@ function urlCurso(slug) {
   if (s.includes('edificio'))     return 'curso-edificios.html';
   if (s.includes('vectorworks'))  return 'curso-vectorworks.html';
   if (s.includes('computo'))      return 'curso-computo-prescom-applex.html';
+  // Grabado de POA: sin página propia todavía -> apunta a la edición Julio (en vivo).
+  if (s.includes('planificacion-operativa')) return 'curso-poa-julio.html';
   if (s.includes('poa-julio'))    return 'curso-poa-julio.html';
   if (s.includes('poa'))          return 'curso-poa.html';
   if (s.includes('licitacion'))   return 'curso-licitacion-obras.html';
   if (s.includes('vivienda'))     return 'curso-vivienda.html';
+  // Grabado Casa 2 Plantas: sin página propia todavía -> apunta a la página
+  // del curso en vivo relacionado (Vivienda 2 Plantas) mientras se arma la propia.
+  if (s.includes('casa'))         return 'curso-vivienda.html';
   if (s.includes('legislativa-grabado')) return 'curso-asesoria-legislativa-grabado.html';
   if (s.includes('legislativa'))  return 'curso-asesoria-legislativa.html';
   // Modelación y cualquier otro curso usan el template (estático para Modelación)
@@ -893,7 +918,9 @@ function cardCursoHTML(curso) {
   // Los cursos EN VIVO (Edificios, Modelación, Vectorworks) NO se ven afectados.
   // [30/05/2026] Cómputo+PRESCOM+APPLEX ya tiene su página estática => habilitado.
   // [12/08/2026] Asesoría Legislativa grabado (Julio, Dr. Peredo) ya tiene su página => habilitado.
-  const grabadoProximamente = !esVivo && !((curso.slug||'').toLowerCase().includes('computo')) && !((curso.slug||'').toLowerCase().includes('licitacion')) && !((curso.slug||'').toLowerCase().includes('edificios')) && !((curso.slug||'').toLowerCase().includes('legislativa-grabado')) && !((curso.slug||'').toLowerCase().includes('poa'));
+  // [16/08/2026] Grabado POA: apunta temporalmente a curso-poa-julio.html (sin cohorte
+  // abierta asignada aún) por decisión explícita del cliente => habilitado.
+  const grabadoProximamente = !esVivo && !((curso.slug||'').toLowerCase().includes('computo')) && !((curso.slug||'').toLowerCase().includes('licitacion')) && !((curso.slug||'').toLowerCase().includes('edificios')) && !((curso.slug||'').toLowerCase().includes('legislativa-grabado')) && !((curso.slug||'').toLowerCase().includes('poa')) && !((curso.slug||'').toLowerCase().includes('casa'));
 
   const textoBoton = esVivo
     ? '🎓 Reservar mi cupo →'
@@ -943,6 +970,40 @@ function cardCursoHTML(curso) {
   `;
 }
 
+function cardCursoFinalizadoHTML(curso) {
+  const stars = APPLENDE_UI.estrellasRating(curso.rating_promedio);
+  const imagen = curso.imagen_portada || APPLENDE_UI.imagenCursoFallback(curso.categoria_slug);
+  const ratingNum = (curso.rating_promedio || 0).toFixed(1);
+  const reviews = curso.cantidad_reviews || 0;
+  const dataTitulo = (curso.titulo + ' ' + (curso.instructor_nombre||'')).toLowerCase();
+
+  // Vitrina: sin botón, sin onclick, sin precio. Solo informativo.
+  return `
+    <article class="curso curso-finalizado"
+             data-cat="${curso.categoria_slug || 'tecnico'}"
+             data-titulo="${dataTitulo}"
+             data-modalidad="vivo">
+      <div class="curso-thumb">
+        <div class="curso-thumb-inner" style="background-image:url('${imagen}')"></div>
+        <span class="curso-badge bd-prox">✅ Grupo finalizado</span>
+        <span class="curso-nivel">${curso.nivel || 'Básico'}</span>
+      </div>
+      <div class="curso-body">
+        <div class="curso-cat">${APPLENDE_UI.nombreCategoria(curso.categoria_slug)}</div>
+        <div class="curso-tit">${curso.titulo}</div>
+        <div class="curso-inst">${curso.instructor_nombre || ''}</div>
+        <div class="curso-rating">
+          <span class="curso-stars">${stars}</span>
+          <span class="curso-rnum">${ratingNum}</span>
+          <span class="curso-rcount">(${reviews})</span>
+        </div>
+        <div class="curso-meta"><span>⏱ ${curso.duracion_horas || 0}h</span><span>📺 Zoom en vivo</span></div>
+        <div class="curso-fin-badge">✅ Grupo ya dictado · Escribinos por WhatsApp por la próxima edición</div>
+      </div>
+    </article>
+  `;
+}
+
 function actualizarContadoresFiltros(cursos) {
   const totales = { all: cursos.length, tecnico: 0, software: 0, legal: 0, 'economia-finanzas': 0, 'hidrocarburos-energias': 0, 'gestion-publica': 0, vivo: 0, grabado: 0 };
   cursos.forEach(c => {
@@ -982,14 +1043,20 @@ async function cargarCursos() {
     if (loader) loader.style.display = 'none';
 
     // Dividir cursos por modalidad
+    // 1) EN VIVO con cohorte abierta/próxima
     const cursosVivo = data.filter(c => c.modalidad === 'en_vivo' && c.cohorte_proxima_id);
+    // 2) GRABADOS a su propio ritmo
     const cursosGrabado = data.filter(c => c.modalidad !== 'en_vivo');
+    // 3) EN VIVO ya dictados/finalizados (sin cohorte abierta) — solo vitrina, sin botón
+    const cursosFinalizados = data.filter(c => c.modalidad === 'en_vivo' && !c.cohorte_proxima_id);
 
     // Pintar en cada grid
     const gridVivo = document.getElementById('grid-vivo');
     const gridGrabado = document.getElementById('grid-grabado');
+    const gridFinalizados = document.getElementById('grid-finalizados');
     const seccionVivo = document.getElementById('seccion-vivo');
     const seccionGrabado = document.getElementById('seccion-grabado');
+    const seccionFinalizados = document.getElementById('seccion-finalizados');
 
     if (cursosVivo.length > 0 && gridVivo && seccionVivo) {
       gridVivo.innerHTML = cursosVivo.map(cardCursoHTML).join('');
@@ -1003,6 +1070,13 @@ async function cargarCursos() {
       seccionGrabado.style.display = 'block';
       const cg = document.getElementById('count-grabado');
       if (cg) cg.textContent = cursosGrabado.length;
+    }
+
+    if (cursosFinalizados.length > 0 && gridFinalizados && seccionFinalizados) {
+      gridFinalizados.innerHTML = cursosFinalizados.map(cardCursoFinalizadoHTML).join('');
+      seccionFinalizados.style.display = 'block';
+      const cf = document.getElementById('count-finalizados');
+      if (cf) cf.textContent = cursosFinalizados.length;
     }
 
     actualizarContadoresFiltros(data);
