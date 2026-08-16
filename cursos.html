@@ -893,7 +893,7 @@ function cardCursoHTML(curso) {
   // Los cursos EN VIVO (Edificios, Modelación, Vectorworks) NO se ven afectados.
   // [30/05/2026] Cómputo+PRESCOM+APPLEX ya tiene su página estática => habilitado.
   // [12/08/2026] Asesoría Legislativa grabado (Julio, Dr. Peredo) ya tiene su página => habilitado.
-  const grabadoProximamente = !esVivo && !((curso.slug||'').toLowerCase().includes('computo')) && !((curso.slug||'').toLowerCase().includes('licitacion')) && !((curso.slug||'').toLowerCase().includes('edificios')) && !((curso.slug||'').toLowerCase().includes('legislativa-grabado'));
+  const grabadoProximamente = !esVivo && !((curso.slug||'').toLowerCase().includes('computo')) && !((curso.slug||'').toLowerCase().includes('licitacion')) && !((curso.slug||'').toLowerCase().includes('edificios')) && !((curso.slug||'').toLowerCase().includes('legislativa-grabado')) && !((curso.slug||'').toLowerCase().includes('poa'));
 
   const textoBoton = esVivo
     ? '🎓 Reservar mi cupo →'
