@@ -377,6 +377,9 @@
 .curso-finalizado{cursor:default;opacity:.92;}
 .curso-finalizado:hover{transform:none;box-shadow:none;}
 .curso-fin-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--purple);background:rgba(107,107,187,.1);border:1px solid rgba(107,107,187,.3);border-radius:20px;padding:5px 12px;margin-top:10px;}
+.hist-mes-grupo{margin-bottom:32px;}
+.hist-mes-grupo:last-child{margin-bottom:0;}
+.hist-mes-tit{font-family:'Josefin Sans',sans-serif;font-size:15px;font-weight:700;color:var(--purple);text-transform:capitalize;letter-spacing:.3px;margin:0 0 14px;padding-bottom:8px;border-bottom:1px dashed rgba(107,107,187,.3);}
 </style>
 </head>
 <body>
@@ -524,10 +527,10 @@
     <div class="sub-head">
       <span class="sub-dot sub-dot-finalizados"></span>
       <h3 class="sub-h3">Cursos dictados o finalizados</h3>
-      <span class="sub-badge sub-badge-finalizados"><span id="count-finalizados">0</span> cursos</span>
+      <span class="sub-badge sub-badge-finalizados"><span id="count-finalizados">0</span> grupos dictados</span>
     </div>
-    <p class="sub-desc">Grupos en vivo que ya se dictaron. Escribinos por WhatsApp si te interesa la próxima edición.</p>
-    <div class="cg" id="grid-finalizados"></div>
+    <p class="sub-desc">Historial de grupos ya dictados, mes a mes. Escribinos por WhatsApp si te interesa la próxima edición.</p>
+    <div id="grid-finalizados"></div>
   </div>
 </section>
 
@@ -1023,6 +1026,88 @@ function actualizarContadoresFiltros(cursos) {
   });
 }
 
+async function cargarHistorialFinalizados(data) {
+  // Sección 3: historial de TODOS los grupos ya dictados (cohortes.estado='finalizada'),
+  // agrupados por mes. Independiente de si el curso hoy también tiene cupo abierto
+  // en otra fecha (ej: Asesoría Legislativa ya dictó Julio y tiene Agosto abierto:
+  // igual aparece acá su grupo de Julio, ADEMÁS de aparecer en "En Vivo" por Agosto).
+  const gridFinalizados = document.getElementById('grid-finalizados');
+  const seccionFinalizados = document.getElementById('seccion-finalizados');
+  const contFinalizados = document.getElementById('count-finalizados');
+  if (!gridFinalizados || !seccionFinalizados) return;
+
+  try {
+    const sb = obtenerSupabase();
+    if (!sb) return;
+
+    const { data: cohortesFin, error: errCF } = await sb
+      .from('cohortes')
+      .select('curso_id, nombre, fecha_inicio, fecha_fin')
+      .eq('estado', 'finalizada')
+      .order('fecha_inicio', { ascending: true });
+
+    if (errCF) throw errCF;
+    if (!cohortesFin || cohortesFin.length === 0) return;
+
+    const cursoIds = [...new Set(cohortesFin.map(c => c.curso_id))];
+    const { data: cursosBase, error: errCB } = await sb
+      .from('cursos')
+      .select('id, slug')
+      .in('id', cursoIds);
+
+    if (errCB) throw errCB;
+
+    const idASlug = {};
+    (cursosBase || []).forEach(c => { idASlug[c.id] = c.slug; });
+
+    // Metadata completa (imagen, categoría, rating, instructor, etc.) sale del
+    // catálogo ya cargado (v_catalogo_cursos), matcheando por slug.
+    const slugACurso = {};
+    data.forEach(c => { slugACurso[c.slug] = c; });
+
+    const grupos = cohortesFin
+      .map(cf => {
+        const slug = idASlug[cf.curso_id];
+        const cursoMeta = slug ? slugACurso[slug] : null;
+        if (!cursoMeta || !cf.fecha_inicio) return null;
+        return { curso: cursoMeta, fechaInicio: cf.fecha_inicio };
+      })
+      .filter(Boolean);
+
+    if (grupos.length === 0) return;
+
+    // Agrupar por mes/año calendario
+    const mesesMap = {};
+    const ordenMeses = [];
+    grupos.forEach(g => {
+      const f = new Date(g.fechaInicio);
+      if (isNaN(f.getTime())) return;
+      const clave = f.getFullYear() + '-' + String(f.getMonth() + 1).padStart(2, '0');
+      if (!mesesMap[clave]) {
+        mesesMap[clave] = { etiqueta: f.toLocaleDateString('es-BO', { month: 'long', year: 'numeric' }), items: [] };
+        ordenMeses.push(clave);
+      }
+      mesesMap[clave].items.push(g);
+    });
+
+    gridFinalizados.innerHTML = ordenMeses.map(clave => {
+      const mes = mesesMap[clave];
+      return `
+        <div class="hist-mes-grupo">
+          <div class="hist-mes-tit">📅 ${mes.etiqueta}</div>
+          <div class="cg">${mes.items.map(g => cardCursoFinalizadoHTML(g.curso)).join('')}</div>
+        </div>
+      `;
+    }).join('');
+
+    seccionFinalizados.style.display = 'block';
+    if (contFinalizados) contFinalizados.textContent = grupos.length;
+
+  } catch (err) {
+    console.error('[APPLENDE] No se pudo cargar el historial de cursos dictados:', err);
+  }
+}
+
 async function cargarCursos() {
   console.log('[APPLENDE] Cargando cursos desde Supabase...');
   const loader = document.getElementById('cursos-loader');
@@ -1047,16 +1132,12 @@ async function cargarCursos() {
     const cursosVivo = data.filter(c => c.modalidad === 'en_vivo' && c.cohorte_proxima_id);
     // 2) GRABADOS a su propio ritmo
     const cursosGrabado = data.filter(c => c.modalidad !== 'en_vivo');
-    // 3) EN VIVO ya dictados/finalizados (sin cohorte abierta) — solo vitrina, sin botón
-    const cursosFinalizados = data.filter(c => c.modalidad === 'en_vivo' && !c.cohorte_proxima_id);
 
     // Pintar en cada grid
     const gridVivo = document.getElementById('grid-vivo');
     const gridGrabado = document.getElementById('grid-grabado');
-    const gridFinalizados = document.getElementById('grid-finalizados');
     const seccionVivo = document.getElementById('seccion-vivo');
     const seccionGrabado = document.getElementById('seccion-grabado');
-    const seccionFinalizados = document.getElementById('seccion-finalizados');
 
     if (cursosVivo.length > 0 && gridVivo && seccionVivo) {
       gridVivo.innerHTML = cursosVivo.map(cardCursoHTML).join('');
@@ -1072,12 +1153,9 @@ async function cargarCursos() {
       if (cg) cg.textContent = cursosGrabado.length;
     }
 
-    if (cursosFinalizados.length > 0 && gridFinalizados && seccionFinalizados) {
-      gridFinalizados.innerHTML = cursosFinalizados.map(cardCursoFinalizadoHTML).join('');
-      seccionFinalizados.style.display = 'block';
-      const cf = document.getElementById('count-finalizados');
-      if (cf) cf.textContent = cursosFinalizados.length;
-    }
+    // 3) Historial: TODOS los grupos ya dictados (cohortes con estado='finalizada'),
+    // agrupados por mes — sin importar si el curso hoy también tiene cupo abierto en otra fecha.
+    await cargarHistorialFinalizados(data);
 
     actualizarContadoresFiltros(data);
 
