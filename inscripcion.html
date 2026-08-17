@@ -2452,6 +2452,7 @@ async function tjPagar(){
       paSpecificationVersion:ini.paSpecificationVersion,
       ucafCollectionIndicator:ini.ucafCollectionIndicator,
       fingerprintSessionId: TJ_SESSION,
+      browserInfo: tjBrowserInfo(),
     });
     tjFinalizar(fin);
   }catch(err){
@@ -2486,6 +2487,7 @@ window.addEventListener('message', async function(ev){
       hadChallenge:true,
       authenticationTransactionId: TJ_CHALLENGE_TX,
       fingerprintSessionId: TJ_SESSION,
+      browserInfo: tjBrowserInfo(),
     });
     tjFinalizar(fin);
   }
