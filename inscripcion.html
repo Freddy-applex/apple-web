@@ -2231,7 +2231,7 @@ let TJ_DATOS = null;
 let TJ_CHALLENGE_TX = null;
 
 // Generar session_id y cargar device fingerprint
-const TJ_SESSION = (Math.random().toString(36).substring(2,12) + Math.random().toString(36).substring(2,12) + Date.now().toString(36)).substring(0,32);
+const TJ_SESSION = ('redenlace_' + Math.random().toString(36).substring(2,12)).substring(0,88);
 let TJ_FP_LISTO = null; // promesa que se resuelve tras 11s (Data Collector)
 function tjCargarFingerprint(){
   const s = document.createElement('script');
