@@ -209,6 +209,7 @@ async function cerrarChallengeYFinalizar(){
     refCode: COBRO.referenceCode,
     hadChallenge:true,
     authenticationTransactionId: window.__challengeTxId,
+    fingerprintSessionId: SESSION_ID,
   });
   if(fin.ok && fin.status === 'AUTHORIZED'){
     mostrarEstado('ok',`✅ <b>¡Pago aprobado!</b><br>Código de autorización: ${fin.approvalCode}<br>Transacción: ${fin.transactionId}`);
@@ -248,6 +249,7 @@ async function iniciarPago(){
       address1:'N/A', locality:'Santa Cruz', adminArea:'SC', country:'BO', postalCode:'0000',
       referenceCode: COBRO.referenceCode,
       browserInfo: obtenerBrowserInfo(),
+      fingerprintSessionId: SESSION_ID,
       returnUrl: window.location.origin + '/pago-retorno',
     });
 
@@ -282,6 +284,7 @@ async function iniciarPago(){
       cavv: ini.cavv, xid: ini.xid, eci: ini.eci,
       directoryServerTransactionId: ini.directoryServerTransactionId,
       paSpecificationVersion: ini.paSpecificationVersion,
+      fingerprintSessionId: SESSION_ID,
     });
 
     if(fin.ok && fin.status === 'AUTHORIZED'){
