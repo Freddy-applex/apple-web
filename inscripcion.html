@@ -2397,6 +2397,11 @@ async function tjPagar(){
 
   try{
     tjCargando(true,'Verificando la seguridad de tu dispositivo…');
+    // FIX: esperar a que ThreatMetrix termine de perfilar (11s desde que se abrió
+    // el form de tarjeta) antes de usar TJ_SESSION — si no, el fingerprintSessionId
+    // se manda como string pero sin perfil real detrás, y Decision Manager lo
+    // sigue viendo como "Not Submitted".
+    if (TJ_FP_LISTO) await TJ_FP_LISTO;
     // DDC: ejecutar el Device Data Collection oficial de CyberSource antes del enrollment.
     const datosBase = {
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
