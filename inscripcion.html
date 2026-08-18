@@ -2231,7 +2231,14 @@ let TJ_DATOS = null;
 let TJ_CHALLENGE_TX = null;
 
 // Generar session_id y cargar device fingerprint
-const TJ_SESSION = ('redenlace_' + Math.random().toString(36).substring(2,12)).substring(0,88);
+// FIX Device Fingerprint (confirmado por Red Enlace + ejemplo Postman de ellos, 17-ago-2026):
+// al script de ThreatMetrix (h.online-metrix.net) hay que mandarle el session_id con el
+// Merchant ID pegado adelante (TJ_SESSION), pero a CyberSource, en deviceInformation.fingerprintSessionId,
+// hay que mandarle SOLO la parte random (TJ_RND), sin el Merchant ID. Antes mandábamos TJ_SESSION
+// (con el Merchant ID pegado) en los dos lados, y eso hacía que Decision Manager no lo reconociera.
+const TJ_MERCHANT_ID = 'redenlace_000009'; // Merchant ID real (mismo que usa el backend)
+const TJ_RND = Math.random().toString(36).substring(2,12); // parte random pura — esto se manda a CyberSource
+const TJ_SESSION = (TJ_MERCHANT_ID + TJ_RND).substring(0,88); // MID+RND pegados — esto se manda a ThreatMetrix (URL)
 let TJ_FP_LISTO = null; // promesa que se resuelve tras 11s (Data Collector)
 function tjCargarFingerprint(){
   const s = document.createElement('script');
@@ -2422,7 +2429,7 @@ async function tjPagar(){
       address1:'N/A', locality:'Santa Cruz', adminArea:'S', country:'BO', postalCode:'0000',
       referenceCode:'INSC-' + pendienteId,
       browserInfo: tjBrowserInfo(),
-      fingerprintSessionId: TJ_SESSION,
+      fingerprintSessionId: TJ_RND, // FIX: a CyberSource se le manda solo el random, sin el Merchant ID
       referenceId: refIdDDC,                 // ← EL MISMO referenceId del DDC (clave del fix)
       returnUrl: TJ_FUNCS_BASE + '/pago-retorno',
     });
@@ -2451,7 +2458,7 @@ async function tjPagar(){
       directoryServerTransactionId:ini.directoryServerTransactionId,
       paSpecificationVersion:ini.paSpecificationVersion,
       ucafCollectionIndicator:ini.ucafCollectionIndicator,
-      fingerprintSessionId: TJ_SESSION,
+      fingerprintSessionId: TJ_RND, // FIX: a CyberSource se le manda solo el random, sin el Merchant ID
       browserInfo: tjBrowserInfo(),
     });
     tjFinalizar(fin);
@@ -2486,7 +2493,7 @@ window.addEventListener('message', async function(ev){
       cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
       hadChallenge:true,
       authenticationTransactionId: TJ_CHALLENGE_TX,
-      fingerprintSessionId: TJ_SESSION,
+      fingerprintSessionId: TJ_RND, // FIX: a CyberSource se le manda solo el random, sin el Merchant ID
       browserInfo: tjBrowserInfo(),
     });
     tjFinalizar(fin);
