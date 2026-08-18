@@ -838,7 +838,9 @@ const PROMOS_INSCRIPCION_ANTICIPADA = {
     precioPromo:  150,
     precioEstudianteNormal: 150,
     precioEstudiantePromo:  100,
-    fechaLimite:  '2026-08-25T23:59:59-04:00'
+    // La landing muestra "hasta el 25" (urgencia), pero el sistema
+    // igual honra el precio promo un día extra (26, día de inicio del curso)
+    fechaLimite:  '2026-08-26T23:59:59-04:00'
   },
   'vectorworks-plugins': {
     precioNormal: 180,
