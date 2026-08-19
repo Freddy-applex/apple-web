@@ -1133,7 +1133,19 @@ async function cargarCursos() {
     // 1) EN VIVO con cohorte abierta/próxima
     const cursosVivo = data.filter(c => c.modalidad === 'en_vivo' && c.cohorte_proxima_id);
     // 2) GRABADOS a su propio ritmo
-    const cursosGrabado = data.filter(c => c.modalidad !== 'en_vivo');
+    // Orden: por categoría (mismo orden que los botones de filtro arriba), y
+    // dentro de cada categoría, alfabético por título. Antes no había ningún
+    // orden explícito -> Supabase devolvía los cursos en el orden en que se
+    // crearon, por eso POA y Asesoría (agregados después) quedaban al final.
+    const ORDEN_CATEGORIAS_GRABADO = ['tecnico', 'software', 'legal', 'economia-finanzas', 'hidrocarburos-energias', 'gestion-publica'];
+    const cursosGrabado = data.filter(c => c.modalidad !== 'en_vivo').sort((a, b) => {
+      const ia = ORDEN_CATEGORIAS_GRABADO.indexOf(a.categoria_slug || 'tecnico');
+      const ib = ORDEN_CATEGORIAS_GRABADO.indexOf(b.categoria_slug || 'tecnico');
+      const posA = ia === -1 ? ORDEN_CATEGORIAS_GRABADO.length : ia;
+      const posB = ib === -1 ? ORDEN_CATEGORIAS_GRABADO.length : ib;
+      if (posA !== posB) return posA - posB;
+      return (a.titulo || '').localeCompare(b.titulo || '', 'es', { sensitivity: 'base' });
+    });
 
     // Pintar en cada grid
     const gridVivo = document.getElementById('grid-vivo');
