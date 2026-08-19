@@ -23,7 +23,8 @@ const APPLENDE = {
     'software': 'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=800&q=75',
     'legal': 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=800&q=75',
     'economia-finanzas': 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=75',
-    'hidrocarburos-energias': 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=800&q=75'
+    'hidrocarburos-energias': 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=800&q=75',
+    'ia': 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=75'
   }
 };
 
@@ -253,7 +254,8 @@ const APPLENDE_UI = {
       'software': '💻', 
       'legal': '📋',
       'economia-finanzas': '💰',
-      'hidrocarburos-energias': '⛽'
+      'hidrocarburos-energias': '⛽',
+      'ia': '🤖'
     };
     return iconos[slug] || '📚';
   },
@@ -264,7 +266,8 @@ const APPLENDE_UI = {
       'software': 'Software de Diseño',
       'legal': 'Legal y Avalúos',
       'economia-finanzas': 'Economía y Finanzas',
-      'hidrocarburos-energias': 'Hidrocarburos y Energías'
+      'hidrocarburos-energias': 'Hidrocarburos y Energías',
+      'ia': 'Inteligencia Artificial'
     };
     return nombres[slug] || 'General';
   },
