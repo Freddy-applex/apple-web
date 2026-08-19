@@ -24,6 +24,7 @@ const APPLENDE = {
     'legal': 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=800&q=75',
     'economia-finanzas': 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=75',
     'hidrocarburos-energias': 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=800&q=75',
+    'gestion-publica': 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=75',
     'ia': 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=75'
   }
 };
@@ -255,6 +256,7 @@ const APPLENDE_UI = {
       'legal': '📋',
       'economia-finanzas': '💰',
       'hidrocarburos-energias': '⛽',
+      'gestion-publica': '🏛️',
       'ia': '🤖'
     };
     return iconos[slug] || '📚';
@@ -267,6 +269,7 @@ const APPLENDE_UI = {
       'legal': 'Legal y Avalúos',
       'economia-finanzas': 'Economía y Finanzas',
       'hidrocarburos-energias': 'Hidrocarburos y Energías',
+      'gestion-publica': 'Gestión Pública',
       'ia': 'Inteligencia Artificial'
     };
     return nombres[slug] || 'General';
