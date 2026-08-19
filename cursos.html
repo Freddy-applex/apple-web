@@ -405,6 +405,7 @@
       <a href="#" onclick="elegirCat('economia-finanzas',event)">💰 Economía y Finanzas</a>
       <a href="#" onclick="elegirCat('hidrocarburos-energias',event)">⛽ Hidrocarburos y Energías</a>
       <a href="#" onclick="elegirCat('gestion-publica',event)">🏛️ Gestión Pública</a>
+      <a href="#" onclick="elegirCat('ia',event)">🤖 Inteligencia Artificial</a>
     </div>
   </div>
   <div id="nav-auth" class="nav-auth-wrap"></div>
@@ -462,6 +463,7 @@
     <button class="fbtn" data-cat="economia-finanzas" onclick="filtrar('economia-finanzas',this)">💰 Economía y Finanzas <span class="count">0</span></button>
     <button class="fbtn" data-cat="hidrocarburos-energias" onclick="filtrar('hidrocarburos-energias',this)">⛽ Hidrocarburos y Energías <span class="count">0</span></button>
     <button class="fbtn" data-cat="gestion-publica" onclick="filtrar('gestion-publica',this)">🏛️ Gestión Pública <span class="count">0</span></button>
+    <button class="fbtn" data-cat="ia" onclick="filtrar('ia',this)">🤖 Inteligencia Artificial <span class="count">0</span></button>
   </div>
 </div>
 
@@ -1009,7 +1011,7 @@ function cardCursoFinalizadoHTML(curso) {
 }
 
 function actualizarContadoresFiltros(cursos) {
-  const totales = { all: cursos.length, tecnico: 0, software: 0, legal: 0, 'economia-finanzas': 0, 'hidrocarburos-energias': 0, 'gestion-publica': 0, vivo: 0, grabado: 0 };
+  const totales = { all: cursos.length, tecnico: 0, software: 0, legal: 0, 'economia-finanzas': 0, 'hidrocarburos-energias': 0, 'gestion-publica': 0, ia: 0, vivo: 0, grabado: 0 };
   cursos.forEach(c => {
     if (c.categoria_slug && totales[c.categoria_slug] !== undefined) totales[c.categoria_slug]++;
     if (c.modalidad === 'en_vivo') totales.vivo++;
@@ -1137,12 +1139,12 @@ async function cargarCursos() {
     // dentro de cada categoría, alfabético por título. Antes no había ningún
     // orden explícito -> Supabase devolvía los cursos en el orden en que se
     // crearon, por eso POA y Asesoría (agregados después) quedaban al final.
-    const ORDEN_CATEGORIAS_GRABADO = ['tecnico', 'software', 'legal', 'economia-finanzas', 'hidrocarburos-energias', 'gestion-publica'];
+    const ORDEN_CATEGORIAS_GRABADO = ['tecnico', 'software', 'ia', 'legal', 'economia-finanzas', 'hidrocarburos-energias', 'gestion-publica'];
     const cursosGrabado = data.filter(c => c.modalidad !== 'en_vivo').sort((a, b) => {
-      const ia = ORDEN_CATEGORIAS_GRABADO.indexOf(a.categoria_slug || 'tecnico');
-      const ib = ORDEN_CATEGORIAS_GRABADO.indexOf(b.categoria_slug || 'tecnico');
-      const posA = ia === -1 ? ORDEN_CATEGORIAS_GRABADO.length : ia;
-      const posB = ib === -1 ? ORDEN_CATEGORIAS_GRABADO.length : ib;
+      const idxA = ORDEN_CATEGORIAS_GRABADO.indexOf(a.categoria_slug || 'tecnico');
+      const idxB = ORDEN_CATEGORIAS_GRABADO.indexOf(b.categoria_slug || 'tecnico');
+      const posA = idxA === -1 ? ORDEN_CATEGORIAS_GRABADO.length : idxA;
+      const posB = idxB === -1 ? ORDEN_CATEGORIAS_GRABADO.length : idxB;
       if (posA !== posB) return posA - posB;
       return (a.titulo || '').localeCompare(b.titulo || '', 'es', { sensitivity: 'base' });
     });
