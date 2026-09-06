@@ -877,6 +877,10 @@ function urlCurso(slug) {
   // (ej: "edificios-5-niveles" vs "construccion-edificios-5-niveles").
   if (!slug) return 'curso-detalle.html';
   const s = slug.toLowerCase();
+  // Edición EN VIVO de septiembre 2026 (curso_id nuevo, ver regla de negocio en esquema_supabase.md):
+  // debe matchear ANTES que la regla genérica 'edificio', porque su slug también contiene esa substring
+  // y de lo contrario quedaría enrutada por error a la página grabado de la edición de junio.
+  if (s.includes('edificios-5-niveles-septiembre')) return 'curso-edificios-septiembre.html';
   if (s.includes('edificio'))     return 'curso-edificios.html';
   if (s.includes('vectorworks'))  return 'curso-vectorworks.html';
   if (s.includes('computo'))      return 'curso-computo-prescom-applex.html';
