@@ -789,6 +789,7 @@ const TIPO_CAMBIO_USD = 6.96;    // Bolivianos por USD (ajustar si cambia)
 // Para agregar otro curso solo-virtual en el futuro, agregar su slug a este array.
 const CURSOS_SOLO_VIRTUAL = [
   'construccion-edificios-5-niveles',
+  'construccion-edificios-5-niveles-septiembre',
 ];
 
 // ════════════════════════════════════════════════════════════════════
@@ -850,6 +851,13 @@ const PROMOS_INSCRIPCION_ANTICIPADA = {
     // La landing muestra "hasta el 25" (urgencia), pero el sistema
     // igual honra el precio promo un día extra (26, día de inicio del curso)
     fechaLimite:  '2026-08-26T23:59:59-04:00'
+  },
+  'construccion-edificios-5-niveles-septiembre': {
+    precioNormal: 200,
+    precioPromo:  150,
+    // Precio estudiante NO cambia (queda fijo en Bs 100, confirmado por
+    // Tavinho el 09/09) → sin precioEstudianteNormal/Promo.
+    fechaLimite:  '2026-09-14T23:59:59-04:00'
   }
   // Ejemplo para futuras promos (descomentar y ajustar):
   // 'nuevo-curso': { precioNormal: 200, precioPromo: 150, fechaLimite: '2026-XX-XXT23:59:59-04:00' }

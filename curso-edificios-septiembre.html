@@ -593,6 +593,11 @@ img{max-width:100%;height:auto;}
 
       <div class="precio-section-tit">💰 Inversión</div>
 
+      <div class="promo-banner" id="promoBanner">
+        🔥 INSCRIPCIÓN ANTICIPADA · Bs 50 de descuento
+        <span class="promo-countdown" id="promoCountdown">Promoción válida hasta el lunes 14 de septiembre</span>
+      </div>
+
       <div class="modalidad-block virtual">
         <div class="mod-head">
           <span class="mod-icon">📺</span>
@@ -602,7 +607,9 @@ img{max-width:100%;height:auto;}
         <div class="precio-fila">
           <div class="precio-tipo">👔 Profesional</div>
           <div class="precio-monto">
-            <span class="precio-bs">Bs 150</span>
+            <span class="precio-tachado" id="precio-prof-tachado">Bs 200</span>
+            <span class="precio-bs" id="precio-prof-actual">Bs 150</span>
+            <span class="precio-badge-promo" id="precio-prof-badge">-Bs 50</span>
           </div>
         </div>
         <div class="precio-fila">
@@ -613,7 +620,8 @@ img{max-width:100%;height:auto;}
         </div>
       </div>
 
-      <p class="precio-nota">Tarifa estudiantil con carnet vigente · Pago único · Curso 100% virtual por Zoom</p>
+      <p class="precio-nota">Tarifa estudiantil con carnet vigente · Pago único · Curso 100% virtual por Zoom<br>
+      Después del 14 de septiembre el precio profesional sube a Bs 200</p>
 
       <a href="inscripcion.html?slug=construccion-edificios-5-niveles-septiembre" class="ic-btn-main">🎓 Inscribirme →</a>
       <a href="https://wa.me/59157388229?text=Hola,%20quiero%20información%20sobre%20el%20curso%20en%20vivo%20Construcción%20de%20Edificios%20de%205%20Niveles%20(Septiembre)" target="_blank" class="ic-btn-wa">💬 Consultar por WhatsApp</a>
@@ -678,6 +686,35 @@ function actualizarCountdown(){
 }
 actualizarCountdown();
 setInterval(actualizarCountdown, 1000);
+
+/* ── PROMO ANTICIPADA ── */
+const PROMO_FECHA_LIMITE = new Date('2026-09-14T23:59:59-04:00');
+
+function aplicarPromoAnticipada(){
+  const ahora = new Date();
+  const elBanner = document.getElementById('promoBanner');
+  const elCountdown = document.getElementById('promoCountdown');
+  const promoActiva = ahora <= PROMO_FECHA_LIMITE;
+
+  if(promoActiva){
+    if(elBanner) elBanner.classList.add('activa');
+    if(elCountdown){
+      const diff = PROMO_FECHA_LIMITE - ahora;
+      const dias = Math.ceil(diff / (1000 * 60 * 60 * 24));
+      if(dias > 1){
+        elCountdown.textContent = '⏰ Quedan ' + dias + ' días — termina el lunes 14 de septiembre';
+      } else if(dias === 1){
+        elCountdown.textContent = '⏰ ¡Último día! Termina hoy a las 23:59';
+      } else {
+        elCountdown.textContent = '⏰ Últimas horas — termina el lunes 14 de septiembre 23:59';
+      }
+    }
+  } else {
+    if(elBanner) elBanner.classList.remove('activa');
+  }
+}
+aplicarPromoAnticipada();
+setInterval(aplicarPromoAnticipada, 60000);
 
 // FAQ acordeón
 document.querySelectorAll('.faq-q').forEach(function(q){
