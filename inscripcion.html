@@ -2411,8 +2411,12 @@ async function tjPagar(){
   const firstName = partes[0] || 'Cliente';
   const lastName = partes.slice(1).join(' ') || 'APPLENDE';
   const emailAlumno = (inscripcionCreada && inscripcionCreada.email_alumno) ? inscripcionCreada.email_alumno : 'cliente@applende.com';
+  // FIX Red Enlace (17-sep-2026): se mandaba phone/locality hardcodeados ("00000000"/"Santa Cruz")
+  // en vez de los datos reales que el alumno cargó en el Paso 1 (datosAlumnoActual.whatsapp/ciudad).
+  const phoneAlumno = (datosAlumnoActual && datosAlumnoActual.whatsapp) ? datosAlumnoActual.whatsapp : '00000000';
+  const ciudadAlumno = (datosAlumnoActual && datosAlumnoActual.ciudad) ? datosAlumnoActual.ciudad : 'Santa Cruz';
 
-  TJ_DATOS = { numero, mes, anio, cvv, firstName, lastName, pendienteId, precio, moneda, emailAlumno };
+  TJ_DATOS = { numero, mes, anio, cvv, firstName, lastName, pendienteId, precio, moneda, emailAlumno, phoneAlumno, ciudadAlumno };
 
   try{
     tjCargando(true,'Verificando la seguridad de tu dispositivo…');
@@ -2425,8 +2429,8 @@ async function tjPagar(){
     const datosBase = {
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
       amount:String(precio), currency:moneda,
-      firstName, lastName, email:emailAlumno, phone:'00000000',
-      address1:'N/A', locality:'Santa Cruz', adminArea:'S', country:'BO', postalCode:'0000',
+      firstName, lastName, email:emailAlumno, phone:phoneAlumno,
+      address1:'N/A', locality:ciudadAlumno, adminArea:'S', country:'BO', postalCode:'0000',
       referenceCode:'INSC-' + pendienteId,
     };
     // FIX v11: capturamos el referenceId que genera el DDC.
@@ -2437,8 +2441,8 @@ async function tjPagar(){
     const ini = await tjLlamar('pago-iniciar',{
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
       amount:String(precio), currency:moneda,
-      firstName, lastName, email:emailAlumno, phone:'00000000',
-      address1:'N/A', locality:'Santa Cruz', adminArea:'S', country:'BO', postalCode:'0000',
+      firstName, lastName, email:emailAlumno, phone:phoneAlumno,
+      address1:'N/A', locality:ciudadAlumno, adminArea:'S', country:'BO', postalCode:'0000',
       referenceCode:'INSC-' + pendienteId,
       browserInfo: tjBrowserInfo(),
       fingerprintSessionId: TJ_RND, // FIX: a CyberSource se le manda solo el random, sin el Merchant ID
@@ -2459,8 +2463,8 @@ async function tjPagar(){
     const fin = await tjLlamar('pago-finalizar',{
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca, cvv,
       amount:String(precio), currency:moneda,
-      firstName, lastName, email:emailAlumno, phone:'00000000',
-      address1:'N/A', locality:'Santa Cruz', adminArea:'S', country:'BO', postalCode:'0000',
+      firstName, lastName, email:emailAlumno, phone:phoneAlumno,
+      address1:'N/A', locality:ciudadAlumno, adminArea:'S', country:'BO', postalCode:'0000',
       refCode:'INSC-' + pendienteId,
       pendienteId,
       cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
@@ -2498,8 +2502,8 @@ window.addEventListener('message', async function(ev){
     const fin = await tjLlamar('pago-finalizar',{
       cardNumber:d.numero, expMonth:d.mes, expYear:d.anio, cardType:tjDetectarMarca(d.numero), cvv:d.cvv,
       amount:String(d.precio), currency:d.moneda,
-      firstName:d.firstName, lastName:d.lastName, email:d.emailAlumno, phone:'00000000',
-      address1:'N/A', locality:'Santa Cruz', adminArea:'S', country:'BO', postalCode:'0000',
+      firstName:d.firstName, lastName:d.lastName, email:d.emailAlumno, phone:(d.phoneAlumno || '00000000'),
+      address1:'N/A', locality:(d.ciudadAlumno || 'Santa Cruz'), adminArea:'S', country:'BO', postalCode:'0000',
       refCode:'INSC-' + d.pendienteId,
       pendienteId:d.pendienteId,
       cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
