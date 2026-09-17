@@ -2468,6 +2468,7 @@ async function tjPagar(){
       refCode:'INSC-' + pendienteId,
       pendienteId,
       cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
+      cursoTitulo: (cursoActual && cursoActual.titulo) ? cursoActual.titulo : '',
       hadChallenge:false,
       cavv:ini.cavv, xid:ini.xid, eci:ini.eci,
       commerceIndicator: ini.commerceIndicator,
@@ -2507,6 +2508,7 @@ window.addEventListener('message', async function(ev){
       refCode:'INSC-' + d.pendienteId,
       pendienteId:d.pendienteId,
       cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
+      cursoTitulo: (cursoActual && cursoActual.titulo) ? cursoActual.titulo : '',
       hadChallenge:true,
       authenticationTransactionId: TJ_CHALLENGE_TX,
       fingerprintSessionId: TJ_RND, // FIX: a CyberSource se le manda solo el random, sin el Merchant ID
