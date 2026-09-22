@@ -2091,7 +2091,7 @@ async function tjPagar(){
       address1:'Av. Principal', locality:ciudadAlumno, adminArea:'SC', country:'BO', postalCode:'0000', documento:docAlumno,
       referenceCode:'INSC-' + pendienteId,
     };
-    const ddc = await tjEjecutarDDC(datosBase);
+    await tjEjecutarDDC(datosBase);
     tjCargando(true,'Verificando tu tarjeta…');
     const ini = await tjLlamar('pago-iniciar',{
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
@@ -2099,7 +2099,6 @@ async function tjPagar(){
       firstName, lastName, email:emailAlumno, phone:'00000000',
       address1:'Av. Principal', locality:ciudadAlumno, adminArea:'SC', country:'BO', postalCode:'0000', documento:docAlumno,
       referenceCode:'INSC-' + pendienteId,
-      referenceId: (ddc && ddc.referenceId) ? ddc.referenceId : undefined,
       browserInfo: tjBrowserInfo(),
       fingerprintSessionId: TJ_SESSION,
       returnUrl: window.location.origin + '/inscripcion.html',
