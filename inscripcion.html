@@ -2013,18 +2013,30 @@ async function tjEjecutarDDC(datosTarjeta){
       resolve({ referenceId: referenceId });
     };
 
-    // 3) Listener del postMessage de Cardinal (respuesta del Data Collector)
+    // 3) Listener del postMessage de Cardinal (respuesta del Data Collector).
+    //    Red Enlace (11-jul): esperar la respuesta TRUE del Data Collector.
+    //    Cardinal manda el completado de varias formas según versión; los
+    //    contemplamos todos para no depender solo del timeout.
     function onMsg(ev){
-      if(typeof ev.origin === 'string' &&
-         (ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('centinelapi') !== -1 || ev.origin.indexOf('cardinaltrusted') !== -1)){
-        try{
-          const data = typeof ev.data === 'string' ? JSON.parse(ev.data) : ev.data;
-          // Cardinal responde con MessageType "profile.completed"
-          if(data && (data.Status === true || data.MessageType === 'profile.completed')){
-            finalizar();
-          }
-        }catch(e){ /* mensajes no-JSON de otros orígenes, ignorar */ }
-      }
+      if(typeof ev.origin !== 'string') return;
+      const orig = ev.origin.toLowerCase();
+      const esCardinal = orig.indexOf('cardinalcommerce') !== -1
+        || orig.indexOf('centinelapi') !== -1
+        || orig.indexOf('cardinaltrusted') !== -1;
+      if(!esCardinal) return;
+      try{
+        let data = ev.data;
+        if(typeof data === 'string'){
+          try{ data = JSON.parse(data); }catch(_e){ data = { _raw: ev.data }; }
+        }
+        const completo = data && (
+          data.Status === true ||
+          data.Status === 'true' ||
+          data.MessageType === 'profile.completed' ||
+          (typeof data._raw === 'string' && data._raw.indexOf('profile.completed') !== -1)
+        );
+        if(completo){ finalizar(); }
+      }catch(e){ /* mensajes no-JSON de otros orígenes, ignorar */ }
     }
     window.addEventListener('message', onMsg);
 
@@ -2091,7 +2103,7 @@ async function tjPagar(){
       address1:'Av. Principal', locality:ciudadAlumno, adminArea:'SC', country:'BO', postalCode:'0000', documento:docAlumno,
       referenceCode:'INSC-' + pendienteId,
     };
-    await tjEjecutarDDC(datosBase);
+    const ddc = await tjEjecutarDDC(datosBase);
     tjCargando(true,'Verificando tu tarjeta…');
     const ini = await tjLlamar('pago-iniciar',{
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
@@ -2102,6 +2114,10 @@ async function tjPagar(){
       browserInfo: tjBrowserInfo(),
       fingerprintSessionId: TJ_SESSION,
       returnUrl: window.location.origin + '/inscripcion.html',
+      // ⭐ Reusar el MISMO referenceId con el que se procesó el DDC arriba.
+      // Sin esto, el enrollment hacía otro setup y el DDC quedaba huérfano
+      // (cavv vacío / eci "internet"). Es la corrección de Red Enlace (11-jul).
+      referenceIdDDC: (ddc && ddc.referenceId) ? ddc.referenceId : undefined,
     });
 
     if(!ini.ok){ tjEstado('err','❌ No se pudo validar la tarjeta. ' + (ini.error||'')); tjCargando(false); return; }
