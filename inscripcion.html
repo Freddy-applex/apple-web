@@ -51,8 +51,7 @@ input,textarea,select{font-family:inherit;font-size:inherit;color:inherit;}
 body.modo-vivo .resumen-cohorte{display:block;}
 .resumen-coh-fecha{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:3px;}
 .resumen-coh-cupos{font-size:11px;color:#dc2626;font-weight:600;}
-.resumen-precio{border-top:1px solid var(--border);padding-top:16px;display:none;}
-body.pantalla-pago .resumen-precio{display:block;}
+.resumen-precio{border-top:1px solid var(--border);padding-top:16px;}
 .resumen-ptit{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
 .resumen-pamt{display:flex;align-items:baseline;gap:8px;}
 .resumen-pact{font-family:'Josefin Sans',sans-serif;font-size:32px;font-weight:700;color:var(--navy);line-height:1;}
@@ -304,8 +303,8 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 .pago-qr-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green);color:var(--navy);font-weight:800;font-size:11.5px;padding:6px 14px;border-radius:30px;letter-spacing:.4px;margin-bottom:12px;text-transform:uppercase;}
 .pago-qr-tit{font-family:'Josefin Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);margin-bottom:8px;line-height:1.2;}
 .pago-qr-desc{font-size:13.5px;color:var(--muted);line-height:1.55;max-width:360px;margin:0 auto;}
-.pago-qr-btn{width:100%;background:var(--green);color:var(--navy);border:none;border-radius:13px;padding:17px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:transform .15s,background .2s;}
-.pago-qr-btn:hover{background:var(--green-dark);transform:translateY(-1px);}
+.pago-qr-btn{width:100%;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:17px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:transform .15s,background .2s;}
+.pago-qr-btn:hover{background:var(--navy-dark);transform:translateY(-1px);}
 .pago-qr-btn-alt{background:#94a3b8;}
 .pago-qr-btn-alt:hover{background:#64748b;}
 .pago-qr-loader{display:flex;flex-direction:column;align-items:center;gap:14px;padding:28px;color:var(--muted);font-size:14px;}
@@ -334,14 +333,14 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 
 /* Opciones alternativas — filas limpias tipo lista */
 .pago-alt{display:flex;flex-direction:column;gap:10px;}
-.pago-alt-opt{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--green);border:none;border-radius:13px;padding:17px;text-decoration:none;font-weight:700;font-size:16px;color:var(--navy);transition:transform .15s,background .2s;}
-.pago-alt-opt:hover{background:var(--green-dark);transform:translateY(-1px);}
+.pago-alt-opt{display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:15px 16px;text-decoration:none;transition:border-color .2s,transform .15s,box-shadow .2s;}
+.pago-alt-opt:hover{border-color:var(--green);transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.06);}
 .pago-alt-ico{font-size:24px;flex-shrink:0;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--offwhite);border-radius:11px;}
 .pago-alt-txt{flex:1;display:flex;flex-direction:column;gap:2px;}
 .pago-alt-txt strong{font-size:14.5px;color:var(--navy);font-weight:700;}
 .pago-alt-txt small{font-size:12px;color:var(--muted);line-height:1.4;}
 .pago-alt-arrow{font-size:22px;color:#cbd2db;font-weight:700;flex-shrink:0;}
-
+.pago-alt-opt:hover .pago-alt-arrow{color:var(--green);}
 
 /* Monto + medios disponibles */
 .pago-alt-medios{margin-top:14px;text-align:center;padding-top:16px;border-top:1px solid var(--border);}
@@ -359,9 +358,9 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 
 /* ══ PAGO CON TARJETA (CyberSource) ══ */
 .pago-tarjeta-card{border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:16px;background:#fff;}
-.pago-tarjeta-franja{background:var(--navy);color:#fff;font-size:12px;font-weight:700;letter-spacing:.4px;padding:10px 16px;text-align:center;text-transform:uppercase;}
+.pago-tarjeta-franja{background:var(--navy);color:#fff;font-size:13px;font-weight:700;padding:10px 16px;text-align:center;}
 .pago-tarjeta-body{padding:16px;}
-.pago-tarjeta-btn{width:100%;background:var(--green);color:var(--navy);border:none;padding:14px;border-radius:11px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s;}
+.pago-tarjeta-btn{width:100%;background:var(--navy);color:#fff;border:none;padding:14px;border-radius:11px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s;}
 .pago-tarjeta-btn:hover{opacity:.9;}
 .tj-campo{margin-bottom:12px;}
 .tj-campo label{display:block;font-size:12px;font-weight:600;color:var(--navy);margin-bottom:5px;}
@@ -382,29 +381,6 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 #challenge-modal-insc{display:none;position:fixed;inset:0;background:rgba(14,26,48,.7);z-index:9999;align-items:center;justify-content:center;}
 #challenge-modal-insc>div{background:#fff;border-radius:16px;padding:20px;max-width:480px;width:92%;}
 #challenge-iframe-insc{width:100%;height:420px;border:1px solid var(--border);border-radius:10px;}
-
-    /* ═══ AVISO DE CONTRASEÑA ═══ */
-    .pwd-aviso{
-      display:flex; gap:11px; align-items:flex-start;
-      background:#FFF7ED; border:1.5px solid #FDBA74;
-      border-radius:10px; padding:13px 15px;
-      margin:6px 0 16px;
-      font-size:13.5px; line-height:1.55; color:#7C2D12;
-    }
-    .pwd-aviso b{ color:#9A3412; font-weight:700; }
-    .pwd-aviso u{ text-decoration-color:#EA580C; text-underline-offset:2px; font-weight:600; }
-    .pwd-aviso-ico{ font-size:19px; line-height:1.2; flex-shrink:0; }
-    @media(max-width:560px){
-      .pwd-aviso{ font-size:12.5px; padding:11px 13px; }
-    }
-
-.insc-google-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 16px;background:#fff;color:#3c4043;border:1px solid #dadce0;border-radius:10px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .15s,box-shadow .15s;margin-bottom:14px;}
-.insc-google-btn:hover{background:#f7f8f8;box-shadow:0 1px 3px rgba(60,64,67,.15);}
-.insc-google-btn:disabled{opacity:.6;cursor:default;}
-.insc-google-hint{background:#E8F5E9;border:1px solid #A5D6A7;color:#1B5E20;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;margin-bottom:14px;}
-.insc-divider{display:flex;align-items:center;gap:12px;margin:6px 0 18px;}
-.insc-divider span:first-child,.insc-divider span:last-child{flex:1;height:1px;background:#e0e0e0;}
-.insc-divider-txt{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#9e9e9e;}
 </style>
 </head>
 <body>
@@ -448,29 +424,39 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
 
       <form id="form-inscripcion">
 
-        <button type="button" class="insc-google-btn" id="btn-google-insc">
-          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.71-1.57 2.68-3.88 2.68-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.97 10.72a5.4 5.4 0 0 1 0-3.44V4.95H.96a9 9 0 0 0 0 8.1l3.01-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.46 3.44 1.35l2.58-2.58C13.46.9 11.43 0 9 0A9 9 0 0 0 .96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"/></svg>
-          Continuar con Google
-        </button>
-
-        <div class="insc-google-hint" id="insc-google-ok" style="display:none;">
-          ✅ Conectado con Google. Solo completá tu WhatsApp abajo y elegí tu grupo.
-        </div>
-
-        <div class="insc-divider">
-          <span></span><span class="insc-divider-txt">o completá tus datos</span><span></span>
-        </div>
-
         <div class="form-row">
           <label class="form-lbl form-lbl-req" for="inp-nombre">Nombre completo</label>
           <input type="text" class="form-input" id="inp-nombre" placeholder="Ej: Juan Pérez López" autocomplete="name" required>
           <div class="form-err" id="err-nombre">Este campo es obligatorio</div>
         </div>
 
+        <div class="form-row-2">
+          <div>
+            <label class="form-lbl form-lbl-req" for="inp-ci">Cédula de identidad</label>
+            <input type="text" class="form-input" id="inp-ci" placeholder="Ej: 12345678" autocomplete="off" required>
+            <div class="form-err" id="err-ci">CI inválido</div>
+          </div>
+          <div>
+            <label class="form-lbl" for="inp-ciudad">Ciudad</label>
+            <select class="form-input" id="inp-ciudad">
+              <option value="Santa Cruz">Santa Cruz</option>
+              <option value="La Paz">La Paz</option>
+              <option value="Cochabamba">Cochabamba</option>
+              <option value="Tarija">Tarija</option>
+              <option value="Sucre">Sucre</option>
+              <option value="Oruro">Oruro</option>
+              <option value="Potosí">Potosí</option>
+              <option value="Beni">Beni</option>
+              <option value="Pando">Pando</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+        </div>
+
         <div class="form-row">
           <label class="form-lbl form-lbl-req" for="inp-email">Email</label>
           <input type="email" class="form-input" id="inp-email" placeholder="ej: juan@gmail.com" autocomplete="email" required>
-          <div class="form-hint">Será tu usuario para entrar al aula virtual. Usá un email real.<br>Solo necesitamos la dirección — <b>nunca te pediremos la contraseña de tu correo</b>.</div>
+          <div class="form-hint">Será tu usuario para acceder al aula virtual. Usá un email real.</div>
           <div class="form-err" id="err-email">Email inválido</div>
         </div>
 
@@ -481,74 +467,26 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
           <div class="form-err" id="err-whatsapp">Número de WhatsApp inválido</div>
         </div>
 
-        <div class="form-row">
-          <label class="form-lbl form-lbl-req" for="inp-departamento">Departamento</label>
-          <select class="form-input" id="inp-departamento" required>
-            <option value="">Elegí tu departamento</option>
-            <option value="Santa Cruz">Santa Cruz</option>
-            <option value="La Paz">La Paz</option>
-            <option value="Cochabamba">Cochabamba</option>
-            <option value="Tarija">Tarija</option>
-            <option value="Chuquisaca">Chuquisaca</option>
-            <option value="Oruro">Oruro</option>
-            <option value="Potosí">Potosí</option>
-            <option value="Beni">Beni</option>
-            <option value="Pando">Pando</option>
-          </select>
-          <div class="form-err" id="err-departamento">Elegí tu departamento</div>
-        </div>
-
-        <div class="pwd-aviso">
-          <span class="pwd-aviso-ico">🔒</span>
-          <div>
-            <b>Creá una contraseña nueva para el Aula Virtual</b><br>
-            Es una clave que inventás vos ahora, solo para APPLENDE.
-            <u>No pongas la contraseña de tu correo electrónico.</u>
-          </div>
-        </div>
-
         <div class="form-row-2">
           <div>
-            <label class="form-lbl form-lbl-req" for="inp-password">Creá tu contraseña</label>
+            <label class="form-lbl form-lbl-req" for="inp-password">Contraseña</label>
             <div class="pwd-wrap">
-              <input type="password" class="form-input" id="inp-password" placeholder="Inventá una de mínimo 6 caracteres" autocomplete="new-password" required>
+              <input type="password" class="form-input" id="inp-password" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required>
               <button type="button" class="pwd-toggle" id="tog-pwd" aria-label="Mostrar contraseña">👁️</button>
             </div>
-            <div class="form-hint">Vas a usarla para entrar al aula virtual.</div>
             <div class="form-err" id="err-password">La contraseña debe tener al menos 6 caracteres</div>
           </div>
           <div>
-            <label class="form-lbl form-lbl-req" for="inp-password2">Repetí tu contraseña</label>
+            <label class="form-lbl form-lbl-req" for="inp-password2">Confirmar contraseña</label>
             <div class="pwd-wrap">
-              <input type="password" class="form-input" id="inp-password2" placeholder="Escribí la misma contraseña" autocomplete="new-password" required>
+              <input type="password" class="form-input" id="inp-password2" placeholder="Repetí la contraseña" autocomplete="new-password" required>
               <button type="button" class="pwd-toggle" id="tog-pwd2" aria-label="Mostrar contraseña">👁️</button>
             </div>
-            <div class="form-hint">Para confirmar que no hubo errores.</div>
             <div class="form-err" id="err-password2">Las contraseñas no coinciden</div>
           </div>
         </div>
 
         <!-- ═══ SELECTOR DE COHORTE (solo cursos en vivo con 2+ grupos abiertos) ═══ -->
-        <div class="form-check">
-          <input type="checkbox" id="inp-terminos" required>
-          <label class="form-check-lbl" for="inp-terminos">
-            Acepto los <a href="terminos.html" target="_blank">términos y condiciones</a> y autorizo a APPLENDE Academia a contactarme por email y WhatsApp para coordinar mi inscripción.
-          </label>
-        </div>
-
-        <button type="submit" class="form-btn" id="btn-continuar">Crear mi cuenta →</button>
-
-        <div class="login-link-box">
-          ¿Ya tenés cuenta en APPLENDE? <a href="login.html">Iniciá sesión →</a>
-        </div>
-
-      </form>
-    </div>
-
-    <div class="pago-card">
-      <h1 class="pago-tit">¡Cuenta creada, <span id="pago-nombre">amigo</span>! 🎉</h1>
-      <p class="pago-desc">Elegí tu grupo y tipo de inscripción, y realizá el pago de <strong id="pago-monto">Bs 200</strong> para reservar tu cupo.</p>
-
         <div class="cohorte-block" id="cohorte-block">
           <div class="cohorte-tit">Elegí tu grupo</div>
           <div class="cohorte-sub">Este curso tiene varios horarios disponibles. Seleccioná el que mejor se ajuste a tu agenda.</div>
@@ -622,27 +560,30 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
           <div class="form-err" id="err-carnet">Subí tu carnet para acceder al descuento estudiantil</div>
         </div>
 
+        <div class="form-check">
+          <input type="checkbox" id="inp-terminos" required>
+          <label class="form-check-lbl" for="inp-terminos">
+            Acepto los <a href="terminos.html" target="_blank">términos y condiciones</a> y autorizo a APPLENDE Academia a contactarme por email y WhatsApp para coordinar mi inscripción.
+          </label>
+        </div>
 
+        <button type="submit" class="form-btn" id="btn-continuar">Crear cuenta y continuar al pago →</button>
+
+        <div class="login-link-box">
+          ¿Ya tenés cuenta en APPLENDE? <a href="login.html">Iniciá sesión →</a>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="pago-card">
+      <h1 class="pago-tit">¡Cuenta creada, <span id="pago-nombre">amigo</span>! 🎉</h1>
+      <p class="pago-desc">Tu cuenta quedó registrada en APPLENDE. <strong>Para reservar tu cupo</strong>, necesitás realizar el pago de <strong id="pago-monto">Bs 200</strong>.</p>
 
       <div class="pago-confirm">
         <div class="pago-confirm-tit">📋 Cuenta creada · Inscripción registrada</div>
         <div class="pago-confirm-desc">Tu cupo se confirma automáticamente cuando verificamos tu pago. Tenés 48 horas para realizar la transferencia. Después del pago, vas a poder acceder al aula virtual con tu email y contraseña.</div>
       </div>
-
-      <div class="pago-alt-sep" style="text-align:center;margin:0 0 16px;"><span style="background:var(--offwhite);padding:0 14px;color:#aab2bd;font-size:12.5px;">Elegí cómo pagar</span></div>
-
-      <div id="aviso-pago-estudiante" style="display:none;background:rgba(107,107,187,.08);border:1px solid rgba(107,107,187,.25);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:12.5px;color:var(--navy);line-height:1.5;">🎓 Con tarifa estudiantil, coordinás tu inscripción por WhatsApp: revisamos tu carnet antes de activar tu acceso al curso.</div>
-
-      <div class="pago-alt">
-        <a href="#" class="pago-alt-opt" id="btn-whatsapp-pago" target="_blank">
-          <span style="display:flex;align-items:center;justify-content:center;width:20px;height:20px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="var(--navy)" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24.044 12.045.044 5.463.044.104 5.403.101 11.986c0 2.096.549 4.14 1.595 5.945L0 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.582 0 11.94-5.359 11.944-11.945a11.864 11.864 0 00-3.477-8.401"/></svg></span>
-          Coordinar pago por WhatsApp
-        </a>
-
-        <a href="#" id="btn-whatsapp" target="_blank" style="display:flex;align-items:center;justify-content:center;width:100%;background:var(--purple);color:#fff;border-radius:13px;padding:17px;text-decoration:none;font-weight:700;font-size:15px;margin-top:14px;box-sizing:border-box;transition:opacity .2s;" onmouseover="this.style.opacity=0.9" onmouseout="this.style.opacity=1">¿Ya pagaste? Enviá tu comprobante →</a>
-      </div>
-
-      <div class="pago-alt-sep" style="text-align:center;margin:22px 0 16px;"><span style="background:var(--offwhite);padding:0 14px;color:var(--navy);font-weight:700;font-size:12.5px;">o activá tu acceso al instante con QR</span></div>
 
       <!-- ══ PAGO CON QR (Red Enlace) ══ -->
       <!-- ╔══════════════════════════════════════════════════════════════╗
@@ -737,6 +678,39 @@ body.pantalla-pago .prog-step-2 .prog-lbl{color:var(--navy);}
         </div>
       </div>
 
+      <!-- Separador oculto junto con el QR. Para reactivar: quitá style="display:none;" -->
+      <div class="pago-alt-sep" id="pago-alt-sep"><span>o si preferís otro medio de pago</span></div>
+
+      <div class="pago-alt">
+        <a href="#" class="pago-alt-opt" id="btn-whatsapp-pago" target="_blank">
+          <span class="pago-alt-ico pago-alt-ico-wa"><svg viewBox="0 0 24 24" width="24" height="24" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24.044 12.045.044 5.463.044.104 5.403.101 11.986c0 2.096.549 4.14 1.595 5.945L0 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.582 0 11.94-5.359 11.944-11.945a11.864 11.864 0 00-3.477-8.401"/></svg></span>
+          <span class="pago-alt-txt">
+            <strong>Coordinar pago por WhatsApp</strong>
+            <small>QR Simple, Transferencia, Tigo Money o efectivo.</small>
+          </span>
+          <span class="pago-alt-arrow">›</span>
+        </a>
+
+        <a href="#" class="pago-alt-opt" id="btn-whatsapp" target="_blank">
+          <span class="pago-alt-ico pago-alt-ico-wa pago-alt-ico-check"><svg viewBox="0 0 24 24" width="24" height="24" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24.044 12.045.044 5.463.044.104 5.403.101 11.986c0 2.096.549 4.14 1.595 5.945L0 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.582 0 11.94-5.359 11.944-11.945a11.864 11.864 0 00-3.477-8.401"/></svg><span class="pago-alt-checkbadge">✓</span></span>
+          <span class="pago-alt-txt">
+            <strong>Ya pagué · Enviar comprobante</strong>
+            <small>Mandá tu comprobante por WhatsApp y activamos tu acceso.</small>
+          </span>
+          <span class="pago-alt-arrow">›</span>
+        </a>
+
+        <div class="pago-alt-medios">
+          <span class="pago-alt-monto">Monto: <strong id="pago-monto-card">Bs 200</strong></span>
+          <div class="pago-alt-pills">
+            <span class="pago-alt-pill">QR Simple (todos los bancos)</span>
+            <span class="pago-alt-pill">Transferencia</span>
+            <span class="pago-alt-pill">Tigo Money</span>
+            <span class="pago-alt-pill">Efectivo</span>
+          </div>
+        </div>
+      </div>
+
       <a href="cursos.html" class="pago-back">← Volver al catálogo de cursos</a>
       <a href="alumno/dashboard.html" class="pago-back" style="margin-top:8px;color:var(--navy);font-weight:700;">Ir a mi dashboard →</a>
 
@@ -789,7 +763,6 @@ const TIPO_CAMBIO_USD = 6.96;    // Bolivianos por USD (ajustar si cambia)
 // Para agregar otro curso solo-virtual en el futuro, agregar su slug a este array.
 const CURSOS_SOLO_VIRTUAL = [
   'construccion-edificios-5-niveles',
-  'construccion-edificios-5-niveles-septiembre',
 ];
 
 // ════════════════════════════════════════════════════════════════════
@@ -820,47 +793,20 @@ const PROMOS_INSCRIPCION_ANTICIPADA = {
   'modelacion-financiera-ia': {
     precioNormal: 200,
     precioPromo:  150,
-    precioEstudianteNormal: 100,
-    precioEstudiantePromo:   50,
-    // Grupo A (Lun-Mié-Vie) inicia 09/09 → promo hasta el 08
-    // Grupo B (Mar-Jue-Sáb) inicia 08/09 → promo hasta el 07
-    // Se usa la fecha más lejana para no cortar antes a nadie.
-    fechaLimite:  '2026-09-08T23:59:59-04:00'
+    fechaLimite:  '2026-07-20T23:59:59-04:00'
   },
   'formulacion-poa-julio': {
     precioNormal: 200,
     precioPromo:  150,
-    precioEstudianteNormal: 150,
-    precioEstudiantePromo:  100,
     fechaLimite:  '2026-07-21T23:59:59-04:00'
   },
   'asesoria-tecnica-legislativa': {
-    precioNormal: 200,
-    precioPromo:  150,
-    precioEstudianteNormal: 150,
-    precioEstudiantePromo:  100,
-    // La landing muestra "hasta el 25" (urgencia), pero el sistema
-    // igual honra el precio promo un día extra (26, día de inicio del curso)
-    fechaLimite:  '2026-08-26T23:59:59-04:00'
-  },
-  'vectorworks-plugins': {
-    precioNormal: 180,
-    precioPromo:  150,
-    precioEstudianteNormal: 100,
-    precioEstudiantePromo:  100,   // el estudiante no cambia
-    // La landing muestra "hasta el 25" (urgencia), pero el sistema
-    // igual honra el precio promo un día extra (26, día de inicio del curso)
-    fechaLimite:  '2026-08-26T23:59:59-04:00'
-  },
-  'construccion-edificios-5-niveles-septiembre': {
-    precioNormal: 200,
-    precioPromo:  150,
-    // Precio estudiante NO cambia (queda fijo en Bs 100, confirmado por
-    // Tavinho el 09/09) → sin precioEstudianteNormal/Promo.
-    fechaLimite:  '2026-09-14T23:59:59-04:00'
+    precioNormal: 300,
+    precioPromo:  200,
+    fechaLimite:  '2026-07-21T23:59:59-04:00'
   }
   // Ejemplo para futuras promos (descomentar y ajustar):
-  // 'nuevo-curso': { precioNormal: 200, precioPromo: 150, fechaLimite: '2026-XX-XXT23:59:59-04:00' }
+  // 'vectorworks':              { precioNormal: 180, precioPromo: 130, fechaLimite: '2026-06-XXT23:59:59-04:00' }
 };
 
 // Devuelve el precio profesional aplicable según promo vigente.
@@ -876,9 +822,6 @@ function aplicarPromoEnInscripcion(curso) {
     // Promo expirada → restaurar el precio normal definido en el cuadro.
     // (Supabase puede tener grabado el precio promo, por eso forzamos aquí.)
     curso.precio_bs = promo.precioNormal;
-    if (promo.precioEstudianteNormal) {
-      curso.precio_estudiante_bs = promo.precioEstudianteNormal;
-    }
     return curso;
   }
 
@@ -887,17 +830,12 @@ function aplicarPromoEnInscripcion(curso) {
   if (!curso.precio_original_bs || Number(curso.precio_original_bs) < promo.precioNormal) {
     curso.precio_original_bs = promo.precioNormal;
   }
-  // Precio de estudiante durante la promo
-  if (promo.precioEstudiantePromo) {
-    curso.precio_estudiante_bs = promo.precioEstudiantePromo;
-  }
   return curso;
 }
 
 let cursoActual = null;
 let cohorteActual = null;
 let inscripcionCreada = null;
-let datosAlumnoActual = null; // guarda los datos del alumno para poder reconstruir los links de WhatsApp si cambia el tipo
 
 function obtenerSlug() {
   return new URLSearchParams(window.location.search).get('slug');
@@ -1025,6 +963,7 @@ function renderizarResumen(curso) {
   document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
 
   document.getElementById('pago-monto').textContent = 'Bs ' + precioFmt.precio;
+  document.getElementById('pago-monto-card').textContent = 'Bs ' + precioFmt.precio;
 
   if (curso.modalidad === 'en_vivo' && cohorteActual) {
     document.body.classList.add('modo-vivo');
@@ -1058,13 +997,7 @@ function mostrarSelectorTipoAlumno(curso) {
 
   // Escuchar cambios y actualizar precio mostrado en resumen + pago
   document.querySelectorAll('input[name="tipo-alumno"]').forEach(r => {
-    r.addEventListener('change', () => {
-      actualizarPrecioSegunTipo(curso);
-      if (document.body.classList.contains('pantalla-pago')) {
-        configurarMetodosPagoPorPais();
-        actualizarLinksWhatsApp();
-      }
-    });
+    r.addEventListener('change', () => actualizarPrecioSegunTipo(curso));
   });
 }
 
@@ -1074,6 +1007,7 @@ function actualizarPrecioSegunTipo(curso) {
   const precioFmt = formatearPrecio(precioAplicable).precio;
   document.getElementById('res-precio').textContent = 'Bs ' + precioFmt;
   document.getElementById('pago-monto').textContent = 'Bs ' + precioFmt;
+  document.getElementById('pago-monto-card').textContent = 'Bs ' + precioFmt;
   
   const usd = Math.round(precioAplicable / TIPO_CAMBIO_USD);
   document.getElementById('res-pusd').textContent = '≈ USD ' + usd;
@@ -1339,6 +1273,12 @@ function validarFormulario() {
     ok = false;
   }
 
+  const ci = document.getElementById('inp-ci').value.trim();
+  if (ci.length < 5 || !/^[0-9A-Z\-]+$/i.test(ci)) {
+    marcarError('ci', 'CI inválido (solo números y letras)');
+    ok = false;
+  }
+
   const email = document.getElementById('inp-email').value.trim();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     marcarError('email', 'Email inválido');
@@ -1351,25 +1291,16 @@ function validarFormulario() {
     ok = false;
   }
 
-  const dep = document.getElementById('inp-departamento').value;
-  if (!dep) {
-    marcarError('departamento', 'Elegí tu departamento');
+  const pwd = document.getElementById('inp-password').value;
+  if (pwd.length < 6) {
+    marcarError('password', 'La contraseña debe tener al menos 6 caracteres');
     ok = false;
   }
 
-  // Si vino por Google o ya está logueado, no se valida contraseña
-  if (!window.USUARIO_GOOGLE && !window.ALUMNO_LOGUEADO) {
-    const pwd = document.getElementById('inp-password').value;
-    if (pwd.length < 6) {
-      marcarError('password', 'La contraseña debe tener al menos 6 caracteres');
-      ok = false;
-    }
-
-    const pwd2 = document.getElementById('inp-password2').value;
-    if (pwd !== pwd2) {
-      marcarError('password2', 'Las contraseñas no coinciden');
-      ok = false;
-    }
+  const pwd2 = document.getElementById('inp-password2').value;
+  if (pwd !== pwd2) {
+    marcarError('password2', 'Las contraseñas no coinciden');
+    ok = false;
   }
 
   const terminos = document.getElementById('inp-terminos').checked;
@@ -1377,14 +1308,6 @@ function validarFormulario() {
     mostrarErrorGeneral('Debés aceptar los términos y condiciones para continuar.');
     ok = false;
   }
-
-  return ok;
-}
-
-// Validación del PASO 2 (grupo, modalidad, carnet)
-function validarEleccion() {
-  let ok = true;
-  document.getElementById('error-general').classList.remove('show');
 
   // Validación de cohorte: si el bloque está visible, debe haber una elegida
   const cohorteBlock = document.getElementById('cohorte-block');
@@ -1451,12 +1374,9 @@ function mostrarErrorGeneral(msg, titulo) {
 /* ════════════════════════════════════════════════════════════════
    PROCESAR INSCRIPCIÓN: signUp + insert inscripción pendiente
    ════════════════════════════════════════════════════════════════ */
-let procesandoInscripcion = false;
 async function procesarInscripcion(ev) {
   ev.preventDefault();
-  if (procesandoInscripcion) { console.warn('[INSC] Ya se está procesando, ignoro doble clic'); return; }
   if (!validarFormulario()) return;
-  procesandoInscripcion = true;
   if (!cursoActual) {
     mostrarErrorGeneral('No se cargó el curso correctamente. Recargá la página.');
     return;
@@ -1468,24 +1388,54 @@ async function procesarInscripcion(ev) {
 
   const datosAlumno = {
     nombre: document.getElementById('inp-nombre').value.trim(),
-    ci: 'PENDIENTE',
+    ci: document.getElementById('inp-ci').value.trim(),
     email: document.getElementById('inp-email').value.trim().toLowerCase(),
     whatsapp: document.getElementById('inp-whatsapp').value.trim().replace(/[\s\-\+]/g, ''),
-    ciudad: document.getElementById('inp-departamento').value || 'Santa Cruz',
+    ciudad: document.getElementById('inp-ciudad').value,
     password: document.getElementById('inp-password').value
   };
 
-  // Valores por defecto para crear la inscripción temprano (correo de bienvenida).
-  // El alumno ajusta tipo/grupo en el paso 2 (se hace UPDATE).
-  const tipoAlumno = 'profesional';
+  const tipoAlumno = obtenerTipoAlumno();
   const precioAplicable = obtenerPrecioAplicable();
 
   const sb = obtenerSupabase();
 
   try {
+    // ────── PASO 1 (opcional): Subir carnet si es estudiante ──────
     let urlCarnet = null;
+    
+    if (tipoAlumno === 'estudiante') {
+      btn.innerHTML = '<span class="form-btn-loader"></span>Subiendo carnet...';
+      
+      const carnetFile = document.getElementById('inp-carnet').files[0];
+      const emailSanit = datosAlumno.email.replace(/[^a-z0-9]/g, '-');
+      const timestamp = Date.now();
+      const ext = carnetFile.name.split('.').pop().toLowerCase();
+      const nombreArchivo = `${emailSanit}-${timestamp}.${ext}`;
 
-    // ────── Crear cuenta en auth.users ──────
+      const { data: uploadData, error: errUpload } = await sb.storage
+        .from('carnets-estudiantes')
+        .upload(nombreArchivo, carnetFile, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (errUpload) {
+        console.error('[APPLENDE] Error al subir carnet:', errUpload);
+        mostrarErrorGeneral(
+          'No pudimos subir tu carnet. Verificá que sea una imagen o PDF válido y reintentá.',
+          '⚠️ Error al subir carnet'
+        );
+        btn.disabled = false;
+        btn.innerHTML = 'Crear cuenta y continuar al pago →';
+        return;
+      }
+
+      urlCarnet = uploadData.path;
+      console.log('[APPLENDE] Carnet subido:', urlCarnet);
+    }
+
+    // ────── PASO 2: Crear cuenta en auth.users ──────
     btn.innerHTML = '<span class="form-btn-loader"></span>Creando cuenta...';
     
     const partesNombre = datosAlumno.nombre.split(/\s+/).filter(p => p.length > 0);
@@ -1493,39 +1443,20 @@ async function procesarInscripcion(ev) {
     const apellido = partesNombre.slice(1).join(' ');
 
     let alumnoExistenteOk = false;
-    let errAuth = null;
-    let authData = null;
-
-    const usuarioSesion = window.USUARIO_GOOGLE || window.ALUMNO_LOGUEADO;
-    if (usuarioSesion) {
-      // ─── Ya autenticado (Google o login previo): NO hacemos signUp ───
-      console.log('[INSC] Inscripción con sesión activa, se saltea signUp');
-      alumnoExistenteOk = true;
-      // Si el perfil no tenía teléfono, guardamos el que cargó ahora
-      try {
-        if (datosAlumno.whatsapp && datosAlumno.whatsapp !== 'PENDIENTE') {
-          await sb.from('perfiles').update({ telefono: datosAlumno.whatsapp }).eq('id', usuarioSesion.id);
+    const { data: authData, error: errAuth } = await sb.auth.signUp({
+      email: datosAlumno.email,
+      password: datosAlumno.password,
+      options: {
+        data: {
+          nombre: nombre,
+          apellido: apellido,
+          ci: datosAlumno.ci,
+          telefono: datosAlumno.whatsapp,
+          ciudad: datosAlumno.ciudad,
+          pais: 'Bolivia'
         }
-      } catch(e) { console.warn('[INSC] No se pudo actualizar telefono:', e); }
-    } else {
-      // ─── Camino normal: crear cuenta con contraseña ───
-      const resp = await sb.auth.signUp({
-        email: datosAlumno.email,
-        password: datosAlumno.password,
-        options: {
-          data: {
-            nombre: nombre,
-            apellido: apellido,
-            ci: datosAlumno.ci,
-            telefono: datosAlumno.whatsapp,
-            ciudad: datosAlumno.ciudad,
-            pais: 'Bolivia'
-          }
-        }
-      });
-      authData = resp.data;
-      errAuth = resp.error;
-    }
+      }
+    });
 
     if (errAuth) {
       console.error('[APPLENDE] Error en signUp:', errAuth);
@@ -1544,7 +1475,7 @@ async function procesarInscripcion(ev) {
             `Este email ya tiene una cuenta en APPLENDE. Si es tuya, ingresá la <strong>misma contraseña</strong> que usás para entrar. Si la olvidaste, <a href="login.html" style="color:#991B1B;text-decoration:underline;font-weight:700;">recuperala acá</a> o escribinos por WhatsApp al ${WA_KARINA.replace('591','+591 ')}.`,
             'Ya tenés una cuenta'
           );
-          btn.disabled = false; procesandoInscripcion = false;
+          btn.disabled = false;
           btn.innerHTML = 'Inscribirme a este curso →';
           return;
         }
@@ -1560,8 +1491,8 @@ async function procesarInscripcion(ev) {
       }
       // Si el alumno existente se autenticó correctamente, NO cortamos: seguimos a la inscripción.
       if (!alumnoExistenteOk) {
-        btn.disabled = false; procesandoInscripcion = false;
-        btn.innerHTML = 'Crear mi cuenta →';
+        btn.disabled = false;
+        btn.innerHTML = 'Crear cuenta y continuar al pago →';
         return;
       }
     }
@@ -1593,8 +1524,8 @@ async function procesarInscripcion(ev) {
       // Caso: curso no disponible (raro, ya lo validamos antes)
       if (msgLower.includes('curso no disponible')) {
         mostrarErrorGeneral('El curso ya no está disponible. Volvé al catálogo.');
-        btn.disabled = false; procesandoInscripcion = false;
-        btn.innerHTML = 'Crear mi cuenta →';
+        btn.disabled = false;
+        btn.innerHTML = 'Crear cuenta y continuar al pago →';
         return;
       }
 
@@ -1617,7 +1548,7 @@ async function procesarInscripcion(ev) {
         } catch (e) {
           console.warn('[APPLENDE] No se pudo recuperar el ID de la pendiente:', e);
         }
-        inscripcionCreada = { id: idExistente, email_alumno: datosAlumno.email };
+        inscripcionCreada = { id: idExistente, email_alumno: datosAlumno.email, ci: datosAlumno.ci, ciudad: datosAlumno.ciudad };
         avanzarAPago(datosAlumno);
         return;
       }
@@ -1627,21 +1558,21 @@ async function procesarInscripcion(ev) {
         `Tu cuenta se creó correctamente, pero tuvimos un problema al registrar la inscripción. Por favor escribinos por WhatsApp al <a href="https://wa.me/${WA_KARINA}" target="_blank" style="color:#991B1B;font-weight:700;text-decoration:underline;">+591 57388229</a> y te ayudamos a completar el proceso.`,
         '⚠️ Inscripción incompleta'
       );
-      btn.disabled = false; procesandoInscripcion = false;
-      btn.innerHTML = 'Crear mi cuenta →';
+      btn.disabled = false;
+      btn.innerHTML = 'Crear cuenta y continuar al pago →';
       return;
     }
 
     // Éxito: inscripcionId contiene el UUID devuelto por la RPC
-    inscripcionCreada = { id: inscripcionId, email_alumno: datosAlumno.email };
+    inscripcionCreada = { id: inscripcionId, email_alumno: datosAlumno.email, ci: datosAlumno.ci, ciudad: datosAlumno.ciudad };
     console.log('[APPLENDE] Inscripción creada OK:', inscripcionId);
     avanzarAPago(datosAlumno);
 
   } catch (err) {
     console.error('[APPLENDE] Error inesperado:', err);
     mostrarErrorGeneral('Error de conexión. Verificá tu internet y reintentá.');
-    btn.disabled = false; procesandoInscripcion = false;
-    btn.innerHTML = 'Crear mi cuenta →';
+    btn.disabled = false;
+    btn.innerHTML = 'Crear cuenta y continuar al pago →';
   }
 }
 
@@ -1696,27 +1627,16 @@ async function detectarPaisUsuario() {
   }
 }
 
-// Muestra/oculta los métodos de pago según el país detectado y el tipo de alumno.
+// Muestra/oculta los métodos de pago según el país detectado.
 async function configurarMetodosPagoPorPais() {
   const cardQR      = document.getElementById('pago-qr-card');
   const cardTarjeta = document.getElementById('pago-tarjeta-card');
   const sepAlt      = document.getElementById('pago-alt-sep');
-  const avisoEst    = document.getElementById('aviso-pago-estudiante');
 
   // Por defecto: QR visible, tarjeta y separador ocultos (estado seguro).
   if (cardQR)      cardQR.style.display = '';
   if (cardTarjeta) cardTarjeta.style.display = 'none';
   if (sepAlt)      sepAlt.style.display = 'none';
-  if (avisoEst)    avisoEst.style.display = 'none';
-
-  // ── Estudiante: sin pago instantáneo. Karina tiene que revisar el carnet
-  //    (y marcar UAGRM si corresponde) ANTES de que se cobre algo. ──
-  if (obtenerTipoAlumno() === 'estudiante') {
-    if (cardQR)      cardQR.style.display = 'none';
-    if (cardTarjeta) cardTarjeta.style.display = 'none';
-    if (avisoEst)    avisoEst.style.display = 'block';
-    return;
-  }
 
   const pais = await detectarPaisUsuario();
 
@@ -1733,89 +1653,24 @@ async function configurarMetodosPagoPorPais() {
   // En cualquier otro caso (Bolivia sin modo prueba, o CyberSource inactivo) → solo QR.
 }
 
-// ════════════════════════════════════════════════════════════════
-//  PASO 2 — Sincronizar la inscripción con lo elegido (grupo, tipo, carnet).
-//  Se llama antes de pagar. Hace UPDATE de la inscripción ya creada.
-//  Devuelve true si OK, false si falta algo (validación).
-// ════════════════════════════════════════════════════════════════
-let sincronizando = false;
-async function sincronizarInscripcion() {
-  if (!validarEleccion()) return false;
-  if (sincronizando) return true;
-  if (!inscripcionCreada || !inscripcionCreada.id) {
-    console.warn('[APPLENDE] No hay inscripción para sincronizar');
-    return true; // no bloquear el pago si por alguna razón no hay id
-  }
-  sincronizando = true;
-
-  const sb = obtenerSupabase();
-  const tipoAlumno = obtenerTipoAlumno();
-  const precioAplicable = obtenerPrecioAplicable();
-  const datosAlumno = datosAlumnoActual || {};
-
-  try {
-    // Subir carnet si es estudiante y aún no se subió
-    let urlCarnet = null;
-    if (tipoAlumno === 'estudiante') {
-      const carnetFile = document.getElementById('inp-carnet').files[0];
-      if (carnetFile) {
-        const emailSanit = (datosAlumno.email || 'alumno').replace(/[^a-z0-9]/g, '-');
-        const ext = carnetFile.name.split('.').pop().toLowerCase();
-        const nombreArchivo = `${emailSanit}-${Date.now()}.${ext}`;
-        const { data: up, error: errUp } = await sb.storage
-          .from('carnets-estudiantes')
-          .upload(nombreArchivo, carnetFile, { cacheControl: '3600', upsert: false });
-        if (errUp) { console.error('[APPLENDE] Error carnet:', errUp); }
-        else { urlCarnet = up.path; }
-      }
-    }
-
-    const { error: errUpd } = await sb.rpc('actualizar_inscripcion_pendiente', {
-      p_inscripcion_id:           inscripcionCreada.id,
-      p_cohorte_id:               cohorteActual ? cohorteActual.id : null,
-      p_precio:                   precioAplicable,
-      p_tipo_alumno:              tipoAlumno,
-      p_url_documento_validacion: urlCarnet,
-      p_modalidad:                obtenerModalidadElegida()
-    });
-    if (errUpd) { console.error('[APPLENDE] Error al actualizar inscripción:', errUpd); }
-    else { console.log('[APPLENDE] Inscripción sincronizada con la elección'); }
-    sincronizando = false;
-    return true;
-  } catch (e) {
-    console.error('[APPLENDE] Error al sincronizar:', e);
-    sincronizando = false;
-    return true; // no bloquear el pago por un fallo de sync
-  }
-}
-
 function avanzarAPago(datos) {
   document.body.classList.add('pantalla-pago');
   document.getElementById('pago-nombre').textContent = extraerPrimerNombre(datos.nombre);
-  datosAlumnoActual = datos;
 
   // Decide qué método de pago mostrar según el país del visitante.
   configurarMetodosPagoPorPais();
 
-  // Links de WhatsApp (con el tipo/monto vigentes en ese momento)
-  actualizarLinksWhatsApp();
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Reconstruye los links de WhatsApp con el tipo de alumno y precio ACTUALES.
-// Se llama al entrar a Paso 2 y cada vez que cambia el tipo de inscripción,
-// para que el mensaje prellenado (Profesional/Estudiante, monto) nunca quede desactualizado.
-function actualizarLinksWhatsApp() {
-  if (!datosAlumnoActual) return;
-
-  const mensajeWA = construirMensajeWA(datosAlumnoActual, cursoActual);
+  // Mensaje para el botón "Enviar comprobante" (post-pago)
+  const mensajeWA = construirMensajeWA(datos, cursoActual);
   const urlWA = 'https://wa.me/' + WA_KARINA + '?text=' + encodeURIComponent(mensajeWA);
   document.getElementById('btn-whatsapp').href = urlWA;
 
-  const mensajePagoWA = construirMensajeWAPrepago(datosAlumnoActual, cursoActual);
+  // Mensaje para el botón "Coordinar pago" (pre-pago)
+  const mensajePagoWA = construirMensajeWAPrepago(datos, cursoActual);
   const urlPagoWA = 'https://wa.me/' + WA_KARINA + '?text=' + encodeURIComponent(mensajePagoWA);
   document.getElementById('btn-whatsapp-pago').href = urlPagoWA;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function construirMensajeWAPrepago(datos, curso) {
@@ -1945,160 +1800,6 @@ document.addEventListener('DOMContentLoaded', function() {
   setupTogglesPassword();
   setupCarnetUpload();
   document.getElementById('form-inscripcion').addEventListener('submit', procesarInscripcion);
-
-  // ══════════════════════════════════════════════════════════════
-  //  ALUMNO YA LOGUEADO: si al entrar ya hay sesión activa,
-  //  no le pedimos sus datos de nuevo — usamos los que ya tiene.
-  // ══════════════════════════════════════════════════════════════
-  detectarSesionExistente();
-
-  // ══════════════════════════════════════════════════════════════
-  //  CONTINUAR CON GOOGLE (versión prueba)
-  //  Al hacer clic: guarda el slug actual y lanza OAuth de Google,
-  //  que vuelve a ESTA misma página. Al volver, se detecta la sesión
-  //  y se pre-rellena nombre + email.
-  // ══════════════════════════════════════════════════════════════
-  const btnGoogleInsc = document.getElementById('btn-google-insc');
-  if (btnGoogleInsc) {
-    btnGoogleInsc.addEventListener('click', async function() {
-      this.disabled = true;
-      try {
-        const sb = obtenerSupabaseInsc();
-        // Guardar el slug para recuperarlo al volver de Google
-        try { sessionStorage.setItem('insc_slug', obtenerSlug() || ''); } catch(e){}
-        const { error } = await sb.auth.signInWithOAuth({
-          provider: 'google',
-          options: { redirectTo: window.location.href }
-        });
-        if (error) {
-          console.error('[INSC] Error OAuth Google:', error);
-          mostrarErrorGeneral('No pudimos conectar con Google. Probá completando tus datos manualmente.');
-          this.disabled = false;
-        }
-      } catch (err) {
-        console.error('[INSC] Excepción OAuth:', err);
-        this.disabled = false;
-      }
-    });
-  }
-
-  // Al cargar: si volvemos de Google (hay sesión), pre-rellenar el form.
-  (function() {
-    try {
-      const sb = obtenerSupabaseInsc();
-      sb.auth.onAuthStateChange((evento, session) => {
-        if ((evento === 'SIGNED_IN' || evento === 'INITIAL_SESSION') && session && session.user) {
-          const u = session.user;
-          // Solo si vino por Google (proveedor google)
-          const prov = (u.app_metadata && u.app_metadata.provider) || '';
-          if (prov !== 'google') return;
-          aplicarUsuarioGoogle(u);
-        }
-      });
-    } catch (e) {
-      console.warn('[INSC] No se pudo suscribir a onAuthStateChange:', e);
-    }
-  })();
-
-  function obtenerSupabaseInsc() {
-    if (window.obtenerSupabase) return window.obtenerSupabase();
-    return obtenerSB();
-  }
-
-  function aplicarUsuarioGoogle(u) {
-    if (window.USUARIO_GOOGLE) return;  // ya aplicado, evitar repetición
-    window.USUARIO_GOOGLE = u;  // bandera que el submit usará para saltear signUp
-    const meta = u.user_metadata || {};
-    const nombreG = meta.full_name || meta.name || (u.email ? u.email.split('@')[0] : '');
-    const inpNombre = document.getElementById('inp-nombre');
-    const inpEmail = document.getElementById('inp-email');
-    if (inpNombre && nombreG) { inpNombre.value = nombreG; inpNombre.readOnly = true; }
-    if (inpEmail && u.email) { inpEmail.value = u.email; inpEmail.readOnly = true; }
-
-    // Ocultar los campos de contraseña (con Google no hacen falta)
-    const filaPwd = document.querySelector('.pwd-aviso');
-    if (filaPwd) filaPwd.style.display = 'none';
-    const inpsPwd = [document.getElementById('inp-password'), document.getElementById('inp-password2')];
-    inpsPwd.forEach(el => { if (el) { const cont = el.closest('.form-row-2'); if (cont) cont.style.display='none'; el.removeAttribute('required'); } });
-
-    // Mostrar aviso verde de conexión
-    const ok = document.getElementById('insc-google-ok');
-    if (ok) ok.style.display = 'block';
-    const btnG = document.getElementById('btn-google-insc');
-    if (btnG) btnG.style.display = 'none';
-    console.log('[INSC] Usuario Google aplicado:', u.email);
-  }
-
-  // ══════════════════════════════════════════════════════════════
-  //  DETECTAR SESIÓN EXISTENTE (alumno ya logueado con contraseña o Google)
-  //  Trae el perfil guardado y pre-rellena SIN pedir datos de nuevo.
-  //  WhatsApp fijo: se toma del perfil, no se puede editar acá.
-  // ══════════════════════════════════════════════════════════════
-  async function detectarSesionExistente() {
-    try {
-      const sb = obtenerSupabaseInsc();
-      const { data: { session } } = await sb.auth.getSession();
-      if (!session || !session.user) return;  // no logueado: formulario normal
-
-      const u = session.user;
-      // Traer el perfil guardado (nombre, apellido, telefono)
-      let perfil = null;
-      try {
-        const { data } = await sb.from('perfiles')
-          .select('nombre, apellido, telefono, ciudad')
-          .eq('id', u.id).single();
-        perfil = data;
-      } catch(e) { console.warn('[INSC] No se pudo leer perfil:', e); }
-
-      window.ALUMNO_LOGUEADO = u;  // bandera: el submit saltea signUp
-
-      const nombreCompleto = perfil
-        ? [perfil.nombre, perfil.apellido].filter(Boolean).join(' ').trim()
-        : (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || '';
-      const telGuardado = perfil && perfil.telefono && perfil.telefono !== 'PENDIENTE' ? perfil.telefono : '';
-
-      // Pre-rellenar y bloquear nombre + email
-      const inpNombre = document.getElementById('inp-nombre');
-      const inpEmail  = document.getElementById('inp-email');
-      if (inpNombre && nombreCompleto) { inpNombre.value = nombreCompleto; inpNombre.readOnly = true; }
-      if (inpEmail && u.email)         { inpEmail.value = u.email; inpEmail.readOnly = true; }
-
-      // WhatsApp: si ya lo tiene guardado, fijarlo y bloquearlo.
-      const inpWa = document.getElementById('inp-whatsapp');
-      if (inpWa) {
-        if (telGuardado) { inpWa.value = telGuardado; inpWa.readOnly = true; }
-        // si no tiene teléfono guardado, lo dejamos editable para que lo cargue esta vez
-      }
-
-      // Departamento: si ya lo tiene guardado de una inscripción anterior, precargarlo
-      // (queda editable por si el alumno cambió de ciudad).
-      const inpDep = document.getElementById('inp-departamento');
-      if (inpDep && perfil && perfil.ciudad) { inpDep.value = perfil.ciudad; }
-
-      // Ocultar contraseña (ya tiene cuenta)
-      const filaPwd = document.querySelector('.pwd-aviso');
-      if (filaPwd) filaPwd.style.display = 'none';
-      [document.getElementById('inp-password'), document.getElementById('inp-password2')].forEach(el => {
-        if (el) { const cont = el.closest('.form-row-2'); if (cont) cont.style.display='none'; el.removeAttribute('required'); }
-      });
-
-      // Ocultar botón de Google y separador (ya está adentro)
-      const btnG = document.getElementById('btn-google-insc');
-      if (btnG) btnG.style.display = 'none';
-      const divisor = document.querySelector('.insc-divider');
-      if (divisor) divisor.style.display = 'none';
-
-      // Aviso de bienvenida
-      const okBox = document.getElementById('insc-google-ok');
-      if (okBox) {
-        okBox.textContent = '✅ Ya tenés cuenta en APPLENDE (' + u.email + '). Solo elegí tu grupo y confirmá tu inscripción.';
-        okBox.style.display = 'block';
-      }
-      console.log('[INSC] Alumno logueado detectado:', u.email, '| tel:', telGuardado || '(sin guardar)');
-    } catch (e) {
-      console.warn('[INSC] Error al detectar sesión:', e);
-    }
-  }
   _qrWiring();
 });
 
@@ -2121,10 +1822,6 @@ function _qrMostrarEstado(id) {
 }
 
 async function generarQRPago() {
-  // PASO 2: sincronizar la inscripción con lo elegido (grupo, tipo, carnet) antes de pagar
-  const syncOk = await sincronizarInscripcion();
-  if (!syncOk) return; // faltó elegir algo (grupo/carnet)
-
   var pendienteId = (inscripcionCreada && inscripcionCreada.id) ? inscripcionCreada.id : null;
   if (!pendienteId) {
     document.getElementById('qr-err-msg').textContent =
@@ -2216,17 +1913,6 @@ function _qrWiring() {
   var btnGen = document.getElementById('btn-generar-qr');
   var btnRe  = document.getElementById('btn-reintentar-qr');
   if (btnGen) btnGen.addEventListener('click', generarQRPago);
-
-  // Sincronizar inscripción (grupo/tipo/carnet elegidos) antes de abrir WhatsApp
-  ['btn-whatsapp-pago', 'btn-whatsapp'].forEach(function(id){
-    var el = document.getElementById(id);
-    if (el) el.addEventListener('click', function(ev){
-      // Validar elección; si falta algo, no abrir WhatsApp
-      if (!validarEleccion()) { ev.preventDefault(); return; }
-      // Sincronizar en segundo plano (no bloquea la apertura de WhatsApp)
-      sincronizarInscripcion();
-    });
-  });
   if (btnRe)  btnRe.addEventListener('click', generarQRPago);
 }
 
@@ -2243,14 +1929,7 @@ let TJ_DATOS = null;
 let TJ_CHALLENGE_TX = null;
 
 // Generar session_id y cargar device fingerprint
-// FIX Device Fingerprint (confirmado por Red Enlace + ejemplo Postman de ellos, 17-ago-2026):
-// al script de ThreatMetrix (h.online-metrix.net) hay que mandarle el session_id con el
-// Merchant ID pegado adelante (TJ_SESSION), pero a CyberSource, en deviceInformation.fingerprintSessionId,
-// hay que mandarle SOLO la parte random (TJ_RND), sin el Merchant ID. Antes mandábamos TJ_SESSION
-// (con el Merchant ID pegado) en los dos lados, y eso hacía que Decision Manager no lo reconociera.
-const TJ_MERCHANT_ID = 'redenlace_000009'; // Merchant ID real (mismo que usa el backend)
-const TJ_RND = Math.random().toString(36).substring(2,12); // parte random pura — esto se manda a CyberSource
-const TJ_SESSION = (TJ_MERCHANT_ID + TJ_RND).substring(0,88); // MID+RND pegados — esto se manda a ThreatMetrix (URL)
+const TJ_SESSION = ('redenlace_' + Math.random().toString(36).substring(2,12)).substring(0,88);
 let TJ_FP_LISTO = null; // promesa que se resuelve tras 11s (Data Collector)
 function tjCargarFingerprint(){
   const s = document.createElement('script');
@@ -2327,36 +2006,22 @@ async function tjEjecutarDDC(datosTarjeta){
   // 2) iframe oculto + form POST del JWT
   return await new Promise(function(resolve){
     let resuelto = false;
-    let profileCompleto = false;     // FIX Kenneth: marca si Cardinal confirmó TRUE
-    const T_INICIO = Date.now();
-    const PISO_MS = 6000;            // espera mínima para que Cardinal procese en su servidor
-    const TECHO_MS = 11000;          // cronómetro de 11s (recomendación Kenneth)
-
     const finalizar = function(){
       if(resuelto) return;
       resuelto = true;
       window.removeEventListener('message', onMsg);
-      console.log('[DIAG] DDC finalizado. profile.completed recibido:', profileCompleto, '· tiempo:', (Date.now()-T_INICIO)+'ms');
       resolve({ referenceId: referenceId });
     };
 
-    // 3) Listener del postMessage de Cardinal (respuesta del Data Collector).
-    //    FIX Kenneth: NO resolvemos al instante. Marcamos el TRUE y esperamos
-    //    el PISO mínimo, para que Cardinal termine de procesar del lado servidor.
+    // 3) Listener del postMessage de Cardinal (respuesta del Data Collector)
     function onMsg(ev){
       if(typeof ev.origin === 'string' &&
-         (ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('cardinaltrusted') !== -1 || ev.origin.indexOf('centinelapistag') !== -1 || ev.origin.indexOf('centinelapi') !== -1)){
+         (ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('centinelapistag') !== -1 || ev.origin.indexOf('centinelapi') !== -1)){
         try{
           const data = typeof ev.data === 'string' ? JSON.parse(ev.data) : ev.data;
+          // Cardinal responde con MessageType "profile.completed"
           if(data && (data.Status === true || data.MessageType === 'profile.completed')){
-            profileCompleto = true;
-            // Si ya pasó el piso, cerramos; si no, esperamos a completarlo.
-            const transcurrido = Date.now() - T_INICIO;
-            if(transcurrido >= PISO_MS){
-              finalizar();
-            }else{
-              setTimeout(finalizar, PISO_MS - transcurrido);
-            }
+            finalizar();
           }
         }catch(e){ /* mensajes no-JSON de otros orígenes, ignorar */ }
       }
@@ -2380,9 +2045,8 @@ async function tjEjecutarDDC(datosTarjeta){
     document.body.appendChild(form);
     form.submit();
 
-    // 4) Cronómetro de 11s (techo): si Cardinal nunca manda el TRUE,
-    //    igual cerramos a los 11s para no colgar el flujo.
-    setTimeout(finalizar, TECHO_MS);
+    // 4) Respaldo: si Cardinal no responde, resolvemos a los 11s (cronómetro).
+    setTimeout(finalizar, 11000);
   });
 }
 
@@ -2411,45 +2075,34 @@ async function tjPagar(){
   const firstName = partes[0] || 'Cliente';
   const lastName = partes.slice(1).join(' ') || 'APPLENDE';
   const emailAlumno = (inscripcionCreada && inscripcionCreada.email_alumno) ? inscripcionCreada.email_alumno : 'cliente@applende.com';
-  // FIX Red Enlace (17-sep-2026): se mandaba phone/locality hardcodeados ("00000000"/"Santa Cruz")
-  // en vez de los datos reales que el alumno cargó en el Paso 1 (datosAlumnoActual.whatsapp/ciudad).
-  const phoneAlumno = (datosAlumnoActual && datosAlumnoActual.whatsapp) ? datosAlumnoActual.whatsapp : '00000000';
-  const ciudadAlumno = (datosAlumnoActual && datosAlumnoActual.ciudad) ? datosAlumnoActual.ciudad : 'Santa Cruz';
+  // Datos de billing + documento del alumno (paso 1) para CyberSource
+  const docAlumno = (inscripcionCreada && inscripcionCreada.ci) ? String(inscripcionCreada.ci).trim() : ('INSC-' + pendienteId);
+  const ciudadAlumno = (inscripcionCreada && inscripcionCreada.ciudad) ? String(inscripcionCreada.ciudad).trim() : 'Santa Cruz';
 
-  TJ_DATOS = { numero, mes, anio, cvv, firstName, lastName, pendienteId, precio, moneda, emailAlumno, phoneAlumno, ciudadAlumno };
+  TJ_DATOS = { numero, mes, anio, cvv, firstName, lastName, pendienteId, precio, moneda, emailAlumno, docAlumno, ciudadAlumno };
 
   try{
     tjCargando(true,'Verificando la seguridad de tu dispositivo…');
-    // FIX: esperar a que ThreatMetrix termine de perfilar (11s desde que se abrió
-    // el form de tarjeta) antes de usar TJ_SESSION — si no, el fingerprintSessionId
-    // se manda como string pero sin perfil real detrás, y Decision Manager lo
-    // sigue viendo como "Not Submitted".
-    if (TJ_FP_LISTO) await TJ_FP_LISTO;
     // DDC: ejecutar el Device Data Collection oficial de CyberSource antes del enrollment.
     const datosBase = {
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
       amount:String(precio), currency:moneda,
-      firstName, lastName, email:emailAlumno, phone:phoneAlumno,
-      address1:'N/A', locality:ciudadAlumno, adminArea:'S', country:'BO', postalCode:'0000',
+      firstName, lastName, email:emailAlumno, phone:'00000000',
+      address1:'Av. Principal', locality:ciudadAlumno, adminArea:'SC', country:'BO', postalCode:'0000', documento:docAlumno,
       referenceCode:'INSC-' + pendienteId,
     };
-    // FIX v11: capturamos el referenceId que genera el DDC.
-    const ddc = await tjEjecutarDDC(datosBase);
-    const refIdDDC = (ddc && ddc.referenceId) ? ddc.referenceId : null;
-    console.log('[DIAG] referenceId del DDC que se reenvía al enrollment:', refIdDDC);
+    await tjEjecutarDDC(datosBase);
     tjCargando(true,'Verificando tu tarjeta…');
     const ini = await tjLlamar('pago-iniciar',{
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
       amount:String(precio), currency:moneda,
-      firstName, lastName, email:emailAlumno, phone:phoneAlumno,
-      address1:'N/A', locality:ciudadAlumno, adminArea:'S', country:'BO', postalCode:'0000',
+      firstName, lastName, email:emailAlumno, phone:'00000000',
+      address1:'Av. Principal', locality:ciudadAlumno, adminArea:'SC', country:'BO', postalCode:'0000', documento:docAlumno,
       referenceCode:'INSC-' + pendienteId,
       browserInfo: tjBrowserInfo(),
-      fingerprintSessionId: TJ_RND, // FIX: a CyberSource se le manda solo el random, sin el Merchant ID
-      referenceId: refIdDDC,                 // ← EL MISMO referenceId del DDC (clave del fix)
-      returnUrl: TJ_FUNCS_BASE + '/pago-retorno',
+      fingerprintSessionId: TJ_SESSION,
+      returnUrl: window.location.origin + '/inscripcion.html',
     });
-    console.log('[DIAG] Respuesta del enrollment (pago-iniciar):', JSON.stringify(ini));
 
     if(!ini.ok){ tjEstado('err','❌ No se pudo validar la tarjeta. ' + (ini.error||'')); tjCargando(false); return; }
 
@@ -2463,20 +2116,16 @@ async function tjPagar(){
     const fin = await tjLlamar('pago-finalizar',{
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca, cvv,
       amount:String(precio), currency:moneda,
-      firstName, lastName, email:emailAlumno, phone:phoneAlumno,
-      address1:'N/A', locality:ciudadAlumno, adminArea:'S', country:'BO', postalCode:'0000',
+      firstName, lastName, email:emailAlumno, phone:'00000000',
+      address1:'Av. Principal', locality:ciudadAlumno, adminArea:'SC', country:'BO', postalCode:'0000', documento:docAlumno,
       refCode:'INSC-' + pendienteId,
       pendienteId,
       cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
-      cursoTitulo: (cursoActual && cursoActual.titulo) ? cursoActual.titulo : '',
       hadChallenge:false,
       cavv:ini.cavv, xid:ini.xid, eci:ini.eci,
       commerceIndicator: ini.commerceIndicator,
       directoryServerTransactionId:ini.directoryServerTransactionId,
       paSpecificationVersion:ini.paSpecificationVersion,
-      ucafCollectionIndicator:ini.ucafCollectionIndicator,
-      fingerprintSessionId: TJ_RND, // FIX: a CyberSource se le manda solo el random, sin el Merchant ID
-      browserInfo: tjBrowserInfo(),
     });
     tjFinalizar(fin);
   }catch(err){
@@ -2496,23 +2145,20 @@ function tjMostrarChallenge(stepUpUrl, accessToken, txId){
 }
 
 window.addEventListener('message', async function(ev){
-  if(ev.data && ev.data.MessageType === 'challenge.completed'){
+  if(ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('cardinal') !== -1){
     document.getElementById('challenge-modal-insc').style.display = 'none';
     tjCargando(true,'Confirmando tu pago…');
     const d = TJ_DATOS;
     const fin = await tjLlamar('pago-finalizar',{
       cardNumber:d.numero, expMonth:d.mes, expYear:d.anio, cardType:tjDetectarMarca(d.numero), cvv:d.cvv,
       amount:String(d.precio), currency:d.moneda,
-      firstName:d.firstName, lastName:d.lastName, email:d.emailAlumno, phone:(d.phoneAlumno || '00000000'),
-      address1:'N/A', locality:(d.ciudadAlumno || 'Santa Cruz'), adminArea:'S', country:'BO', postalCode:'0000',
+      firstName:d.firstName, lastName:d.lastName, email:d.emailAlumno, phone:'00000000',
+      address1:'Av. Principal', locality:(d.ciudadAlumno||'Santa Cruz'), adminArea:'SC', country:'BO', postalCode:'0000', documento:(d.docAlumno||''),
       refCode:'INSC-' + d.pendienteId,
       pendienteId:d.pendienteId,
       cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
-      cursoTitulo: (cursoActual && cursoActual.titulo) ? cursoActual.titulo : '',
       hadChallenge:true,
       authenticationTransactionId: TJ_CHALLENGE_TX,
-      fingerprintSessionId: TJ_RND, // FIX: a CyberSource se le manda solo el random, sin el Merchant ID
-      browserInfo: tjBrowserInfo(),
     });
     tjFinalizar(fin);
   }
