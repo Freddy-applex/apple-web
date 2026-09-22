@@ -2016,7 +2016,7 @@ async function tjEjecutarDDC(datosTarjeta){
     // 3) Listener del postMessage de Cardinal (respuesta del Data Collector)
     function onMsg(ev){
       if(typeof ev.origin === 'string' &&
-         (ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('centinelapistag') !== -1 || ev.origin.indexOf('centinelapi') !== -1)){
+         (ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('centinelapi') !== -1 || ev.origin.indexOf('cardinaltrusted') !== -1)){
         try{
           const data = typeof ev.data === 'string' ? JSON.parse(ev.data) : ev.data;
           // Cardinal responde con MessageType "profile.completed"
@@ -2091,7 +2091,7 @@ async function tjPagar(){
       address1:'Av. Principal', locality:ciudadAlumno, adminArea:'SC', country:'BO', postalCode:'0000', documento:docAlumno,
       referenceCode:'INSC-' + pendienteId,
     };
-    await tjEjecutarDDC(datosBase);
+    const ddc = await tjEjecutarDDC(datosBase);
     tjCargando(true,'Verificando tu tarjeta…');
     const ini = await tjLlamar('pago-iniciar',{
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
@@ -2099,6 +2099,7 @@ async function tjPagar(){
       firstName, lastName, email:emailAlumno, phone:'00000000',
       address1:'Av. Principal', locality:ciudadAlumno, adminArea:'SC', country:'BO', postalCode:'0000', documento:docAlumno,
       referenceCode:'INSC-' + pendienteId,
+      referenceId: (ddc && ddc.referenceId) ? ddc.referenceId : undefined,
       browserInfo: tjBrowserInfo(),
       fingerprintSessionId: TJ_SESSION,
       returnUrl: window.location.origin + '/inscripcion.html',
