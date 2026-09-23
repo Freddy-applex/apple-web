@@ -1929,7 +1929,12 @@ let TJ_DATOS = null;
 let TJ_CHALLENGE_TX = null;
 
 // Generar session_id y cargar device fingerprint
-const TJ_SESSION = ('redenlace_' + Math.random().toString(36).substring(2,12)).substring(0,88);
+// FIX bug #3 (18-ago-2026): DOS valores distintos —
+//  · TJ_RND (solo la parte random) → va a CyberSource (deviceInformation.fingerprintSessionId)
+//  · TJ_SESSION (MerchantID + RND concatenado) → va a ThreatMetrix (URL del script)
+const TJ_MERCHANT_ID = 'redenlace_000009'; // Merchant ID real (mismo que usa el backend)
+const TJ_RND = Math.random().toString(36).substring(2,12); // parte random pura → CyberSource
+const TJ_SESSION = (TJ_MERCHANT_ID + TJ_RND).substring(0,88); // MID+RND pegados → ThreatMetrix
 let TJ_FP_LISTO = null; // promesa que se resuelve tras 11s (Data Collector)
 function tjCargarFingerprint(){
   const s = document.createElement('script');
@@ -2100,7 +2105,7 @@ async function tjPagar(){
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
       amount:String(precio), currency:moneda,
       firstName, lastName, email:emailAlumno, phone:'00000000',
-      address1:'Av. Principal', locality:ciudadAlumno, adminArea:'SC', country:'BO', postalCode:'0000', documento:docAlumno,
+      address1:'Av. Principal', locality:ciudadAlumno, adminArea:'S', country:'BO', postalCode:'0000', documento:docAlumno,
       referenceCode:'INSC-' + pendienteId,
     };
     const ddc = await tjEjecutarDDC(datosBase);
@@ -2109,10 +2114,10 @@ async function tjPagar(){
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
       amount:String(precio), currency:moneda,
       firstName, lastName, email:emailAlumno, phone:'00000000',
-      address1:'Av. Principal', locality:ciudadAlumno, adminArea:'SC', country:'BO', postalCode:'0000', documento:docAlumno,
+      address1:'Av. Principal', locality:ciudadAlumno, adminArea:'S', country:'BO', postalCode:'0000', documento:docAlumno,
       referenceCode:'INSC-' + pendienteId,
       browserInfo: tjBrowserInfo(),
-      fingerprintSessionId: TJ_SESSION,
+      fingerprintSessionId: TJ_RND,
       returnUrl: window.location.origin + '/inscripcion.html',
       // ⭐ Reusar el MISMO referenceId con el que se procesó el DDC arriba.
       // Sin esto, el enrollment hacía otro setup y el DDC quedaba huérfano
@@ -2133,10 +2138,13 @@ async function tjPagar(){
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca, cvv,
       amount:String(precio), currency:moneda,
       firstName, lastName, email:emailAlumno, phone:'00000000',
-      address1:'Av. Principal', locality:ciudadAlumno, adminArea:'SC', country:'BO', postalCode:'0000', documento:docAlumno,
+      address1:'Av. Principal', locality:ciudadAlumno, adminArea:'S', country:'BO', postalCode:'0000', documento:docAlumno,
       refCode:'INSC-' + pendienteId,
       pendienteId,
       cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
+      compradorRecurrente: 'No',
+      browserInfo: tjBrowserInfo(),
+      fingerprintSessionId: TJ_RND,
       hadChallenge:false,
       cavv:ini.cavv, xid:ini.xid, eci:ini.eci,
       commerceIndicator: ini.commerceIndicator,
@@ -2169,10 +2177,13 @@ window.addEventListener('message', async function(ev){
       cardNumber:d.numero, expMonth:d.mes, expYear:d.anio, cardType:tjDetectarMarca(d.numero), cvv:d.cvv,
       amount:String(d.precio), currency:d.moneda,
       firstName:d.firstName, lastName:d.lastName, email:d.emailAlumno, phone:'00000000',
-      address1:'Av. Principal', locality:(d.ciudadAlumno||'Santa Cruz'), adminArea:'SC', country:'BO', postalCode:'0000', documento:(d.docAlumno||''),
+      address1:'Av. Principal', locality:(d.ciudadAlumno||'Santa Cruz'), adminArea:'S', country:'BO', postalCode:'0000', documento:(d.docAlumno||''),
       refCode:'INSC-' + d.pendienteId,
       pendienteId:d.pendienteId,
       cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
+      compradorRecurrente: 'No',
+      browserInfo: tjBrowserInfo(),
+      fingerprintSessionId: TJ_RND,
       hadChallenge:true,
       authenticationTransactionId: TJ_CHALLENGE_TX,
     });
