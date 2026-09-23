@@ -2149,15 +2149,13 @@ function tjMostrarChallenge(stepUpUrl, accessToken, txId){
   document.getElementById('challenge-modal-insc').style.display = 'flex';
   const form = document.createElement('form');
   form.method='POST'; form.action=stepUpUrl; form.target='challenge-iframe-insc';
-  // JWT del step-up
+  // Form del step-up: según doc oficial de CyberSource lleva JWT + MD (NO TermURL).
   const inp = document.createElement('input');
   inp.type='hidden'; inp.name='JWT'; inp.value=accessToken;
   form.appendChild(inp);
-  // TermURL: URL de retorno donde el banco postea el resultado del OTP (CRes).
-  // Sin esto, Cardinal rechaza con "Empty TermURL for the CRes POST" y no muestra el OTP.
-  const term = document.createElement('input');
-  term.type='hidden'; term.name='TermURL'; term.value = window.location.origin + '/inscripcion.html';
-  form.appendChild(term);
+  const md = document.createElement('input');
+  md.type='hidden'; md.name='MD'; md.value = txId || '';
+  form.appendChild(md);
   document.body.appendChild(form); form.submit(); document.body.removeChild(form);
   TJ_CHALLENGE_TX = txId;
 }
