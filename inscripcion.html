@@ -1375,7 +1375,7 @@ async function procesarInscripcion(ev) {
 
   const datosAlumno = {
     nombre: document.getElementById('inp-nombre').value.trim(),
-    ci: '',  // el CI ya no se pide en la inscripción; el alumno lo completa luego en su dashboard
+    ci: 'PENDIENTE',  // el CI ya no se pide en la inscripción; el alumno lo regulariza luego en su dashboard (para el certificado). Se manda 'PENDIENTE' (no vacío) para no romper la RPC crear_inscripcion_pendiente.
     email: document.getElementById('inp-email').value.trim().toLowerCase(),
     whatsapp: document.getElementById('inp-whatsapp').value.trim().replace(/[\s\-\+]/g, ''),
     ciudad: document.getElementById('inp-ciudad').value,
@@ -1914,6 +1914,7 @@ const TJ_KEY = (typeof APPLENDE !== 'undefined' && APPLENDE.SUPABASE_KEY) ? APPL
 const TJ_ORG_FP = '1snn5n9w'; // org_id device fingerprint (test)
 let TJ_DATOS = null;
 let TJ_CHALLENGE_TX = null;
+let TJ_CHALLENGE_HECHO = false;
 
 // Generar session_id y cargar device fingerprint
 // FIX bug #3 (18-ago-2026): DOS valores distintos —
@@ -2146,6 +2147,7 @@ async function tjPagar(){
 }
 
 function tjMostrarChallenge(stepUpUrl, accessToken, txId){
+  TJ_CHALLENGE_HECHO = false; // nuevo challenge: rehabilitar el listener
   document.getElementById('challenge-modal-insc').style.display = 'flex';
   const form = document.createElement('form');
   form.method='POST'; form.action=stepUpUrl; form.target='challenge-iframe-insc';
@@ -2162,6 +2164,8 @@ function tjMostrarChallenge(stepUpUrl, accessToken, txId){
 
 window.addEventListener('message', async function(ev){
   if(ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('cardinal') !== -1){
+    if(TJ_CHALLENGE_HECHO) return; // evita disparar pago-finalizar dos veces
+    TJ_CHALLENGE_HECHO = true;
     document.getElementById('challenge-modal-insc').style.display = 'none';
     tjCargando(true,'Confirmando tu pago…');
     const d = TJ_DATOS;
