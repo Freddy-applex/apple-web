@@ -10,6 +10,11 @@
       ],
       "destination": "/cursos.html",
       "permanent": false
+    },
+    {
+      "source": "/biblioteca",
+      "destination": "/libreria-arquitectura.html",
+      "permanent": false
     }
   ]
 }
