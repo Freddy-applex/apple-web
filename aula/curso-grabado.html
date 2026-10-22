@@ -310,6 +310,13 @@
       const slug = params.get('slug');
       if(!slug){ mostrarError('Falta el curso','No especificaste qué curso querés ver.'); return; }
 
+      // La Biblioteca de Arquitectura NO es un aula de clases: es acceso directo
+      // a la galería de imágenes. Redirigir a su página propia.
+      if (slug === 'biblioteca-apple') {
+        window.location.replace('/libreria-arquitectura.html');
+        return;
+      }
+
       const { data:{ session } } = await sb.auth.getSession();
       if(!session){ window.location.href = LOGIN_URL; return; }
       estado.user = session.user;
