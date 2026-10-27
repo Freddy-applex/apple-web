@@ -268,7 +268,7 @@ footer a{color:var(--green);}
 <div class="countdown-bar">
   <div>
     <div class="cd-label">⏳ El curso inicia en:</div>
-    <div class="cd-sub">Martes 28 de Octubre 2026 · 20:00 Bolivia</div>
+    <div class="cd-sub">Miércoles 28 de Octubre 2026 · 20:00 Bolivia</div>
   </div>
   <div class="cd-timer">
     <div class="cd-unit"><span class="cd-num" id="cd-d">00</span><span class="cd-sub-label">Días</span></div>
@@ -282,6 +282,7 @@ footer a{color:var(--green);}
 </div>
 
 <!-- VIDEO PRESENTACIÓN -->
+<!-- VIDEO OCULTO temporalmente — reactivar cuando el profesor grabe el nuevo video
 <div class="video-presentacion">
   <div class="video-presentacion-inner">
     <span class="section-tag">Conocé el curso</span>
@@ -291,6 +292,8 @@ footer a{color:var(--green);}
     </div>
   </div>
 </div>
+-->
+
 
 <!-- MAIN -->
 <div class="main-layout">
@@ -340,8 +343,8 @@ footer a{color:var(--green);}
           <div class="gr-row"><b>Duración</b><span>~2,5 semanas</span></div>
         </div>
         <div class="gr-fechas">
-          <strong>📅 Inicia:</strong> Martes 28 de octubre 2026<br>
-          <strong>🏁 Finaliza:</strong> Viernes 14 de noviembre 2026
+          <strong>📅 Inicia:</strong> Miércoles 28 de octubre 2026<br>
+          <strong>🏁 Finaliza:</strong> Viernes 13 de noviembre 2026
         </div>
       </div>
     </div>
@@ -570,11 +573,6 @@ footer a{color:var(--green);}
 
       <div id="precios-bolivia">
 
-      <div class="promo-banner" id="promoBanner">
-        🔥 INSCRIPCIÓN ANTICIPADA · Bs 30 de descuento
-        <span class="promo-countdown" id="promoCountdown">Promoción válida hasta el lunes 27 de octubre</span>
-      </div>
-
       <div class="modalidad-block virtual">
         <div class="mod-head">
           <span class="mod-icon">📺</span>
@@ -584,9 +582,7 @@ footer a{color:var(--green);}
         <div class="precio-fila">
           <div class="precio-tipo">👔 Profesional</div>
           <div class="precio-monto">
-            <span class="precio-tachado">Bs 180</span>
             <span class="precio-bs">Bs 150</span>
-            <span class="precio-desc-badge">-Bs 30</span>
           </div>
         </div>
         <div class="precio-fila">
@@ -597,23 +593,9 @@ footer a{color:var(--green);}
         </div>
       </div>
 
-      <p class="precio-nota">Tarifa estudiantil con carnet vigente · Pago único · Curso 100% virtual por Zoom<br>
-      Después del 27 de octubre el precio profesional sube a Bs 180</p>
+      <p class="precio-nota">Tarifa estudiantil con carnet vigente · Pago único · Curso 100% virtual por Zoom</p>
       </div><!-- /precios-bolivia -->
 
-      <div id="precios-internacional" style="display:none;">
-      <div class="modalidad-block internacional">
-        <div class="mod-head">
-          <span class="mod-icon">🌎</span>
-          <span class="mod-titulo">Inscripción Internacional <span class="intl-launch">PRECIO LANZAMIENTO</span></span>
-        </div>
-        <div class="precio-fila">
-          <div class="precio-tipo"><span class="intl-flag">🌎</span> Virtual en vivo (Zoom)</div>
-          <div class="precio-monto"><span class="precio-usd">USD 49</span></div>
-        </div>
-        <p class="precio-nota" style="margin:6px 0 0;text-align:left;">Clases en vivo por Zoom · Certificado oficial · Pago con tarjeta internacional · Horario: 19:00 Perú / 20:00 Paraguay / 20:00 Bolivia.</p>
-      </div>
-      </div><!-- /precios-internacional -->
 
       <a href="inscripcion.html?slug=sketchup-enscape-ia-octubre" class="ic-btn-main">🎓 Inscribirme →</a>
       <a href="https://wa.me/59157388229?text=Hola,%20quiero%20información%20sobre%20el%20curso%20SketchUp%20Enscape%20IA" target="_blank" class="ic-btn-wa">💬 Consultar por WhatsApp</a>
@@ -696,11 +678,11 @@ function aplicarPromoAnticipada(){
       const diff = PROMO_FECHA_LIMITE - ahora;
       const dias = Math.ceil(diff / (1000 * 60 * 60 * 24));
       if(dias > 1){
-        elCountdown.textContent = '⏰ Quedan ' + dias + ' días — termina el lunes 27 de octubre';
+        elCountdown.textContent = '⏰ Quedan ' + dias + ' días — termina el martes 27 de octubre';
       } else if(dias === 1){
         elCountdown.textContent = '⏰ ¡Último día! Termina hoy a las 23:59';
       } else {
-        elCountdown.textContent = '⏰ Últimas horas — termina el lunes 27 de octubre 23:59';
+        elCountdown.textContent = '⏰ Últimas horas — termina el martes 27 de octubre 23:59';
       }
     }
   } else {
@@ -711,30 +693,7 @@ aplicarPromoAnticipada();
 setInterval(aplicarPromoAnticipada, 60000);
 
 
-/* ============================================================
-   DETECCIÓN DE PAÍS POR IP — Precio diferenciado
-   Bolivia → precios en Bs (por defecto, defensivo)
-   Cualquier otro país → precio internacional USD 49
-   Si la detección falla → se queda en Bs (no revela el internacional)
-   ============================================================ */
-(async function detectarPais() {
-  try {
-    const resp = await fetch('https://ipapi.co/json/');
-    if (!resp.ok) return; // si falla, queda el precio boliviano por defecto
-    const data = await resp.json();
-    const pais = (data && data.country_code) ? data.country_code.toUpperCase() : null;
-    // Solo Bolivia (BO) ve precios en Bs. Todos los demás ven USD 49.
-    if (pais && pais !== 'BO') {
-      const bloqueBO = document.getElementById('precios-bolivia');
-      const bloqueINT = document.getElementById('precios-internacional');
-      if (bloqueBO) bloqueBO.style.display = 'none';
-      if (bloqueINT) bloqueINT.style.display = 'block';
-    }
-    // Si pais === 'BO' o null, no se hace nada: queda el precio boliviano (defensivo).
-  } catch (e) {
-    // Cualquier error: se mantiene el precio boliviano por defecto
-  }
-})();
+/* Precio diferenciado por país DESACTIVADO — este curso es solo para Bolivia (precio en Bs). */
 </script>
 
 </body>
