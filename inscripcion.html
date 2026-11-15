@@ -2084,8 +2084,12 @@ async function tjPagar(){
   // Datos de billing + documento del alumno (paso 1) para CyberSource
   const docAlumno = (inscripcionCreada && inscripcionCreada.ci) ? String(inscripcionCreada.ci).trim() : ('INSC-' + pendienteId);
   const ciudadAlumno = (inscripcionCreada && inscripcionCreada.ciudad) ? String(inscripcionCreada.ciudad).trim() : 'Santa Cruz';
+  // restaurado 15-nov: teléfono REAL del alumno (corrección del 17-sep pisada el 22-sep)
+  const phoneAlumno = (function(){ try{ const w = document.getElementById('inp-whatsapp');
+    const v = (w && w.value) ? w.value.trim().replace(/[\s\-\+]/g,'') : ''; return v || '00000000';
+  }catch(_e){ return '00000000'; } })();
 
-  TJ_DATOS = { numero, mes, anio, cvv, firstName, lastName, pendienteId, precio, moneda, emailAlumno, docAlumno, ciudadAlumno };
+  TJ_DATOS = { numero, mes, anio, cvv, firstName, lastName, pendienteId, precio, moneda, emailAlumno, docAlumno, ciudadAlumno, phoneAlumno };
 
   try{
     tjCargando(true,'Verificando la seguridad de tu dispositivo…');
@@ -2093,7 +2097,7 @@ async function tjPagar(){
     const datosBase = {
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
       amount:String(precio), currency:moneda,
-      firstName, lastName, email:emailAlumno, phone:'00000000',
+      firstName, lastName, email:emailAlumno, phone:phoneAlumno,
       address1:'Av. Principal', locality:ciudadAlumno, adminArea:'S', country:'BO', postalCode:'0000', documento:docAlumno,
       referenceCode:'INSC-' + pendienteId,
     };
@@ -2102,12 +2106,12 @@ async function tjPagar(){
     const ini = await tjLlamar('pago-iniciar',{
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca,
       amount:String(precio), currency:moneda,
-      firstName, lastName, email:emailAlumno, phone:'00000000',
+      firstName, lastName, email:emailAlumno, phone:phoneAlumno,
       address1:'Av. Principal', locality:ciudadAlumno, adminArea:'S', country:'BO', postalCode:'0000', documento:docAlumno,
       referenceCode:'INSC-' + pendienteId,
       browserInfo: tjBrowserInfo(),
       fingerprintSessionId: TJ_RND,
-      returnUrl: window.location.origin + '/inscripcion.html',
+      returnUrl: TJ_FUNCS_BASE + '/pago-retorno', // restaurado 15-nov: función de retorno de agosto (pisada el 22-sep)
       // ⭐ Reusar el MISMO referenceId con el que se procesó el DDC arriba.
       // Sin esto, el enrollment hacía otro setup y el DDC quedaba huérfano
       // (cavv vacío / eci "internet"). Es la corrección de Red Enlace (11-jul).
@@ -2126,11 +2130,12 @@ async function tjPagar(){
     const fin = await tjLlamar('pago-finalizar',{
       cardNumber:numero, expMonth:mes, expYear:anio, cardType:marca, cvv,
       amount:String(precio), currency:moneda,
-      firstName, lastName, email:emailAlumno, phone:'00000000',
+      firstName, lastName, email:emailAlumno, phone:phoneAlumno,
       address1:'Av. Principal', locality:ciudadAlumno, adminArea:'S', country:'BO', postalCode:'0000', documento:docAlumno,
       refCode:'INSC-' + pendienteId,
       pendienteId,
       cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
+      cursoTitulo: (cursoActual && cursoActual.titulo) ? cursoActual.titulo : '',
       compradorRecurrente: 'No',
       browserInfo: tjBrowserInfo(),
       fingerprintSessionId: TJ_RND,
@@ -2164,13 +2169,12 @@ function tjMostrarChallenge(stepUpUrl, accessToken, txId){
 }
 
 window.addEventListener('message', async function(ev){
-  if(ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('cardinal') !== -1){
-    // fix 15-nov: los avisos del Data Collector (DDC) vienen de los mismos
-    // orígenes Cardinal pero NO son la respuesta del challenge — ignorarlos.
-    let _d = ev.data;
-    if(typeof _d === 'string'){ try{ _d = JSON.parse(_d); }catch(_e){ _d = { _raw: ev.data }; } }
-    if(_d && (_d.Status === true || _d.Status === 'true' || _d.MessageType === 'profile.completed' ||
-      (typeof _d._raw === 'string' && _d._raw.indexOf('profile.completed') !== -1))) return;
+  // Mecánica RESTAURADA (versión buena 11-ago→17-sep, pisada el 22-sep):
+  // la función pago-retorno avisa con MessageType 'challenge.completed'
+  // cuando el banco confirmó el código del cliente. Solo ese aviso dispara el cobro.
+  let datoMsg = ev.data;
+  if(typeof datoMsg === 'string'){ try{ datoMsg = JSON.parse(datoMsg); }catch(_e){ datoMsg = null; } }
+  if(datoMsg && datoMsg.MessageType === 'challenge.completed'){
     if(TJ_CHALLENGE_HECHO) return; // evita disparar pago-finalizar dos veces
     TJ_CHALLENGE_HECHO = true;
     document.getElementById('challenge-modal-insc').style.display = 'none';
@@ -2179,11 +2183,12 @@ window.addEventListener('message', async function(ev){
     const fin = await tjLlamar('pago-finalizar',{
       cardNumber:d.numero, expMonth:d.mes, expYear:d.anio, cardType:tjDetectarMarca(d.numero), cvv:d.cvv,
       amount:String(d.precio), currency:d.moneda,
-      firstName:d.firstName, lastName:d.lastName, email:d.emailAlumno, phone:'00000000',
+      firstName:d.firstName, lastName:d.lastName, email:d.emailAlumno, phone:(d.phoneAlumno||'00000000'),
       address1:'Av. Principal', locality:(d.ciudadAlumno||'Santa Cruz'), adminArea:'S', country:'BO', postalCode:'0000', documento:(d.docAlumno||''),
       refCode:'INSC-' + d.pendienteId,
       pendienteId:d.pendienteId,
       cursoSlug: (cursoActual && cursoActual.slug) ? cursoActual.slug : '',
+      cursoTitulo: (cursoActual && cursoActual.titulo) ? cursoActual.titulo : '',
       compradorRecurrente: 'No',
       browserInfo: tjBrowserInfo(),
       fingerprintSessionId: TJ_RND,
