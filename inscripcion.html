@@ -1914,7 +1914,7 @@ const TJ_KEY = (typeof APPLENDE !== 'undefined' && APPLENDE.SUPABASE_KEY) ? APPL
 const TJ_ORG_FP = '1snn5n9w'; // org_id device fingerprint (test)
 let TJ_DATOS = null;
 let TJ_CHALLENGE_TX = null;
-let TJ_CHALLENGE_HECHO = false;
+let TJ_CHALLENGE_HECHO = true; // BLOQUEADO hasta abrir un challenge real (fix 15-nov: el aviso del DDC disparaba pago-finalizar antes de tiempo)
 
 // Generar session_id y cargar device fingerprint
 // FIX bug #3 (18-ago-2026): DOS valores distintos —
@@ -2003,6 +2003,7 @@ async function tjEjecutarDDC(datosTarjeta){
       if(resuelto) return;
       resuelto = true;
       window.removeEventListener('message', onMsg);
+      try{ iframe.remove(); }catch(_e){} // fix 15-nov: sin iframe no hay avisos tardíos del DDC
       resolve({ referenceId: referenceId });
     };
 
@@ -2164,6 +2165,12 @@ function tjMostrarChallenge(stepUpUrl, accessToken, txId){
 
 window.addEventListener('message', async function(ev){
   if(ev.origin.indexOf('cardinalcommerce') !== -1 || ev.origin.indexOf('cardinal') !== -1){
+    // fix 15-nov: los avisos del Data Collector (DDC) vienen de los mismos
+    // orígenes Cardinal pero NO son la respuesta del challenge — ignorarlos.
+    let _d = ev.data;
+    if(typeof _d === 'string'){ try{ _d = JSON.parse(_d); }catch(_e){ _d = { _raw: ev.data }; } }
+    if(_d && (_d.Status === true || _d.Status === 'true' || _d.MessageType === 'profile.completed' ||
+      (typeof _d._raw === 'string' && _d._raw.indexOf('profile.completed') !== -1))) return;
     if(TJ_CHALLENGE_HECHO) return; // evita disparar pago-finalizar dos veces
     TJ_CHALLENGE_HECHO = true;
     document.getElementById('challenge-modal-insc').style.display = 'none';
