@@ -2082,7 +2082,10 @@ async function tjPagar(){
   const lastName = partes.slice(1).join(' ') || 'APPLENDE';
   const emailAlumno = (inscripcionCreada && inscripcionCreada.email_alumno) ? inscripcionCreada.email_alumno : 'cliente@applende.com';
   // Datos de billing + documento del alumno (paso 1) para CyberSource
-  const docAlumno = (inscripcionCreada && inscripcionCreada.ci) ? String(inscripcionCreada.ci).trim() : ('INSC-' + pendienteId);
+  // MDD11: carnet real — primero el que puso en el form de tarjeta; el 'PENDIENTE' del registro no sirve
+  const ciRegistro = (inscripcionCreada && inscripcionCreada.ci && String(inscripcionCreada.ci).trim().toUpperCase() !== 'PENDIENTE')
+    ? String(inscripcionCreada.ci).trim() : '';
+  const docAlumno = ciRegistro || 'ND'; // No se pide documento en el pago (decisión UX); el alumno lo completa luego en su aula. ND = no disponible.
   const ciudadAlumno = (inscripcionCreada && inscripcionCreada.ciudad) ? String(inscripcionCreada.ciudad).trim() : 'Santa Cruz';
   // restaurado 15-nov: teléfono REAL del alumno (corrección del 17-sep pisada el 22-sep)
   const phoneAlumno = (function(){ try{ const w = document.getElementById('inp-whatsapp');
