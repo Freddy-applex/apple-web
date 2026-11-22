@@ -509,7 +509,7 @@
   <div class="max-w">
     <div class="sub-head sub-head-vivo">
       <span class="sub-dot sub-dot-vivo"></span>
-      <h3 class="sub-h3">Programados para AGOSTO y SEPTIEMBRE 2026 · En vivo <span class="sub-h3-meta">(grupos en simultáneo)</span></h3>
+      <h3 class="sub-h3">Programados para DICIEMBRE 2026 · En vivo <span class="sub-h3-meta">(grupos en simultáneo)</span></h3>
       <span class="sub-badge sub-badge-vivo"><span id="count-vivo">0</span> cursos</span>
     </div>
     <p class="sub-desc">Clases en vivo por Zoom en horario noche, pensadas para profesionales en ejercicio. Grupos reducidos con horarios fijos.</p>
@@ -898,6 +898,8 @@ function urlCurso(slug) {
   if (s.includes('poa-julio'))    return 'curso-poa-julio.html';
   if (s.includes('poa'))          return 'curso-poa.html';
   if (s.includes('licitacion'))   return 'curso-licitacion-obras.html';
+  // Edición EN VIVO de diciembre 2026 de Casa 2 Plantas (curso_id nuevo): debe ir ANTES de la regla 'vivienda'.
+  if (s.includes('vivienda-2-plantas-diciembre')) return 'curso-vivienda-diciembre.html';
   if (s.includes('vivienda'))     return 'curso-vivienda.html';
   // Grabado Casa 2 Plantas: sin página propia todavía -> apunta a la página
   // del curso en vivo relacionado (Vivienda 2 Plantas) mientras se arma la propia.
